@@ -116,7 +116,6 @@ CREATE TABLE EDU_METER97_NonNumeric_REP(
 -- RM_Mapping TABLE
 -- Deleting table
 DROP TABLE IF EXISTS RM_Mapping;
-
 -- Creating table
 CREATE TABLE RM_Mapping(
 	EMC_ID decimal(19, 0) NOT NULL,
@@ -126,6 +125,16 @@ CREATE TABLE RM_Mapping(
     AC varchar(100),            -- Alphanumeric codeing scheme.
     EXL_REF varchar(10),      -- EXCEL cell address. Firtst cell in the column.
     CUR_YEAR int(2));          -- 0 implies current year, 1 next year, -1 implied previous.
+
+-- RM_Mapping_NonNumeric TABLE
+-- Deleting table
+DROP TABLE IF EXISTS RM_Mapping_NonNumeric;
+-- Creating table
+CREATE TABLE RM_Mapping_NonNumeric(
+	Tab nvarchar(50)  NOT NULL, -- Sheet name in the questionnaire.
+	RM_TABLE  nvarchar(50) NOT NULL, -- Table name and number in the Questionniare
+    AC varchar(100),            -- Alphanumeric codeing scheme.
+    EXL_REF varchar(10));      -- EXCEL cell address. Firtst cell in the column.
 
 -- EDU_INCLUSION TABLE
 -- Deleting table

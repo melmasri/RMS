@@ -135,3 +135,12 @@ DROP TABLE IF EXISTS RM_TEMP;
 
 --removing the headers ( a bit of a hack but sqlite has no direct way)
 delete FROM REGIONS WHERE CO_CODE = 'CO_CODE';
+
+
+-- inserting RM_Mapping_NonNumeric
+-- cvs mode to set the separators before inserting data
+.mode csv                       
+.import "Inserted data/RM_Mapping_NonNumeric.csv" RM_Mapping_NonNumeric
+
+--removing the headers (a bit of a hack but sqlite has no direct way)
+delete FROM RM_Mapping_NonNumeric WHERE Tab = 'Tab';

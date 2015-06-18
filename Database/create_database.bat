@@ -1,2 +1,2 @@
 :: Create a database
-sqlite3 UISProd.db < main.sql
+C:\sqlite3 UISProd.db < main.sql
