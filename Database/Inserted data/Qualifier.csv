@@ -1,0 +1,17 @@
+MQ_ID,MQ_QUAL,qual_weight,symbol
+ ,no qualifier,10,
+2,National estimation,1,*
+3,UIS estimation,2,**
+4,Partial data,4,?
+5,Dirty,3,#
+a,Not applicable,10,
+E,Partial estimation,10,
+J,Projection,10,
+n,Magnitude nil,10,
+O,Observed,0,
+r,Error,10,
+S,National estimation OLD,10,
+V,Unreliable estimation,10,
+Z,Data not to be published,5,&
+D,Data missing,6,m
+N,Number,10,

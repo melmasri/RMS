@@ -1,0 +1,17 @@
+MG_ID,MG_CONTENT,mg_weight,symbol
+ ,empty,0,
+0,NewCI,10,
+1,Magnitude nil,-2,n
+2,Magnitude less than half of unit employed,10,
+3,Data included elsewhere under another category,3,x
+4,Data include other categories,0,w
+5,Partial,10,
+6,Not applicable,-3,a
+7,Preprimary included in First,10,
+8,Second included in First,10,
+9,Preprimary and Second included in First,10,
+A,Preprimary included in Second,10,
+B,First included in Second,10,
+C,Preprimary and First included in Second,10,
+D,Data missing,6,m
+N,Number,10,

@@ -1,0 +1,1001 @@
+EMC_ID,AC,LABEL_INT_EN,LABEL_INT_FR,LABEL_EXT_EN,LABEL_EXT_FR
+10,thAge.ec,NULL,NULL,NULL,NULL
+13,thDur.ec,NULL,NULL,NULL,NULL
+25,thAge.2.B.GPV,NULL,NULL,NULL,NULL
+29,thAge.2.B.V,NULL,NULL,NULL,NULL
+33,thAge.2.C.GPV,NULL,NULL,NULL,NULL
+37,thAge.2.C.V,NULL,NULL,NULL,NULL
+42,thDur.2.B.GPV,NULL,NULL,NULL,NULL
+46,thDur.2.B.V,NULL,NULL,NULL,NULL
+50,thDur.2.C.GPV,NULL,NULL,NULL,NULL
+54,thDur.2.C.V,NULL,NULL,NULL,NULL
+61,thAge.3.B.GPV,NULL,NULL,NULL,NULL
+65,thAge.3.B.V,NULL,NULL,NULL,NULL
+69,thAge.3.C.GPV,NULL,NULL,NULL,NULL
+73,thAge.3.C.V,NULL,NULL,NULL,NULL
+78,thDur.3.B.GPV,NULL,NULL,NULL,NULL
+82,thDur.3.B.V,NULL,NULL,NULL,NULL
+86,thDur.3.C.GPV,NULL,NULL,NULL,NULL
+90,thDur.3.C.V,NULL,NULL,NULL,NULL
+97,thAge.4.B.GPV,NULL,NULL,NULL,NULL
+101,thAge.4.B.V,NULL,NULL,NULL,NULL
+106,thDur.4.B.GPV,NULL,NULL,NULL,NULL
+110,thDur.4.B.V,NULL,NULL,NULL,NULL
+400,CEDur.1,"Duration in Compulsory education, initial education",NULL,NULL,NULL
+401,CEAge.1,"Starting age in Compulsory education, initial education",NULL,NULL,NULL
+402,CEAgeE.1,"Ending age (beginning of year) in Compulsory education, initial education",NULL,NULL,NULL
+403,AY.SM,NULL,NULL,NULL,NULL
+404,AY.EM,NULL,NULL,NULL,NULL
+405,AY.SY,NULL,NULL,NULL,NULL
+406,AY.EY,NULL,NULL,NULL,NULL
+407,AYG.SM,NULL,NULL,NULL,NULL
+408,AYG.SY,NULL,NULL,NULL,NULL
+1000,thAge.5.A.first,NULL,NULL,NULL,NULL
+1006,thAge.5.A.second,NULL,NULL,NULL,NULL
+1011,thAge.5.A.third,NULL,NULL,NULL,NULL
+1015,thAge.5.B.first,NULL,NULL,NULL,NULL
+1020,thAge.5.B.further,NULL,NULL,NULL,NULL
+1024,thAge.6.first,NULL,NULL,NULL,NULL
+1027,thAge.6.further,NULL,NULL,NULL,NULL
+1030,thDur.5.A.first,NULL,NULL,NULL,NULL
+1036,thDur.5.A.second,NULL,NULL,NULL,NULL
+1041,thDur.5.A.third,NULL,NULL,NULL,NULL
+1045,thDur.5.B.first,NULL,NULL,NULL,NULL
+1050,thDur.5.B.further,NULL,NULL,NULL,NULL
+1054,thDur.6.first,NULL,NULL,NULL,NULL
+1057,thDur.6.further,NULL,NULL,NULL,NULL
+10403,AY.QC.SM,NULL,NULL,NULL,NULL
+10404,AY.QC.EM,NULL,NULL,NULL,NULL
+10405,AY.QC.SY,NULL,NULL,NULL,NULL
+10406,AY.QC.EY,NULL,NULL,NULL,NULL
+10407,AYG.QC.SM,NULL,NULL,NULL,NULL
+10408,AYG.QC.SY,NULL,NULL,NULL,NULL
+20000,E.0.Pu,"Enrolment in ISCED 0, Public, initial education, Priority 2",NULL,NULL,NULL
+20001,E.0.Pu.F,"Enrolment in ISCED 0, Public, initial education, Female, Priority 2",NULL,NULL,NULL
+20002,E.1.Pu,"Enrolment in ISCED 1, Public, initial education",NULL,NULL,NULL
+20003,E.1.Pu.F,"Enrolment in ISCED 1, Public, initial education, Female",NULL,NULL,NULL
+20004,E.2.Pu,"Enrolment in ISCED 2, Public, initial education",NULL,NULL,NULL
+20005,E.2.Pu.F,"Enrolment in ISCED 2, Public, initial education, Female",NULL,NULL,NULL
+20006,E.2.GPV.Pu,"Enrolment in ISCED 2, General&Pre-Voc, Public, initial education",NULL,NULL,NULL
+20007,E.2.GPV.Pu.F,"Enrolment in ISCED 2, General&Pre-Voc, Public, initial education, Female",NULL,NULL,NULL
+20008,E.2.V.Pu,"Enrolment in ISCED 2, Vocational, Public, initial education",NULL,NULL,NULL
+20009,E.2.V.Pu.F,"Enrolment in ISCED 2, Vocational, Public, initial education, Female",NULL,NULL,NULL
+20010,E.3.Pu,"Enrolment in ISCED 3, Public, initial education",NULL,NULL,NULL
+20011,E.3.Pu.F,"Enrolment in ISCED 3, Public, initial education, Female",NULL,NULL,NULL
+20012,E.3.GPV.Pu,"Enrolment in ISCED 3, General&Pre-Voc, Public, initial education",NULL,NULL,NULL
+20013,E.3.GPV.Pu.F,"Enrolment in ISCED 3, General&Pre-Voc, Public, initial education, Female",NULL,NULL,NULL
+20014,E.3.V.Pu,"Enrolment in ISCED 3, Vocational, Public, initial education",NULL,NULL,NULL
+20015,E.3.V.Pu.F,"Enrolment in ISCED 3, Vocational, Public, initial education, Female",NULL,NULL,NULL
+20016,E.4.Pu,"Enrolment in ISCED 4, Public, initial education",NULL,NULL,NULL
+20017,E.4.Pu.F,"Enrolment in ISCED 4, Public, initial education, Female",NULL,NULL,NULL
+20018,E.4.GPV.Pu,"Enrolment in ISCED 4, General&Pre-Voc, Public, initial education",NULL,NULL,NULL
+20019,E.4.GPV.Pu.F,"Enrolment in ISCED 4, General&Pre-Voc, Public, initial education, Female",NULL,NULL,NULL
+20020,E.4.V.Pu,"Enrolment in ISCED 4, Vocational, Public, initial education",NULL,NULL,NULL
+20021,E.4.V.Pu.F,"Enrolment in ISCED 4, Vocational, Public, initial education, Female",NULL,NULL,NULL
+20022,E.23.Pu,"Enrolment in ISCED 2+3, Public, initial education",NULL,NULL,NULL
+20023,E.23.Pu.F,"Enrolment in ISCED 2+3, Public, initial education, Female",NULL,NULL,NULL
+20024,E.23.GPV.Pu,"Enrolment in ISCED 2+3, General&Pre-Voc, Public, initial education",NULL,NULL,NULL
+20025,E.23.GPV.Pu.F,"Enrolment in ISCED 2+3, General&Pre-Voc, Public, initial education, Female",NULL,NULL,NULL
+20026,E.23.V.Pu,"Enrolment in ISCED 2+3, Vocational, Public, initial education",NULL,NULL,NULL
+20027,E.23.V.Pu.F,"Enrolment in ISCED 2+3, Vocational, Public, initial education, Female",NULL,NULL,NULL
+20030,E.0.Pr,"Enrolment in ISCED 0, Private, initial education, Priority 2",NULL,NULL,NULL
+20031,E.0.Pr.F,"Enrolment in ISCED 0, Private, initial education, Female, Priority 2",NULL,NULL,NULL
+20032,E.1.Pr,"Enrolment in ISCED 1, Private, initial education",NULL,NULL,NULL
+20033,E.1.Pr.F,"Enrolment in ISCED 1, Private, initial education, Female",NULL,NULL,NULL
+20034,E.2.Pr,"Enrolment in ISCED 2, Private, initial education",NULL,NULL,NULL
+20035,E.2.Pr.F,"Enrolment in ISCED 2, Private, initial education, Female",NULL,NULL,NULL
+20036,E.2.GPV.Pr,"Enrolment in ISCED 2, General&Pre-Voc, Private, initial education",NULL,NULL,NULL
+20037,E.2.GPV.Pr.F,"Enrolment in ISCED 2, General&Pre-Voc, Private, initial education, Female",NULL,NULL,NULL
+20038,E.2.V.Pr,"Enrolment in ISCED 2, Vocational, Private, initial education",NULL,NULL,NULL
+20039,E.2.V.Pr.F,"Enrolment in ISCED 2, Vocational, Private, initial education, Female",NULL,NULL,NULL
+20040,E.3.Pr,"Enrolment in ISCED 3, Private, initial education",NULL,NULL,NULL
+20041,E.3.Pr.F,"Enrolment in ISCED 3, Private, initial education, Female",NULL,NULL,NULL
+20042,E.3.GPV.Pr,"Enrolment in ISCED 3, General&Pre-Voc, Private, initial education",NULL,NULL,NULL
+20043,E.3.GPV.Pr.F,"Enrolment in ISCED 3, General&Pre-Voc, Private, initial education, Female",NULL,NULL,NULL
+20044,E.3.V.Pr,"Enrolment in ISCED 3, Vocational, Private, initial education",NULL,NULL,NULL
+20045,E.3.V.Pr.F,"Enrolment in ISCED 3, Vocational, Private, initial education, Female",NULL,NULL,NULL
+20046,E.4.Pr,"Enrolment in ISCED 4, Private, initial education",NULL,NULL,NULL
+20047,E.4.Pr.F,"Enrolment in ISCED 4, Private, initial education, Female",NULL,NULL,NULL
+20048,E.4.GPV.Pr,"Enrolment in ISCED 4, General&Pre-Voc, Private, initial education",NULL,NULL,NULL
+20049,E.4.GPV.Pr.F,"Enrolment in ISCED 4, General&Pre-Voc, Private, initial education, Female",NULL,NULL,NULL
+20050,E.4.V.Pr,"Enrolment in ISCED 4, Vocational, Private, initial education",NULL,NULL,NULL
+20051,E.4.V.Pr.F,"Enrolment in ISCED 4, Vocational, Private, initial education, Female",NULL,NULL,NULL
+20052,E.23.Pr,"Enrolment in ISCED 2+3, Private, initial education",NULL,NULL,NULL
+20053,E.23.Pr.F,"Enrolment in ISCED 2+3, Private, initial education, Female",NULL,NULL,NULL
+20054,E.23.GPV.Pr,"Enrolment in ISCED 2+3, General&Pre-Voc, Private, initial education",NULL,NULL,NULL
+20055,E.23.GPV.Pr.F,"Enrolment in ISCED 2+3, General&Pre-Voc, Private, initial education, Female",NULL,NULL,NULL
+20056,E.23.V.Pr,"Enrolment in ISCED 2+3, Vocational, Private, initial education",NULL,NULL,NULL
+20057,E.23.V.Pr.F,"Enrolment in ISCED 2+3, Vocational, Private, initial education, Female",NULL,NULL,NULL
+20060,E.0,"Enrolment in ISCED 0, initial education, Priority 2",NULL,NULL,NULL
+20061,E.0.F,"Enrolment in ISCED 0, initial education, Female, Priority 2",NULL,NULL,NULL
+20062,E.1,"Enrolment in ISCED 1, initial education, Priority 2",NULL,NULL,NULL
+20063,E.1.F,"Enrolment in ISCED 1, initial education, Female, Priority 2",NULL,NULL,NULL
+20064,E.2,"Enrolment in ISCED 2, initial education",NULL,NULL,NULL
+20065,E.2.F,"Enrolment in ISCED 2, initial education, Female",NULL,NULL,NULL
+20066,E.2.GPV,"Enrolment in ISCED 2, General&Pre-Voc, initial education",NULL,NULL,NULL
+20067,E.2.GPV.F,"Enrolment in ISCED 2, General&Pre-Voc, initial education, Female",NULL,NULL,NULL
+20068,E.2.V,"Enrolment in ISCED 2, Vocational, initial education, Priority 2",NULL,NULL,NULL
+20069,E.2.V.F,"Enrolment in ISCED 2, Vocational, initial education, Female, Priority 2",NULL,NULL,NULL
+20070,E.3,"Enrolment in ISCED 3, initial education",NULL,NULL,NULL
+20071,E.3.F,"Enrolment in ISCED 3, initial education, Female",NULL,NULL,NULL
+20072,E.3.GPV,"Enrolment in ISCED 3, General&Pre-Voc, initial education",NULL,NULL,NULL
+20073,E.3.GPV.F,"Enrolment in ISCED 3, General&Pre-Voc, initial education, Female",NULL,NULL,NULL
+20074,E.3.V,"Enrolment in ISCED 3, Vocational, initial education, Priority 2",NULL,NULL,NULL
+20075,E.3.V.F,"Enrolment in ISCED 3, Vocational, initial education, Female, Priority 2",NULL,NULL,NULL
+20076,E.4,"Enrolment in ISCED 4, initial education, Priority 2",NULL,NULL,NULL
+20077,E.4.F,"Enrolment in ISCED 4, initial education, Female, Priority 2",NULL,NULL,NULL
+20078,E.4.GPV,"Enrolment in ISCED 4, General&Pre-Voc, initial education",NULL,NULL,NULL
+20079,E.4.GPV.F,"Enrolment in ISCED 4, General&Pre-Voc, initial education, Female",NULL,NULL,NULL
+20080,E.4.V,"Enrolment in ISCED 4, Vocational, initial education, Priority 2",NULL,NULL,NULL
+20081,E.4.V.F,"Enrolment in ISCED 4, Vocational, initial education, Female, Priority 2",NULL,NULL,NULL
+20082,E.23,"Enrolment in ISCED 2+3, initial education",NULL,NULL,NULL
+20083,E.23.F,"Enrolment in ISCED 2+3, initial education, Female",NULL,NULL,NULL
+20100,T.0.Pu,"Education staff in ISCED 0, Public, initial education",NULL,NULL,NULL
+20101,T.0.Pu.F,"Education staff in ISCED 0, Public, initial education, Female",NULL,NULL,NULL
+20102,T.1.Pu,"Education staff in ISCED 1, Public, initial education",NULL,NULL,NULL
+20103,T.1.Pu.F,"Education staff in ISCED 1, Public, initial education, Female",NULL,NULL,NULL
+20104,T.2.Pu,"Education staff in ISCED 2, Public, initial education",NULL,NULL,NULL
+20105,T.2.Pu.F,"Education staff in ISCED 2, Public, initial education, Female",NULL,NULL,NULL
+20106,T.2.GPV.Pu,"Education staff in ISCED 2, General&Pre-Voc, Public, initial education",NULL,NULL,NULL
+20107,T.2.GPV.Pu.F,"Education staff in ISCED 2, General&Pre-Voc, Public, initial education, Female",NULL,NULL,NULL
+20108,T.2.V.Pu,"Education staff in ISCED 2, Vocational, Public, initial education",NULL,NULL,NULL
+20109,T.2.V.Pu.F,"Education staff in ISCED 2, Vocational, Public, initial education, Female",NULL,NULL,NULL
+20110,T.3.Pu,"Education staff in ISCED 3, Public, initial education",NULL,NULL,NULL
+20111,T.3.Pu.F,"Education staff in ISCED 3, Public, initial education, Female",NULL,NULL,NULL
+20112,T.3.GPV.Pu,"Education staff in ISCED 3, General&Pre-Voc, Public, initial education",NULL,NULL,NULL
+20113,T.3.GPV.Pu.F,"Education staff in ISCED 3, General&Pre-Voc, Public, initial education, Female",NULL,NULL,NULL
+20114,T.3.V.Pu,"Education staff in ISCED 3, Vocational, Public, initial education",NULL,NULL,NULL
+20115,T.3.V.Pu.F,"Education staff in ISCED 3, Vocational, Public, initial education, Female",NULL,NULL,NULL
+20116,T.4.Pu,"Education staff in ISCED 4, Public, initial education",NULL,NULL,NULL
+20117,T.4.Pu.F,"Education staff in ISCED 4, Public, initial education, Female",NULL,NULL,NULL
+20118,T.4.GPV.Pu,"Education staff in ISCED 4, General&Pre-Voc, Public, initial education",NULL,NULL,NULL
+20119,T.4.GPV.Pu.F,"Education staff in ISCED 4, General&Pre-Voc, Public, initial education, Female",NULL,NULL,NULL
+20120,T.4.V.Pu,"Education staff in ISCED 4, Vocational, Public, initial education",NULL,NULL,NULL
+20121,T.4.V.Pu.F,"Education staff in ISCED 4, Vocational, Public, initial education, Female",NULL,NULL,NULL
+20122,T.23.Pu,"Education staff in ISCED 2+3, Public, initial education",NULL,NULL,NULL
+20123,T.23.Pu.F,"Education staff in ISCED 2+3, Public, initial education, Female",NULL,NULL,NULL
+20124,T.23.GPV.Pu,"Education staff in ISCED 2+3, General&Pre-Voc, Public, initial education",NULL,NULL,NULL
+20125,T.23.GPV.Pu.F,"Education staff in ISCED 2+3, General&Pre-Voc, Public, initial education, Female",NULL,NULL,NULL
+20126,T.23.V.Pu,"Education staff in ISCED 2+3, Vocational, Public, initial education",NULL,NULL,NULL
+20127,T.23.V.Pu.F,"Education staff in ISCED 2+3, Vocational, Public, initial education, Female",NULL,NULL,NULL
+20130,T.0.Pr,"Education staff in ISCED 0, Private, initial education",NULL,NULL,NULL
+20131,T.0.Pr.F,"Education staff in ISCED 0, Private, initial education, Female",NULL,NULL,NULL
+20132,T.1.Pr,"Education staff in ISCED 1, Private, initial education",NULL,NULL,NULL
+20133,T.1.Pr.F,"Education staff in ISCED 1, Private, initial education, Female",NULL,NULL,NULL
+20134,T.2.Pr,"Education staff in ISCED 2, Private, initial education",NULL,NULL,NULL
+20135,T.2.Pr.F,"Education staff in ISCED 2, Private, initial education, Female",NULL,NULL,NULL
+20136,T.2.GPV.Pr,"Education staff in ISCED 2, General&Pre-Voc, Private, initial education",NULL,NULL,NULL
+20137,T.2.GPV.Pr.F,"Education staff in ISCED 2, General&Pre-Voc, Private, initial education, Female",NULL,NULL,NULL
+20138,T.2.V.Pr,"Education staff in ISCED 2, Vocational, Private, initial education",NULL,NULL,NULL
+20139,T.2.V.Pr.F,"Education staff in ISCED 2, Vocational, Private, initial education, Female",NULL,NULL,NULL
+20140,T.3.Pr,"Education staff in ISCED 3, Private, initial education",NULL,NULL,NULL
+20141,T.3.Pr.F,"Education staff in ISCED 3, Private, initial education, Female",NULL,NULL,NULL
+20142,T.3.GPV.Pr,"Education staff in ISCED 3, General&Pre-Voc, Private, initial education",NULL,NULL,NULL
+20143,T.3.GPV.Pr.F,"Education staff in ISCED 3, General&Pre-Voc, Private, initial education, Female",NULL,NULL,NULL
+20144,T.3.V.Pr,"Education staff in ISCED 3, Vocational, Private, initial education",NULL,NULL,NULL
+20145,T.3.V.Pr.F,"Education staff in ISCED 3, Vocational, Private, initial education, Female",NULL,NULL,NULL
+20146,T.4.Pr,"Education staff in ISCED 4, Private, initial education",NULL,NULL,NULL
+20147,T.4.Pr.F,"Education staff in ISCED 4, Private, initial education, Female",NULL,NULL,NULL
+20148,T.4.GPV.Pr,"Education staff in ISCED 4, General&Pre-Voc, Private, initial education",NULL,NULL,NULL
+20149,T.4.GPV.Pr.F,"Education staff in ISCED 4, General&Pre-Voc, Private, initial education, Female",NULL,NULL,NULL
+20150,T.4.V.Pr,"Education staff in ISCED 4, Vocational, Private, initial education",NULL,NULL,NULL
+20151,T.4.V.Pr.F,"Education staff in ISCED 4, Vocational, Private, initial education, Female",NULL,NULL,NULL
+20152,T.23.Pr,"Education staff in ISCED 2+3, Private, initial education",NULL,NULL,NULL
+20153,T.23.Pr.F,"Education staff in ISCED 2+3, Private, initial education, Female",NULL,NULL,NULL
+20154,T.23.GPV.Pr,"Education staff in ISCED 2+3, General&Pre-Voc, Private, initial education",NULL,NULL,NULL
+20155,T.23.GPV.Pr.F,"Education staff in ISCED 2+3, General&Pre-Voc, Private, initial education, Female",NULL,NULL,NULL
+20156,T.23.V.Pr,"Education staff in ISCED 2+3, Vocational, Private, initial education",NULL,NULL,NULL
+20157,T.23.V.Pr.F,"Education staff in ISCED 2+3, Vocational, Private, initial education, Female",NULL,NULL,NULL
+20160,T.0,"Education staff in ISCED 0, initial education",NULL,NULL,NULL
+20161,T.0.F,"Education staff in ISCED 0, initial education, Female",NULL,NULL,NULL
+20162,T.1,"Education staff in ISCED 1, initial education",NULL,NULL,NULL
+20163,T.1.F,"Education staff in ISCED 1, initial education, Female",NULL,NULL,NULL
+20164,T.2,"Education staff in ISCED 2, initial education",NULL,NULL,NULL
+20165,T.2.F,"Education staff in ISCED 2, initial education, Female",NULL,NULL,NULL
+20166,T.2.GPV,"Education staff in ISCED 2, General&Pre-Voc, initial education",NULL,NULL,NULL
+20167,T.2.GPV.F,"Education staff in ISCED 2, General&Pre-Voc, initial education, Female",NULL,NULL,NULL
+20168,T.2.V,"Education staff in ISCED 2, Vocational, initial education",NULL,NULL,NULL
+20169,T.2.V.F,"Education staff in ISCED 2, Vocational, initial education, Female",NULL,NULL,NULL
+20170,T.3,"Education staff in ISCED 3, initial education",NULL,NULL,NULL
+20171,T.3.F,"Education staff in ISCED 3, initial education, Female",NULL,NULL,NULL
+20172,T.3.GPV,"Education staff in ISCED 3, General&Pre-Voc, initial education",NULL,NULL,NULL
+20173,T.3.GPV.F,"Education staff in ISCED 3, General&Pre-Voc, initial education, Female",NULL,NULL,NULL
+20174,T.3.V,"Education staff in ISCED 3, Vocational, initial education",NULL,NULL,NULL
+20175,T.3.V.F,"Education staff in ISCED 3, Vocational, initial education, Female",NULL,NULL,NULL
+20176,T.4,"Education staff in ISCED 4, initial education",NULL,NULL,NULL
+20177,T.4.F,"Education staff in ISCED 4, initial education, Female",NULL,NULL,NULL
+20178,T.4.GPV,"Education staff in ISCED 4, General&Pre-Voc, initial education",NULL,NULL,NULL
+20179,T.4.GPV.F,"Education staff in ISCED 4, General&Pre-Voc, initial education, Female",NULL,NULL,NULL
+20180,T.4.V,"Education staff in ISCED 4, Vocational, initial education",NULL,NULL,NULL
+20181,T.4.V.F,"Education staff in ISCED 4, Vocational, initial education, Female",NULL,NULL,NULL
+20182,T.23,"Education staff in ISCED 2+3, initial education",NULL,NULL,NULL
+20183,T.23.F,"Education staff in ISCED 2+3, initial education, Female",NULL,NULL,NULL
+20184,T.23.GPV,"Education staff in ISCED 2+3, General&Pre-Voc, initial education",NULL,NULL,NULL
+20185,T.23.GPV.F,"Education staff in ISCED 2+3, General&Pre-Voc, initial education, Female",NULL,NULL,NULL
+20186,T.23.V,"Education staff in ISCED 2+3, Vocational, initial education",NULL,NULL,NULL
+20187,T.23.V.F,"Education staff in ISCED 2+3, Vocational, initial education, Female",NULL,NULL,NULL
+20190,T.0.Pu.PT,"Education staff in ISCED 0, Public, initial education, Part-Time",NULL,NULL,NULL
+20191,T.0.Pu.PT.F,"Education staff in ISCED 0, Public, initial education, Part-Time, Female",NULL,NULL,NULL
+20192,T.1.Pu.PT,"Education staff in ISCED 1, Public, initial education, Part-Time",NULL,NULL,NULL
+20193,T.1.Pu.PT.F,"Education staff in ISCED 1, Public, initial education, Part-Time, Female",NULL,NULL,NULL
+20194,T.2.Pu.PT,"Education staff in ISCED 2, Public, initial education, Part-Time",NULL,NULL,NULL
+20195,T.2.Pu.PT.F,"Education staff in ISCED 2, Public, initial education, Part-Time, Female",NULL,NULL,NULL
+20196,T.2.GPV.Pu.PT,"Education staff in ISCED 2, General&Pre-Voc, Public, initial education, Part-Time",NULL,NULL,NULL
+20197,T.2.GPV.Pu.PT.F,"Education staff in ISCED 2, General&Pre-Voc, Public, initial education, Part-Time, Female",NULL,NULL,NULL
+20198,T.2.V.Pu.PT,"Education staff in ISCED 2, Vocational, Public, initial education, Part-Time",NULL,NULL,NULL
+20199,T.2.V.Pu.PT.F,"Education staff in ISCED 2, Vocational, Public, initial education, Part-Time, Female",NULL,NULL,NULL
+20200,T.3.Pu.PT,"Education staff in ISCED 3, Public, initial education, Part-Time",NULL,NULL,NULL
+20201,T.3.Pu.PT.F,"Education staff in ISCED 3, Public, initial education, Part-Time, Female",NULL,NULL,NULL
+20202,T.3.GPV.Pu.PT,"Education staff in ISCED 3, General&Pre-Voc, Public, initial education, Part-Time",NULL,NULL,NULL
+20203,T.3.GPV.Pu.PT.F,"Education staff in ISCED 3, General&Pre-Voc, Public, initial education, Part-Time, Female",NULL,NULL,NULL
+20204,T.3.V.Pu.PT,"Education staff in ISCED 3, Vocational, Public, initial education, Part-Time",NULL,NULL,NULL
+20205,T.3.V.Pu.PT.F,"Education staff in ISCED 3, Vocational, Public, initial education, Part-Time, Female",NULL,NULL,NULL
+20206,T.4.Pu.PT,"Education staff in ISCED 4, Public, initial education, Part-Time",NULL,NULL,NULL
+20207,T.4.Pu.PT.F,"Education staff in ISCED 4, Public, initial education, Part-Time, Female",NULL,NULL,NULL
+20208,T.4.GPV.Pu.PT,"Education staff in ISCED 4, General&Pre-Voc, Public, initial education, Part-Time",NULL,NULL,NULL
+20209,T.4.GPV.Pu.PT.F,"Education staff in ISCED 4, General&Pre-Voc, Public, initial education, Part-Time, Female",NULL,NULL,NULL
+20210,T.4.V.Pu.PT,"Education staff in ISCED 4, Vocational, Public, initial education, Part-Time",NULL,NULL,NULL
+20211,T.4.V.Pu.PT.F,"Education staff in ISCED 4, Vocational, Public, initial education, Part-Time, Female",NULL,NULL,NULL
+20212,T.23.Pu.PT,"Education staff in ISCED 2+3, Public, initial education, Part-Time",NULL,NULL,NULL
+20213,T.23.Pu.PT.F,"Education staff in ISCED 2+3, Public, initial education, Part-Time, Female",NULL,NULL,NULL
+20214,T.23.GPV.Pu.PT,"Education staff in ISCED 2+3, General&Pre-Voc, Public, initial education, Part-Time",NULL,NULL,NULL
+20215,T.23.GPV.Pu.PT.F,"Education staff in ISCED 2+3, General&Pre-Voc, Public, initial education, Part-Time, Female",NULL,NULL,NULL
+20216,T.23.V.Pu.PT,"Education staff in ISCED 2+3, Vocational, Public, initial education, Part-Time",NULL,NULL,NULL
+20217,T.23.V.Pu.PT.F,"Education staff in ISCED 2+3, Vocational, Public, initial education, Part-Time, Female",NULL,NULL,NULL
+20220,T.0.Pr.PT,"Education staff in ISCED 0, Private, initial education, Part-Time",NULL,NULL,NULL
+20221,T.0.Pr.PT.F,"Education staff in ISCED 0, Private, initial education, Part-Time, Female",NULL,NULL,NULL
+20222,T.1.Pr.PT,"Education staff in ISCED 1, Private, initial education, Part-Time",NULL,NULL,NULL
+20223,T.1.Pr.PT.F,"Education staff in ISCED 1, Private, initial education, Part-Time, Female",NULL,NULL,NULL
+20224,T.2.Pr.PT,"Education staff in ISCED 2, Private, initial education, Part-Time",NULL,NULL,NULL
+20225,T.2.Pr.PT.F,"Education staff in ISCED 2, Private, initial education, Part-Time, Female",NULL,NULL,NULL
+20226,T.2.GPV.Pr.PT,"Education staff in ISCED 2, General&Pre-Voc, Private, initial education, Part-Time",NULL,NULL,NULL
+20227,T.2.GPV.Pr.PT.F,"Education staff in ISCED 2, General&Pre-Voc, Private, initial education, Part-Time, Female",NULL,NULL,NULL
+20228,T.2.V.Pr.PT,"Education staff in ISCED 2, Vocational, Private, initial education, Part-Time",NULL,NULL,NULL
+20229,T.2.V.Pr.PT.F,"Education staff in ISCED 2, Vocational, Private, initial education, Part-Time, Female",NULL,NULL,NULL
+20230,T.3.Pr.PT,"Education staff in ISCED 3, Private, initial education, Part-Time",NULL,NULL,NULL
+20231,T.3.Pr.PT.F,"Education staff in ISCED 3, Private, initial education, Part-Time, Female",NULL,NULL,NULL
+20232,T.3.GPV.Pr.PT,"Education staff in ISCED 3, General&Pre-Voc, Private, initial education, Part-Time",NULL,NULL,NULL
+20233,T.3.GPV.Pr.PT.F,"Education staff in ISCED 3, General&Pre-Voc, Private, initial education, Part-Time, Female",NULL,NULL,NULL
+20234,T.3.V.Pr.PT,"Education staff in ISCED 3, Vocational, Private, initial education, Part-Time",NULL,NULL,NULL
+20235,T.3.V.Pr.PT.F,"Education staff in ISCED 3, Vocational, Private, initial education, Part-Time, Female",NULL,NULL,NULL
+20236,T.4.Pr.PT,"Education staff in ISCED 4, Private, initial education, Part-Time",NULL,NULL,NULL
+20237,T.4.Pr.PT.F,"Education staff in ISCED 4, Private, initial education, Part-Time, Female",NULL,NULL,NULL
+20238,T.4.GPV.Pr.PT,"Education staff in ISCED 4, General&Pre-Voc, Private, initial education, Part-Time",NULL,NULL,NULL
+20239,T.4.GPV.Pr.PT.F,"Education staff in ISCED 4, General&Pre-Voc, Private, initial education, Part-Time, Female",NULL,NULL,NULL
+20240,T.4.V.Pr.PT,"Education staff in ISCED 4, Vocational, Private, initial education, Part-Time",NULL,NULL,NULL
+20241,T.4.V.Pr.PT.F,"Education staff in ISCED 4, Vocational, Private, initial education, Part-Time, Female",NULL,NULL,NULL
+20242,T.23.Pr.PT,"Education staff in ISCED 2+3, Private, initial education, Part-Time",NULL,NULL,NULL
+20243,T.23.Pr.PT.F,"Education staff in ISCED 2+3, Private, initial education, Part-Time, Female",NULL,NULL,NULL
+20244,T.23.GPV.Pr.PT,"Education staff in ISCED 2+3, General&Pre-Voc, Private, initial education, Part-Time",NULL,NULL,NULL
+20245,T.23.GPV.Pr.PT.F,"Education staff in ISCED 2+3, General&Pre-Voc, Private, initial education, Part-Time, Female",NULL,NULL,NULL
+20246,T.23.V.Pr.PT,"Education staff in ISCED 2+3, Vocational, Private, initial education, Part-Time",NULL,NULL,NULL
+20247,T.23.V.Pr.PT.F,"Education staff in ISCED 2+3, Vocational, Private, initial education, Part-Time, Female",NULL,NULL,NULL
+20250,T.0.PT,"Education staff in ISCED 0, initial education, Part-Time",NULL,NULL,NULL
+20251,T.0.PT.F,"Education staff in ISCED 0, initial education, Part-Time, Female",NULL,NULL,NULL
+20252,T.1.PT,"Education staff in ISCED 1, initial education, Part-Time",NULL,NULL,NULL
+20253,T.1.PT.F,"Education staff in ISCED 1, initial education, Part-Time, Female",NULL,NULL,NULL
+20254,T.2.PT,"Education staff in ISCED 2, initial education, Part-Time",NULL,NULL,NULL
+20255,T.2.PT.F,"Education staff in ISCED 2, initial education, Part-Time, Female",NULL,NULL,NULL
+20256,T.2.GPV.PT,"Education staff in ISCED 2, General&Pre-Voc, initial education, Part-Time",NULL,NULL,NULL
+20257,T.2.GPV.PT.F,"Education staff in ISCED 2, General&Pre-Voc, initial education, Part-Time, Female",NULL,NULL,NULL
+20258,T.2.V.PT,"Education staff in ISCED 2, Vocational, initial education, Part-Time",NULL,NULL,NULL
+20259,T.2.V.PT.F,"Education staff in ISCED 2, Vocational, initial education, Part-Time, Female",NULL,NULL,NULL
+20260,T.3.PT,"Education staff in ISCED 3, initial education, Part-Time",NULL,NULL,NULL
+20261,T.3.PT.F,"Education staff in ISCED 3, initial education, Part-Time, Female",NULL,NULL,NULL
+20262,T.3.GPV.PT,"Education staff in ISCED 3, General&Pre-Voc, initial education, Part-Time",NULL,NULL,NULL
+20263,T.3.GPV.PT.F,"Education staff in ISCED 3, General&Pre-Voc, initial education, Part-Time, Female",NULL,NULL,NULL
+20264,T.3.V.PT,"Education staff in ISCED 3, Vocational, initial education, Part-Time",NULL,NULL,NULL
+20265,T.3.V.PT.F,"Education staff in ISCED 3, Vocational, initial education, Part-Time, Female",NULL,NULL,NULL
+20266,T.4.PT,"Education staff in ISCED 4, initial education, Part-Time",NULL,NULL,NULL
+20267,T.4.PT.F,"Education staff in ISCED 4, initial education, Part-Time, Female",NULL,NULL,NULL
+20268,T.4.GPV.PT,"Education staff in ISCED 4, General&Pre-Voc, initial education, Part-Time",NULL,NULL,NULL
+20269,T.4.GPV.PT.F,"Education staff in ISCED 4, General&Pre-Voc, initial education, Part-Time, Female",NULL,NULL,NULL
+20270,T.4.V.PT,"Education staff in ISCED 4, Vocational, initial education, Part-Time",NULL,NULL,NULL
+20271,T.4.V.PT.F,"Education staff in ISCED 4, Vocational, initial education, Part-Time, Female",NULL,NULL,NULL
+20272,T.23.PT,"Education staff in ISCED 2+3, initial education, Part-Time",NULL,NULL,NULL
+20273,T.23.PT.F,"Education staff in ISCED 2+3, initial education, Part-Time, Female",NULL,NULL,NULL
+20274,T.23.GPV.PT,"Education staff in ISCED 2+3, General&Pre-Voc, initial education, Part-Time",NULL,NULL,NULL
+20275,T.23.GPV.PT.F,"Education staff in ISCED 2+3, General&Pre-Voc, initial education, Part-Time, Female",NULL,NULL,NULL
+20276,T.23.V.PT,"Education staff in ISCED 2+3, Vocational, initial education, Part-Time",NULL,NULL,NULL
+20277,T.23.V.PT.F,"Education staff in ISCED 2+3, Vocational, initial education, Part-Time, Female",NULL,NULL,NULL
+20280,T.0.Pu.FTE,"Education staff in ISCED 0, Public, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20281,T.1.Pu.FTE,"Education staff in ISCED 1, Public, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20282,T.2.Pu.FTE,"Education staff in ISCED 2, Public, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20283,T.2.GPV.Pu.FTE,"Education staff in ISCED 2, General&Pre-Voc, Public, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20284,T.2.V.Pu.FTE,"Education staff in ISCED 2, Vocational, Public, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20285,T.3.Pu.FTE,"Education staff in ISCED 3, Public, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20286,T.3.GPV.Pu.FTE,"Education staff in ISCED 3, General&Pre-Voc, Public, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20287,T.3.V.Pu.FTE,"Education staff in ISCED 3, Vocational, Public, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20288,T.4.Pu.FTE,"Education staff in ISCED 4, Public, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20289,T.4.GPV.Pu.FTE,"Education staff in ISCED 4, General&Pre-Voc, Public, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20290,T.4.V.Pu.FTE,"Education staff in ISCED 4, Vocational, Public, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20291,T.23.Pu.FTE,"Education staff in ISCED 2+3, Public, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20292,T.23.GPV.Pu.FTE,"Education staff in ISCED 2+3, General&Pre-Voc, Public, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20293,T.23.V.Pu.FTE,"Education staff in ISCED 2+3, Vocational, Public, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20300,T.0.Pr.FTE,"Education staff in ISCED 0, Private, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20301,T.1.Pr.FTE,"Education staff in ISCED 1, Private, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20302,T.2.Pr.FTE,"Education staff in ISCED 2, Private, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20303,T.2.GPV.Pr.FTE,"Education staff in ISCED 2, General&Pre-Voc, Private, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20304,T.2.V.Pr.FTE,"Education staff in ISCED 2, Vocational, Private, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20305,T.3.Pr.FTE,"Education staff in ISCED 3, Private, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20306,T.3.GPV.Pr.FTE,"Education staff in ISCED 3, General&Pre-Voc, Private, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20307,T.3.V.Pr.FTE,"Education staff in ISCED 3, Vocational, Private, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20308,T.4.Pr.FTE,"Education staff in ISCED 4, Private, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20309,T.4.GPV.Pr.FTE,"Education staff in ISCED 4, General&Pre-Voc, Private, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20310,T.4.V.Pr.FTE,"Education staff in ISCED 4, Vocational, Private, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20311,T.23.Pr.FTE,"Education staff in ISCED 2+3, Private, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20312,T.23.GPV.Pr.FTE,"Education staff in ISCED 2+3, General&Pre-Voc, Private, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20313,T.23.V.Pr.FTE,"Education staff in ISCED 2+3, Vocational, Private, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20320,T.0.FTE,"Education staff in ISCED 0, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20321,T.1.FTE,"Education staff in ISCED 1, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20322,T.2.FTE,"Education staff in ISCED 2, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20323,T.2.GPV.FTE,"Education staff in ISCED 2, General&Pre-Voc, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20324,T.2.V.FTE,"Education staff in ISCED 2, Vocational, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20325,T.3.FTE,"Education staff in ISCED 3, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20326,T.3.GPV.FTE,"Education staff in ISCED 3, General&Pre-Voc, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20327,T.3.V.FTE,"Education staff in ISCED 3, Vocational, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20328,T.4.FTE,"Education staff in ISCED 4, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20329,T.4.GPV.FTE,"Education staff in ISCED 4, General&Pre-Voc, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20330,T.4.V.FTE,"Education staff in ISCED 4, Vocational, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20331,T.23.FTE,"Education staff in ISCED 2+3, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20332,T.23.GPV.FTE,"Education staff in ISCED 2+3, General&Pre-Voc, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20333,T.23.V.FTE,"Education staff in ISCED 2+3, Vocational, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20340,T.0.Pu.trained,"Education staff in ISCED 0, Public, initial education, Trained teacher",NULL,NULL,NULL
+20341,T.0.Pu.trained.F,"Education staff in ISCED 0, Public, initial education, Trained teacher, Female",NULL,NULL,NULL
+20342,T.1.Pu.trained,"Education staff in ISCED 1, Public, initial education, Trained teacher",NULL,NULL,NULL
+20343,T.1.Pu.trained.F,"Education staff in ISCED 1, Public, initial education, Trained teacher, Female",NULL,NULL,NULL
+20344,T.2.Pu.trained,"Education staff in ISCED 2, Public, initial education, Trained teacher",NULL,NULL,NULL
+20345,T.2.Pu.trained.F,"Education staff in ISCED 2, Public, initial education, Trained teacher, Female",NULL,NULL,NULL
+20346,T.2.GPV.Pu.trained,"Education staff in ISCED 2, General&Pre-Voc, Public, initial education, Trained teacher",NULL,NULL,NULL
+20347,T.2.GPV.Pu.trained.F,"Education staff in ISCED 2, General&Pre-Voc, Public, initial education, Trained teacher, Female",NULL,NULL,NULL
+20348,T.2.V.Pu.trained,"Education staff in ISCED 2, Vocational, Public, initial education, Trained teacher",NULL,NULL,NULL
+20349,T.2.V.Pu.trained.F,"Education staff in ISCED 2, Vocational, Public, initial education, Trained teacher, Female",NULL,NULL,NULL
+20350,T.3.Pu.trained,"Education staff in ISCED 3, Public, initial education, Trained teacher",NULL,NULL,NULL
+20351,T.3.Pu.trained.F,"Education staff in ISCED 3, Public, initial education, Trained teacher, Female",NULL,NULL,NULL
+20352,T.3.GPV.Pu.trained,"Education staff in ISCED 3, General&Pre-Voc, Public, initial education, Trained teacher",NULL,NULL,NULL
+20353,T.3.GPV.Pu.trained.F,"Education staff in ISCED 3, General&Pre-Voc, Public, initial education, Trained teacher, Female",NULL,NULL,NULL
+20354,T.3.V.Pu.trained,"Education staff in ISCED 3, Vocational, Public, initial education, Trained teacher",NULL,NULL,NULL
+20355,T.3.V.Pu.trained.F,"Education staff in ISCED 3, Vocational, Public, initial education, Trained teacher, Female",NULL,NULL,NULL
+20356,T.4.Pu.trained,"Education staff in ISCED 4, Public, initial education, Trained teacher",NULL,NULL,NULL
+20357,T.4.Pu.trained.F,"Education staff in ISCED 4, Public, initial education, Trained teacher, Female",NULL,NULL,NULL
+20358,T.4.GPV.Pu.trained,"Education staff in ISCED 4, General&Pre-Voc, Public, initial education, Trained teacher",NULL,NULL,NULL
+20359,T.4.GPV.Pu.trained.F,"Education staff in ISCED 4, General&Pre-Voc, Public, initial education, Trained teacher, Female",NULL,NULL,NULL
+20360,T.4.V.Pu.trained,"Education staff in ISCED 4, Vocational, Public, initial education, Trained teacher",NULL,NULL,NULL
+20361,T.4.V.Pu.trained.F,"Education staff in ISCED 4, Vocational, Public, initial education, Trained teacher, Female",NULL,NULL,NULL
+20362,T.23.Pu.trained,"Education staff in ISCED 2+3, Public, initial education, Trained teacher",NULL,NULL,NULL
+20363,T.23.Pu.trained.F,"Education staff in ISCED 2+3, Public, initial education, Trained teacher, Female",NULL,NULL,NULL
+20364,T.23.GPV.Pu.trained,"Education staff in ISCED 2+3, General&Pre-Voc, Public, initial education, Trained teacher",NULL,NULL,NULL
+20365,T.23.GPV.Pu.trained.F,"Education staff in ISCED 2+3, General&Pre-Voc, Public, initial education, Trained teacher, Female",NULL,NULL,NULL
+20366,T.23.V.Pu.trained,"Education staff in ISCED 2+3, Vocational, Public, initial education, Trained teacher",NULL,NULL,NULL
+20367,T.23.V.Pu.trained.F,"Education staff in ISCED 2+3, Vocational, Public, initial education, Trained teacher, Female",NULL,NULL,NULL
+20370,T.0.Pr.trained,"Education staff in ISCED 0, Private, initial education, Trained teacher",NULL,NULL,NULL
+20371,T.0.Pr.trained.F,"Education staff in ISCED 0, Private, initial education, Trained teacher, Female",NULL,NULL,NULL
+20372,T.1.Pr.trained,"Education staff in ISCED 1, Private, initial education, Trained teacher",NULL,NULL,NULL
+20373,T.1.Pr.trained.F,"Education staff in ISCED 1, Private, initial education, Trained teacher, Female",NULL,NULL,NULL
+20374,T.2.Pr.trained,"Education staff in ISCED 2, Private, initial education, Trained teacher",NULL,NULL,NULL
+20375,T.2.Pr.trained.F,"Education staff in ISCED 2, Private, initial education, Trained teacher, Female",NULL,NULL,NULL
+20376,T.2.GPV.Pr.trained,"Education staff in ISCED 2, General&Pre-Voc, Private, initial education, Trained teacher",NULL,NULL,NULL
+20377,T.2.GPV.Pr.trained.F,"Education staff in ISCED 2, General&Pre-Voc, Private, initial education, Trained teacher, Female",NULL,NULL,NULL
+20378,T.2.V.Pr.trained,"Education staff in ISCED 2, Vocational, Private, initial education, Trained teacher",NULL,NULL,NULL
+20379,T.2.V.Pr.trained.F,"Education staff in ISCED 2, Vocational, Private, initial education, Trained teacher, Female",NULL,NULL,NULL
+20380,T.3.Pr.trained,"Education staff in ISCED 3, Private, initial education, Trained teacher",NULL,NULL,NULL
+20381,T.3.Pr.trained.F,"Education staff in ISCED 3, Private, initial education, Trained teacher, Female",NULL,NULL,NULL
+20382,T.3.GPV.Pr.trained,"Education staff in ISCED 3, General&Pre-Voc, Private, initial education, Trained teacher",NULL,NULL,NULL
+20383,T.3.GPV.Pr.trained.F,"Education staff in ISCED 3, General&Pre-Voc, Private, initial education, Trained teacher, Female",NULL,NULL,NULL
+20384,T.3.V.Pr.trained,"Education staff in ISCED 3, Vocational, Private, initial education, Trained teacher",NULL,NULL,NULL
+20385,T.3.V.Pr.trained.F,"Education staff in ISCED 3, Vocational, Private, initial education, Trained teacher, Female",NULL,NULL,NULL
+20386,T.4.Pr.trained,"Education staff in ISCED 4, Private, initial education, Trained teacher",NULL,NULL,NULL
+20387,T.4.Pr.trained.F,"Education staff in ISCED 4, Private, initial education, Trained teacher, Female",NULL,NULL,NULL
+20388,T.4.GPV.Pr.trained,"Education staff in ISCED 4, General&Pre-Voc, Private, initial education, Trained teacher",NULL,NULL,NULL
+20389,T.4.GPV.Pr.trained.F,"Education staff in ISCED 4, General&Pre-Voc, Private, initial education, Trained teacher, Female",NULL,NULL,NULL
+20390,T.4.V.Pr.trained,"Education staff in ISCED 4, Vocational, Private, initial education, Trained teacher",NULL,NULL,NULL
+20391,T.4.V.Pr.trained.F,"Education staff in ISCED 4, Vocational, Private, initial education, Trained teacher, Female",NULL,NULL,NULL
+20392,T.23.Pr.trained,"Education staff in ISCED 2+3, Private, initial education, Trained teacher",NULL,NULL,NULL
+20393,T.23.Pr.trained.F,"Education staff in ISCED 2+3, Private, initial education, Trained teacher, Female",NULL,NULL,NULL
+20394,T.23.GPV.Pr.trained,"Education staff in ISCED 2+3, General&Pre-Voc, Private, initial education, Trained teacher",NULL,NULL,NULL
+20395,T.23.GPV.Pr.trained.F,"Education staff in ISCED 2+3, General&Pre-Voc, Private, initial education, Trained teacher, Female",NULL,NULL,NULL
+20396,T.23.V.Pr.trained,"Education staff in ISCED 2+3, Vocational, Private, initial education, Trained teacher",NULL,NULL,NULL
+20397,T.23.V.Pr.trained.F,"Education staff in ISCED 2+3, Vocational, Private, initial education, Trained teacher, Female",NULL,NULL,NULL
+20400,T.0.trained,"Education staff in ISCED 0, initial education, Trained teacher",NULL,NULL,NULL
+20401,T.0.trained.F,"Education staff in ISCED 0, initial education, Trained teacher, Female",NULL,NULL,NULL
+20402,T.1.trained,"Education staff in ISCED 1, initial education, Trained teacher",NULL,NULL,NULL
+20403,T.1.trained.F,"Education staff in ISCED 1, initial education, Trained teacher, Female",NULL,NULL,NULL
+20404,T.2.trained,"Education staff in ISCED 2, initial education, Trained teacher",NULL,NULL,NULL
+20405,T.2.trained.F,"Education staff in ISCED 2, initial education, Trained teacher, Female",NULL,NULL,NULL
+20406,T.2.GPV.trained,"Education staff in ISCED 2, General&Pre-Voc, initial education, Trained teacher",NULL,NULL,NULL
+20407,T.2.GPV.trained.F,"Education staff in ISCED 2, General&Pre-Voc, initial education, Trained teacher, Female",NULL,NULL,NULL
+20408,T.2.V.trained,"Education staff in ISCED 2, Vocational, initial education, Trained teacher",NULL,NULL,NULL
+20409,T.2.V.trained.F,"Education staff in ISCED 2, Vocational, initial education, Trained teacher, Female",NULL,NULL,NULL
+20410,T.3.trained,"Education staff in ISCED 3, initial education, Trained teacher",NULL,NULL,NULL
+20411,T.3.trained.F,"Education staff in ISCED 3, initial education, Trained teacher, Female",NULL,NULL,NULL
+20412,T.3.GPV.trained,"Education staff in ISCED 3, General&Pre-Voc, initial education, Trained teacher",NULL,NULL,NULL
+20413,T.3.GPV.trained.F,"Education staff in ISCED 3, General&Pre-Voc, initial education, Trained teacher, Female",NULL,NULL,NULL
+20414,T.3.V.trained,"Education staff in ISCED 3, Vocational, initial education, Trained teacher",NULL,NULL,NULL
+20415,T.3.V.trained.F,"Education staff in ISCED 3, Vocational, initial education, Trained teacher, Female",NULL,NULL,NULL
+20416,T.4.trained,"Education staff in ISCED 4, initial education, Trained teacher",NULL,NULL,NULL
+20417,T.4.trained.F,"Education staff in ISCED 4, initial education, Trained teacher, Female",NULL,NULL,NULL
+20418,T.4.GPV.trained,"Education staff in ISCED 4, General&Pre-Voc, initial education, Trained teacher",NULL,NULL,NULL
+20419,T.4.GPV.trained.F,"Education staff in ISCED 4, General&Pre-Voc, initial education, Trained teacher, Female",NULL,NULL,NULL
+20420,T.4.V.trained,"Education staff in ISCED 4, Vocational, initial education, Trained teacher",NULL,NULL,NULL
+20421,T.4.V.trained.F,"Education staff in ISCED 4, Vocational, initial education, Trained teacher, Female",NULL,NULL,NULL
+20422,T.23.trained,"Education staff in ISCED 2+3, initial education, Trained teacher",NULL,NULL,NULL
+20423,T.23.trained.F,"Education staff in ISCED 2+3, initial education, Trained teacher, Female",NULL,NULL,NULL
+20424,T.23.GPV.trained,"Education staff in ISCED 2+3, General&Pre-Voc, initial education, Trained teacher",NULL,NULL,NULL
+20425,T.23.GPV.trained.F,"Education staff in ISCED 2+3, General&Pre-Voc, initial education, Trained teacher, Female",NULL,NULL,NULL
+20426,T.23.V.trained,"Education staff in ISCED 2+3, Vocational, initial education, Trained teacher",NULL,NULL,NULL
+20427,T.23.V.trained.F,"Education staff in ISCED 2+3, Vocational, initial education, Trained teacher, Female",NULL,NULL,NULL
+20430,T.0.Pu.PT.trained,"Education staff in ISCED 0, Public, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20431,T.0.Pu.PT.trained.F,"Education staff in ISCED 0, Public, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20432,T.1.Pu.PT.trained,"Education staff in ISCED 1, Public, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20433,T.1.Pu.PT.trained.F,"Education staff in ISCED 1, Public, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20434,T.2.Pu.PT.trained,"Education staff in ISCED 2, Public, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20435,T.2.Pu.PT.trained.F,"Education staff in ISCED 2, Public, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20436,T.2.GPV.Pu.PT.trained,"Education staff in ISCED 2, General&Pre-Voc, Public, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20437,T.2.GPV.Pu.PT.trained.F,"Education staff in ISCED 2, General&Pre-Voc, Public, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20438,T.2.V.Pu.PT.trained,"Education staff in ISCED 2, Vocational, Public, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20439,T.2.V.Pu.PT.trained.F,"Education staff in ISCED 2, Vocational, Public, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20440,T.3.Pu.PT.trained,"Education staff in ISCED 3, Public, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20441,T.3.Pu.PT.trained.F,"Education staff in ISCED 3, Public, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20442,T.3.GPV.Pu.PT.trained,"Education staff in ISCED 3, General&Pre-Voc, Public, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20443,T.3.GPV.Pu.PT.trained.F,"Education staff in ISCED 3, General&Pre-Voc, Public, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20444,T.3.V.Pu.PT.trained,"Education staff in ISCED 3, Vocational, Public, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20445,T.3.V.Pu.PT.trained.F,"Education staff in ISCED 3, Vocational, Public, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20446,T.4.Pu.PT.trained,"Education staff in ISCED 4, Public, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20447,T.4.Pu.PT.trained.F,"Education staff in ISCED 4, Public, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20448,T.4.GPV.Pu.PT.trained,"Education staff in ISCED 4, General&Pre-Voc, Public, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20449,T.4.GPV.Pu.PT.trained.F,"Education staff in ISCED 4, General&Pre-Voc, Public, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20450,T.4.V.Pu.PT.trained,"Education staff in ISCED 4, Vocational, Public, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20451,T.4.V.Pu.PT.trained.F,"Education staff in ISCED 4, Vocational, Public, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20452,T.23.Pu.PT.trained,"Education staff in ISCED 2+3, Public, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20453,T.23.Pu.PT.trained.F,"Education staff in ISCED 2+3, Public, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20454,T.23.GPV.Pu.PT.trained,"Education staff in ISCED 2+3, General&Pre-Voc, Public, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20455,T.23.GPV.Pu.PT.trained.F,"Education staff in ISCED 2+3, General&Pre-Voc, Public, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20456,T.23.V.Pu.PT.trained,"Education staff in ISCED 2+3, Vocational, Public, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20457,T.23.V.Pu.PT.trained.F,"Education staff in ISCED 2+3, Vocational, Public, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20460,T.0.Pr.PT.trained,"Education staff in ISCED 0, Private, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20461,T.0.Pr.PT.trained.F,"Education staff in ISCED 0, Private, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20462,T.1.Pr.PT.trained,"Education staff in ISCED 1, Private, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20463,T.1.Pr.PT.trained.F,"Education staff in ISCED 1, Private, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20464,T.2.Pr.PT.trained,"Education staff in ISCED 2, Private, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20465,T.2.Pr.PT.trained.F,"Education staff in ISCED 2, Private, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20466,T.2.GPV.Pr.PT.trained,"Education staff in ISCED 2, General&Pre-Voc, Private, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20467,T.2.GPV.Pr.PT.trained.F,"Education staff in ISCED 2, General&Pre-Voc, Private, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20468,T.2.V.Pr.PT.trained,"Education staff in ISCED 2, Vocational, Private, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20469,T.2.V.Pr.PT.trained.F,"Education staff in ISCED 2, Vocational, Private, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20470,T.3.Pr.PT.trained,"Education staff in ISCED 3, Private, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20471,T.3.Pr.PT.trained.F,"Education staff in ISCED 3, Private, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20472,T.3.GPV.Pr.PT.trained,"Education staff in ISCED 3, General&Pre-Voc, Private, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20473,T.3.GPV.Pr.PT.trained.F,"Education staff in ISCED 3, General&Pre-Voc, Private, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20474,T.3.V.Pr.PT.trained,"Education staff in ISCED 3, Vocational, Private, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20475,T.3.V.Pr.PT.trained.F,"Education staff in ISCED 3, Vocational, Private, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20476,T.4.Pr.PT.trained,"Education staff in ISCED 4, Private, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20477,T.4.Pr.PT.trained.F,"Education staff in ISCED 4, Private, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20478,T.4.GPV.Pr.PT.trained,"Education staff in ISCED 4, General&Pre-Voc, Private, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20479,T.4.GPV.Pr.PT.trained.F,"Education staff in ISCED 4, General&Pre-Voc, Private, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20480,T.4.V.Pr.PT.trained,"Education staff in ISCED 4, Vocational, Private, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20481,T.4.V.Pr.PT.trained.F,"Education staff in ISCED 4, Vocational, Private, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20482,T.23.Pr.PT.trained,"Education staff in ISCED 2+3, Private, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20483,T.23.Pr.PT.trained.F,"Education staff in ISCED 2+3, Private, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20484,T.23.GPV.Pr.PT.trained,"Education staff in ISCED 2+3, General&Pre-Voc, Private, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20485,T.23.GPV.Pr.PT.trained.F,"Education staff in ISCED 2+3, General&Pre-Voc, Private, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20486,T.23.V.Pr.PT.trained,"Education staff in ISCED 2+3, Vocational, Private, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20487,T.23.V.Pr.PT.trained.F,"Education staff in ISCED 2+3, Vocational, Private, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20490,T.0.PT.trained,"Education staff in ISCED 0, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20491,T.0.PT.trained.F,"Education staff in ISCED 0, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20492,T.1.PT.trained,"Education staff in ISCED 1, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20493,T.1.PT.trained.F,"Education staff in ISCED 1, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20494,T.2.PT.trained,"Education staff in ISCED 2, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20495,T.2.PT.trained.F,"Education staff in ISCED 2, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20496,T.2.GPV.PT.trained,"Education staff in ISCED 2, General&Pre-Voc, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20497,T.2.GPV.PT.trained.F,"Education staff in ISCED 2, General&Pre-Voc, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20498,T.2.V.PT.trained,"Education staff in ISCED 2, Vocational, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20499,T.2.V.PT.trained.F,"Education staff in ISCED 2, Vocational, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20500,T.3.PT.trained,"Education staff in ISCED 3, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20501,T.3.PT.trained.F,"Education staff in ISCED 3, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20502,T.3.GPV.PT.trained,"Education staff in ISCED 3, General&Pre-Voc, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20503,T.3.GPV.PT.trained.F,"Education staff in ISCED 3, General&Pre-Voc, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20504,T.3.V.PT.trained,"Education staff in ISCED 3, Vocational, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20505,T.3.V.PT.trained.F,"Education staff in ISCED 3, Vocational, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20506,T.4.PT.trained,"Education staff in ISCED 4, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20507,T.4.PT.trained.F,"Education staff in ISCED 4, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20508,T.4.GPV.PT.trained,"Education staff in ISCED 4, General&Pre-Voc, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20509,T.4.GPV.PT.trained.F,"Education staff in ISCED 4, General&Pre-Voc, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20510,T.4.V.PT.trained,"Education staff in ISCED 4, Vocational, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20511,T.4.V.PT.trained.F,"Education staff in ISCED 4, Vocational, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20512,T.23.PT.trained,"Education staff in ISCED 2+3, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20513,T.23.PT.trained.F,"Education staff in ISCED 2+3, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20514,T.23.GPV.PT.trained,"Education staff in ISCED 2+3, General&Pre-Voc, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20515,T.23.GPV.PT.trained.F,"Education staff in ISCED 2+3, General&Pre-Voc, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20516,T.23.V.PT.trained,"Education staff in ISCED 2+3, Vocational, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20517,T.23.V.PT.trained.F,"Education staff in ISCED 2+3, Vocational, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20520,I.0.Pu,"Institutions in ISCED 0, Public, initial education",NULL,NULL,NULL
+20521,I.1.Pu,"Institutions in ISCED 1, Public, initial education",NULL,NULL,NULL
+20522,I.2.Pu,"Institutions in ISCED 2, Public, initial education",NULL,NULL,NULL
+20523,I.2.GPV.Pu,"Institutions in ISCED 2, General&Pre-Voc, Public, initial education",NULL,NULL,NULL
+20524,I.2.V.Pu,"Institutions in ISCED 2, Vocational, Public, initial education",NULL,NULL,NULL
+20525,I.3.Pu,"Institutions in ISCED 3, Public, initial education",NULL,NULL,NULL
+20526,I.3.GPV.Pu,"Institutions in ISCED 3, General&Pre-Voc, Public, initial education",NULL,NULL,NULL
+20527,I.3.V.Pu,"Institutions in ISCED 3, Vocational, Public, initial education",NULL,NULL,NULL
+20528,I.4.Pu,"Institutions in ISCED 4, Public, initial education",NULL,NULL,NULL
+20529,I.4.GPV.Pu,"Institutions in ISCED 4, General&Pre-Voc, Public, initial education",NULL,NULL,NULL
+20530,I.4.V.Pu,"Institutions in ISCED 4, Vocational, Public, initial education",NULL,NULL,NULL
+20531,I.23.Pu,"Institutions in ISCED 2+3, Public, initial education",NULL,NULL,NULL
+20532,I.23.GPV.Pu,"Institutions in ISCED 2+3, General&Pre-Voc, Public, initial education",NULL,NULL,NULL
+20533,I.23.V.Pu,"Institutions in ISCED 2+3, Vocational, Public, initial education",NULL,NULL,NULL
+20540,I.0.Pr,"Institutions in ISCED 0, Private, initial education",NULL,NULL,NULL
+20541,I.1.Pr,"Institutions in ISCED 1, Private, initial education",NULL,NULL,NULL
+20542,I.2.Pr,"Institutions in ISCED 2, Private, initial education",NULL,NULL,NULL
+20543,I.2.GPV.Pr,"Institutions in ISCED 2, General&Pre-Voc, Private, initial education",NULL,NULL,NULL
+20544,I.2.V.Pr,"Institutions in ISCED 2, Vocational, Private, initial education",NULL,NULL,NULL
+20545,I.3.Pr,"Institutions in ISCED 3, Private, initial education",NULL,NULL,NULL
+20546,I.3.GPV.Pr,"Institutions in ISCED 3, General&Pre-Voc, Private, initial education",NULL,NULL,NULL
+20547,I.3.V.Pr,"Institutions in ISCED 3, Vocational, Private, initial education",NULL,NULL,NULL
+20548,I.4.Pr,"Institutions in ISCED 4, Private, initial education",NULL,NULL,NULL
+20549,I.4.GPV.Pr,"Institutions in ISCED 4, General&Pre-Voc, Private, initial education",NULL,NULL,NULL
+20550,I.4.V.Pr,"Institutions in ISCED 4, Vocational, Private, initial education",NULL,NULL,NULL
+20551,I.23.Pr,"Institutions in ISCED 2+3, Private, initial education",NULL,NULL,NULL
+20552,I.23.GPV.Pr,"Institutions in ISCED 2+3, General&Pre-Voc, Private, initial education",NULL,NULL,NULL
+20553,I.23.V.Pr,"Institutions in ISCED 2+3, Vocational, Private, initial education",NULL,NULL,NULL
+20560,I.0,"Institutions in ISCED 0, initial education",NULL,NULL,NULL
+20561,I.1,"Institutions in ISCED 1, initial education",NULL,NULL,NULL
+20562,I.2,"Institutions in ISCED 2, initial education",NULL,NULL,NULL
+20563,I.2.GPV,"Institutions in ISCED 2, General&Pre-Voc, initial education",NULL,NULL,NULL
+20564,I.2.V,"Institutions in ISCED 2, Vocational, initial education",NULL,NULL,NULL
+20565,I.3,"Institutions in ISCED 3, initial education",NULL,NULL,NULL
+20566,I.3.GPV,"Institutions in ISCED 3, General&Pre-Voc, initial education",NULL,NULL,NULL
+20567,I.3.V,"Institutions in ISCED 3, Vocational, initial education",NULL,NULL,NULL
+20568,I.4,"Institutions in ISCED 4, initial education",NULL,NULL,NULL
+20569,I.4.GPV,"Institutions in ISCED 4, General&Pre-Voc, initial education",NULL,NULL,NULL
+20570,I.4.V,"Institutions in ISCED 4, Vocational, initial education",NULL,NULL,NULL
+20571,I.23,"Institutions in ISCED 2+3, initial education",NULL,NULL,NULL
+20572,I.23.GPV,"Institutions in ISCED 2+3, General&Pre-Voc, initial education",NULL,NULL,NULL
+20573,I.23.V,"Institutions in ISCED 2+3, Vocational, initial education",NULL,NULL,NULL
+20600,E.0.Ag0t2,"Enrolment in ISCED 0, aged 0 -2 years old, initial education",NULL,NULL,NULL
+20601,E.0.Ag3,"Enrolment in ISCED 0, aged 3 years old, initial education",NULL,NULL,NULL
+20602,E.0.Ag4,"Enrolment in ISCED 0, aged 4 years old, initial education",NULL,NULL,NULL
+20603,E.0.Ag5,"Enrolment in ISCED 0, aged 5 years old, initial education",NULL,NULL,NULL
+20604,E.0.Ag6,"Enrolment in ISCED 0, aged 6 years old, initial education",NULL,NULL,NULL
+20605,E.0.Ag7,"Enrolment in ISCED 0, aged 7 years old, initial education",NULL,NULL,NULL
+20606,E.0.Ag8t99,"Enrolment in ISCED 0, aged 8-99 years old, initial education",NULL,NULL,NULL
+20607,E.0.Aguk,"Enrolment in ISCED 0, Age not specified, initial education",NULL,NULL,NULL
+20609,E.0.Ag0t2.F,"Enrolment in ISCED 0, aged 0 -2 years old, initial education, Female",NULL,NULL,NULL
+20610,E.0.Ag3.F,"Enrolment in ISCED 0, aged 3 years old, initial education, Female",NULL,NULL,NULL
+20611,E.0.Ag4.F,"Enrolment in ISCED 0, aged 4 years old, initial education, Female",NULL,NULL,NULL
+20612,E.0.Ag5.F,"Enrolment in ISCED 0, aged 5 years old, initial education, Female",NULL,NULL,NULL
+20613,E.0.Ag6.F,"Enrolment in ISCED 0, aged 6 years old, initial education, Female",NULL,NULL,NULL
+20614,E.0.Ag7.F,"Enrolment in ISCED 0, aged 7 years old, initial education, Female",NULL,NULL,NULL
+20615,E.0.Ag8t99.F,"Enrolment in ISCED 0, aged 8-99 years old, initial education, Female",NULL,NULL,NULL
+20616,E.0.Aguk.F,"Enrolment in ISCED 0, Age not specified, initial education, Female",NULL,NULL,NULL
+20620,E.ec.Ag0t2,"Enrolment, aged 0 -2 years old, initial education",NULL,NULL,NULL
+20621,E.ec.Ag3,"Enrolment, aged 3 years old, initial education",NULL,NULL,NULL
+20622,E.ec.Ag4,"Enrolment, aged 4 years old, initial education",NULL,NULL,NULL
+20623,E.ec.Ag5,"Enrolment, aged 5 years old, initial education",NULL,NULL,NULL
+20624,E.ec.Ag6,"Enrolment, aged 6 years old, initial education",NULL,NULL,NULL
+20625,E.ec.Ag7,"Enrolment, aged 7 years old, initial education",NULL,NULL,NULL
+20626,E.ec.Ag8t99,"Enrolment, aged 8-99 years old, initial education",NULL,NULL,NULL
+20627,E.ec.Aguk,"Enrolment, Age not specified, initial education",NULL,NULL,NULL
+20628,E.ec,"Enrolment, initial education",NULL,NULL,NULL
+20629,E.ec.Ag0t2.F,"Enrolment, aged 0 -2 years old, initial education, Female",NULL,NULL,NULL
+20630,E.ec.Ag3.F,"Enrolment, aged 3 years old, initial education, Female",NULL,NULL,NULL
+20631,E.ec.Ag4.F,"Enrolment, aged 4 years old, initial education, Female",NULL,NULL,NULL
+20632,E.ec.Ag5.F,"Enrolment, aged 5 years old, initial education, Female",NULL,NULL,NULL
+20633,E.ec.Ag6.F,"Enrolment, aged 6 years old, initial education, Female",NULL,NULL,NULL
+20634,E.ec.Ag7.F,"Enrolment, aged 7 years old, initial education, Female",NULL,NULL,NULL
+20635,E.ec.Ag8t99.F,"Enrolment, aged 8-99 years old, initial education, Female",NULL,NULL,NULL
+20636,E.ec.Aguk.F,"Enrolment, Age not specified, initial education, Female",NULL,NULL,NULL
+20637,E.ec.F,"Enrolment, initial education, Female",NULL,NULL,NULL
+20644,E.ec.Pu,"Enrolment, Public, initial education",NULL,NULL,NULL
+20645,E.ec.Pu.F,"Enrolment, Public, initial education, Female",NULL,NULL,NULL
+20646,E.ec.Pr,"Enrolment, Private, initial education",NULL,NULL,NULL
+20647,E.ec.Pr.F,"Enrolment, Private, initial education, Female",NULL,NULL,NULL
+20650,NE.1.Ag0t4.G1,"New Entrants in ISCED 1, aged 0 -4 years old ,Grade 1, initial education",NULL,NULL,NULL
+20651,NE.1.Ag5.G1,"New Entrants in ISCED 1, aged 5 years old ,Grade 1, initial education",NULL,NULL,NULL
+20652,NE.1.Ag6.G1,"New Entrants in ISCED 1, aged 6 years old ,Grade 1, initial education",NULL,NULL,NULL
+20653,NE.1.Ag7.G1,"New Entrants in ISCED 1, aged 7 years old ,Grade 1, initial education",NULL,NULL,NULL
+20654,NE.1.Ag8.G1,"New Entrants in ISCED 1, aged 8 years old ,Grade 1, initial education",NULL,NULL,NULL
+20655,NE.1.Ag9.G1,"New Entrants in ISCED 1, aged 9 years old ,Grade 1, initial education",NULL,NULL,NULL
+20656,NE.1.Ag10.G1,"New Entrants in ISCED 1, aged 10 years old ,Grade 1, initial education",NULL,NULL,NULL
+20657,NE.1.Ag11.G1,"New Entrants in ISCED 1, aged 11 years old ,Grade 1, initial education",NULL,NULL,NULL
+20658,NE.1.Ag12.G1,"New Entrants in ISCED 1, aged 12 years old ,Grade 1, initial education",NULL,NULL,NULL
+20659,NE.1.Ag13.G1,"New Entrants in ISCED 1, aged 13 years old ,Grade 1, initial education",NULL,NULL,NULL
+20660,NE.1.Ag14.G1,"New Entrants in ISCED 1, aged 14 years old ,Grade 1, initial education",NULL,NULL,NULL
+20661,NE.1.Ag15.G1,"New Entrants in ISCED 1, aged 15 years old ,Grade 1, initial education",NULL,NULL,NULL
+20662,NE.1.Ag16t99.G1,"New Entrants in ISCED 1, aged 16-99 years old ,Grade 1, initial education",NULL,NULL,NULL
+20663,NE.1.Aguk.G1,"New Entrants in ISCED 1, Age not specified ,Grade 1, initial education",NULL,NULL,NULL
+20664,NE.1.G1,"New Entrants in ISCED 1 ,Grade 1, initial education",NULL,NULL,NULL
+20665,NE.1.Ag0t4.G1.F,"New Entrants in ISCED 1, aged 0 -4 years old ,Grade 1, initial education, Female",NULL,NULL,NULL
+20666,NE.1.Ag5.G1.F,"New Entrants in ISCED 1, aged 5 years old ,Grade 1, initial education, Female",NULL,NULL,NULL
+20667,NE.1.Ag6.G1.F,"New Entrants in ISCED 1, aged 6 years old ,Grade 1, initial education, Female",NULL,NULL,NULL
+20668,NE.1.Ag7.G1.F,"New Entrants in ISCED 1, aged 7 years old ,Grade 1, initial education, Female",NULL,NULL,NULL
+20669,NE.1.Ag8.G1.F,"New Entrants in ISCED 1, aged 8 years old ,Grade 1, initial education, Female",NULL,NULL,NULL
+20670,NE.1.Ag9.G1.F,"New Entrants in ISCED 1, aged 9 years old ,Grade 1, initial education, Female",NULL,NULL,NULL
+20671,NE.1.Ag10.G1.F,"New Entrants in ISCED 1, aged 10 years old ,Grade 1, initial education, Female",NULL,NULL,NULL
+20672,NE.1.Ag11.G1.F,"New Entrants in ISCED 1, aged 11 years old ,Grade 1, initial education, Female",NULL,NULL,NULL
+20673,NE.1.Ag12.G1.F,"New Entrants in ISCED 1, aged 12 years old ,Grade 1, initial education, Female",NULL,NULL,NULL
+20674,NE.1.Ag13.G1.F,"New Entrants in ISCED 1, aged 13 years old ,Grade 1, initial education, Female",NULL,NULL,NULL
+20675,NE.1.Ag14.G1.F,"New Entrants in ISCED 1, aged 14 years old ,Grade 1, initial education, Female",NULL,NULL,NULL
+20676,NE.1.Ag15.G1.F,"New Entrants in ISCED 1, aged 15 years old ,Grade 1, initial education, Female",NULL,NULL,NULL
+20677,NE.1.Ag16t99.G1.F,"New Entrants in ISCED 1, aged 16-99 years old ,Grade 1, initial education, Female",NULL,NULL,NULL
+20678,NE.1.Aguk.G1.F,"New Entrants in ISCED 1, Age not specified ,Grade 1, initial education, Female",NULL,NULL,NULL
+20679,NE.1.G1.F,"New Entrants in ISCED 1 ,Grade 1, initial education, Female",NULL,NULL,NULL
+20680,NE.1.Ag0t4.G1.preed,"New Entrants in ISCED 1, aged 0 -4 years old ,Grade 1, initial education, some form of pre-primary education or other organized early childhood development programmes",NULL,NULL,NULL
+20681,NE.1.Ag5.G1.preed,"New Entrants in ISCED 1, aged 5 years old ,Grade 1, initial education, some form of pre-primary education or other organized early childhood development programmes",NULL,NULL,NULL
+20682,NE.1.Ag6.G1.preed,"New Entrants in ISCED 1, aged 6 years old ,Grade 1, initial education, some form of pre-primary education or other organized early childhood development programmes",NULL,NULL,NULL
+20683,NE.1.Ag7.G1.preed,"New Entrants in ISCED 1, aged 7 years old ,Grade 1, initial education, some form of pre-primary education or other organized early childhood development programmes",NULL,NULL,NULL
+20684,NE.1.Ag8.G1.preed,"New Entrants in ISCED 1, aged 8 years old ,Grade 1, initial education, some form of pre-primary education or other organized early childhood development programmes",NULL,NULL,NULL
+20685,NE.1.Ag9.G1.preed,"New Entrants in ISCED 1, aged 9 years old ,Grade 1, initial education, some form of pre-primary education or other organized early childhood development programmes",NULL,NULL,NULL
+20686,NE.1.Ag10.G1.preed,"New Entrants in ISCED 1, aged 10 years old ,Grade 1, initial education, some form of pre-primary education or other organized early childhood development programmes",NULL,NULL,NULL
+20687,NE.1.Ag11.G1.preed,"New Entrants in ISCED 1, aged 11 years old ,Grade 1, initial education, some form of pre-primary education or other organized early childhood development programmes",NULL,NULL,NULL
+20688,NE.1.Ag12.G1.preed,"New Entrants in ISCED 1, aged 12 years old ,Grade 1, initial education, some form of pre-primary education or other organized early childhood development programmes",NULL,NULL,NULL
+20689,NE.1.Ag13.G1.preed,"New Entrants in ISCED 1, aged 13 years old ,Grade 1, initial education, some form of pre-primary education or other organized early childhood development programmes",NULL,NULL,NULL
+20690,NE.1.Ag14.G1.preed,"New Entrants in ISCED 1, aged 14 years old ,Grade 1, initial education, some form of pre-primary education or other organized early childhood development programmes",NULL,NULL,NULL
+20691,NE.1.Ag15.G1.preed,"New Entrants in ISCED 1, aged 15 years old ,Grade 1, initial education, some form of pre-primary education or other organized early childhood development programmes",NULL,NULL,NULL
+20692,NE.1.Ag16t99.G1.preed,"New Entrants in ISCED 1, aged 16-99 years old ,Grade 1, initial education, some form of pre-primary education or other organized early childhood development programmes",NULL,NULL,NULL
+20693,NE.1.Aguk.G1.preed,"New Entrants in ISCED 1, Age not specified ,Grade 1, initial education, some form of pre-primary education or other organized early childhood development programmes",NULL,NULL,NULL
+20694,NE.1.G1.preed,"New Entrants in ISCED 1 ,Grade 1, initial education, some form of pre-primary education or other organized early childhood development programmes",NULL,NULL,NULL
+20895,NE.1.Ag0t4.G1.preed.F,"New Entrants in ISCED 1, aged 0 -4 years old ,Grade 1, initial education, some form of pre-primary education or other organized early childhood development programmes, Female",NULL,NULL,NULL
+20896,NE.1.Ag5.G1.preed.F,"New Entrants in ISCED 1, aged 5 years old ,Grade 1, initial education, some form of pre-primary education or other organized early childhood development programmes, Female",NULL,NULL,NULL
+20897,NE.1.Ag6.G1.preed.F,"New Entrants in ISCED 1, aged 6 years old ,Grade 1, initial education, some form of pre-primary education or other organized early childhood development programmes, Female",NULL,NULL,NULL
+20898,NE.1.Ag7.G1.preed.F,"New Entrants in ISCED 1, aged 7 years old ,Grade 1, initial education, some form of pre-primary education or other organized early childhood development programmes, Female",NULL,NULL,NULL
+20899,NE.1.Ag8.G1.preed.F,"New Entrants in ISCED 1, aged 8 years old ,Grade 1, initial education, some form of pre-primary education or other organized early childhood development programmes, Female",NULL,NULL,NULL
+20900,NE.1.Ag9.G1.preed.F,"New Entrants in ISCED 1, aged 9 years old ,Grade 1, initial education, some form of pre-primary education or other organized early childhood development programmes, Female",NULL,NULL,NULL
+20901,NE.1.Ag10.G1.preed.F,"New Entrants in ISCED 1, aged 10 years old ,Grade 1, initial education, some form of pre-primary education or other organized early childhood development programmes, Female",NULL,NULL,NULL
+20902,NE.1.Ag11.G1.preed.F,"New Entrants in ISCED 1, aged 11 years old ,Grade 1, initial education, some form of pre-primary education or other organized early childhood development programmes, Female",NULL,NULL,NULL
+20903,NE.1.Ag12.G1.preed.F,"New Entrants in ISCED 1, aged 12 years old ,Grade 1, initial education, some form of pre-primary education or other organized early childhood development programmes, Female",NULL,NULL,NULL
+20904,NE.1.Ag13.G1.preed.F,"New Entrants in ISCED 1, aged 13 years old ,Grade 1, initial education, some form of pre-primary education or other organized early childhood development programmes, Female",NULL,NULL,NULL
+20905,NE.1.Ag14.G1.preed.F,"New Entrants in ISCED 1, aged 14 years old ,Grade 1, initial education, some form of pre-primary education or other organized early childhood development programmes, Female",NULL,NULL,NULL
+20906,NE.1.Ag15.G1.preed.F,"New Entrants in ISCED 1, aged 15 years old ,Grade 1, initial education, some form of pre-primary education or other organized early childhood development programmes, Female",NULL,NULL,NULL
+20907,NE.1.Ag16t99.G1.preed.F,"New Entrants in ISCED 1, aged 16-99 years old ,Grade 1, initial education, some form of pre-primary education or other organized early childhood development programmes, Female",NULL,NULL,NULL
+20908,NE.1.Aguk.G1.preed.F,"New Entrants in ISCED 1, Age not specified ,Grade 1, initial education, some form of pre-primary education or other organized early childhood development programmes, Female",NULL,NULL,NULL
+20909,NE.1.G1.preed.F,"New Entrants in ISCED 1 ,Grade 1, initial education, some form of pre-primary education or other organized early childhood development programmes, Female",NULL,NULL,NULL
+20910,NE.1.Pu.G1,"New Entrants in ISCED 1, Public ,Grade 1, initial education",NULL,NULL,NULL
+20911,NE.1.Pu.G1.F,"New Entrants in ISCED 1, Public ,Grade 1, initial education, Female",NULL,NULL,NULL
+20912,NE.1.Pr.G1,"New Entrants in ISCED 1, Private ,Grade 1, initial education",NULL,NULL,NULL
+20913,NE.1.Pr.G1.F,"New Entrants in ISCED 1, Private ,Grade 1, initial education, Female",NULL,NULL,NULL
+20914,NE.1.Pu.G1.preed,"New Entrants in ISCED 1, Public ,Grade 1, initial education, some form of pre-primary education or other organized early childhood development programmes",NULL,NULL,NULL
+20915,NE.1.Pu.G1.preed.F,"New Entrants in ISCED 1, Public ,Grade 1, initial education, some form of pre-primary education or other organized early childhood development programmes, Female",NULL,NULL,NULL
+20916,NE.1.Pr.G1.preed,"New Entrants in ISCED 1, Private ,Grade 1, initial education, some form of pre-primary education or other organized early childhood development programmes",NULL,NULL,NULL
+20917,NE.1.Pr.G1.preed.F,"New Entrants in ISCED 1, Private ,Grade 1, initial education, some form of pre-primary education or other organized early childhood development programmes, Female",NULL,NULL,NULL
+21000,E.1.Ag0t4.G1,"Enrolment in ISCED 1, aged 0 -4 years old ,Grade 1, initial education",NULL,NULL,NULL
+21001,E.1.Ag5.G1,"Enrolment in ISCED 1, aged 5 years old ,Grade 1, initial education",NULL,NULL,NULL
+21002,E.1.Ag6.G1,"Enrolment in ISCED 1, aged 6 years old ,Grade 1, initial education",NULL,NULL,NULL
+21003,E.1.Ag7.G1,"Enrolment in ISCED 1, aged 7 years old ,Grade 1, initial education",NULL,NULL,NULL
+21004,E.1.Ag8.G1,"Enrolment in ISCED 1, aged 8 years old ,Grade 1, initial education",NULL,NULL,NULL
+21005,E.1.Ag9.G1,"Enrolment in ISCED 1, aged 9 years old ,Grade 1, initial education",NULL,NULL,NULL
+21006,E.1.Ag10.G1,"Enrolment in ISCED 1, aged 10 years old ,Grade 1, initial education",NULL,NULL,NULL
+21007,E.1.Ag11.G1,"Enrolment in ISCED 1, aged 11 years old ,Grade 1, initial education",NULL,NULL,NULL
+21008,E.1.Ag12.G1,"Enrolment in ISCED 1, aged 12 years old ,Grade 1, initial education",NULL,NULL,NULL
+21009,E.1.Ag13.G1,"Enrolment in ISCED 1, aged 13 years old ,Grade 1, initial education",NULL,NULL,NULL
+21010,E.1.Ag14.G1,"Enrolment in ISCED 1, aged 14 years old ,Grade 1, initial education",NULL,NULL,NULL
+21011,E.1.Ag15.G1,"Enrolment in ISCED 1, aged 15 years old ,Grade 1, initial education",NULL,NULL,NULL
+21012,E.1.Ag16.G1,"Enrolment in ISCED 1, aged 16 years old ,Grade 1, initial education",NULL,NULL,NULL
+21013,E.1.Ag17.G1,"Enrolment in ISCED 1, aged 17 years old ,Grade 1, initial education",NULL,NULL,NULL
+21014,E.1.Ag18.G1,"Enrolment in ISCED 1, aged 18 years old ,Grade 1, initial education",NULL,NULL,NULL
+21015,E.1.Ag19.G1,"Enrolment in ISCED 1, aged 19 years old ,Grade 1, initial education",NULL,NULL,NULL
+21016,E.1.Ag20.G1,"Enrolment in ISCED 1, aged 20 years old ,Grade 1, initial education",NULL,NULL,NULL
+21017,E.1.Ag21.G1,"Enrolment in ISCED 1, aged 21 years old ,Grade 1, initial education",NULL,NULL,NULL
+21018,E.1.Ag22.G1,"Enrolment in ISCED 1, aged 22 years old ,Grade 1, initial education",NULL,NULL,NULL
+21019,E.1.Ag23.G1,"Enrolment in ISCED 1, aged 23 years old ,Grade 1, initial education",NULL,NULL,NULL
+21020,E.1.Ag24.G1,"Enrolment in ISCED 1, aged 24 years old ,Grade 1, initial education",NULL,NULL,NULL
+21021,E.1.Ag25t99.G1,"Enrolment in ISCED 1, aged 25-99 years old ,Grade 1, initial education",NULL,NULL,NULL
+21022,E.1.Aguk.G1,"Enrolment in ISCED 1, Age not specified ,Grade 1, initial education",NULL,NULL,NULL
+21023,E.1.G1,"Enrolment in ISCED 1 ,Grade 1, initial education",NULL,NULL,NULL
+21024,E.1.Ag0t4.G1.F,"Enrolment in ISCED 1, aged 0 -4 years old ,Grade 1, initial education, Female",NULL,NULL,NULL
+21025,E.1.Ag5.G1.F,"Enrolment in ISCED 1, aged 5 years old ,Grade 1, initial education, Female",NULL,NULL,NULL
+21026,E.1.Ag6.G1.F,"Enrolment in ISCED 1, aged 6 years old ,Grade 1, initial education, Female",NULL,NULL,NULL
+21027,E.1.Ag7.G1.F,"Enrolment in ISCED 1, aged 7 years old ,Grade 1, initial education, Female",NULL,NULL,NULL
+21028,E.1.Ag8.G1.F,"Enrolment in ISCED 1, aged 8 years old ,Grade 1, initial education, Female",NULL,NULL,NULL
+21029,E.1.Ag9.G1.F,"Enrolment in ISCED 1, aged 9 years old ,Grade 1, initial education, Female",NULL,NULL,NULL
+21030,E.1.Ag10.G1.F,"Enrolment in ISCED 1, aged 10 years old ,Grade 1, initial education, Female",NULL,NULL,NULL
+21031,E.1.Ag11.G1.F,"Enrolment in ISCED 1, aged 11 years old ,Grade 1, initial education, Female",NULL,NULL,NULL
+21032,E.1.Ag12.G1.F,"Enrolment in ISCED 1, aged 12 years old ,Grade 1, initial education, Female",NULL,NULL,NULL
+21033,E.1.Ag13.G1.F,"Enrolment in ISCED 1, aged 13 years old ,Grade 1, initial education, Female",NULL,NULL,NULL
+21034,E.1.Ag14.G1.F,"Enrolment in ISCED 1, aged 14 years old ,Grade 1, initial education, Female",NULL,NULL,NULL
+21035,E.1.Ag15.G1.F,"Enrolment in ISCED 1, aged 15 years old ,Grade 1, initial education, Female",NULL,NULL,NULL
+21036,E.1.Ag16.G1.F,"Enrolment in ISCED 1, aged 16 years old ,Grade 1, initial education, Female",NULL,NULL,NULL
+21037,E.1.Ag17.G1.F,"Enrolment in ISCED 1, aged 17 years old ,Grade 1, initial education, Female",NULL,NULL,NULL
+21038,E.1.Ag18.G1.F,"Enrolment in ISCED 1, aged 18 years old ,Grade 1, initial education, Female",NULL,NULL,NULL
+21039,E.1.Ag19.G1.F,"Enrolment in ISCED 1, aged 19 years old ,Grade 1, initial education, Female",NULL,NULL,NULL
+21040,E.1.Ag20.G1.F,"Enrolment in ISCED 1, aged 20 years old ,Grade 1, initial education, Female",NULL,NULL,NULL
+21041,E.1.Ag21.G1.F,"Enrolment in ISCED 1, aged 21 years old ,Grade 1, initial education, Female",NULL,NULL,NULL
+21042,E.1.Ag22.G1.F,"Enrolment in ISCED 1, aged 22 years old ,Grade 1, initial education, Female",NULL,NULL,NULL
+21043,E.1.Ag23.G1.F,"Enrolment in ISCED 1, aged 23 years old ,Grade 1, initial education, Female",NULL,NULL,NULL
+21044,E.1.Ag24.G1.F,"Enrolment in ISCED 1, aged 24 years old ,Grade 1, initial education, Female",NULL,NULL,NULL
+21045,E.1.Ag25t99.G1.F,"Enrolment in ISCED 1, aged 25-99 years old ,Grade 1, initial education, Female",NULL,NULL,NULL
+21046,E.1.Aguk.G1.F,"Enrolment in ISCED 1, Age not specified ,Grade 1, initial education, Female",NULL,NULL,NULL
+21047,E.1.G1.F,"Enrolment in ISCED 1 ,Grade 1, initial education, Female",NULL,NULL,NULL
+21050,E.1.Ag0t4.G2,"Enrolment in ISCED 1, aged 0 -4 years old ,Grade 2, initial education",NULL,NULL,NULL
+21051,E.1.Ag5.G2,"Enrolment in ISCED 1, aged 5 years old ,Grade 2, initial education",NULL,NULL,NULL
+21052,E.1.Ag6.G2,"Enrolment in ISCED 1, aged 6 years old ,Grade 2, initial education",NULL,NULL,NULL
+21053,E.1.Ag7.G2,"Enrolment in ISCED 1, aged 7 years old ,Grade 2, initial education",NULL,NULL,NULL
+21054,E.1.Ag8.G2,"Enrolment in ISCED 1, aged 8 years old ,Grade 2, initial education",NULL,NULL,NULL
+21055,E.1.Ag9.G2,"Enrolment in ISCED 1, aged 9 years old ,Grade 2, initial education",NULL,NULL,NULL
+21056,E.1.Ag10.G2,"Enrolment in ISCED 1, aged 10 years old ,Grade 2, initial education",NULL,NULL,NULL
+21057,E.1.Ag11.G2,"Enrolment in ISCED 1, aged 11 years old ,Grade 2, initial education",NULL,NULL,NULL
+21058,E.1.Ag12.G2,"Enrolment in ISCED 1, aged 12 years old ,Grade 2, initial education",NULL,NULL,NULL
+21059,E.1.Ag13.G2,"Enrolment in ISCED 1, aged 13 years old ,Grade 2, initial education",NULL,NULL,NULL
+21060,E.1.Ag14.G2,"Enrolment in ISCED 1, aged 14 years old ,Grade 2, initial education",NULL,NULL,NULL
+21061,E.1.Ag15.G2,"Enrolment in ISCED 1, aged 15 years old ,Grade 2, initial education",NULL,NULL,NULL
+21062,E.1.Ag16.G2,"Enrolment in ISCED 1, aged 16 years old ,Grade 2, initial education",NULL,NULL,NULL
+21063,E.1.Ag17.G2,"Enrolment in ISCED 1, aged 17 years old ,Grade 2, initial education",NULL,NULL,NULL
+21064,E.1.Ag18.G2,"Enrolment in ISCED 1, aged 18 years old ,Grade 2, initial education",NULL,NULL,NULL
+21065,E.1.Ag19.G2,"Enrolment in ISCED 1, aged 19 years old ,Grade 2, initial education",NULL,NULL,NULL
+21066,E.1.Ag20.G2,"Enrolment in ISCED 1, aged 20 years old ,Grade 2, initial education",NULL,NULL,NULL
+21067,E.1.Ag21.G2,"Enrolment in ISCED 1, aged 21 years old ,Grade 2, initial education",NULL,NULL,NULL
+21068,E.1.Ag22.G2,"Enrolment in ISCED 1, aged 22 years old ,Grade 2, initial education",NULL,NULL,NULL
+21069,E.1.Ag23.G2,"Enrolment in ISCED 1, aged 23 years old ,Grade 2, initial education",NULL,NULL,NULL
+21070,E.1.Ag24.G2,"Enrolment in ISCED 1, aged 24 years old ,Grade 2, initial education",NULL,NULL,NULL
+21071,E.1.Ag25t99.G2,"Enrolment in ISCED 1, aged 25-99 years old ,Grade 2, initial education",NULL,NULL,NULL
+21072,E.1.Aguk.G2,"Enrolment in ISCED 1, Age not specified ,Grade 2, initial education",NULL,NULL,NULL
+21073,E.1.G2,"Enrolment in ISCED 1 ,Grade 2, initial education",NULL,NULL,NULL
+21074,E.1.Ag0t4.G2.F,"Enrolment in ISCED 1, aged 0 -4 years old ,Grade 2, initial education, Female",NULL,NULL,NULL
+21075,E.1.Ag5.G2.F,"Enrolment in ISCED 1, aged 5 years old ,Grade 2, initial education, Female",NULL,NULL,NULL
+21076,E.1.Ag6.G2.F,"Enrolment in ISCED 1, aged 6 years old ,Grade 2, initial education, Female",NULL,NULL,NULL
+21077,E.1.Ag7.G2.F,"Enrolment in ISCED 1, aged 7 years old ,Grade 2, initial education, Female",NULL,NULL,NULL
+21078,E.1.Ag8.G2.F,"Enrolment in ISCED 1, aged 8 years old ,Grade 2, initial education, Female",NULL,NULL,NULL
+21079,E.1.Ag9.G2.F,"Enrolment in ISCED 1, aged 9 years old ,Grade 2, initial education, Female",NULL,NULL,NULL
+21080,E.1.Ag10.G2.F,"Enrolment in ISCED 1, aged 10 years old ,Grade 2, initial education, Female",NULL,NULL,NULL
+21081,E.1.Ag11.G2.F,"Enrolment in ISCED 1, aged 11 years old ,Grade 2, initial education, Female",NULL,NULL,NULL
+21082,E.1.Ag12.G2.F,"Enrolment in ISCED 1, aged 12 years old ,Grade 2, initial education, Female",NULL,NULL,NULL
+21083,E.1.Ag13.G2.F,"Enrolment in ISCED 1, aged 13 years old ,Grade 2, initial education, Female",NULL,NULL,NULL
+21084,E.1.Ag14.G2.F,"Enrolment in ISCED 1, aged 14 years old ,Grade 2, initial education, Female",NULL,NULL,NULL
+21085,E.1.Ag15.G2.F,"Enrolment in ISCED 1, aged 15 years old ,Grade 2, initial education, Female",NULL,NULL,NULL
+21086,E.1.Ag16.G2.F,"Enrolment in ISCED 1, aged 16 years old ,Grade 2, initial education, Female",NULL,NULL,NULL
+21087,E.1.Ag17.G2.F,"Enrolment in ISCED 1, aged 17 years old ,Grade 2, initial education, Female",NULL,NULL,NULL
+21088,E.1.Ag18.G2.F,"Enrolment in ISCED 1, aged 18 years old ,Grade 2, initial education, Female",NULL,NULL,NULL
+21089,E.1.Ag19.G2.F,"Enrolment in ISCED 1, aged 19 years old ,Grade 2, initial education, Female",NULL,NULL,NULL
+21090,E.1.Ag20.G2.F,"Enrolment in ISCED 1, aged 20 years old ,Grade 2, initial education, Female",NULL,NULL,NULL
+21091,E.1.Ag21.G2.F,"Enrolment in ISCED 1, aged 21 years old ,Grade 2, initial education, Female",NULL,NULL,NULL
+21092,E.1.Ag22.G2.F,"Enrolment in ISCED 1, aged 22 years old ,Grade 2, initial education, Female",NULL,NULL,NULL
+21093,E.1.Ag23.G2.F,"Enrolment in ISCED 1, aged 23 years old ,Grade 2, initial education, Female",NULL,NULL,NULL
+21094,E.1.Ag24.G2.F,"Enrolment in ISCED 1, aged 24 years old ,Grade 2, initial education, Female",NULL,NULL,NULL
+21095,E.1.Ag25t99.G2.F,"Enrolment in ISCED 1, aged 25-99 years old ,Grade 2, initial education, Female",NULL,NULL,NULL
+21096,E.1.Aguk.G2.F,"Enrolment in ISCED 1, Age not specified ,Grade 2, initial education, Female",NULL,NULL,NULL
+21097,E.1.G2.F,"Enrolment in ISCED 1 ,Grade 2, initial education, Female",NULL,NULL,NULL
+21100,E.1.Ag0t4.G3,"Enrolment in ISCED 1, aged 0 -4 years old ,Grade 3, initial education",NULL,NULL,NULL
+21101,E.1.Ag5.G3,"Enrolment in ISCED 1, aged 5 years old ,Grade 3, initial education",NULL,NULL,NULL
+21102,E.1.Ag6.G3,"Enrolment in ISCED 1, aged 6 years old ,Grade 3, initial education",NULL,NULL,NULL
+21103,E.1.Ag7.G3,"Enrolment in ISCED 1, aged 7 years old ,Grade 3, initial education",NULL,NULL,NULL
+21104,E.1.Ag8.G3,"Enrolment in ISCED 1, aged 8 years old ,Grade 3, initial education",NULL,NULL,NULL
+21105,E.1.Ag9.G3,"Enrolment in ISCED 1, aged 9 years old ,Grade 3, initial education",NULL,NULL,NULL
+21106,E.1.Ag10.G3,"Enrolment in ISCED 1, aged 10 years old ,Grade 3, initial education",NULL,NULL,NULL
+21107,E.1.Ag11.G3,"Enrolment in ISCED 1, aged 11 years old ,Grade 3, initial education",NULL,NULL,NULL
+21108,E.1.Ag12.G3,"Enrolment in ISCED 1, aged 12 years old ,Grade 3, initial education",NULL,NULL,NULL
+21109,E.1.Ag13.G3,"Enrolment in ISCED 1, aged 13 years old ,Grade 3, initial education",NULL,NULL,NULL
+21110,E.1.Ag14.G3,"Enrolment in ISCED 1, aged 14 years old ,Grade 3, initial education",NULL,NULL,NULL
+21111,E.1.Ag15.G3,"Enrolment in ISCED 1, aged 15 years old ,Grade 3, initial education",NULL,NULL,NULL
+21112,E.1.Ag16.G3,"Enrolment in ISCED 1, aged 16 years old ,Grade 3, initial education",NULL,NULL,NULL
+21113,E.1.Ag17.G3,"Enrolment in ISCED 1, aged 17 years old ,Grade 3, initial education",NULL,NULL,NULL
+21114,E.1.Ag18.G3,"Enrolment in ISCED 1, aged 18 years old ,Grade 3, initial education",NULL,NULL,NULL
+21115,E.1.Ag19.G3,"Enrolment in ISCED 1, aged 19 years old ,Grade 3, initial education",NULL,NULL,NULL
+21116,E.1.Ag20.G3,"Enrolment in ISCED 1, aged 20 years old ,Grade 3, initial education",NULL,NULL,NULL
+21117,E.1.Ag21.G3,"Enrolment in ISCED 1, aged 21 years old ,Grade 3, initial education",NULL,NULL,NULL
+21118,E.1.Ag22.G3,"Enrolment in ISCED 1, aged 22 years old ,Grade 3, initial education",NULL,NULL,NULL
+21119,E.1.Ag23.G3,"Enrolment in ISCED 1, aged 23 years old ,Grade 3, initial education",NULL,NULL,NULL
+21120,E.1.Ag24.G3,"Enrolment in ISCED 1, aged 24 years old ,Grade 3, initial education",NULL,NULL,NULL
+21121,E.1.Ag25t99.G3,"Enrolment in ISCED 1, aged 25-99 years old ,Grade 3, initial education",NULL,NULL,NULL
+21122,E.1.Aguk.G3,"Enrolment in ISCED 1, Age not specified ,Grade 3, initial education",NULL,NULL,NULL
+21123,E.1.G3,"Enrolment in ISCED 1 ,Grade 3, initial education",NULL,NULL,NULL
+21124,E.1.Ag0t4.G3.F,"Enrolment in ISCED 1, aged 0 -4 years old ,Grade 3, initial education, Female",NULL,NULL,NULL
+21125,E.1.Ag5.G3.F,"Enrolment in ISCED 1, aged 5 years old ,Grade 3, initial education, Female",NULL,NULL,NULL
+21126,E.1.Ag6.G3.F,"Enrolment in ISCED 1, aged 6 years old ,Grade 3, initial education, Female",NULL,NULL,NULL
+21127,E.1.Ag7.G3.F,"Enrolment in ISCED 1, aged 7 years old ,Grade 3, initial education, Female",NULL,NULL,NULL
+21128,E.1.Ag8.G3.F,"Enrolment in ISCED 1, aged 8 years old ,Grade 3, initial education, Female",NULL,NULL,NULL
+21129,E.1.Ag9.G3.F,"Enrolment in ISCED 1, aged 9 years old ,Grade 3, initial education, Female",NULL,NULL,NULL
+21130,E.1.Ag10.G3.F,"Enrolment in ISCED 1, aged 10 years old ,Grade 3, initial education, Female",NULL,NULL,NULL
+21131,E.1.Ag11.G3.F,"Enrolment in ISCED 1, aged 11 years old ,Grade 3, initial education, Female",NULL,NULL,NULL
+21132,E.1.Ag12.G3.F,"Enrolment in ISCED 1, aged 12 years old ,Grade 3, initial education, Female",NULL,NULL,NULL
+21133,E.1.Ag13.G3.F,"Enrolment in ISCED 1, aged 13 years old ,Grade 3, initial education, Female",NULL,NULL,NULL
+21134,E.1.Ag14.G3.F,"Enrolment in ISCED 1, aged 14 years old ,Grade 3, initial education, Female",NULL,NULL,NULL
+21135,E.1.Ag15.G3.F,"Enrolment in ISCED 1, aged 15 years old ,Grade 3, initial education, Female",NULL,NULL,NULL
+21136,E.1.Ag16.G3.F,"Enrolment in ISCED 1, aged 16 years old ,Grade 3, initial education, Female",NULL,NULL,NULL
+21137,E.1.Ag17.G3.F,"Enrolment in ISCED 1, aged 17 years old ,Grade 3, initial education, Female",NULL,NULL,NULL
+21138,E.1.Ag18.G3.F,"Enrolment in ISCED 1, aged 18 years old ,Grade 3, initial education, Female",NULL,NULL,NULL
+21139,E.1.Ag19.G3.F,"Enrolment in ISCED 1, aged 19 years old ,Grade 3, initial education, Female",NULL,NULL,NULL
+21140,E.1.Ag20.G3.F,"Enrolment in ISCED 1, aged 20 years old ,Grade 3, initial education, Female",NULL,NULL,NULL
+21141,E.1.Ag21.G3.F,"Enrolment in ISCED 1, aged 21 years old ,Grade 3, initial education, Female",NULL,NULL,NULL
+21142,E.1.Ag22.G3.F,"Enrolment in ISCED 1, aged 22 years old ,Grade 3, initial education, Female",NULL,NULL,NULL
+21143,E.1.Ag23.G3.F,"Enrolment in ISCED 1, aged 23 years old ,Grade 3, initial education, Female",NULL,NULL,NULL
+21144,E.1.Ag24.G3.F,"Enrolment in ISCED 1, aged 24 years old ,Grade 3, initial education, Female",NULL,NULL,NULL
+21145,E.1.Ag25t99.G3.F,"Enrolment in ISCED 1, aged 25-99 years old ,Grade 3, initial education, Female",NULL,NULL,NULL
+21146,E.1.Aguk.G3.F,"Enrolment in ISCED 1, Age not specified ,Grade 3, initial education, Female",NULL,NULL,NULL
+21147,E.1.G3.F,"Enrolment in ISCED 1 ,Grade 3, initial education, Female",NULL,NULL,NULL
+21150,E.1.Ag0t4.G4,"Enrolment in ISCED 1, aged 0 -4 years old ,Grade 4, initial education",NULL,NULL,NULL
+21151,E.1.Ag5.G4,"Enrolment in ISCED 1, aged 5 years old ,Grade 4, initial education",NULL,NULL,NULL
+21152,E.1.Ag6.G4,"Enrolment in ISCED 1, aged 6 years old ,Grade 4, initial education",NULL,NULL,NULL
+21153,E.1.Ag7.G4,"Enrolment in ISCED 1, aged 7 years old ,Grade 4, initial education",NULL,NULL,NULL
+21154,E.1.Ag8.G4,"Enrolment in ISCED 1, aged 8 years old ,Grade 4, initial education",NULL,NULL,NULL
+21155,E.1.Ag9.G4,"Enrolment in ISCED 1, aged 9 years old ,Grade 4, initial education",NULL,NULL,NULL
+21156,E.1.Ag10.G4,"Enrolment in ISCED 1, aged 10 years old ,Grade 4, initial education",NULL,NULL,NULL
+21157,E.1.Ag11.G4,"Enrolment in ISCED 1, aged 11 years old ,Grade 4, initial education",NULL,NULL,NULL
+21158,E.1.Ag12.G4,"Enrolment in ISCED 1, aged 12 years old ,Grade 4, initial education",NULL,NULL,NULL
+21159,E.1.Ag13.G4,"Enrolment in ISCED 1, aged 13 years old ,Grade 4, initial education",NULL,NULL,NULL
+21160,E.1.Ag14.G4,"Enrolment in ISCED 1, aged 14 years old ,Grade 4, initial education",NULL,NULL,NULL
+21161,E.1.Ag15.G4,"Enrolment in ISCED 1, aged 15 years old ,Grade 4, initial education",NULL,NULL,NULL
+21162,E.1.Ag16.G4,"Enrolment in ISCED 1, aged 16 years old ,Grade 4, initial education",NULL,NULL,NULL
+21163,E.1.Ag17.G4,"Enrolment in ISCED 1, aged 17 years old ,Grade 4, initial education",NULL,NULL,NULL
+21164,E.1.Ag18.G4,"Enrolment in ISCED 1, aged 18 years old ,Grade 4, initial education",NULL,NULL,NULL
+21165,E.1.Ag19.G4,"Enrolment in ISCED 1, aged 19 years old ,Grade 4, initial education",NULL,NULL,NULL
+21166,E.1.Ag20.G4,"Enrolment in ISCED 1, aged 20 years old ,Grade 4, initial education",NULL,NULL,NULL
+21167,E.1.Ag21.G4,"Enrolment in ISCED 1, aged 21 years old ,Grade 4, initial education",NULL,NULL,NULL
+21168,E.1.Ag22.G4,"Enrolment in ISCED 1, aged 22 years old ,Grade 4, initial education",NULL,NULL,NULL
+21169,E.1.Ag23.G4,"Enrolment in ISCED 1, aged 23 years old ,Grade 4, initial education",NULL,NULL,NULL
+21170,E.1.Ag24.G4,"Enrolment in ISCED 1, aged 24 years old ,Grade 4, initial education",NULL,NULL,NULL
+21171,E.1.Ag25t99.G4,"Enrolment in ISCED 1, aged 25-99 years old ,Grade 4, initial education",NULL,NULL,NULL
+21172,E.1.Aguk.G4,"Enrolment in ISCED 1, Age not specified ,Grade 4, initial education",NULL,NULL,NULL
+21173,E.1.G4,"Enrolment in ISCED 1 ,Grade 4, initial education",NULL,NULL,NULL
+21174,E.1.Ag0t4.G4.F,"Enrolment in ISCED 1, aged 0 -4 years old ,Grade 4, initial education, Female",NULL,NULL,NULL
+21175,E.1.Ag5.G4.F,"Enrolment in ISCED 1, aged 5 years old ,Grade 4, initial education, Female",NULL,NULL,NULL
+21176,E.1.Ag6.G4.F,"Enrolment in ISCED 1, aged 6 years old ,Grade 4, initial education, Female",NULL,NULL,NULL
+21177,E.1.Ag7.G4.F,"Enrolment in ISCED 1, aged 7 years old ,Grade 4, initial education, Female",NULL,NULL,NULL
+21178,E.1.Ag8.G4.F,"Enrolment in ISCED 1, aged 8 years old ,Grade 4, initial education, Female",NULL,NULL,NULL
+21179,E.1.Ag9.G4.F,"Enrolment in ISCED 1, aged 9 years old ,Grade 4, initial education, Female",NULL,NULL,NULL
+21180,E.1.Ag10.G4.F,"Enrolment in ISCED 1, aged 10 years old ,Grade 4, initial education, Female",NULL,NULL,NULL
+21181,E.1.Ag11.G4.F,"Enrolment in ISCED 1, aged 11 years old ,Grade 4, initial education, Female",NULL,NULL,NULL
+21182,E.1.Ag12.G4.F,"Enrolment in ISCED 1, aged 12 years old ,Grade 4, initial education, Female",NULL,NULL,NULL
+21183,E.1.Ag13.G4.F,"Enrolment in ISCED 1, aged 13 years old ,Grade 4, initial education, Female",NULL,NULL,NULL
+21184,E.1.Ag14.G4.F,"Enrolment in ISCED 1, aged 14 years old ,Grade 4, initial education, Female",NULL,NULL,NULL
+21185,E.1.Ag15.G4.F,"Enrolment in ISCED 1, aged 15 years old ,Grade 4, initial education, Female",NULL,NULL,NULL
+21186,E.1.Ag16.G4.F,"Enrolment in ISCED 1, aged 16 years old ,Grade 4, initial education, Female",NULL,NULL,NULL
+21187,E.1.Ag17.G4.F,"Enrolment in ISCED 1, aged 17 years old ,Grade 4, initial education, Female",NULL,NULL,NULL
+21188,E.1.Ag18.G4.F,"Enrolment in ISCED 1, aged 18 years old ,Grade 4, initial education, Female",NULL,NULL,NULL
+21189,E.1.Ag19.G4.F,"Enrolment in ISCED 1, aged 19 years old ,Grade 4, initial education, Female",NULL,NULL,NULL
+21190,E.1.Ag20.G4.F,"Enrolment in ISCED 1, aged 20 years old ,Grade 4, initial education, Female",NULL,NULL,NULL
+21191,E.1.Ag21.G4.F,"Enrolment in ISCED 1, aged 21 years old ,Grade 4, initial education, Female",NULL,NULL,NULL
+21192,E.1.Ag22.G4.F,"Enrolment in ISCED 1, aged 22 years old ,Grade 4, initial education, Female",NULL,NULL,NULL
+21193,E.1.Ag23.G4.F,"Enrolment in ISCED 1, aged 23 years old ,Grade 4, initial education, Female",NULL,NULL,NULL
+21194,E.1.Ag24.G4.F,"Enrolment in ISCED 1, aged 24 years old ,Grade 4, initial education, Female",NULL,NULL,NULL
+21195,E.1.Ag25t99.G4.F,"Enrolment in ISCED 1, aged 25-99 years old ,Grade 4, initial education, Female",NULL,NULL,NULL
+21196,E.1.Aguk.G4.F,"Enrolment in ISCED 1, Age not specified ,Grade 4, initial education, Female",NULL,NULL,NULL
+21197,E.1.G4.F,"Enrolment in ISCED 1 ,Grade 4, initial education, Female",NULL,NULL,NULL
+21200,E.1.Ag0t4.G5,"Enrolment in ISCED 1, aged 0 -4 years old ,Grade 5, initial education",NULL,NULL,NULL
+21201,E.1.Ag5.G5,"Enrolment in ISCED 1, aged 5 years old ,Grade 5, initial education",NULL,NULL,NULL
+21202,E.1.Ag6.G5,"Enrolment in ISCED 1, aged 6 years old ,Grade 5, initial education",NULL,NULL,NULL
+21203,E.1.Ag7.G5,"Enrolment in ISCED 1, aged 7 years old ,Grade 5, initial education",NULL,NULL,NULL
+21204,E.1.Ag8.G5,"Enrolment in ISCED 1, aged 8 years old ,Grade 5, initial education",NULL,NULL,NULL
+21205,E.1.Ag9.G5,"Enrolment in ISCED 1, aged 9 years old ,Grade 5, initial education",NULL,NULL,NULL
+21206,E.1.Ag10.G5,"Enrolment in ISCED 1, aged 10 years old ,Grade 5, initial education",NULL,NULL,NULL
+21207,E.1.Ag11.G5,"Enrolment in ISCED 1, aged 11 years old ,Grade 5, initial education",NULL,NULL,NULL
+21208,E.1.Ag12.G5,"Enrolment in ISCED 1, aged 12 years old ,Grade 5, initial education",NULL,NULL,NULL
+21209,E.1.Ag13.G5,"Enrolment in ISCED 1, aged 13 years old ,Grade 5, initial education",NULL,NULL,NULL
+21210,E.1.Ag14.G5,"Enrolment in ISCED 1, aged 14 years old ,Grade 5, initial education",NULL,NULL,NULL
+21211,E.1.Ag15.G5,"Enrolment in ISCED 1, aged 15 years old ,Grade 5, initial education",NULL,NULL,NULL
+21212,E.1.Ag16.G5,"Enrolment in ISCED 1, aged 16 years old ,Grade 5, initial education",NULL,NULL,NULL
+21213,E.1.Ag17.G5,"Enrolment in ISCED 1, aged 17 years old ,Grade 5, initial education",NULL,NULL,NULL
+21214,E.1.Ag18.G5,"Enrolment in ISCED 1, aged 18 years old ,Grade 5, initial education",NULL,NULL,NULL
+21215,E.1.Ag19.G5,"Enrolment in ISCED 1, aged 19 years old ,Grade 5, initial education",NULL,NULL,NULL
+21216,E.1.Ag20.G5,"Enrolment in ISCED 1, aged 20 years old ,Grade 5, initial education",NULL,NULL,NULL
+21217,E.1.Ag21.G5,"Enrolment in ISCED 1, aged 21 years old ,Grade 5, initial education",NULL,NULL,NULL
+21218,E.1.Ag22.G5,"Enrolment in ISCED 1, aged 22 years old ,Grade 5, initial education",NULL,NULL,NULL
+21219,E.1.Ag23.G5,"Enrolment in ISCED 1, aged 23 years old ,Grade 5, initial education",NULL,NULL,NULL
+21220,E.1.Ag24.G5,"Enrolment in ISCED 1, aged 24 years old ,Grade 5, initial education",NULL,NULL,NULL
+21221,E.1.Ag25t99.G5,"Enrolment in ISCED 1, aged 25-99 years old ,Grade 5, initial education",NULL,NULL,NULL
+21222,E.1.Aguk.G5,"Enrolment in ISCED 1, Age not specified ,Grade 5, initial education",NULL,NULL,NULL
+21223,E.1.G5,"Enrolment in ISCED 1 ,Grade 5, initial education",NULL,NULL,NULL
+21224,E.1.Ag0t4.G5.F,"Enrolment in ISCED 1, aged 0 -4 years old ,Grade 5, initial education, Female",NULL,NULL,NULL
+21225,E.1.Ag5.G5.F,"Enrolment in ISCED 1, aged 5 years old ,Grade 5, initial education, Female",NULL,NULL,NULL
+21226,E.1.Ag6.G5.F,"Enrolment in ISCED 1, aged 6 years old ,Grade 5, initial education, Female",NULL,NULL,NULL
+21227,E.1.Ag7.G5.F,"Enrolment in ISCED 1, aged 7 years old ,Grade 5, initial education, Female",NULL,NULL,NULL
+21228,E.1.Ag8.G5.F,"Enrolment in ISCED 1, aged 8 years old ,Grade 5, initial education, Female",NULL,NULL,NULL
+21229,E.1.Ag9.G5.F,"Enrolment in ISCED 1, aged 9 years old ,Grade 5, initial education, Female",NULL,NULL,NULL
+21230,E.1.Ag10.G5.F,"Enrolment in ISCED 1, aged 10 years old ,Grade 5, initial education, Female",NULL,NULL,NULL
+21231,E.1.Ag11.G5.F,"Enrolment in ISCED 1, aged 11 years old ,Grade 5, initial education, Female",NULL,NULL,NULL
+21232,E.1.Ag12.G5.F,"Enrolment in ISCED 1, aged 12 years old ,Grade 5, initial education, Female",NULL,NULL,NULL
+21233,E.1.Ag13.G5.F,"Enrolment in ISCED 1, aged 13 years old ,Grade 5, initial education, Female",NULL,NULL,NULL
+21234,E.1.Ag14.G5.F,"Enrolment in ISCED 1, aged 14 years old ,Grade 5, initial education, Female",NULL,NULL,NULL
+21235,E.1.Ag15.G5.F,"Enrolment in ISCED 1, aged 15 years old ,Grade 5, initial education, Female",NULL,NULL,NULL
+21236,E.1.Ag16.G5.F,"Enrolment in ISCED 1, aged 16 years old ,Grade 5, initial education, Female",NULL,NULL,NULL
+21237,E.1.Ag17.G5.F,"Enrolment in ISCED 1, aged 17 years old ,Grade 5, initial education, Female",NULL,NULL,NULL
+21238,E.1.Ag18.G5.F,"Enrolment in ISCED 1, aged 18 years old ,Grade 5, initial education, Female",NULL,NULL,NULL
+21239,E.1.Ag19.G5.F,"Enrolment in ISCED 1, aged 19 years old ,Grade 5, initial education, Female",NULL,NULL,NULL
+21240,E.1.Ag20.G5.F,"Enrolment in ISCED 1, aged 20 years old ,Grade 5, initial education, Female",NULL,NULL,NULL
+21241,E.1.Ag21.G5.F,"Enrolment in ISCED 1, aged 21 years old ,Grade 5, initial education, Female",NULL,NULL,NULL
+21242,E.1.Ag22.G5.F,"Enrolment in ISCED 1, aged 22 years old ,Grade 5, initial education, Female",NULL,NULL,NULL
+21243,E.1.Ag23.G5.F,"Enrolment in ISCED 1, aged 23 years old ,Grade 5, initial education, Female",NULL,NULL,NULL
+21244,E.1.Ag24.G5.F,"Enrolment in ISCED 1, aged 24 years old ,Grade 5, initial education, Female",NULL,NULL,NULL
+21245,E.1.Ag25t99.G5.F,"Enrolment in ISCED 1, aged 25-99 years old ,Grade 5, initial education, Female",NULL,NULL,NULL
+21246,E.1.Aguk.G5.F,"Enrolment in ISCED 1, Age not specified ,Grade 5, initial education, Female",NULL,NULL,NULL
+21247,E.1.G5.F,"Enrolment in ISCED 1 ,Grade 5, initial education, Female",NULL,NULL,NULL
+21250,E.1.Ag0t4.G6,"Enrolment in ISCED 1, aged 0 -4 years old ,Grade 6, initial education",NULL,NULL,NULL
+21251,E.1.Ag5.G6,"Enrolment in ISCED 1, aged 5 years old ,Grade 6, initial education",NULL,NULL,NULL
+21252,E.1.Ag6.G6,"Enrolment in ISCED 1, aged 6 years old ,Grade 6, initial education",NULL,NULL,NULL
+21253,E.1.Ag7.G6,"Enrolment in ISCED 1, aged 7 years old ,Grade 6, initial education",NULL,NULL,NULL
+21254,E.1.Ag8.G6,"Enrolment in ISCED 1, aged 8 years old ,Grade 6, initial education",NULL,NULL,NULL
+21255,E.1.Ag9.G6,"Enrolment in ISCED 1, aged 9 years old ,Grade 6, initial education",NULL,NULL,NULL
+21256,E.1.Ag10.G6,"Enrolment in ISCED 1, aged 10 years old ,Grade 6, initial education",NULL,NULL,NULL
+21257,E.1.Ag11.G6,"Enrolment in ISCED 1, aged 11 years old ,Grade 6, initial education",NULL,NULL,NULL
+21258,E.1.Ag12.G6,"Enrolment in ISCED 1, aged 12 years old ,Grade 6, initial education",NULL,NULL,NULL
+21259,E.1.Ag13.G6,"Enrolment in ISCED 1, aged 13 years old ,Grade 6, initial education",NULL,NULL,NULL
+21260,E.1.Ag14.G6,"Enrolment in ISCED 1, aged 14 years old ,Grade 6, initial education",NULL,NULL,NULL
+21261,E.1.Ag15.G6,"Enrolment in ISCED 1, aged 15 years old ,Grade 6, initial education",NULL,NULL,NULL
+21262,E.1.Ag16.G6,"Enrolment in ISCED 1, aged 16 years old ,Grade 6, initial education",NULL,NULL,NULL
+21263,E.1.Ag17.G6,"Enrolment in ISCED 1, aged 17 years old ,Grade 6, initial education",NULL,NULL,NULL
+21264,E.1.Ag18.G6,"Enrolment in ISCED 1, aged 18 years old ,Grade 6, initial education",NULL,NULL,NULL
+21265,E.1.Ag19.G6,"Enrolment in ISCED 1, aged 19 years old ,Grade 6, initial education",NULL,NULL,NULL
+21266,E.1.Ag20.G6,"Enrolment in ISCED 1, aged 20 years old ,Grade 6, initial education",NULL,NULL,NULL
+21267,E.1.Ag21.G6,"Enrolment in ISCED 1, aged 21 years old ,Grade 6, initial education",NULL,NULL,NULL
+21268,E.1.Ag22.G6,"Enrolment in ISCED 1, aged 22 years old ,Grade 6, initial education",NULL,NULL,NULL
+21269,E.1.Ag23.G6,"Enrolment in ISCED 1, aged 23 years old ,Grade 6, initial education",NULL,NULL,NULL
+21270,E.1.Ag24.G6,"Enrolment in ISCED 1, aged 24 years old ,Grade 6, initial education",NULL,NULL,NULL
+21271,E.1.Ag25t99.G6,"Enrolment in ISCED 1, aged 25-99 years old ,Grade 6, initial education",NULL,NULL,NULL
+21272,E.1.Aguk.G6,"Enrolment in ISCED 1, Age not specified ,Grade 6, initial education",NULL,NULL,NULL
+21273,E.1.G6,"Enrolment in ISCED 1 ,Grade 6, initial education",NULL,NULL,NULL
+21274,E.1.Ag0t4.G6.F,"Enrolment in ISCED 1, aged 0 -4 years old ,Grade 6, initial education, Female",NULL,NULL,NULL
+21275,E.1.Ag5.G6.F,"Enrolment in ISCED 1, aged 5 years old ,Grade 6, initial education, Female",NULL,NULL,NULL
+21276,E.1.Ag6.G6.F,"Enrolment in ISCED 1, aged 6 years old ,Grade 6, initial education, Female",NULL,NULL,NULL
+21277,E.1.Ag7.G6.F,"Enrolment in ISCED 1, aged 7 years old ,Grade 6, initial education, Female",NULL,NULL,NULL
+21278,E.1.Ag8.G6.F,"Enrolment in ISCED 1, aged 8 years old ,Grade 6, initial education, Female",NULL,NULL,NULL
+21279,E.1.Ag9.G6.F,"Enrolment in ISCED 1, aged 9 years old ,Grade 6, initial education, Female",NULL,NULL,NULL
+21280,E.1.Ag10.G6.F,"Enrolment in ISCED 1, aged 10 years old ,Grade 6, initial education, Female",NULL,NULL,NULL
+21281,E.1.Ag11.G6.F,"Enrolment in ISCED 1, aged 11 years old ,Grade 6, initial education, Female",NULL,NULL,NULL
+21282,E.1.Ag12.G6.F,"Enrolment in ISCED 1, aged 12 years old ,Grade 6, initial education, Female",NULL,NULL,NULL
+21283,E.1.Ag13.G6.F,"Enrolment in ISCED 1, aged 13 years old ,Grade 6, initial education, Female",NULL,NULL,NULL
+21284,E.1.Ag14.G6.F,"Enrolment in ISCED 1, aged 14 years old ,Grade 6, initial education, Female",NULL,NULL,NULL
+21285,E.1.Ag15.G6.F,"Enrolment in ISCED 1, aged 15 years old ,Grade 6, initial education, Female",NULL,NULL,NULL
+21286,E.1.Ag16.G6.F,"Enrolment in ISCED 1, aged 16 years old ,Grade 6, initial education, Female",NULL,NULL,NULL
+21287,E.1.Ag17.G6.F,"Enrolment in ISCED 1, aged 17 years old ,Grade 6, initial education, Female",NULL,NULL,NULL
+21288,E.1.Ag18.G6.F,"Enrolment in ISCED 1, aged 18 years old ,Grade 6, initial education, Female",NULL,NULL,NULL
+21289,E.1.Ag19.G6.F,"Enrolment in ISCED 1, aged 19 years old ,Grade 6, initial education, Female",NULL,NULL,NULL
+21290,E.1.Ag20.G6.F,"Enrolment in ISCED 1, aged 20 years old ,Grade 6, initial education, Female",NULL,NULL,NULL
+21291,E.1.Ag21.G6.F,"Enrolment in ISCED 1, aged 21 years old ,Grade 6, initial education, Female",NULL,NULL,NULL
+21292,E.1.Ag22.G6.F,"Enrolment in ISCED 1, aged 22 years old ,Grade 6, initial education, Female",NULL,NULL,NULL
+21293,E.1.Ag23.G6.F,"Enrolment in ISCED 1, aged 23 years old ,Grade 6, initial education, Female",NULL,NULL,NULL
+21294,E.1.Ag24.G6.F,"Enrolment in ISCED 1, aged 24 years old ,Grade 6, initial education, Female",NULL,NULL,NULL
+21295,E.1.Ag25t99.G6.F,"Enrolment in ISCED 1, aged 25-99 years old ,Grade 6, initial education, Female",NULL,NULL,NULL
+21296,E.1.Aguk.G6.F,"Enrolment in ISCED 1, Age not specified ,Grade 6, initial education, Female",NULL,NULL,NULL
+21297,E.1.G6.F,"Enrolment in ISCED 1 ,Grade 6, initial education, Female",NULL,NULL,NULL
+21300,E.1.Ag0t4.G7,"Enrolment in ISCED 1, aged 0 -4 years old ,Grade 7, initial education",NULL,NULL,NULL
+21301,E.1.Ag5.G7,"Enrolment in ISCED 1, aged 5 years old ,Grade 7, initial education",NULL,NULL,NULL
+21302,E.1.Ag6.G7,"Enrolment in ISCED 1, aged 6 years old ,Grade 7, initial education",NULL,NULL,NULL
+21303,E.1.Ag7.G7,"Enrolment in ISCED 1, aged 7 years old ,Grade 7, initial education",NULL,NULL,NULL
+21304,E.1.Ag8.G7,"Enrolment in ISCED 1, aged 8 years old ,Grade 7, initial education",NULL,NULL,NULL
+21305,E.1.Ag9.G7,"Enrolment in ISCED 1, aged 9 years old ,Grade 7, initial education",NULL,NULL,NULL
+21306,E.1.Ag10.G7,"Enrolment in ISCED 1, aged 10 years old ,Grade 7, initial education",NULL,NULL,NULL
+21307,E.1.Ag11.G7,"Enrolment in ISCED 1, aged 11 years old ,Grade 7, initial education",NULL,NULL,NULL
+21308,E.1.Ag12.G7,"Enrolment in ISCED 1, aged 12 years old ,Grade 7, initial education",NULL,NULL,NULL
+21309,E.1.Ag13.G7,"Enrolment in ISCED 1, aged 13 years old ,Grade 7, initial education",NULL,NULL,NULL
+21310,E.1.Ag14.G7,"Enrolment in ISCED 1, aged 14 years old ,Grade 7, initial education",NULL,NULL,NULL
+21311,E.1.Ag15.G7,"Enrolment in ISCED 1, aged 15 years old ,Grade 7, initial education",NULL,NULL,NULL
+21312,E.1.Ag16.G7,"Enrolment in ISCED 1, aged 16 years old ,Grade 7, initial education",NULL,NULL,NULL
+21313,E.1.Ag17.G7,"Enrolment in ISCED 1, aged 17 years old ,Grade 7, initial education",NULL,NULL,NULL
+21314,E.1.Ag18.G7,"Enrolment in ISCED 1, aged 18 years old ,Grade 7, initial education",NULL,NULL,NULL
+21315,E.1.Ag19.G7,"Enrolment in ISCED 1, aged 19 years old ,Grade 7, initial education",NULL,NULL,NULL
+21316,E.1.Ag20.G7,"Enrolment in ISCED 1, aged 20 years old ,Grade 7, initial education",NULL,NULL,NULL
+21317,E.1.Ag21.G7,"Enrolment in ISCED 1, aged 21 years old ,Grade 7, initial education",NULL,NULL,NULL
+21318,E.1.Ag22.G7,"Enrolment in ISCED 1, aged 22 years old ,Grade 7, initial education",NULL,NULL,NULL
+21319,E.1.Ag23.G7,"Enrolment in ISCED 1, aged 23 years old ,Grade 7, initial education",NULL,NULL,NULL
+21320,E.1.Ag24.G7,"Enrolment in ISCED 1, aged 24 years old ,Grade 7, initial education",NULL,NULL,NULL
+21321,E.1.Ag25t99.G7,"Enrolment in ISCED 1, aged 25-99 years old ,Grade 7, initial education",NULL,NULL,NULL
+21322,E.1.Aguk.G7,"Enrolment in ISCED 1, Age not specified ,Grade 7, initial education",NULL,NULL,NULL
+21323,E.1.G7,"Enrolment in ISCED 1 ,Grade 7, initial education",NULL,NULL,NULL
+21324,E.1.Ag0t4.G7.F,"Enrolment in ISCED 1, aged 0 -4 years old ,Grade 7, initial education, Female",NULL,NULL,NULL
+21325,E.1.Ag5.G7.F,"Enrolment in ISCED 1, aged 5 years old ,Grade 7, initial education, Female",NULL,NULL,NULL
+21326,E.1.Ag6.G7.F,"Enrolment in ISCED 1, aged 6 years old ,Grade 7, initial education, Female",NULL,NULL,NULL
+21327,E.1.Ag7.G7.F,"Enrolment in ISCED 1, aged 7 years old ,Grade 7, initial education, Female",NULL,NULL,NULL
+21328,E.1.Ag8.G7.F,"Enrolment in ISCED 1, aged 8 years old ,Grade 7, initial education, Female",NULL,NULL,NULL
+21329,E.1.Ag9.G7.F,"Enrolment in ISCED 1, aged 9 years old ,Grade 7, initial education, Female",NULL,NULL,NULL
+21330,E.1.Ag10.G7.F,"Enrolment in ISCED 1, aged 10 years old ,Grade 7, initial education, Female",NULL,NULL,NULL
+21331,E.1.Ag11.G7.F,"Enrolment in ISCED 1, aged 11 years old ,Grade 7, initial education, Female",NULL,NULL,NULL
+21332,E.1.Ag12.G7.F,"Enrolment in ISCED 1, aged 12 years old ,Grade 7, initial education, Female",NULL,NULL,NULL
+21333,E.1.Ag13.G7.F,"Enrolment in ISCED 1, aged 13 years old ,Grade 7, initial education, Female",NULL,NULL,NULL
+21334,E.1.Ag14.G7.F,"Enrolment in ISCED 1, aged 14 years old ,Grade 7, initial education, Female",NULL,NULL,NULL
+21335,E.1.Ag15.G7.F,"Enrolment in ISCED 1, aged 15 years old ,Grade 7, initial education, Female",NULL,NULL,NULL
+21336,E.1.Ag16.G7.F,"Enrolment in ISCED 1, aged 16 years old ,Grade 7, initial education, Female",NULL,NULL,NULL
+21337,E.1.Ag17.G7.F,"Enrolment in ISCED 1, aged 17 years old ,Grade 7, initial education, Female",NULL,NULL,NULL
+21338,E.1.Ag18.G7.F,"Enrolment in ISCED 1, aged 18 years old ,Grade 7, initial education, Female",NULL,NULL,NULL
+21339,E.1.Ag19.G7.F,"Enrolment in ISCED 1, aged 19 years old ,Grade 7, initial education, Female",NULL,NULL,NULL
+21340,E.1.Ag20.G7.F,"Enrolment in ISCED 1, aged 20 years old ,Grade 7, initial education, Female",NULL,NULL,NULL
+21341,E.1.Ag21.G7.F,"Enrolment in ISCED 1, aged 21 years old ,Grade 7, initial education, Female",NULL,NULL,NULL
+21342,E.1.Ag22.G7.F,"Enrolment in ISCED 1, aged 22 years old ,Grade 7, initial education, Female",NULL,NULL,NULL
+21343,E.1.Ag23.G7.F,"Enrolment in ISCED 1, aged 23 years old ,Grade 7, initial education, Female",NULL,NULL,NULL
+21344,E.1.Ag24.G7.F,"Enrolment in ISCED 1, aged 24 years old ,Grade 7, initial education, Female",NULL,NULL,NULL
+21345,E.1.Ag25t99.G7.F,"Enrolment in ISCED 1, aged 25-99 years old ,Grade 7, initial education, Female",NULL,NULL,NULL
+21346,E.1.Aguk.G7.F,"Enrolment in ISCED 1, Age not specified ,Grade 7, initial education, Female",NULL,NULL,NULL
+21347,E.1.G7.F,"Enrolment in ISCED 1 ,Grade 7, initial education, Female",NULL,NULL,NULL
+21350,E.1.Ag0t4.Guk,"Enrolment in ISCED 1, aged 0 -4 years old, Grade Not specified, initial education",NULL,NULL,NULL
+21351,E.1.Ag5.Guk,"Enrolment in ISCED 1, aged 5 years old, Grade Not specified, initial education",NULL,NULL,NULL
+21352,E.1.Ag6.Guk,"Enrolment in ISCED 1, aged 6 years old, Grade Not specified, initial education",NULL,NULL,NULL
+21353,E.1.Ag7.Guk,"Enrolment in ISCED 1, aged 7 years old, Grade Not specified, initial education",NULL,NULL,NULL
+21354,E.1.Ag8.Guk,"Enrolment in ISCED 1, aged 8 years old, Grade Not specified, initial education",NULL,NULL,NULL
+21355,E.1.Ag9.Guk,"Enrolment in ISCED 1, aged 9 years old, Grade Not specified, initial education",NULL,NULL,NULL
+21356,E.1.Ag10.Guk,"Enrolment in ISCED 1, aged 10 years old, Grade Not specified, initial education",NULL,NULL,NULL
