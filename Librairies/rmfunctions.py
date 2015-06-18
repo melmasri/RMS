@@ -5,7 +5,7 @@ import re
 import collections #enable namedtuple: varname = collections.namedtuple('varname','val1, val2, val3..') and ordered dic
 import sys, json
 from rmsqlfunctions import *
-
+import os
 #Global variables
 # conn = sqlite3.connect('../../Database/UISProd.db')
 # #Uncomment the line below for creating virtual database
@@ -19,8 +19,12 @@ from rmsqlfunctions import *
 # with open(mapping_file_json) as f:
 #     pre_vars=json.loads(f.read())
 
-with open("../Libraries/variables_for_preprocessing.json") as f:
-    pre_vars=json.loads(f.read())
+if ( re.search('/Tests/mo$',os.getcwd()) or re.search('/Tests/os$',os.getcwd()) ):
+    with open("../../Librairies/variables_for_preprocessing.json") as f:
+        pre_vars=json.loads(f.read())
+else:
+    with open("/../Librairies/variables_for_preprocessing.json") as f:
+        pre_vars=json.loads(f.read())
 
 
 
@@ -171,6 +175,7 @@ class questionnaire:
       nadm1 =  number of administrative divisions in the file
       country_name = the name of the country that filled the questionnaire.
       country_code = the code of the country.
+      edit_mode = True or False, wether the class if going to be used for editing existing data.
     """
     def set_workbook(self,excel_file):
         """Setw the workbook
@@ -185,21 +190,33 @@ class questionnaire:
 
     def get_emco_year(self):
         """Sets the attribute emco_year"""
-        front_page_variables = pre_vars['fixed_sheets']['Front Page']
-        sheet = self.wb.sheet_by_name('Front Page')
-        self.emco_year = int(sheet.cell( *indexes( front_page_variables['school_year_ending'][0]  )   ).value)
+        if self.edit_mode:
+            sheet=self.wb.sheets()[0]
+            self.emco_year= int( sheet.cell(2,1).value)
+        else:
+            front_page_variables = pre_vars['fixed_sheets']['Front Page']
+            sheet = self.wb.sheet_by_name('Front Page')
+            self.emco_year = int(sheet.cell( *indexes( front_page_variables['school_year_ending'][0]  )   ).value)
         
     def get_nadm1(self):
         """Sets the attribute nadm1 based on the questionnaire"""
-        administrative_divisions_variables = pre_vars['fixed_sheets']['Administrative divisions']
-        sheet = self.wb.sheet_by_name('Administrative divisions')
-        self.nadm1 = int(sheet.cell( *indexes( administrative_divisions_variables['adm1_number'][0]  )   ).value)
+        if self.edit_mode:
+            sheet=self.wb.sheets()[0]
+            self.nadm1= int(sheet.cell( 3,1   ).value)
+        else:
+            administrative_divisions_variables = pre_vars['fixed_sheets']['Administrative divisions']
+            sheet = self.wb.sheet_by_name('Administrative divisions')
+            self.nadm1 = int(sheet.cell( *indexes( administrative_divisions_variables['adm1_number'][0]  )   ).value)
 
     def get_country_name(self):
         """Sets the country name based on the front page of the questionnaire."""
-        front_page_variables = pre_vars['fixed_sheets']['Front Page']
-        sheet = self.wb.sheet_by_name('Front Page')
-        self.country_name = sheet.cell( *indexes( front_page_variables['country_name'][0]  )   ).value
+        if self.edit_mode:
+            sheet=self.wb.sheets()[0]
+            self.country_name = sheet.cell( 0,1   ).value
+        else:
+            front_page_variables = pre_vars['fixed_sheets']['Front Page']
+            sheet = self.wb.sheet_by_name('Front Page')
+            self.country_name = sheet.cell( *indexes( front_page_variables['country_name'][0]  )   ).value
 
     def get_country_code(self):
         """Sets the country code by looking in the COUNTRY table.
@@ -373,8 +390,8 @@ class questionnaire:
         def export_to_sqlite():
             # LOG DATABASE
             cursor=self.conn.cursor()
-            cursor.executemany("INSERT INTO EDU_METER97_REP VALUES(?,?,?,?,?,?,?,?,?,?,?,?);",meters_data)
-            cursor.executemany("INSERT INTO EDU_INCLUSION_REP VALUES(?,?,?,?,?,?);",inclu_data)
+            cursor.executemany("INSERT OR REPLACE INTO EDU_METER97_REP VALUES(?,?,?,?,?,?,?,?,?,?,?,?);",meters_data)
+            cursor.executemany("INSERT OR REPLACE INTO EDU_INCLUSION_REP VALUES(?,?,?,?,?,?);",inclu_data)
             for var in referenced_sql_code:
                 cursor.execute(var)
             self.conn.commit()
@@ -383,7 +400,12 @@ class questionnaire:
         # RM_TABLE is necessary for finding the xlrd coordinates
         cursor.execute("SELECT TAB, EXL_REF, EMC_ID,RM_TABLE,Col FROM RM_MAPPING;") 
         mapping_table = cursor.fetchall()
-        for variables in mapping_table:            
+        if self.edit_mode:
+            edit_sheets_names=self.wb.sheet_names()
+        for variables in mapping_table:
+            # When we edit we are only interested in certain sheets
+            if self.edit_mode and variables[0] not in edit_sheets_names:
+                continue
             # No region names in the meters table:
             if variables[2]==900002:
                 continue
@@ -449,8 +471,9 @@ class questionnaire:
             export_to_sqlite()
         cursor.close()
         
-    def __init__(self,excel_file,database_file="../Database/UISProd.db"):
+    def __init__(self,excel_file,database_file="../Database/UISProd.db",edit_mode=False):
         """Set up variables for questionnaire and database reading"""
+        self.edit_mode=edit_mode
         self.set_workbook(excel_file)
         self.set_database_connection(database_file)
         self.get_emco_year()
