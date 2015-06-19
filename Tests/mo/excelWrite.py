@@ -5,11 +5,12 @@ from rmfunctions import *
 import xlsxwriter
 
     
-def getTable(ext, co_code, year, var_type):
-    """ A function that returns METER data and labels  for a specific CO_CODE and year
-        ext could either be 'AC = somAC', RM_TABLE = someTableName'.
-        The function returns the a list of tuples of thre data
-        tuple ( ADM_CODE, DATA, CELL.NO , EXL_REF)
+def getTable(var, co_code, year, var_type):
+    """ A function that returns AC or Table data and labels for a specific CO_CODE and year
+        var : is either  "AC = 'somAC'" ( i.e. "AC =' T.1'") or RM_TABLE = someTableName', 
+        it depends if you want to extract a specific AC code and its labels or a whole table.
+        The function returns the a list of tuples, where each tuple is an SQL record. 
+        The tuple is organized as ( ADM_CODE, DATA, CELL.NO , EXL_REF)
     """
     data = []
     for offset in [0,-1]:
@@ -28,7 +29,7 @@ def getTable(ext, co_code, year, var_type):
                    "left join MAGNITUDE as e on e.MG_ID = b.MG_ID "
                    "where b.CO_CODE ={1} and b.EMCO_YEAR ={2} "
                    "and a.{0} and "
-                    "a.CUR_YEAR = {3}".format(ext, co_code, year+offset , offset))
+                    "a.CUR_YEAR = {3}".format(var, co_code, year+offset , offset))
         data = data + sql_query(sql_data)
         # Table header/label
     label_adm = ("select -1 as ADM_CODE, a.Col as cell, a.Col, a.EXL_REF "
@@ -41,32 +42,45 @@ def getTable(ext, co_code, year, var_type):
                  "a.EXL_REF from RM_Mapping as a "
                  "left join EDU_METER_AID as b on a.EMC_ID = b.EMC_ID "
                  "where a.{0} "
-                 "union ".format(ext, co_code, year))
+                 "union ".format(var, co_code, year))
         # Regions
     if (var_type == 'AC'):
-        ext = ("RM_TABLE= (select RM_TABLE from RM_Mapping "
-               "as b where b.{0} limit 1)".format(ext))
+        var = ("RM_TABLE= (select RM_TABLE from RM_Mapping "
+               "as b where b.{0} limit 1)".format(var))
     label_adm = label_adm +("select a.ADM_CODE, a.ADM_NAME as cell, "
                             "b.col, b.EXL_REF from REGIONS as a "
                             "left join RM_Mapping as b on "
                             "b.AC = 'ADM_NAME' "              
-                            "and b.{0} where a.co_code ={1};".format(ext, co_code, year))
+                            "and b.{0} where a.co_code ={1};".format(var, co_code, year))
     data =  data + sql_query(label_adm)
     return(data)
 
-def getTable_comment(ext, co_code, year):
-    """ A function that returns a list of tuples for table comments.
+def getTable_comment(var, co_code, year, view_type):
+    """ A function that returns table comments for a specific table.
+        var: is  "RM_TABLE = 'someTableName'", i.e., "RM_TABLE = 'Table 1.2'".
+        Return value is a dictionary of Excel ref as keys and data as values.
     """
     sql_str =("select a.RM_TABLE, b.COM_DATA, a.EXL_REF "
               "from RM_Mapping_NonNumeric as a "
               "left join EDU_COMMENT_TABLE_REP as b on b.WT_NAME = a.RM_TABLE "
               "where a.{0} and b.CO_CODE = {1} "
-              "and  b.EMCO_YEAR = {2};".format(ext, co_code, year)) 
+              "and  b.EMCO_YEAR = {2};".format(var, co_code, year)) 
     data = sql_query(sql_str)
-    return(data)
+    if(data):
+        data= data[0]
+        ind = indexes(data[2])
+        ind[1] = 3 if view_type == 'ReadOnly' else ind[1]
+        data = {indexes_inverse([ind[0]-1, ind[1]]): 'Table comments:',
+                indexes_inverse(ind): data[1]}
+        return(data)
 
 
-def write_var(var, wb, co_code, year, var_type):
+def export_var(var, wb, co_code, year, var_type):
+    """ A function that exports to an Excel workbook a data defined in var.
+        var in  {Table name, Sheet name, AC} as in the questionnaire
+        var_type in {'AC', 'table', 'sheet'}
+        wb is the workbook object from xlsxwriter.
+    """
     view_type='ReadOnly'
     if var_type == "AC":
         var_list = ["AC='{0}'".format(var)]
@@ -84,31 +98,39 @@ def write_var(var, wb, co_code, year, var_type):
 
     co_name = getCO_NAME(co_code)
     no_ADM = getADM_DISTINCT(co_code)
+    # Header to write to each worksheet
     header_dict= {'A1': 'Country','B1': co_name,'A2': 'CO_CODE',
                   'B2': co_code,'A3': 'Year','B3': year,
                   'A4': 'Data','B4': var, 'A5': 'No.ADM', 'B5': no_ADM}
-
     # A loop over all tables all tables
     for ext in var_list:
         data = getTable(ext, co_code, year, var_type)
-
         if(var_type != "AC"):
-            write_table_comment(worksheet,
-                                getTable_comment(ext, co_code, year),
-                                view_type)
-        
+            comment  =  getTable_comment(ext, co_code, year, view_type)
+            write_data(worksheet,comment) if comment  else None
         write_data(worksheet, data, view_type)
-        write_data(worksheet , header_dict)
+        write_data(worksheet, header_dict)
            
-        
-        
+
 def write_data(worksheet, data, view_type = 'ReadOnly'):
-    """ A function that writes tables to a given sheet.
-        Mapping should follow the following convention
-        EXL_REF | COL | AC |LABEL_INT_EN
-              A function that writes a dictionary of keys and values, 
-        where keys are the excel rel and values are the data
-        """
+    """ A function that writes data and labels to a given worksheet.
+        There are two ways to write the data. 
+        1) data is a list of tuples of the format (ADM_CODE, datum, Table Col no., EXL_REF)
+                For example (00, 'National level', 2, H18) which is (ADM_CODE for national level, label , Table column 2, Excel ref H18)
+                Note that the EXL_REF need to be the reference of the first datum in the column.
+                For example, if first region label is in H18 and there are 10 regions than National level Excel reference is H30 ( 18 + 10 +2)
+                but in the tuple EXL_REF is H18 not H30 as in the tuple example above. 
+                This is the same for all datum, EXL_REF is Excel reference for the first datum in that column. 
+                To pass table headers, alphanumeric codes (AC) and column numbers, you can use ADM_CODE as an offset.
+                Basically,  ADM_CODE for table headers is -3, for AC codes is -2 and for Col numbers is -1.,
+                i.e., (-2, 'Administrative divisions', 2, 'H18'), this would place the label 'Administrative divisions' above
+                region names by an offset of 2 rows above the first name.
+        2) data is a dictionary where keys are EXL_REF and values is the datum.
+                For example {'A1': 'Country name', 'B1': Canada}
+
+        view_type: 'ReadOnly' is would shift all the Excel reference to the write of the worksheet, for easier viewing.
+                   'Edit' would place them as is, in their original location in the questionnaire.
+    """
     if(type(data)==list):
         uni_ids = sorted(list(set([x[0] for x in data])))
         uni_ids = {uni_ids[y]:y for y in range(len(uni_ids))}
@@ -130,21 +152,11 @@ def write_data(worksheet, data, view_type = 'ReadOnly'):
         for key, value in data.items():
             worksheet.write(key, value)
 
-
-
-def write_table_comment(worksheet, data, view_type = 'ReadOnly'):
-    """ A function that writes table commnets by using write_dict.
-    Basically it creates a dictionary of excel ref as keys and data as values.
-    It write The name of the table and the 'Comment' header thatn the cooment """
-    if(data):
-        data= data[0]
-        ind = indexes(data[2])
-        if (view_type == 'ReadOnly'):
-            ind[1] = 3
-        dict_table = {indexes_inverse([ind[0]-1, ind[1]]): 'Table comments:',
-                      indexes_inverse(ind): data[1]}
-        write_data(worksheet, dict_table)
-            
+    
+###################################################
+###################################################
+###################################################
+# Testing
 set_database_file("../../Database/UISProd.db")
 
 
@@ -155,13 +167,13 @@ year = 2012
 filename = "{0}_{1}.xlsx".format(co_name, 2012)
 wb = xlsxwriter.Workbook(filename)
 
-var ='Teachers ISCED 2'
+var ='T.2.GPV.Pu.Math'
 # view_type = 'edit'              #  or readonly
-write_var('Teachers ISCED 2', wb, co_code, year, var_type = "sheet")
-write_var('Table 2.1', wb, co_code, year, var_type = "table")
-write_var('T.2.GPV.Pu.Math', wb, co_code, year, var_type = "AC")
+export_var('Teachers ISCED 2', wb, co_code, year, var_type = "sheet")
+export_var('Table 2.1', wb, co_code, year, var_type = "table")
+export_var('T.2.GPV.Pu.Math', wb, co_code, year, var_type = "AC")
 
-write_var('Table 1.4', wb, co_code, year, var_type = "table")
-write_var('T.1', wb, co_code, year, var_type = "AC")
+export_var('Table 1.4', wb, co_code, year, var_type = "table")
+export_var('T.1', wb, co_code, year, var_type = "AC")
 
 wb.close()

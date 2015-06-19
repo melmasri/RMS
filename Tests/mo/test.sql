@@ -128,3 +128,19 @@ select a.ADM_CODE, a.ADM_NAME as cell, b.col, b.EXL_REF from REGIONS as a
 
 
 
+select -1 as ADM_CODE, a.Col as cell, a.Col, a.EXL_REF
+       from RM_Mapping as a where a.AC='T.2.GPV.Pu.Math'
+       union
+       select -2 as ADM_CODE, AC as cell, Col, EXL_REF from RM_Mapping
+       where AC='T.2.GPV.Pu.Math'
+       union
+       select -3 as ADM_CODE, b.LABEL_INT_EN as cell, a.Col, a.EXL_REF
+       from RM_Mapping as a
+       left join EDU_METER_AID as b on a.EMC_ID = b.EMC_ID
+       where a.AC='T.2.GPV.Pu.Math'
+       union
+
+       select a.ADM_CODE, a.ADM_NAME as cell, b.col, b.EXL_REF
+       from REGIONS as a
+       left join RM_Mapping as b on b.AC = 'ADM_NAME' and b.AC='T.2.GPV.Pu.Math'
+       where a.co_code =4180;
