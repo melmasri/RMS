@@ -85,9 +85,46 @@ select * from REGIONS as a
        left 
                 left join RM_Mapping as b on a.
 
-.schema REGIONS
+.schema Edu_Comment_Table_Rep
 
-select distinct CO_CODE, ADM_CODE from EDU_METER97_REP;
+.schema RM_Mapping_NonNumeric
 
-.show
+
+
+
+select -5 as ADM_CODE, b.COM_DATA, -1 as Col, a.EXL_REF from RM_Mapping_NonNumeric as a
+   left join EDU_COMMENT_TABLE_REP as b on b.WT_NAME = a.RM_TABLE
+       where a.RM_TABLE = 'Table 2.1' and b.CO_CODE = 4180 and  b.EMCO_YEAR = 2012;
+
+
+select distinct ADM_CODE from;
+
+.schema EDU_COMMENT_TABLE_REP
+
+INSERT OR REPLACE INTO EDU_COMMENT_TABLE_REP VALUES (4180, 2012, 'Table 2.1', 'Testing table comment.');
+
+
+select distinct RM_TABLE from RM_Mapping_NonNumeric;
+
+select * from EDU_COMMENT_TABLE_REP;
+
+.schema RM_Mapping_NonNumeric
+
+select a.RM_TABLE, b.COM_DATA, a.EXL_REF
+       from RM_Mapping_NonNumeric as a
+       left join EDU_COMMENT_TABLE_REP as b
+       on b.WT_NAME = a.RM_TABLE where a.Table 2.2 and b.CO_CODE = 4180 and  b.EMCO_YEAR = 2012;
+
+
+select a.ADM_CODE, a.ADM_NAME as cell, b.col, b.EXL_REF from REGIONS as a 
+       left join RM_Mapping as b on  b.AC = 'ADM_NAME'               
+       and b.AC= 'T.1' where a.co_code =4180;
+
+
+
+select a.ADM_CODE, a.ADM_NAME as cell, b.col, b.EXL_REF from REGIONS as a 
+       left join RM_Mapping as b on  b.AC = 'ADM_NAME'               
+       and b.Rm_Table= (select RM_TABLE from RM_Mapping as b where b.AC = 'T.1' limit 1)   where a.co_code =4180;
+
+
 

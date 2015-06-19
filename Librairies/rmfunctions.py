@@ -19,11 +19,11 @@ import os
 # with open(mapping_file_json) as f:
 #     pre_vars=json.loads(f.read())
 
-if ( re.search('/Tests/mo$',os.getcwd()) or re.search('/Tests/os$',os.getcwd()) ):
+if ( re.search('\\Tests\\mo$',os.getcwd()) or re.search('/Tests/os$',os.getcwd()) ):
     with open("../../Librairies/variables_for_preprocessing.json") as f:
         pre_vars=json.loads(f.read())
 else:
-    with open("/../Librairies/variables_for_preprocessing.json") as f:
+    with open("../../Librairies/variables_for_preprocessing.json") as f:
         pre_vars=json.loads(f.read())
 
 
@@ -136,6 +136,12 @@ def getADM_CODE(co_code):
     sql_str = sql_query(sql_str)[0]
 
 
+def getADM_DISTINCT(co_code):
+    """ A function that return the distinct number of ADM"""
+    sql_str = 'SELECT COUNT(ADM_CODE) FROM REGIONS WHERE CO_CODE={0}'.format(co_code)
+    query = sql_query(sql_str)[0]
+    return(query[0])
+    
 def getCO_CODE(country_name):
     """This function returns a country code given the long name.
     If the exact country name is found, it gives back the code,
