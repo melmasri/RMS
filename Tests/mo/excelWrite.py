@@ -55,6 +55,21 @@ def getTable(var, co_code, year, var_type):
     data =  data + sql_query(label_adm)
     return(data)
 
+def getCell_comment(var, co_code, year):
+    """ Returns the cell comments of a specific variable (var) if exist"""
+    data = []
+    for offset in [0,-1]:
+        sql_str = ("SELECT C.ADM_CODE, c.FTN_DATA, a.Col, a.EXL_REF FROM RM_Mapping AS a "
+                   "LEFT JOIN EDU_METER_AID AS b ON b.AC = a.AC "
+                   "JOIN EDU_FTN97_REP AS c ON b.EMC_ID = c.EMC_ID "
+                   "WHERE a.{0} AND a.CUR_YEAR = {3} "
+                   "AND c.CO_CODE = {1} "
+                   "AND c.EMCO_YEAR = {2};".format(var,co_code, year+ offset, offset))
+        data = data + sql_query(sql_str)
+    if data:
+        return(data)
+                
+
 def getTable_comment(var, co_code, year, view_type):
     """ A function that returns table comments for a specific table.
         var: is  "RM_TABLE = 'someTableName'", i.e., "RM_TABLE = 'Table 1.2'".
@@ -97,7 +112,7 @@ def export_var(var, wb, co_code, year, var_type):
         sys.exit("Only types AC, table, sheet are accepted")
 
     co_name = getCO_NAME(co_code)
-    no_ADM = getADM_DISTINCT(co_code)
+    no_ADM = getADM_DISTINCT(co_code) -1
     # Header to write to each worksheet
     header_dict= {'A1': 'Country','B1': co_name,'A2': 'CO_CODE',
                   'B2': co_code,'A3': 'Year','B3': year,
@@ -105,30 +120,41 @@ def export_var(var, wb, co_code, year, var_type):
     # A loop over all tables all tables
     for ext in var_list:
         data = getTable(ext, co_code, year, var_type)
+        data_comment = getCell_comment(ext, co_code, year)
+        write_data(worksheet, header_dict)      
+        if data_comment:
+            write_data(worksheet, data, view_type, data_comment = data_comment)
+        else:
+            write_data(worksheet, data, view_type)
         if(var_type != "AC"):
-            comment  =  getTable_comment(ext, co_code, year, view_type)
-            write_data(worksheet,comment) if comment  else None
-        write_data(worksheet, data, view_type)
-        write_data(worksheet, header_dict)
+            table_comment  =  getTable_comment(ext, co_code, year, view_type)
+            write_data(worksheet,table_comment) if table_comment  else None
            
 
-def write_data(worksheet, data, view_type = 'ReadOnly'):
+def write_data(worksheet, data, view_type = 'ReadOnly', **op):
     """ A function that writes data and labels to a given worksheet.
         There are two ways to write the data. 
         1) data is a list of tuples of the format (ADM_CODE, datum, Table Col no., EXL_REF)
-                For example (00, 'National level', 2, H18) which is (ADM_CODE for national level, label , Table column 2, Excel ref H18)
+                For example (00, 'National level', 2, H18) which is 
+                (ADM_CODE for national level, label , Table column 2, Excel ref H18)
                 Note that the EXL_REF need to be the reference of the first datum in the column.
-                For example, if first region label is in H18 and there are 10 regions than National level Excel reference is H30 ( 18 + 10 +2)
+                For example, if first region label is in H18 and there are 10 regions 
+                than National level Excel reference is H30 ( 18 + 10 +2)
                 but in the tuple EXL_REF is H18 not H30 as in the tuple example above. 
-                This is the same for all datum, EXL_REF is Excel reference for the first datum in that column. 
-                To pass table headers, alphanumeric codes (AC) and column numbers, you can use ADM_CODE as an offset.
-                Basically,  ADM_CODE for table headers is -3, for AC codes is -2 and for Col numbers is -1.,
-                i.e., (-2, 'Administrative divisions', 2, 'H18'), this would place the label 'Administrative divisions' above
+                This is the same for all datum, EXL_REF is Excel reference for the first datum 
+                in that column. 
+                To pass table headers, alphanumeric codes (AC) and column numbers, you can 
+                use ADM_CODE as an offset.
+                Basically,  ADM_CODE for table headers is -3, for AC codes is -2 and for 
+                Col numbers is -1.,
+                i.e., (-2, 'Administrative divisions', 2, 'H18'), this would place the 
+                label 'Administrative divisions' above
                 region names by an offset of 2 rows above the first name.
         2) data is a dictionary where keys are EXL_REF and values is the datum.
                 For example {'A1': 'Country name', 'B1': Canada}
 
-        view_type: 'ReadOnly' is would shift all the Excel reference to the write of the worksheet, for easier viewing.
+        view_type: 'ReadOnly' is would shift all the Excel reference to the write of the worksheet, 
+                    for easier viewing.
                    'Edit' would place them as is, in their original location in the questionnaire.
     """
     if(type(data)==list):
@@ -139,6 +165,10 @@ def write_data(worksheet, data, view_type = 'ReadOnly'):
             for i in data:
                 ind = indexes(i[3])
                 worksheet.write(uni_ids[i[0]] + ind[0]-3 -1*(i[0]>=0), ind[1], i[1] )
+            if(op.get('data_comment')):
+                for i in op.get('data_comment'):
+                    ind = indexes(i[3])
+                    worksheet.write_comment(uni_ids[i[0]]+ind[0]-3 -1*(i[0]>=0),ind[1],i[1])
         elif view_type == "ReadOnly":
             data.sort(key=lambda tup: tup[2]) # Sorting the data by column no.
             left_top_corner = 3               # the index of the first column.
@@ -148,6 +178,11 @@ def write_data(worksheet, data, view_type = 'ReadOnly'):
             for i in range(len(data)):
                 worksheet.write(uni_ids[data[i][0]] + rc_ids[i][0]-3
                                 -1*(data[i][0]>=0), uni_cols[rc_ids[i][1]], data[i][1])
+            if(op.get('data_comment')):
+                dc = op.get('data_comment')
+                for i in range(len(dc)):
+                    worksheet.write_comment(uni_ids[dc[i][0]] + rc_ids[i][0]-3
+                                -1*(dc[i][0]>=0), uni_cols[indexes(dc[i][3])[1]], dc[i][1])
     elif(type(data)==dict):
         for key, value in data.items():
             worksheet.write(key, value)
@@ -159,7 +194,6 @@ def write_data(worksheet, data, view_type = 'ReadOnly'):
 # Testing
 set_database_file("../../Database/UISProd.db")
 
-
 co_code = 4180
 co_name = getCO_NAME(co_code)
 year = 2012
@@ -170,10 +204,16 @@ wb = xlsxwriter.Workbook(filename)
 var ='T.2.GPV.Pu.Math'
 # view_type = 'edit'              #  or readonly
 export_var('Teachers ISCED 2', wb, co_code, year, var_type = "sheet")
-export_var('Table 2.1', wb, co_code, year, var_type = "table")
-export_var('T.2.GPV.Pu.Math', wb, co_code, year, var_type = "AC")
+# export_var('Table 2.1', wb, co_code, year, var_type = "table")
+# export_var('T.2.GPV.Pu.Math', wb, co_code, year, var_type = "AC")
 
-export_var('Table 1.4', wb, co_code, year, var_type = "table")
-export_var('T.1', wb, co_code, year, var_type = "AC")
+# export_var('Table 1.4', wb, co_code, year, var_type = "table")
+# export_var('T.1', wb, co_code, year, var_type = "AC")
+
+export_var('E.1.Pr', wb, co_code, year, var_type = "AC")
+export_var('Table 0.1', wb, co_code, year, var_type = "table")
+export_var('Pupils', wb, co_code, year, var_type = "sheet")
 
 wb.close()
+
+
