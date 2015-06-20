@@ -7,7 +7,7 @@ def import_one():
     if dirname:
         entry_one.insert(1, dirname)
 
-def import_one():
+def import_many():
     dirname = tk.filedialog.askdirectory()
     if dirname:
         entry_many.insert(1, dirname)
@@ -26,7 +26,7 @@ readframe = tk.LabelFrame(root, text="Importing Questionnaire to database")
 readframe.pack(fill="both", expand="yes")
 read_one = tk.Button(readframe, text ='Import a single questionnaires', command = import_one, justify = tk.LEFT)
 read_one.place(x = 20, y = 30, width=w, height = h)
-read_many = tk.Button(readframe, text= 'Import all questionnaires in a folder', command = import_one, justify =tk.LEFT)
+read_many = tk.Button(readframe, text= 'Import all questionnaires in a folder', command = import_many, justify =tk.LEFT)
 read_many.place(x = 20, y = 90, width=w, height=h)
 
 # Text boxes
