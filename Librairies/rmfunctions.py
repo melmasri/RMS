@@ -23,7 +23,7 @@ if ( re.search('/Tests/mo$',os.getcwd()) or re.search('/Tests/os$',os.getcwd()) 
     with open("../../Librairies/variables_for_preprocessing.json") as f:
         pre_vars=json.loads(f.read())
 else:
-    with open("/../Librairies/variables_for_preprocessing.json") as f:
+    with open("../Librairies/variables_for_preprocessing.json") as f:
         pre_vars=json.loads(f.read())
 
 
