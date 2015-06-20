@@ -198,7 +198,7 @@ co_code = 4180
 co_name = getCO_NAME(co_code)
 year = 2012
 
-filename = "/tmp/{0}_{1}.xlsx".format(co_name, 2012)
+filename = "{0}_{1}.xlsx".format(co_name, 2012)
 wb = xlsxwriter.Workbook(filename)
 
 var ='T.2.GPV.Pu.Math'
