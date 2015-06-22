@@ -117,8 +117,8 @@ def export_var(var, wb, co_code, year, var_type):
     header_dict= {'A1': 'Country','B1': co_name,'A2': 'CO_CODE',
                   'B2': co_code,'A3': 'Year','B3': year,
                   'A4': 'Data','B4': var, 'A5': 'No.ADM', 'B5': no_ADM,
-                  'A5': 'Series', 'B5', 'REP',
-                  'A6': 'Mode', 'B6', view_type}
+                  'A5': 'Series', 'B5': 'REP',
+                  'A6': 'Mode', 'B6': view_type}
         
     # A loop over all tables all tables
     for ext in var_list:
