@@ -59,7 +59,7 @@ def getCell_comment(var, co_code, year):
     """ Returns the cell comments of a specific variable (var) if exist"""
     data = []
     for offset in [0,-1]:
-        sql_str = ("SELECT C.ADM_CODE, c.FTN_DATA, a.Col, a.EXL_REF FROM RM_Mapping AS a "
+        sql_str = ("SELECT c.ADM_CODE, c.FTN_DATA, a.Col, a.EXL_REF FROM RM_Mapping AS a "
                    "LEFT JOIN EDU_METER_AID AS b ON b.AC = a.AC "
                    "JOIN EDU_FTN97_REP AS c ON b.EMC_ID = c.EMC_ID "
                    "WHERE a.{0} AND a.CUR_YEAR = {3} "
