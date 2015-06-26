@@ -344,7 +344,29 @@ class questionnaire:
         cursor.executemany("INSERT OR REPLACE INTO REGIONS VALUES(?,?,?);",sql_values)
         self.conn.commit()
         cursor.close()
+
+    def extract_table_comments(self):
+        """Extract the comments from the top of each table.
         
+        This function cannot be used with the edit mode.
+        """
+        cursor=self.conn.cursor()
+        comments_data=()
+        cursor.execute("SELECT * FROM RM_Mapping_NonNumeric WHERE AC=\"Table_COMM\"")
+        comments_info=cursor.fetchall()
+        for variables in comments_info:
+            tab=variables[0]
+            rm_table=variables[1]
+            exl_ref=variables[3]
+            sheet = self.wb.sheet_by_name(tab)
+            comments=sheet.cell(*indexes(exl_ref)).value
+            if comments not in ["Emter commemt here","Enter comment here"]:
+                comments_data=comments_data + ( (self.country_code,self.emco_year,rm_table,comments  ),   )
+        print(comments_data)
+        cursor.executemany("INSERT OR REPLACE INTO EDU_COMMENT_TABLE_REP VALUES(?,?,?,?);",comments_data)
+        self.conn.commit()
+        cursor.close()
+
     def extract_data(self,write_csv_files=False,write_sql=True):
         """Reads and exports the data of the questionnaire
 
