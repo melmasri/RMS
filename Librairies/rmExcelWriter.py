@@ -119,16 +119,21 @@ def export_var(var, wb, co_code, year, var_type):
                   'A4': 'Data','B4': var, 'A5': 'No.ADM', 'B5': no_ADM,
                   'A6': 'Series', 'B6': 'REP',
                   'A7': 'Mode', 'B7': view_type}
-        
+
+    # header format
+    format_header = wb.add_format({'bold' : True, 'align' : 'left'})
+    format_data  = wb.add_format({'align' : 'right'})
+    
     # A loop over all tables all tables
     for ext in var_list:
         data = getTable(ext, co_code, year, var_type)
+        data = [l + (format_data,) if l[0]>=0 else l + (format_header,) for l in data]
         data_comment = getCell_comment(ext, co_code, year)
         write_data(worksheet, header_dict)      
         if data_comment:
-            write_data(worksheet, data, view_type, data_comment = data_comment)
+            write_data(worksheet, data, view_type, data_comment = data_comment, fmt=True)
         else:
-            write_data(worksheet, data, view_type)
+            write_data(worksheet, data, view_type, fmt=True)
         if(var_type != "AC"):
             table_comment  =  getTable_comment(ext, co_code, year, view_type)
             write_data(worksheet,table_comment) if table_comment  else None
@@ -165,9 +170,15 @@ def write_data(worksheet, data, view_type = 'ReadOnly', **op):
         uni_ids = {uni_ids[y]:y for y in range(len(uni_ids))}
         uni_ids[0] = len(uni_ids)+1
         if view_type =="Edit":
-            for i in data:
-                ind = indexes(i[3])
-                worksheet.write(uni_ids[i[0]] + ind[0]-3 -1*(i[0]>=0), ind[1], i[1] )
+            if (op.get('fmt')):
+                for i in data:
+                    ind = indexes(i[3])
+                    worksheet.write(uni_ids[i[0]] + ind[0]-3 -1*(i[0]>=0), ind[1], i[1],i[4] )
+            else:
+                for i in data:
+                    ind = indexes(i[3])
+                    worksheet.write(uni_ids[i[0]] + ind[0]-3 -1*(i[0]>=0), ind[1], i[1])     
+
             if(op.get('data_comment')):
                 for i in op.get('data_comment'):
                     ind = indexes(i[3])
@@ -178,9 +189,15 @@ def write_data(worksheet, data, view_type = 'ReadOnly', **op):
             rc_ids = [indexes(x[3]) for x in data]
             uni_cols = sorted(list(set([x[1] for x in rc_ids] )))
             uni_cols = {uni_cols[i]:i + left_top_corner for i in range(len(uni_cols))}
-            for i in range(len(data)):
-                worksheet.write(uni_ids[data[i][0]] + rc_ids[i][0]-3
-                                -1*(data[i][0]>=0), uni_cols[rc_ids[i][1]], data[i][1])
+            if (op.get('fmt')):
+                for i in range(len(data)):
+                    worksheet.write(uni_ids[data[i][0]] + rc_ids[i][0]-3
+                                    -1*(data[i][0]>=0), uni_cols[rc_ids[i][1]], data[i][1], data[i][4])
+            else:
+                for i in range(len(data)):  
+                    worksheet.write(uni_ids[data[i][0]] + rc_ids[i][0]-3
+                                    -1*(data[i][0]>=0), uni_cols[rc_ids[i][1]], data[i][1])
+                    
             if(op.get('data_comment')):
                 dc = op.get('data_comment')
                 for i in range(len(dc)):
