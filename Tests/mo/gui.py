@@ -2,7 +2,7 @@ import sys
 sys.path.append('../../Librairies')
 from rmquestionnaire import *
 
-excel_file = "../../../../../Dropbox/Regional module Survey/tests/Regional_Questionnaire_Asia_Final_v7_locked_LAOS.xlsx"
+excel_file = "../../../../Dropbox/Regional module Survey/tests/Regional_Questionnaire_Asia_Final_v7_locked_LAOS.xlsx"
 database="../../Database/UISProd.db"
 set_database_file(database)
 
@@ -71,24 +71,70 @@ output_folder.insert(1, "~/Desktop")
 def updtCountry():
     """Queries the names of countries that submitted an rm questinnaire"""
     l = getAvailable_countries()
-    country_cbox['values'] =  list(chain.from_iterable(l))
+    cbox_co['values'] =  list(chain.from_iterable(l))
 
 def updtYear():
     """ For a specific selectd country, returns the list of avialable data years."""
-    l= str(country_cbox.get())
+    l= str(cbox_co.get())
     if l:
         l = getAvailable_year(l)
-        year_cbox['values'] = l   
-        
+        cbox_year['values'] = l   
 
-    
+def getSheetTableAC(m):
+    if m =='sheet':
+        l = "SELECT DISTINCT Tab FROM RM_Mapping order by Tab"
+        cbox_sheet['values'] =  list(chain.from_iterable(sql_query(l)))
+    elif m =='table':
+        l = "SELECT DISTINCT RM_TABLE FROM RM_Mapping order by RM_TABLE"
+        cbox_table['values'] =  list(chain.from_iterable(sql_query(l)))
+    elif m=='AC':
+        l = "SELECT DISTINCT AC FROM RM_Mapping order by AC"
+        cbox_AC['values'] =  list(chain.from_iterable(sql_query(l)))
+
+def export(x):
+    co_name = str(cbox_co.get())
+    year =str(cbox_year.get())
+    filename = "{0}_{1}.xlsx".format(co_name, year)
+    co_code = getCO_CODE(co_name)
+    #wb = xlsxwriter.Workbook(filename)
+    if x=='sheet':
+        var = str(cbox_sheet.get())
+        if var:
+            print(co_name)
+            print(year)
+            print(co_code)
+            print(var)
+    #wb.close()
+        
 writeframe = ttk.LabelFrame(root, text="Exporting data to Excel")
 writeframe.pack(fill="both", expand="yes")
 
-country_cbox = ttk.Combobox(writeframe, postcommand=updtCountry)
-country_cbox.pack()
+ttk.Label(writeframe, text='Country').grid(row=0,column=0, sticky = 'W')
+ttk.Label(writeframe, text='Year').grid(row=0,column=2, sticky='W')
+cbox_co = ttk.Combobox(writeframe, postcommand=updtCountry, width=30)
+cbox_year = ttk.Combobox(writeframe, postcommand=updtYear)
+cbox_co.grid(row=0, column =1, sticky='W')
+cbox_year.grid(row=0, column=3 ,sticky='W')
 
-year_cbox = ttk.Combobox(writeframe, postcommand=updtYear)
-year_cbox.pack()
+lf_exOptions = ttk.LabelFrame(writeframe , text="Export by:")
+lf_exOptions.grid(row=3, columnspan=3, sticky='W', padx=5, pady=5, ipadx=5, ipady=5)
+
+ttk.Label(lf_exOptions, text='Sheet ').grid(row=0, column=0, sticky='W')
+ttk.Label(lf_exOptions, text='Table ').grid(row=1, column=0, sticky='W')
+ttk.Label(lf_exOptions, text='AC ').grid(row=2, column=0, sticky='W')
+
+cbox_sheet = ttk.Combobox(lf_exOptions, postcommand= lambda m='sheet': getSheetTableAC(m), width=20)
+cbox_sheet.grid(row=0, column=1, sticky='W')
+cbox_table = ttk.Combobox(lf_exOptions, postcommand=lambda m='table': getSheetTableAC(m))
+cbox_table.grid(row=1, column=1, sticky='W')
+cbox_AC = ttk.Combobox(lf_exOptions,postcommand=lambda m='AC': getSheetTableAC(m))
+cbox_AC.grid(row=2, column=1, sticky='W')
+
+cc= ttk.Button(lf_exOptions, text ='Export', commad = lambda x='sheet': print(x))
+cc.grid(row=0, column=3, sticky='W')
+#ttk.Button(lf_exOptions, text ='Export').grid(row=1, column=3, sticky='W')
+#ttk.Button(lf_exOptions, text ='Export').grid(row=2, column=3, sticky='W')
+
+
 root.mainloop()
 
