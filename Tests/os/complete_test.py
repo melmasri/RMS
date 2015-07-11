@@ -13,7 +13,9 @@ x.preprocessing()
 x.create_region_codes()
 x.extract_data()
 x.extract_comments()
-
+## The following function extracts from the comments cell and adds the
+## information to the database.
+x.extract_table_comments()
 
 co_code = x.country_code
 co_name = x.country_name

@@ -6,6 +6,9 @@ import collections #enable namedtuple: varname = collections.namedtuple('varname
 import sys, json
 from rmsqlfunctions import *
 import os
+from functools import reduce
+import shutil
+import datetime
 #Global variables
 # conn = sqlite3.connect('../../Database/UISProd.db')
 # #Uncomment the line below for creating virtual database
@@ -259,17 +262,52 @@ class questionnaire:
         This variable reads the Checking sheets and writes in the log
         if there is any NO.
         """
-        check_variables=pre_vars["Checking sheet"]
-        sheet=self.wb.sheet_by_name("Checking sheet")
-        printed_main_message=False
-        for sheet_name in check_variables.keys():
-            for var in [[x, check_variables[sheet_name][1] ] for x in check_variables[sheet_name][0] ]:
-                if( sheet.cell( *var ).value == 'No' ):
-                    if(not printed_main_message):
-                        print("The following items have No in the Checking sheet:")
-                        printed_main_message=True
-                    var[1]-=5
-                    print("{0} : {1}".format( sheet_name, sheet.cell(*var).value ))
+        if (not self.edit_mode):
+            check_variables=pre_vars["Checking sheet"]
+            sheet=self.wb.sheet_by_name("Checking sheet")
+            printed_main_message=False
+            for sheet_name in check_variables.keys():
+                for var in [[x, check_variables[sheet_name][1] ] for x in check_variables[sheet_name][0] ]:
+                    if( sheet.cell( *var ).value == 'No' ):
+                        if(not printed_main_message):
+                            print("The following items have No in the Checking sheet:")
+                            printed_main_message=True
+                        var[1]-=5
+                        print("{0} : {1}".format( sheet_name, sheet.cell(*var).value ))
+        else:
+            ## Check that the regional numbers match the total.
+            ## Other checks might be added.
+            cursor=self.conn.cursor()
+            cursor.execute("SELECT Tab,EXL_REF,RM_TABLE,Col FROM RM_MAPPING;") 
+            mapping_info=cursor.fetchall()
+            edit_sheets_names=self.wb.sheet_names()            
+            for variables in mapping_info:                
+                tab=variables[0]
+                if tab not in edit_sheets_names:
+                    continue
+                exl_ref=variables[1]
+                table=variables[2]
+                col=variables[3]
+                sheet = self.wb.sheet_by_name(tab)
+                meter_starting_coordinates = indexes(exl_ref)
+                ## Regional values
+                meter_values = sheet.col_values(meter_starting_coordinates[1],\
+                                                    meter_starting_coordinates[0],\
+                                                    meter_starting_coordinates[0]+self.nadm1)
+                ## Country value
+                meter_value_country=sheet.cell( meter_starting_coordinates[0]+self.nadm1+1,\
+                                                    meter_starting_coordinates[1]).value
+                ## If there are missing values or references we do not
+                ## make any check.
+                all_numbers = reduce(lambda x,y: x and y,
+                    map( lambda x: x in [int,float], 
+                         map(lambda x: type(x) , meter_values))
+                    )
+                if (all_numbers):
+                    regions_sum=reduce(lambda x,y : x+y, meter_values)
+                    if (regions_sum != meter_value_country):
+                        print ("The regional figures do not add up to the country total in {0} column {1}".format(table,col))
+                cursor.close()
     
     def emc_id_from_cell_info(self,sheet_name,xlrd_vector_coordinates):
         """Returns the emc_id given cell xlrd coordinates.
@@ -425,6 +463,15 @@ class questionnaire:
             self.conn.commit()
             cursor.close()
 
+        def backup_imported_questionnaire():
+            """Puts a copy of the questionnaire in the imports folder.
+            """
+            import_folder="./import"
+            if (not os.path.exists(import_folder)):
+                os.makedirs(import_folder)
+            shutil.copy(self.excel_file,"./import/RM_{}_{}_{}.xlsx".format(self.country_name,self.emco_year,datetime.datetime.now().strftime("%y-%m-%d-%H-%M")))
+            
+
         # RM_TABLE is necessary for finding the xlrd coordinates
         cursor.execute("SELECT TAB, EXL_REF, EMC_ID,RM_TABLE,Col FROM RM_MAPPING;") 
         mapping_table = cursor.fetchall()
@@ -497,11 +544,13 @@ class questionnaire:
             export_to_csv_files()
         if write_sql:
             export_to_sqlite()
+        backup_imported_questionnaire()
         cursor.close()
         
     def __init__(self,excel_file,database_file="../Database/UISProd.db",edit_mode=False):
         """Set up variables for questionnaire and database reading"""
         self.edit_mode=edit_mode
+        self.excel_file=excel_file
         self.set_workbook(excel_file)
         self.set_database_connection(database_file)
         self.get_emco_year()
