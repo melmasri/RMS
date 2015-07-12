@@ -1,4 +1,5 @@
-import sys
+import sys, getpass
+
 sys.path.append('../../Librairies')
 from rmquestionnaire import *
 
@@ -7,67 +8,86 @@ database="../../Database/UISProd.db"
 set_database_file(database)
 
 
-import  tkinter as tk
+import tkinter as tk
 from tkinter.filedialog import  FileDialog
 from tkinter import ttk, StringVar
 
 ##################################################
 # Useful functions
-FILEOPENOPTIONS = dict(filetypes=[('Excel sheets','*.xlsx*')])
-def import_one():
-    """Requests from the user to select an excel file for import"""
-    dirname = tk.filedialog.askopenfilenames(**FILEOPENOPTIONS)
-    if dirname:
-        entry_one.insert(1, dirname)
+def select_file(x):
+    """ Requests from the user to select a file/folder of questionnaires to import"""
+    FILEOPENOPTIONS = dict(filetypes=[('Excel sheets','*.xlsx*')])
+    if x=='file':
+        dirname = tk.filedialog.askopenfilenames(**FILEOPENOPTIONS)
+        if dirname:
+            entry_one.insert(0, dirname)
+    elif x=='folder':
+        dirname = tk.filedialog.askdirectory()
+        if(dirname):
+            entry_many.insert(1, dirname)
+    elif x=='out_folder':
+        dirname = tk.filedialog.askdirectory()
+        if dirname:
+            output_folder.insert(0, dirname)
 
-def import_many():
-    """ Requests from the user to select a folder of questionnaires to import"""
-    dirname = tk.filedialog.askdirectory()
-    if(dirname):
-        entry_many.insert(1, dirname)
-
-def choose_output_folder():
-    """Requires the user to select a folder"""
-    dirname = tk.filedialog.askdirectory()
-    if dirname:
-        output_folder.insert(0, dirname)
-  
+def imp_file(x):
+    if x=='file':
+        for i in entry_one.get():
+            print(i)
+        # x=questionnaire(entry_one.get(),database)
+        # x.preprocessing()
+        # x.create_region_codes()
+        # x.extrct_data()
+        # x.extract_comments()
+        # x.extract_table_comments()
+    
+        
 ##################################################
 
 
-
 root = tk.Tk()
-
 root.title('Regional module Survey')
 # width x height + x_offset + y_offset:
-root.geometry("900x600+30+30") 
+root.geometry("600x600+50+50") 
+
+style = ttk.Style()
+style.configure("BW.TLabel", foreground="black", background="white")
+
+settingframe = ttk.LabelFrame(root, text='General information')
+settingframe.pack(fill="both")
+
+username = getpass.getuser()
+ttk.Label(settingframe, text ='User ').grid(row=0, column=0, sticky = 'W')
+ttk.Label(settingframe, text = username, padding=2, style="BW.TLabel").grid(row=0, column=1, sticky = 'W')
 
 # Adding buttons and text boxes
-h = 35
-w = 200
-
-
-
 readframe = ttk.LabelFrame(root, text="Importing Questionnaire to database")
-readframe.pack(fill="both", expand="yes")
-read_one = ttk.Button(readframe, text ='Import a single questionnaires', command = import_one)
-read_one.place(x = 20, y = 30, width=w, height = h)
-read_many = ttk.Button(readframe, text= 'Import all questionnaires in a folder', command = import_many)
-read_many.place(x = 20, y = 90, width=w, height=h)
-ofolder_button = ttk.Button(readframe, text= 'Select output folder', command = choose_output_folder)
-ofolder_button.place(x = 20, y = 150, width=w, height=h)
+readframe.pack(fill="both")
+ttk.Label(readframe, text='Select output folder ').grid(row=1, column=0, sticky='W')    
+
+lf_impOptions = ttk.LabelFrame(readframe , text="Import a:")
+lf_impOptions.grid(row=3, columnspan=3, sticky='W', padx=5, pady=5, ipadx=5, ipady=5)
+ttk.Label(lf_impOptions, text='file ').grid(row=0, column=0, sticky='W')
+ttk.Label(lf_impOptions, text='folder ').grid(row=1, column=0, sticky='W')
 
 # Text boxes
-entry_one = ttk.Entry(readframe)
-entry_one.place(x = 240, y = 30,width = w*3,  height=h)
-entry_many = ttk.Entry(readframe)
-entry_many.place(x = 240, y = 90,width = w*3,  height=h)
+entry_one = ttk.Entry(lf_impOptions)
+entry_one.grid(row=0, column=1, sticky='W')
+entry_many = ttk.Entry(lf_impOptions)
+entry_many.grid(row=1, column=1, sticky='W')
 output_folder = ttk.Entry(readframe)
-output_folder.place(x = 240, y = 150,width = w*3,  height=h)
-output_folder.insert(1, "~/Desktop")
+output_folder.grid(row=1, column=1, sticky='W')
+# Buttons
+ttk.Button(lf_impOptions, text ='Browse..', command = lambda x='file': select_file(x)).grid(row=0, column=3, sticky='W') 
+ttk.Button(lf_impOptions, text= 'Browse..', command = lambda x='folder': select_file(x)).grid(row=1, column=3, sticky='W')
+ttk.Button(lf_impOptions, text= 'Browse..', command = lambda x='folder': select_file(x)).grid(row=1, column=3, sticky='W')
+ttk.Button(readframe, text= 'Browse..', command = lambda x='out_folder': select_file(x)).grid(row=1, column=3, sticky='W')
+
+ttk.Button(lf_impOptions, text ='Import', command = lambda x='file': imp_file(x)).grid(row=0, column=4, sticky='W')
+ttk.Button(lf_impOptions, text ='Import', command = lambda x='folder': imp_file(x)).grid(row=1, column=4, sticky='W') 
 
 
-
+#Another functions
 def updtCountry():
     """Queries the names of countries that submitted an rm questinnaire"""
     l = getAvailable_countries()
@@ -83,7 +103,7 @@ def updtYear():
 def getSheetTableAC(m):
     if m =='sheet':
         l = "SELECT DISTINCT Tab FROM RM_Mapping order by Tab"
-        cbox_sheet['values'] =  list(chain.from_iterable(sql_query(l)))
+        cbox_sheet['values'] =  ['All'] + list(chain.from_iterable(sql_query(l)))
     elif m =='table':
         l = "SELECT DISTINCT RM_TABLE FROM RM_Mapping order by RM_TABLE"
         cbox_table['values'] =  list(chain.from_iterable(sql_query(l)))
@@ -92,22 +112,29 @@ def getSheetTableAC(m):
         cbox_AC['values'] =  list(chain.from_iterable(sql_query(l)))
 
 def export(x):
-    co_name = str(cbox_co.get())
-    year =str(cbox_year.get())
-    filename = "{0}_{1}.xlsx".format(co_name, year)
-    co_code = getCO_CODE(co_name)
-    #wb = xlsxwriter.Workbook(filename)
     if x=='sheet':
         var = str(cbox_sheet.get())
-        if var:
-            print(co_name)
-            print(year)
-            print(co_code)
-            print(var)
-    #wb.close()
+    elif x=='table':
+        var = str(cbox_table.get())
+    elif x=='AC':
+        var = str(cbox_AC.get())
+
+    if var:
+        co_name = str(cbox_co.get())
+        year = cbox_year.get()
+
+        if co_name and year:
+            co_code = getCO_CODE(co_name)
+            filename = "{2}{0}_{1}.xlsx".format(co_name, year,output_folder.get())
+            wb = xlsxwriter.Workbook(filename)
+            if x=='sheet' and var == 'All':
+                [export_var(i, wb, co_code, int(year), var_type = x)for i in cbox_sheet['values'][1:]]
+            else:
+                export_var(var, wb, co_code, int(year), var_type = x)
+            wb.close()
         
 writeframe = ttk.LabelFrame(root, text="Exporting data to Excel")
-writeframe.pack(fill="both", expand="yes")
+writeframe.pack(fill="both")
 
 ttk.Label(writeframe, text='Country').grid(row=0,column=0, sticky = 'W')
 ttk.Label(writeframe, text='Year').grid(row=0,column=2, sticky='W')
@@ -130,10 +157,9 @@ cbox_table.grid(row=1, column=1, sticky='W')
 cbox_AC = ttk.Combobox(lf_exOptions,postcommand=lambda m='AC': getSheetTableAC(m))
 cbox_AC.grid(row=2, column=1, sticky='W')
 
-cc= ttk.Button(lf_exOptions, text ='Export', commad = lambda x='sheet': print(x))
-cc.grid(row=0, column=3, sticky='W')
-#ttk.Button(lf_exOptions, text ='Export').grid(row=1, column=3, sticky='W')
-#ttk.Button(lf_exOptions, text ='Export').grid(row=2, column=3, sticky='W')
+ttk.Button(lf_exOptions, text ='Export', command = lambda x='sheet': export(x)).grid(row=0, column=3, sticky='W')
+ttk.Button(lf_exOptions, text ='Export', command = lambda x='table': export(x)).grid(row=1, column=3, sticky='W')
+ttk.Button(lf_exOptions, text ='Export', command = lambda x='AC': export(x)).grid(row=2, column=3, sticky='W')
 
 
 root.mainloop()
