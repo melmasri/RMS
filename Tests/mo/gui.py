@@ -49,12 +49,15 @@ root = tk.Tk()
 root.title('Regional module Survey')
 # width x height + x_offset + y_offset:
 root.geometry("600x600+50+50") 
-
+### Style 
+ttk.Style().configure("TButton", padding=(0, 5, 0, 5), font='serif 10')
+ 
+###
 style = ttk.Style()
 style.configure("BW.TLabel", foreground="black", background="white")
 
 settingframe = ttk.LabelFrame(root, text='General information')
-settingframe.pack(fill="both")
+settingframe.pack(fill="y", side= 'top')
 
 username = getpass.getuser()
 ttk.Label(settingframe, text ='User ').grid(row=0, column=0, sticky = 'W')
@@ -62,10 +65,24 @@ ttk.Label(settingframe, text = username, padding=2, style="BW.TLabel").grid(row=
 
 # Adding buttons and text boxes
 readframe = ttk.LabelFrame(root, text="Importing Questionnaire to database")
-readframe.pack(fill="both")
+readframe.pack(fill="y", side = 'top', padx = 3, pady=3,ipadx=3, ipady=3, anchor = 'nw')
+
+ttk.Style().configure("TButton", padding=(0, 5, 0, 5), font='serif 10')
+
+
 ttk.Label(readframe, text='Select output folder ').grid(row=1, column=0, sticky='W')    
 
 lf_impOptions = ttk.LabelFrame(readframe , text="Import a:")
+
+lf_impOptions.columnconfigure(0, pad=3)
+lf_impOptions.columnconfigure(1, pad=3)
+lf_impOptions.columnconfigure(2, pad=3)
+lf_impOptions.columnconfigure(3, pad=3)
+
+lf_impOptions.rowconfigure(0, pad=3)
+lf_impOptions.rowconfigure(1, pad=3)
+
+
 lf_impOptions.grid(row=3, columnspan=3, sticky='W', padx=5, pady=5, ipadx=5, ipady=5)
 ttk.Label(lf_impOptions, text='file ').grid(row=0, column=0, sticky='W')
 ttk.Label(lf_impOptions, text='folder ').grid(row=1, column=0, sticky='W')
@@ -134,7 +151,7 @@ def export(x):
             wb.close()
         
 writeframe = ttk.LabelFrame(root, text="Exporting data to Excel")
-writeframe.pack(fill="both")
+writeframe.pack(fill="y", side = 'top', padx = 3, pady=3,ipadx=3, ipady=3, anchor = 'nw')
 
 ttk.Label(writeframe, text='Country').grid(row=0,column=0, sticky = 'W')
 ttk.Label(writeframe, text='Year').grid(row=0,column=2, sticky='W')
