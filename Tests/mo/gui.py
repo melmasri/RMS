@@ -11,18 +11,18 @@ set_database_file(database)
 import tkinter as tk
 from tkinter.filedialog import  FileDialog
 from tkinter import ttk, StringVar
-
+import re
 ##################################################
 # Useful functions
 def select_file(x):
     """ Requests from the user to select a file/folder of questionnaires to import"""
     FILEOPENOPTIONS = dict(filetypes=[('Excel sheets','*.xlsx*')])
     if x=='file':
-        dirname = tk.filedialog.askopenfilenames(**FILEOPENOPTIONS)
+        dirname = tk.filedialog.askopenfilenames(title="Select files",**FILEOPENOPTIONS )
         if dirname:
             entry_one.insert(0, dirname)
     elif x=='folder':
-        dirname = tk.filedialog.askdirectory()
+        dirname = tk.filedialog.askdirectory( title="Select a folder")
         if(dirname):
             entry_many.insert(1, dirname)
     elif x=='out_folder':
@@ -32,18 +32,26 @@ def select_file(x):
 
 def imp_file(x):
     if x=='file':
-        for i in entry_one.get():
-            print(i)
-        # x=questionnaire(entry_one.get(),database)
-        # x.preprocessing()
-        # x.create_region_codes()
-        # x.extrct_data()
-        # x.extract_comments()
-        # x.extract_table_comments()
-    
-        
-##################################################
+        file1 = root.splitlist(entry_one.get())
+        for i in file1:
+            x=questionnaire(i,database)
+            x.preprocessing()
+            x.create_region_codes()
+            x.extrct_data()
+            # x.extract_comments()
+            # x.extract_table_comments()
+    elif x=='folder':
+        file1 = os.listdir()
+        for i in file1:
+            if re.search(".xlsx", i):
+                x=questionnaire(i,database, True)
+                x.extrct_data()
+                x.extract_comments()
+                x.extract_table_comments()
+      
+            
 
+##################################################
 
 root = tk.Tk()
 root.title('Regional module Survey')
@@ -51,7 +59,6 @@ root.title('Regional module Survey')
 root.geometry("600x600+50+50") 
 ### Style 
 ttk.Style().configure("TButton", padding=(0, 5, 0, 5), font='serif 10')
- 
 ###
 style = ttk.Style()
 style.configure("BW.TLabel", foreground="black", background="white")
