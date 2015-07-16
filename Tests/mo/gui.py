@@ -12,7 +12,7 @@ import tkinter as tk
 from tkinter.filedialog import  FileDialog
 from tkinter import ttk, StringVar
 import re
-##################################################
+#################################################
 # Useful functions
 def select_file(x):
     """ Requests from the user to select a file/folder of questionnaires to import"""
@@ -38,44 +38,47 @@ def imp_file(x):
         
     for i in file1:
         if re.search(".xlsx", i):
-            print(i)
+            status.set('Importing {0}'.format(i))
             x=questionnaire(i,database, True)
             x.extract_data()
             x.extract_comments()
             x.extract_table_comments()
             x.extract_comments()
             x.extract_table_comments()
+            status.set('Done.')
       
             
 
 ##################################################
 
+### Root label
+pad = 5
 root = tk.Tk()
-
 root.title('Regional module Survey')
 # width x height + x_offset + y_offset:
-root.geometry("600x600+50+50") 
+root.geometry("700x500+50+50") 
 ### Style 
 ttk.Style().configure("TButton", padding=(0, 5, 0, 5), font='serif 10')
 ###
 style = ttk.Style()
 style.configure("BW.TLabel", foreground="black", background="white")
 
-settingframe = ttk.LabelFrame(root, text='General information')
+### Top setting frame
+settingframe = ttk.LabelFrame(root, text='General information' ,padding= (pad, pad, pad, pad))
 settingframe.pack(fill="y", side= 'top')
 
 username = getpass.getuser()
 ttk.Label(settingframe, text ='User ').grid(row=0, column=0, sticky = 'W')
 ttk.Label(settingframe, text = username, padding=2, style="BW.TLabel").grid(row=0, column=1, sticky = 'W')
+ttk.Label(settingframe, text = "Databse ").grid(row=1, column=0, sticky = 'W')
+ttk.Label(settingframe, text = database, padding=2, style="BW.TLabel").grid(row=1, column=1, sticky = 'W')
 
-# Adding buttons and text boxes
-readframe = ttk.LabelFrame(root, text="Importing Questionnaire to database")
-readframe.pack(fill="y", side = 'top', padx = 3, pady=3,ipadx=3, ipady=3, anchor = 'nw')
+# Reading frame
+readframe = ttk.LabelFrame(root, text="Importing Questionnaire to database", padding = (pad, pad, pad, pad))
+readframe.pack(fill="x", side = 'top', padx = 3, pady=3,ipadx=3, ipady=3, anchor = 'nw')
 
 ttk.Style().configure("TButton", padding=(0, 5, 0, 5), font='serif 10')
 
-
-ttk.Label(readframe, text='Select output folder ').grid(row=1, column=0, sticky='W')    
 
 lf_impOptions = ttk.LabelFrame(readframe , text="Import a:")
 
@@ -97,14 +100,11 @@ entry_one = ttk.Entry(lf_impOptions)
 entry_one.grid(row=0, column=1, sticky='W')
 entry_many = ttk.Entry(lf_impOptions)
 entry_many.grid(row=1, column=1, sticky='W')
-output_folder = ttk.Entry(readframe)
-output_folder.grid(row=1, column=1, sticky='W')
+
 # Buttons
 ttk.Button(lf_impOptions, text ='Browse..', command = lambda x='file': select_file(x)).grid(row=0, column=3, sticky='W') 
 ttk.Button(lf_impOptions, text= 'Browse..', command = lambda x='folder': select_file(x)).grid(row=1, column=3, sticky='W')
 ttk.Button(lf_impOptions, text= 'Browse..', command = lambda x='folder': select_file(x)).grid(row=1, column=3, sticky='W')
-ttk.Button(readframe, text= 'Browse..', command = lambda x='out_folder': select_file(x)).grid(row=1, column=3, sticky='W')
-
 ttk.Button(lf_impOptions, text ='Import', command = lambda x='file': imp_file(x)).grid(row=0, column=4, sticky='W')
 ttk.Button(lf_impOptions, text ='Import', command = lambda x='folder': imp_file(x)).grid(row=1, column=4, sticky='W') 
 
@@ -141,31 +141,29 @@ def export(x):
     elif x=='AC':
         var = str(cbox_AC.get())
 
-    print("Attempting to printing {0}".format(var))
-    
     if var:
         co_name = str(cbox_co.get())
         year = cbox_year.get()
-
         if co_name and year:
             co_code = getCO_CODE(co_name)
-            filename = "{2}{0}_{1}_{3}.xlsx".format(co_name, year,output_folder.get(),var)
+            filename = "{2}/{0}_{1}_{3}.xlsx".format(co_name, year,output_folder.get(),var)
             wb = xlsxwriter.Workbook(filename)
-            print('File {0} is created'.format(filename))
+            status.set('Exporting file {0}'.format(filename))
             if x=='sheet' and var == 'All':
                 [export_var(i, wb, co_code, int(year), var_type = x)for i in cbox_sheet['values'][1:]]
             else:
                 export_var(var, wb, co_code, int(year), var_type = x)
-            print('{0} is exported, closing excel file.'.format(var))
             wb.close()
+            status.set('Sucessfully exported, see {0}.'.format(filename))
         else:
-            print('Missing country name or yaer.')
-            
+            status.set('Error: missing country name or year.')
     else:
-        print("No {0} is specified".format(x))
-        
-writeframe = ttk.LabelFrame(root, text="Exporting data to Excel")
-writeframe.pack(fill="y", side = 'top', padx = 3, pady=3,ipadx=3, ipady=3, anchor = 'nw')
+        status.set("Error: no {0} is specified".format(x))
+
+
+### Write frame
+writeframe = ttk.LabelFrame(root, text="Exporting data to Excel", padding = (pad, pad, pad, pad))
+writeframe.pack(fill="x", side = 'top', padx = 3, pady=3,ipadx=3, ipady=3, anchor = 'nw')
 
 ttk.Label(writeframe, text='Country').grid(row=0,column=0, sticky = 'W')
 ttk.Label(writeframe, text='Year').grid(row=0,column=2, sticky='W')
@@ -176,6 +174,16 @@ cbox_year.grid(row=0, column=3 ,sticky='W')
 
 lf_exOptions = ttk.LabelFrame(writeframe , text="Export by:")
 lf_exOptions.grid(row=3, columnspan=3, sticky='W', padx=5, pady=5, ipadx=5, ipady=5)
+
+
+lf_exOptions.columnconfigure(0, pad=3)
+lf_exOptions.columnconfigure(1, pad=3)
+lf_exOptions.columnconfigure(2, pad=3)
+
+lf_exOptions.rowconfigure(0, pad=3)
+lf_exOptions.rowconfigure(1, pad=3)
+lf_exOptions.rowconfigure(2, pad=3)
+
 
 ttk.Label(lf_exOptions, text='Sheet ').grid(row=0, column=0, sticky='W')
 ttk.Label(lf_exOptions, text='Table ').grid(row=1, column=0, sticky='W')
@@ -193,5 +201,20 @@ ttk.Button(lf_exOptions, text ='Export', command = lambda x='table': export(x)).
 ttk.Button(lf_exOptions, text ='Export', command = lambda x='AC': export(x)).grid(row=2, column=3, sticky='W')
 
 
+##### Output folder
+ttk.Label(writeframe, text='Select output folder ').grid(row=4, column=0, sticky='W')    
+output_folder = ttk.Entry(writeframe)
+output_folder.grid(row=4, column=1, sticky='W')
+ttk.Button(writeframe, text= 'Browse..', command = lambda x='out_folder': select_file(x)).grid(row=4, column=3, sticky='W')
+
+
+### Status frame
+StatusLabelFrame = ttk.LabelFrame(root, text="Status:")
+StatusLabelFrame.pack(fill="x", side = 'bottom', padx = 3, pady=3,ipadx=3, ipady=3, anchor = 's')
+status = StringVar()
+status.set('Initializing..')
+StatusLabel = ttk.Label(StatusLabelFrame, textvariable = status, justify= 'left').pack(fill ='x')
+
+### Main loop
 root.mainloop()
 
