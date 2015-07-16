@@ -33,27 +33,25 @@ def select_file(x):
 def imp_file(x):
     if x=='file':
         file1 = root.splitlist(entry_one.get())
-        for i in file1:
-            x=questionnaire(i,database)
-            x.preprocessing()
-            x.create_region_codes()
-            x.extrct_data()
-            # x.extract_comments()
-            # x.extract_table_comments()
     elif x=='folder':
         file1 = os.listdir()
-        for i in file1:
-            if re.search(".xlsx", i):
-                x=questionnaire(i,database, True)
-                x.extrct_data()
-                x.extract_comments()
-                x.extract_table_comments()
+        
+    for i in file1:
+        if re.search(".xlsx", i):
+            print(i)
+            x=questionnaire(i,database, True)
+            x.extract_data()
+            x.extract_comments()
+            x.extract_table_comments()
+            x.extract_comments()
+            x.extract_table_comments()
       
             
 
 ##################################################
 
 root = tk.Tk()
+
 root.title('Regional module Survey')
 # width x height + x_offset + y_offset:
 root.geometry("600x600+50+50") 
@@ -143,19 +141,28 @@ def export(x):
     elif x=='AC':
         var = str(cbox_AC.get())
 
+    print("Attempting to printing {0}".format(var))
+    
     if var:
         co_name = str(cbox_co.get())
         year = cbox_year.get()
 
         if co_name and year:
             co_code = getCO_CODE(co_name)
-            filename = "{2}{0}_{1}.xlsx".format(co_name, year,output_folder.get())
+            filename = "{2}{0}_{1}_{3}.xlsx".format(co_name, year,output_folder.get(),var)
             wb = xlsxwriter.Workbook(filename)
+            print('File {0} is created'.format(filename))
             if x=='sheet' and var == 'All':
                 [export_var(i, wb, co_code, int(year), var_type = x)for i in cbox_sheet['values'][1:]]
             else:
                 export_var(var, wb, co_code, int(year), var_type = x)
+            print('{0} is exported, closing excel file.'.format(var))
             wb.close()
+        else:
+            print('Missing country name or yaer.')
+            
+    else:
+        print("No {0} is specified".format(x))
         
 writeframe = ttk.LabelFrame(root, text="Exporting data to Excel")
 writeframe.pack(fill="y", side = 'top', padx = 3, pady=3,ipadx=3, ipady=3, anchor = 'nw')
