@@ -6,9 +6,13 @@ import collections #enable namedtuple: varname = collections.namedtuple('varname
 import sys, json
 from rmsqlfunctions import *
 import os
+<<<<<<< HEAD
 from functools import reduce
 import shutil
 import datetime
+=======
+from itertools import chain
+>>>>>>> 85bd180cf5ba4fd594fd64a52cab851fe9146e07
 #Global variables
 # conn = sqlite3.connect('../../Database/UISProd.db')
 # #Uncomment the line below for creating virtual database
@@ -150,7 +154,7 @@ def getCO_CODE(country_name):
     If the exact country name is found, it gives back the code,
     otherwise it returns None.
     """
-    name = country_name.upper()
+    name = country_name.upper().replace("'", "''")
     sql_str = ("SELECT CO_CODE FROM COUNTRY "
                " WHERE UPPER(CO_LONG_NAME) IS '{0}' "
                " OR UPPER(CO_SHORT_NAME) IS '{0}' ".format(name))
@@ -173,6 +177,25 @@ def getCO_NAME(co_code, short=True):
     if code:
         return(code[0][0])
 
+def getAvailable_countries():
+    """ Returns a tuple of the available countries"""
+    sql_str = ("SELECT DISTINCT b.CO_SHORT_NAME FROM REGIONS as a "
+               "left join COUNTRY as b on a.CO_CODE = b.CO_CODE "
+               "where a.ADM_CODE >0")
+    res = sql_query(sql_str)
+    if res:
+        return(res)
+
+def getAvailable_year(co_name):
+    """ Returns the data year of the submitted questionnaires"""
+    name = co_name.upper().replace("'", "''")
+
+    sql_str = ("SELECT DISTINCT A.EMCO_YEAR FROM EDU_METER97_REP AS A "
+               "LEFT JOIN COUNTRY AS B ON B.CO_CODE = A.CO_CODE "
+               "WHERE UPPER(B.CO_SHORT_NAME) IS '{0}' ".format(name))
+    code = sql_query(sql_str)   
+    if code:
+        return(list(chain.from_iterable(code)))
 
 class questionnaire:
     """Defines questionnaire properties and methods
