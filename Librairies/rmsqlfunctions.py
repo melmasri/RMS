@@ -21,6 +21,9 @@ def sql_query(sql_str):
     global con
     database_cursor = con.cursor()
     if database_cursor.execute(sql_str):
-        return database_cursor.fetchall()
+        aux = database_cursor.fetchall()
+        database_cursor.close()
+        return aux
     else:
+        database_cursor.close()
         None    
