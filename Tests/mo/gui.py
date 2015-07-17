@@ -5,18 +5,19 @@ from rmquestionnaire import *
 
 excel_file = "../../../../Dropbox/Regional module Survey/tests/Regional_Questionnaire_Asia_Final_v7_locked_LAOS.xlsx"
 database="../../Database/UISProd.db"
+
 set_database_file(database)
 
 
 import tkinter as tk
-from tkinter.filedialog import  FileDialog
-from tkinter import ttk, StringVar
+from tkinter import ttk, StringVar, filedialog
 import re
 #################################################
 # Useful functions
+       
 def select_file(x):
     """ Requests from the user to select a file/folder of questionnaires to import"""
-    FILEOPENOPTIONS = dict(filetypes=[('Excel sheets','*.xlsx*')])
+    FILEOPENOPTIONS = dict(filetypes=[('Excel sheets','*.xlsx*'),('All files','*.*')])
     if x=='file':
         dirname = tk.filedialog.askopenfilenames(title="Select files",**FILEOPENOPTIONS )
         if dirname:
@@ -24,6 +25,7 @@ def select_file(x):
     elif x=='folder':
         dirname = tk.filedialog.askdirectory( title="Select a folder")
         if(dirname):
+            
             entry_many.insert(1, dirname)
     elif x=='out_folder':
         dirname = tk.filedialog.askdirectory()
@@ -33,20 +35,24 @@ def select_file(x):
 def imp_file(x):
     if x=='file':
         file1 = root.splitlist(entry_one.get())
+        if not file1:
+            status.set('No file is selected.')
+            return
     elif x=='folder':
-        file1 = os.listdir()
-        
+        file1 = entry_many.get()
+        if not file1:
+            status.set('No folder is selected.')
+            return
     for i in file1:
-        if re.search(".xlsx", i):
-            status.set('Importing {0}'.format(i))
-            x=questionnaire(i,database, True)
-            x.extract_data()
-            x.extract_comments()
-            x.extract_table_comments()
-            x.extract_comments()
-            x.extract_table_comments()
-            status.set('Done.')
-      
+            if re.search(".xlsx", i):
+                status.set('Importing {0}'.format(i))
+                x=questionnaire(i,database, True)
+                x.extract_data()
+                x.extract_comments()
+                x.extract_table_comments()
+                x.extract_comments()
+                x.extract_table_comments()
+                status.set('Done.')
             
 
 ##################################################
@@ -57,6 +63,7 @@ root = tk.Tk()
 root.title('Regional module Survey')
 # width x height + x_offset + y_offset:
 root.geometry("700x500+50+50") 
+
 ### Style 
 ttk.Style().configure("TButton", padding=(0, 5, 0, 5), font='serif 10')
 ###
@@ -146,9 +153,10 @@ def export(x):
         year = cbox_year.get()
         if co_name and year:
             co_code = getCO_CODE(co_name)
-            filename = "{2}/{0}_{1}_{3}.xlsx".format(co_name, year,output_folder.get(),var)
-            wb = xlsxwriter.Workbook(filename)
+            filename = "{0}_{1}_{3}.xlsx".format(co_name, year,var)
             status.set('Exporting file {0}'.format(filename))
+            filename = "{0}/{1}".format(output_folder.get(),filename)
+            wb = xlsxwriter.Workbook(filename)
             if x=='sheet' and var == 'All':
                 [export_var(i, wb, co_code, int(year), var_type = x)for i in cbox_sheet['values'][1:]]
             else:
@@ -166,11 +174,11 @@ writeframe = ttk.LabelFrame(root, text="Exporting data to Excel", padding = (pad
 writeframe.pack(fill="x", side = 'top', padx = 3, pady=3,ipadx=3, ipady=3, anchor = 'nw')
 
 ttk.Label(writeframe, text='Country').grid(row=0,column=0, sticky = 'W')
-ttk.Label(writeframe, text='Year').grid(row=0,column=2, sticky='W')
+ttk.Label(writeframe, text='Year').grid(row=1,column=0, sticky='W')
 cbox_co = ttk.Combobox(writeframe, postcommand=updtCountry, width=30)
 cbox_year = ttk.Combobox(writeframe, postcommand=updtYear)
 cbox_co.grid(row=0, column =1, sticky='W')
-cbox_year.grid(row=0, column=3 ,sticky='W')
+cbox_year.grid(row=1, column=1 ,sticky='W')
 
 lf_exOptions = ttk.LabelFrame(writeframe , text="Export by:")
 lf_exOptions.grid(row=3, columnspan=3, sticky='W', padx=5, pady=5, ipadx=5, ipady=5)
@@ -196,7 +204,8 @@ cbox_table.grid(row=1, column=1, sticky='W')
 cbox_AC = ttk.Combobox(lf_exOptions,postcommand=lambda m='AC': getSheetTableAC(m))
 cbox_AC.grid(row=2, column=1, sticky='W')
 
-ttk.Button(lf_exOptions, text ='Export', command = lambda x='sheet': export(x)).grid(row=0, column=3, sticky='W')
+ttk.Button(lf_exOptions, text ='Export', command
+           = lambda x='sheet': export(x)).grid(row=0, column=3, sticky='W')
 ttk.Button(lf_exOptions, text ='Export', command = lambda x='table': export(x)).grid(row=1, column=3, sticky='W')
 ttk.Button(lf_exOptions, text ='Export', command = lambda x='AC': export(x)).grid(row=2, column=3, sticky='W')
 
@@ -215,6 +224,7 @@ status = StringVar()
 status.set('Initializing..')
 StatusLabel = ttk.Label(StatusLabelFrame, textvariable = status, justify= 'left').pack(fill ='x')
 
-### Main loop
-root.mainloop()
 
+
+root.mainloop()
+root.destroy()
