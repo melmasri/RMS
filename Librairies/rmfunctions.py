@@ -255,12 +255,16 @@ class questionnaire:
         cursor=self.conn.cursor()
         cursor.execute("SELECT EMC_ID  FROM RM_MAPPING WHERE RM_TABLE=\"{0}\" AND Col={1};".format(table_name,column ) )
         return(cursor.fetchone()[0])
-
     def preprocessing(self):
         """Checks the consistency of the questionnaire.
 
         This variable reads the Checking sheets and writes in the log
-        if there is any NO.
+        if there is any NO.  
+
+        If in edit mode, it checks that the meter values of the
+        administrative divisions add to the country total and also
+        checks that the female columns are less or equal than the
+        total of both sexes.
         """
         if (not self.edit_mode):
             check_variables=pre_vars["Checking sheet"]
@@ -275,6 +279,46 @@ class questionnaire:
                         var[1]-=5
                         print("{0} : {1}".format( sheet_name, sheet.cell(*var).value ))
         else:
+            ## For each sheet name, the following dictionary has a
+            ## list of pairs. For each pair, the first entry should be
+            ## smaller than the second one
+            check_less_dictionary={
+                'Pupils' : [ [16,14], [17,15], [13,12] ],
+                'Teachers ISCED 1' :[ [4,3], [6,5],[8,7],[10,9],[12,11],[14,13] ],
+                'Teachers ISCED 2' :[ [4,3], [6,5],[8,7],[10,9],[12,11],[14,13] ],
+                'Teachers ISCED 3' :[ [4,3], [6,5],[8,7],[10,9],[12,11],[14,13] ],
+                'Teachers ISCED 23' :[ [4,3], [6,5],[8,7],[10,9],[12,11],[14,13] ]
+                }
+            def check_less():
+                """ Checks that the pairs from the
+                check_less_dictionary satisfy that the first one is
+                smaller than the second one"""
+                cursor=self.conn.cursor()
+                for sheet_name,pairs_list in check_less_dictionary.items():
+                    if sheet_name not in self.wb.sheet_names():
+                        continue
+                    sheet=self.wb.sheet_by_name(sheet_name)
+                    for pairs in pairs_list:
+                        cursor.execute("SELECT EXL_REF FROM RM_MAPPING WHERE Tab=\'{}\' AND Col={}".format(sheet_name,pairs[0]))
+                        ref_smaller=cursor.fetchone()[0]
+                        cursor.execute("SELECT EXL_REF FROM RM_MAPPING WHERE Tab=\'{}\' AND Col={}".format(sheet_name,pairs[1]))
+                        ref_bigger=cursor.fetchone()[0]
+                        smaller_meter_starting_coordinates = indexes(ref_smaller)
+                        bigger_meter_starting_coordinates = indexes(ref_bigger)
+                        smaller_meter_values=sheet.col_values(smaller_meter_starting_coordinates[1],
+                                                              smaller_meter_starting_coordinates[0],
+                                                              smaller_meter_starting_coordinates[0]+self.nadm1)
+                        bigger_meter_values=sheet.col_values(bigger_meter_starting_coordinates[1],
+                                                              bigger_meter_starting_coordinates[0],
+                                                              bigger_meter_starting_coordinates[0]+self.nadm1)
+                        for i in range(self.nadm1):
+                            ## Error para el log
+                            small_value=smaller_meter_values[i]
+                            big_value=bigger_meter_values[i]
+                            if  (type(small_value) in [int,float] and type(big_value) in [int,float] and small_value > big_value):
+                                print("{}: In row {} the value of column {} is bigger than the value in column {}.".format(sheet_name,i+1,pairs[0],pairs[1]))
+                cursor.close()
+            check_less()
             ## Check that the regional numbers match the total.
             ## Other checks might be added.
             cursor=self.conn.cursor()
@@ -306,8 +350,10 @@ class questionnaire:
                 if (all_numbers):
                     regions_sum=reduce(lambda x,y : x+y, meter_values)
                     if (regions_sum != meter_value_country):
+                        ## Error para el log
                         print ("The regional figures do not add up to the country total in {0} column {1}".format(table,col))
                 cursor.close()
+
     
     def emc_id_from_cell_info(self,sheet_name,xlrd_vector_coordinates):
         """Returns the emc_id given cell xlrd coordinates.
@@ -547,11 +593,11 @@ class questionnaire:
         backup_imported_questionnaire()
         cursor.close()
         
-    def __init__(self,excel_file,database_file="../Database/UISProd.db",edit_mode=False):
-        """Set up variables for questionnaire and database reading"""
-        self.edit_mode=edit_mode
+    def __init__(self,excel_file,database_file="../Database/UISProd.db"):
+        """Set up variables for questionnaire and database reading"""        
         self.excel_file=excel_file
         self.set_workbook(excel_file)
+        self.edit_mode= not 'Checking sheet' in self.wb.sheet_names()
         self.set_database_connection(database_file)
         self.get_emco_year()
         self.get_nadm1()
