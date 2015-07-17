@@ -8,12 +8,22 @@ from rmquestionnaire import *
 # log_folder = "../../Log"
 # set_database_file(database)
 
-
 import tkinter as tk
 from tkinter import ttk,StringVar, filedialog
 import re
 #################################################
 # Useful functions
+
+class StdoutRedirector(object):
+    """ A class to write out the standard output to a tkinter Text widget."""
+    def __init__(self,text_widget):
+        self.text_space = text_widget
+
+    def write(self,string):
+        self.text_space.insert('end', string)
+        self.text_space.see('end')
+
+
 class RM():
    
     def __init__(self, master, database, log_folder=''):
@@ -99,7 +109,6 @@ class RM():
         ttk.Button(self.lf_exOptions, text ='Export', command = lambda x='table': self.export(x)).grid(row=1, column=3, sticky='W')
         ttk.Button(self.lf_exOptions, text ='Export', command = lambda x='AC': self.export(x)).grid(row=2, column=3, sticky='W')
         
-        
         # Output folder
         ttk.Label(self.writeframe, text='Select output folder ').grid(row=4, column=0, sticky='W')    
         self.output_folder = ttk.Entry(self.writeframe)
@@ -110,9 +119,10 @@ class RM():
         ### Status frame
         self.StatusLabelFrame = ttk.LabelFrame(self.master, text="Status:")
         self.StatusLabelFrame.pack(fill="x", side = 'bottom', padx = 3, pady=3,ipadx=3, ipady=3, anchor = 's')
-        # self.status.set('Initializing..')
-        self.StatusLabel = ttk.Label(self.StatusLabelFrame, textvariable = self.status, justify= 'left').pack(fill ='x')
-        self.status.set('Initializing..')
+        self.text_box = tk.Text(self.StatusLabelFrame,wrap='word', height = 5)
+        self.text_box.pack(fil='x')
+        sys.stdout =  StdoutRedirector(self.text_box)
+
 
     ### Supporting functions
     def setFormating(self):
@@ -153,7 +163,7 @@ class RM():
             if co_name and year:
                 co_code = getCO_CODE(co_name)
                 filename = "{0}_{1}_{2}.xlsx".format(co_name, year,var)
-                self.status.set('Exporting file {0}'.format(filename))
+                print('Exporting file {0}'.format(filename))
                 filename = "{0}/{1}".format(self.output_folder.get(),filename)
                 wb = xlsxwriter.Workbook(filename)
                 if x=='sheet' and var == 'All':
@@ -161,11 +171,11 @@ class RM():
                 else:
                     export_var(var, wb, co_code, int(year), var_type = x)
                 wb.close()
-                self.status.set('Sucessfully exported, see {0}.'.format(filename))
+                print('Sucessfully exported, see {0}.'.format(filename))
             else:
-                self.status.set('Error: missing country name or year.')
+                print('Error: missing country name or year.')
         else:
-            self.status.set("Error: no {0} is specified".format(x))
+            print("Error: no {0} is specified".format(x))
 
 
     def select_file(self,x):
@@ -186,26 +196,27 @@ class RM():
                 self.output_folder.insert(0, dirname)
 
     def imp_file(self,x):
+        print('xxxx')
         if x=='file':
             file1 = self.master.splitlist(self.entry_one.get())
             if not file1:
-                self.status.set('No file is selected.')
+                print('No file is selected.')
                 return
         elif x=='folder':
             file1 = self.entry_many.get()
             if not file1:
-                self.status.set('No folder is selected.')
+                print('No folder is selected.')
                 return
         for i in file1:
                 if re.search(".xlsx", i):
-                    self.status.set('Importing {0}'.format(i))
+                    print('Importing {0}'.format(i))
                     x=questionnaire(i,database, True)
                     x.extract_data()
                     x.extract_comments()
                     x.extract_table_comments()
                     x.extract_comments()
                     x.extract_table_comments()
-                    self.status.set('Done.')
+                    print('Done.')
     
     def updtCountry(self):
         """Queries the names of countries that submitted an rm questinnaire"""
