@@ -210,7 +210,7 @@ class RM():
         for i in file1:
                 if re.search(".xlsx", i):
                     print('Importing {0}'.format(i))
-                    x=questionnaire(i,database, True)
+                    x=questionnaire(i,self.database)
                     x.extract_data()
                     x.extract_comments()
                     x.extract_table_comments()
