@@ -77,7 +77,7 @@ CREATE TABLE EDU_METER_AID(
 	LABEL_EXT_FR varchar(2048) ,
     PRIMARY KEY (EMC_ID ASC));
 
--- EDU_METER97_OBS TABLE
+-- EDU_METER97_REP TABLE
 -- Deleting table
 DROP TABLE IF EXISTS EDU_METER97_REP;
 
@@ -97,8 +97,48 @@ CREATE TABLE EDU_METER97_REP(
 	NOTEYESNO char(1) ,              -- in out case NULL.
 PRIMARY KEY (EMC_ID ASC,CO_CODE ASC,ADM_CODE ASC, EMCO_YEAR ASC));
 
+-- EDU_METER97_OBS TABLE
+-- Deleting table
+DROP TABLE IF EXISTS EDU_METER97_OBS;
 
--- EDU_METER97_NonNumeric_OBS TABLE
+-- Creating table
+CREATE TABLE EDU_METER97_OBS(
+	EMC_ID int(10) NOT NULL,
+	CO_CODE int(10) NOT NULL,
+    ADM_CODE int(10) NOT NULL, 
+	EMCO_YEAR int(4) NOT NULL,
+	EAG_AGE int(3) ,    -- not sure what is this : in our case NULL.
+	ST_ID int(5) ,      -- SOURCE_TITLE : exported: in our case 1.
+	ABE_ID char(1) ,    -- EC_AB_EXPENDITURE: A - Actual : B - Budget: in our case NULL.
+	MQ_ID char(1) ,     -- EDU_QUAL: already have the create script.
+	MG_ID char(1) ,     -- MAGNITUDE: already have the create script.
+	EM_FIG float ,
+	EC_TD_ID decimal(3, 0) NOT NULL, -- EC_TYPE_DATA: exported.
+	NOTEYESNO char(1) ,              -- in out case NULL.
+PRIMARY KEY (EMC_ID ASC,CO_CODE ASC,ADM_CODE ASC, EMCO_YEAR ASC));
+
+-- EDU_METER97_EST TABLE
+-- Deleting table
+DROP TABLE IF EXISTS EDU_METER97_EST;
+
+-- Creating table
+CREATE TABLE EDU_METER97_EST(
+	EMC_ID int(10) NOT NULL,
+	CO_CODE int(10) NOT NULL,
+    ADM_CODE int(10) NOT NULL, 
+	EMCO_YEAR int(4) NOT NULL,
+	EAG_AGE int(3) ,    -- not sure what is this : in our case NULL.
+	ST_ID int(5) ,      -- SOURCE_TITLE : exported: in our case 1.
+	ABE_ID char(1) ,    -- EC_AB_EXPENDITURE: A - Actual : B - Budget: in our case NULL.
+	MQ_ID char(1) ,     -- EDU_QUAL: already have the create script.
+	MG_ID char(1) ,     -- MAGNITUDE: already have the create script.
+	EM_FIG float ,
+	EC_TD_ID decimal(3, 0) NOT NULL, -- EC_TYPE_DATA: exported.
+	NOTEYESNO char(1) ,              -- in out case NULL.
+PRIMARY KEY (EMC_ID ASC,CO_CODE ASC,ADM_CODE ASC, EMCO_YEAR ASC));
+
+
+-- EDU_METER97_NonNumeric_REP TABLE
 -- Deleting table
 DROP TABLE IF EXISTS EDU_METER97_NonNumeric_REP;
 
@@ -112,6 +152,33 @@ CREATE TABLE EDU_METER97_NonNumeric_REP(
 	NOTEYESNO char(1),
  PRIMARY KEY (EMC_ID ASC,CO_CODE ASC,EMCO_YEAR ASC,	EC_TD_ID ASC));
 
+-- EDU_METER97_NonNumeric_OBS TABLE
+-- Deleting table
+DROP TABLE IF EXISTS EDU_METER97_NonNumeric_OBS;
+
+-- Creating table
+CREATE TABLE EDU_METER97_NonNumeric_OBS(
+	EMC_ID decimal(19, 0) NOT NULL,
+	CO_CODE decimal(6, 0) NOT NULL, 
+	EMCO_YEAR decimal(4, 0) NOT NULL,
+	EM_Data nvarchar(4000) ,  -- Non numeric data associated with an EMC_ID comment for example.
+	EC_TD_ID decimal(3, 0) NOT NULL,
+	NOTEYESNO char(1),
+ PRIMARY KEY (EMC_ID ASC,CO_CODE ASC,EMCO_YEAR ASC,	EC_TD_ID ASC));
+
+-- EDU_METER97_NonNumeric_EST TABLE
+-- Deleting table
+DROP TABLE IF EXISTS EDU_METER97_NonNumeric_EST;
+
+-- Creating table
+CREATE TABLE EDU_METER97_NonNumeric_EST(
+	EMC_ID decimal(19, 0) NOT NULL,
+	CO_CODE decimal(6, 0) NOT NULL, 
+	EMCO_YEAR decimal(4, 0) NOT NULL,
+	EM_Data nvarchar(4000) ,  -- Non numeric data associated with an EMC_ID comment for example.
+	EC_TD_ID decimal(3, 0) NOT NULL,
+	NOTEYESNO char(1),
+ PRIMARY KEY (EMC_ID ASC,CO_CODE ASC,EMCO_YEAR ASC,	EC_TD_ID ASC));
 
 -- RM_Mapping TABLE
 -- Deleting table
@@ -136,7 +203,7 @@ CREATE TABLE RM_Mapping_NonNumeric(
     AC varchar(100),            -- Alphanumeric codeing scheme.
     EXL_REF varchar(10));      -- EXCEL cell address. Firtst cell in the column.
 
--- EDU_INCLUSION TABLE
+-- EDU_INCLUSION_REP TABLE
 -- Deleting table
 DROP TABLE IF EXISTS EDU_INCLUSION_REP;
 -- Creating table
@@ -150,7 +217,33 @@ CREATE TABLE EDU_INCLUSION_REP(
 PRIMARY KEY ( CO_CODE ASC,  EMCO_YEAR ASC,    EMC_ID ASC, ADM_CODE ASC));
 
 
--- EDU_COMMENT_TABLE_EST TABLE
+-- EDU_INCLUSION_OBS TABLE
+-- Deleting table
+DROP TABLE IF EXISTS EDU_INCLUSION_OBS;
+-- Creating table
+CREATE TABLE EDU_INCLUSION_OBS(
+       CO_CODE decimal(6, 0) NOT NULL,
+       EMCO_YEAR decimal(4, 0) NOT NULL,
+       ADM_CODE INT NOT NULL,
+       EMC_ID decimal(6, 0) NOT NULL,
+       DESC_INCLU varchar(32),  -- Where the inlcusion code XC and XR exist.
+       EC_TD_ID decimal(3, 0) NOT NULL,
+PRIMARY KEY ( CO_CODE ASC,  EMCO_YEAR ASC,    EMC_ID ASC, ADM_CODE ASC));
+
+-- EDU_INCLUSION_EST TABLE
+-- Deleting table
+DROP TABLE IF EXISTS EDU_INCLUSION_EST;
+-- Creating table
+CREATE TABLE EDU_INCLUSION_EST(
+       CO_CODE decimal(6, 0) NOT NULL,
+       EMCO_YEAR decimal(4, 0) NOT NULL,
+       ADM_CODE INT NOT NULL,
+       EMC_ID decimal(6, 0) NOT NULL,
+       DESC_INCLU varchar(32),  -- Where the inlcusion code XC and XR exist.
+       EC_TD_ID decimal(3, 0) NOT NULL,
+PRIMARY KEY ( CO_CODE ASC,  EMCO_YEAR ASC,    EMC_ID ASC, ADM_CODE ASC));
+
+-- EDU_COMMENT_TABLE_REP TABLE
 -- Deleting table
 DROP TABLE IF EXISTS EDU_COMMENT_TABLE_REP;
 -- Creating table
@@ -161,8 +254,30 @@ CREATE TABLE EDU_COMMENT_TABLE_REP(
        COM_DATA varchar(1000) NOT NULL, -- Comment holder.
 PRIMARY KEY ( CO_CODE ASC, EMCO_YEAR ASC, WT_NAME ASC));
 
+-- EDU_COMMENT_TABLE_OBS TABLE
+-- Deleting table
+DROP TABLE IF EXISTS EDU_COMMENT_TABLE_OBS;
+-- Creating table
+CREATE TABLE EDU_COMMENT_TABLE_OBS(
+       CO_CODE int NOT NULL,
+       EMCO_YEAR smallint NOT NULL,
+       WT_NAME varchar(10) NOT NULL, -- Table name.
+       COM_DATA varchar(1000) NOT NULL, -- Comment holder.
+PRIMARY KEY ( CO_CODE ASC, EMCO_YEAR ASC, WT_NAME ASC));
 
----- EDU_FTN_ASSO97_OBS TABLE
+-- EDU_COMMENT_TABLE_EST TABLE
+-- Deleting table
+DROP TABLE IF EXISTS EDU_COMMENT_TABLE_EST;
+-- Creating table
+CREATE TABLE EDU_COMMENT_TABLE_EST(
+       CO_CODE int NOT NULL,
+       EMCO_YEAR smallint NOT NULL,
+       WT_NAME varchar(10) NOT NULL, -- Table name.
+       COM_DATA varchar(1000) NOT NULL, -- Comment holder.
+PRIMARY KEY ( CO_CODE ASC, EMCO_YEAR ASC, WT_NAME ASC));
+
+
+---- EDU_FTN_ASSO97_REP TABLE
 ---- Deleting table
 DROP TABLE IF EXISTS EDU_FTN97_REP;
 ---- Creating table
@@ -179,6 +294,40 @@ CREATE TABLE EDU_FTN97_REP(
 	DATE_ADDED datetime,
 PRIMARY KEY (CO_CODE ASC, ADM_CODE ASC,  EMCO_YEAR ASC, EMC_ID ASC ));
 
+
+---- EDU_FTN_ASSO97_OBS TABLE
+---- Deleting table
+DROP TABLE IF EXISTS EDU_FTN97_OBS;
+---- Creating table
+CREATE TABLE EDU_FTN97_OBS(
+	CO_CODE int  NOT NULL,
+    ADM_CODE int NOT NULL,
+	EMCO_YEAR int NOT NULL,
+	EMC_ID int   NOT NULL,
+	FTN_CODE int  NOT NULL,
+	FTN_DATA varchar(1500),
+	NTABLE decimal(2, 0) NOT NULL, -- Table numbe is 1.1, 1.2, ...
+	QUESTNAME char(1) NOT NULL,
+	USERNAME varchar(255),
+	DATE_ADDED datetime,
+PRIMARY KEY (CO_CODE ASC, ADM_CODE ASC,  EMCO_YEAR ASC, EMC_ID ASC ));
+
+---- EDU_FTN_ASSO97_EST TABLE
+---- Deleting table
+DROP TABLE IF EXISTS EDU_FTN97_EST;
+---- Creating table
+CREATE TABLE EDU_FTN97_EST(
+	CO_CODE int  NOT NULL,
+    ADM_CODE int NOT NULL,
+	EMCO_YEAR int NOT NULL,
+	EMC_ID int   NOT NULL,
+	FTN_CODE int  NOT NULL,
+	FTN_DATA varchar(1500),
+	NTABLE decimal(2, 0) NOT NULL, -- Table numbe is 1.1, 1.2, ...
+	QUESTNAME char(1) NOT NULL,
+	USERNAME varchar(255),
+	DATE_ADDED datetime,
+PRIMARY KEY (CO_CODE ASC, ADM_CODE ASC,  EMCO_YEAR ASC, EMC_ID ASC ));
 
 -- -- EDU_FTN_ASSO97_OBS TABLE
 -- -- Deleting table

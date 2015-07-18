@@ -85,14 +85,20 @@ class RM():
         
         ttk.Label(self.writeframe, text='Country').grid(row=0,column=0, sticky = 'W')
         ttk.Label(self.writeframe, text='Year').grid(row=1,column=0, sticky='W')
+        ttk.Label(self.writeframe, text='Series').grid(row=2,column=0, sticky = 'W')
+        
 
         self.cbox_co = ttk.Combobox(self.writeframe, postcommand=self.updtCountry, width=30)
-        self.cbox_year = ttk.Combobox(self.writeframe, postcommand=self.updtYear)
         self.cbox_co.grid(row=0, column =1, sticky='W')
+        self.cbox_year = ttk.Combobox(self.writeframe, postcommand=self.updtYear)
         self.cbox_year.grid(row=1, column=1 ,sticky='W')
+        self.cbox_series = ttk.Combobox(self.writeframe)  # Make a postcommad
+        self.cbox_series.grid(row=2, column =1, sticky='W')
+        self.cbox_series['values']= ['REP', 'OBS', 'EST']
 
+        pane = ttk.Panedwindow(self.writeframe, orient='horizontal')
         # Exporting options
-        self.lf_exOptions = ttk.LabelFrame(self.writeframe , text="Export by:")
+        self.lf_exOptions = ttk.LabelFrame(pane , text="Export by:")
         self.lf_exOptions.grid(row=3, columnspan=3, sticky='W', padx=5, pady=5, ipadx=5, ipady=5)
 
         ttk.Label(self.lf_exOptions, text='Sheet ').grid(row=0, column=0, sticky='W')
@@ -109,7 +115,16 @@ class RM():
         ttk.Button(self.lf_exOptions, text ='Export', command= lambda x='sheet': self.export(x)).grid(row=0, column=3, sticky='W')
         ttk.Button(self.lf_exOptions, text ='Export', command = lambda x='table': self.export(x)).grid(row=1, column=3, sticky='W')
         ttk.Button(self.lf_exOptions, text ='Export', command = lambda x='AC': self.export(x)).grid(row=2, column=3, sticky='W')
-        
+
+        # Migrating options
+        self.lf_migrate = ttk.LabelFrame(pane , text="Move between databases")
+        self.lf_migrate.grid(row=1, columnspan=2, sticky='WE', padx=5, pady=5, ipadx=5, ipady=5)
+        ttk.Button(self.lf_migrate, text ='REP to OBS').grid(row=0, column=0, sticky='W',padx=5,pady=5)
+        ttk.Button(self.lf_migrate, text ='OBS to EST').grid(row=0, column=1, sticky='W')
+
+        pane.add(self.lf_exOptions,weight=50)
+        pane.add(self.lf_migrate,weight=50)
+        pane.grid(row=3, columnspan=5,padx=5, pady=5, ipadx=5, ipady=5)
         # Output folder
         ttk.Label(self.writeframe, text='Select output folder ').grid(row=4, column=0, sticky='W')    
         self.output_folder = ttk.Entry(self.writeframe)
@@ -149,6 +164,10 @@ class RM():
         self.lf_exOptions.rowconfigure(0, pad=3)
         self.lf_exOptions.rowconfigure(1, pad=3)
         self.lf_exOptions.rowconfigure(2, pad=3)
+
+        self.lf_migrate.columnconfigure(0, pad=3)
+        self.lf_migrate.columnconfigure(1, pad=3)
+        self.lf_migrate.rowconfigure(0, pad=3)
         
     def export(self,x):
         if x=='sheet':
