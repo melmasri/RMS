@@ -1,6 +1,6 @@
 import sys, getpass
 
-sys.path.append('../../Librairies')
+sys.path.append('Librairies')
 from rmquestionnaire import *
 
 # excel_file = "../../../../Dropbox/Regional module Survey/tests/Regional_Questionnaire_Asia_Final_v7_locked_LAOS.xlsx"
@@ -197,7 +197,6 @@ class RM():
                 self.output_folder.insert(0, dirname)
 
     def imp_file(self,x):
-        print('xxxx')
         if x=='file':
             file1 = self.master.splitlist(self.entry_one.get())
             if not file1:
@@ -244,9 +243,9 @@ class RM():
 
    
 def main():
-    database="../../Database/UISProd.db"
+    database="Database/UISProd.db"
     set_database_file(database)
-    log_folder = "../../Log"
+    log_folder = "Log"
     root = tk.Tk()
     app = RM(root, database, log_folder)
     root.mainloop()

@@ -6,13 +6,11 @@ import collections #enable namedtuple: varname = collections.namedtuple('varname
 import sys, json
 from rmsqlfunctions import *
 import os
-<<<<<<< HEAD
 from functools import reduce
 import shutil
 import datetime
-=======
 from itertools import chain
->>>>>>> 85bd180cf5ba4fd594fd64a52cab851fe9146e07
+
 #Global variables
 # conn = sqlite3.connect('../../Database/UISProd.db')
 # #Uncomment the line below for creating virtual database
@@ -30,7 +28,7 @@ if ( re.search('\\\\Tests\\\\mo$',os.getcwd()) or re.search('/Tests/os$',os.getc
     with open("../../Librairies/variables_for_preprocessing.json") as f:
         pre_vars=json.loads(f.read())
 else:
-    with open("../Librairies/variables_for_preprocessing.json") as f:
+    with open("Librairies/variables_for_preprocessing.json") as f:
         pre_vars=json.loads(f.read())
 
 
