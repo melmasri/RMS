@@ -6,13 +6,12 @@ import collections #enable namedtuple: varname = collections.namedtuple('varname
 import sys, json
 from rmsqlfunctions import *
 import os
-<<<<<<< HEAD
 from functools import reduce
 import shutil
 import datetime
-=======
 from itertools import chain
->>>>>>> 85bd180cf5ba4fd594fd64a52cab851fe9146e07
+import time
+
 #Global variables
 # conn = sqlite3.connect('../../Database/UISProd.db')
 # #Uncomment the line below for creating virtual database
@@ -278,6 +277,15 @@ class questionnaire:
         cursor=self.conn.cursor()
         cursor.execute("SELECT EMC_ID  FROM RM_MAPPING WHERE RM_TABLE=\"{0}\" AND Col={1};".format(table_name,column ) )
         return(cursor.fetchone()[0])
+
+    def print_log(self,text_string):
+        """Puts the text in the log file and in stdout.
+        """
+        print(text_string)
+        self.log_file.write(text_string)
+        self.log_file.flush()
+        os.fsync(self.log_file.fileno())
+        
     def preprocessing(self):
         """Checks the consistency of the questionnaire.
 
@@ -292,15 +300,22 @@ class questionnaire:
         if (not self.edit_mode):
             check_variables=pre_vars["Checking sheet"]
             sheet=self.wb.sheet_by_name("Checking sheet")
+            self.print_log("Date: "+ time.strftime("%x") + "\n")
+            self.print_log("Questionnaire path: " + self.excel_file + "\n")
+            ## Check the number of sheets
+            if pre_vars['nsheets']==self.wb.nsheets:
+                self.print_log("The correct number of sheets has been submited.\n")
             printed_main_message=False
             for sheet_name in check_variables.keys():
                 for var in [[x, check_variables[sheet_name][1] ] for x in check_variables[sheet_name][0] ]:
                     if( sheet.cell( *var ).value == 'No' ):
-                        if(not printed_main_message):
-                            print("The following items have No in the Checking sheet:")
+                        if(not printed_main_message):                                                        
+                            self.print_log("The following items have No in the Checking sheet:\n")
                             printed_main_message=True
                         var[1]-=5
-                        print("{0} : {1}".format( sheet_name, sheet.cell(*var).value ))
+                        self.print_log("{0} : {1}\n".format( sheet_name, sheet.cell(*var).value ))
+            if (not  printed_main_message ):
+                self.print_log("All the checks passes. QUESTIONNAIRE CAN BE PROCESSED\n")
         else:
             ## For each sheet name, the following dictionary has a
             ## list of pairs. For each pair, the first entry should be
@@ -339,7 +354,7 @@ class questionnaire:
                             small_value=smaller_meter_values[i]
                             big_value=bigger_meter_values[i]
                             if  (type(small_value) in [int,float] and type(big_value) in [int,float] and small_value > big_value):
-                                print("{}: In row {} the value of column {} is bigger than the value in column {}.".format(sheet_name,i+1,pairs[0],pairs[1]))
+                                self.print_log("{}: In row {} the value of column {} is bigger than the value in column {}.\n".format(sheet_name,i+1,pairs[0],pairs[1]))
                 cursor.close()
             check_less()
             ## Check that the regional numbers match the total.
@@ -374,7 +389,7 @@ class questionnaire:
                     regions_sum=reduce(lambda x,y : x+y, meter_values)
                     if (regions_sum != meter_value_country):
                         ## Error para el log
-                        print ("The regional figures do not add up to the country total in {0} column {1}".format(table,col))
+                        self.print_log("The regional figures do not add up to the country total in {0} column {1}\n".format(table,col))
                 cursor.close()
 
     
@@ -469,7 +484,6 @@ class questionnaire:
             comments=sheet.cell(*indexes(exl_ref)).value
             if comments not in ["Emter commemt here","Enter comment here"]:
                 comments_data=comments_data + ( (self.country_code,self.emco_year,rm_table,comments  ),   )
-        print(comments_data)
         cursor.executemany("INSERT OR REPLACE INTO EDU_COMMENT_TABLE_REP VALUES(?,?,?,?);",comments_data)
         self.conn.commit()
         cursor.close()
@@ -616,8 +630,8 @@ class questionnaire:
         backup_imported_questionnaire()
         cursor.close()
         
-    def __init__(self,excel_file,database_file="../Database/UISProd.db"):
-        """Set up variables for questionnaire and database reading"""        
+    def __init__(self,excel_file,database_file="../Database/UISProd.db",log_folder="/tmp/log"):
+        """Set up variables for questionnaire and database reading"""                
         self.excel_file=excel_file
         self.set_workbook(excel_file)
         self.edit_mode= not 'Checking sheet' in self.wb.sheet_names()
@@ -626,3 +640,7 @@ class questionnaire:
         self.get_nadm1()
         self.get_country_name()
         self.get_country_code()
+        if (not os.path.exists(log_folder)):
+            os.makedirs(log_folder)
+        self.log_file=open( log_folder + "/{}".format(self.country_name) + ".log",'a')
+
