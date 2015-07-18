@@ -43,7 +43,6 @@ class RM():
         pad = 5
         ## Styles
         style = ttk.Style()
-        ttk.Style().configure("TButton", padding=(5, 5, 5, 5), font='serif 10')
         style.configure("BW.TLabel", foreground="black", background="white")
         ###### Settings frame
         RM.username = getpass.getuser()
@@ -63,9 +62,9 @@ class RM():
         self.lf_impOptions.grid(row=3, columnspan=3, sticky='W', padx=5, pady=5, ipadx=5, ipady=5)
 
         # ## Text boxes
-        self.entry_one = ttk.Entry(self.lf_impOptions)
+        self.entry_one = ttk.Entry(self.lf_impOptions,width=50)
         self.entry_one.grid(row=0, column=1, sticky='W')
-        self.entry_many = ttk.Entry(self.lf_impOptions)
+        self.entry_many = ttk.Entry(self.lf_impOptions,width=50)
         self.entry_many.grid(row=1, column=1, sticky='W')
 
         # # Buttons
