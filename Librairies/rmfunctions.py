@@ -33,15 +33,118 @@ else:
         pre_vars=json.loads(f.read())
 
 
+####DATA EXTRACTION
+#-----------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------
+def getADM_CODE(co_code):
+    """ A function that returns the ADM codes for a specific country"""
+    sql_str = 'Select ADM_CODE from REGIONS where CO_CODE ={0}'.format(co_code)
+    sql_str = sql_query(sql_str)[0]
+
+
+def getADM_DISTINCT(co_code):
+    """ A function that return the distinct number of ADM"""
+    sql_str = 'SELECT COUNT(ADM_CODE) FROM REGIONS WHERE CO_CODE={0}'.format(co_code)
+    query = sql_query(sql_str)[0]
+    return(query[0])
+    
+def getCO_CODE(country_name):
+    """This function returns a country code given the long name.
+    If the exact country name is found, it gives back the code,
+    otherwise it returns None.
+    """
+    name = country_name.upper().replace("'", "''")
+    sql_str = ("SELECT CO_CODE FROM COUNTRY "
+               " WHERE UPPER(CO_LONG_NAME) IS '{0}' "
+               " OR UPPER(CO_SHORT_NAME) IS '{0}' ".format(name))
+    code = sql_query(sql_str)
+    if code:
+        return(code[0][0])
+   
+def getCO_NAME(co_code, short=True):
+    """This function returns a country name given the country code
+    If the  country name is found it returns it  otherwise it returns None.
+    """
+    if short:
+        var = 'CO_SHORT_NAME'
+    else:
+        var = 'CO_LONG_NAME'
+    sql_str = ("SELECT {0} FROM COUNTRY "
+               " WHERE CO_CODE ={1} ".format(var , co_code))
+    code = sql_query(sql_str)
+    if code:
+        return(code[0][0])
+
+def getAvailable_countries():
+    """ Returns a tuple of the available countries"""
+    sql_str = ("SELECT DISTINCT b.CO_SHORT_NAME FROM REGIONS as a "
+               "left join COUNTRY as b on a.CO_CODE = b.CO_CODE "
+               "where a.ADM_CODE >0")
+    res = sql_query(sql_str)
+    if res:
+        return(res)
+
+def getAvailable_year(co_name):
+    """ Returns the data year of the submitted questionnaires"""
+    name = co_name.upper().replace("'", "''")
+
+    sql_str = ("SELECT DISTINCT A.EMCO_YEAR FROM EDU_METER97_REP AS A "
+               "LEFT JOIN COUNTRY AS B ON B.CO_CODE = A.CO_CODE "
+               "WHERE UPPER(B.CO_SHORT_NAME) IS '{0}' ".format(name))
+    code = sql_query(sql_str)   
+    if code:
+        return(list(chain.from_iterable(code)))
 
 ####DATA INSERTION
 #-----------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------
+def moveSerie(co_code, year, from_serie, to_serie):
+    """A function that moves data between series. From REP to OBS for example. 
+       So far, it modifies the following 3 SQL table:
+        1 - EDU_METER97_{}
+        2 - EDU_INCLUSION{}
+        3 - EDU_FTN97_{}
+        4 - EDU_COMMENT_TABLE_{}
+"""
+    ### Move EDU_METER97
+    ## Current year
+    print('Moving data for {0}-{1}'.format(co_code, year))
+    for ind in [0,-1]:
+        meter = ("INSERT OR REPLACE INTO EDU_METER97_{3} "
+                 "SELECT a.* FROM RM_Mapping as b "
+                 "left join EDU_METER97_{2} as a on a.EMC_ID = b.EMC_ID and b.CUR_YEAR ={4} "
+                 "where a.co_code ={0} "
+                 "and a.EMCO_YEAR ={1}".format(co_code, year-ind, from_serie, to_serie,ind))
+        ### Moving EDU_INCLUSION
+        ### Current year
+        inclu= ("INSERT OR REPLACE INTO EDU_INCLUSION_{3} "
+                "SELECT a.* FROM RM_Mapping as b "
+                "join EDU_INCLUSION_{2} as a on a.EMC_ID = b.EMC_ID and b.Cur_Year = {4} "
+                "where a.co_code ={0} "
+                "and a.EMCO_YEAR ={1}".format(co_code, year-ind, from_serie, to_serie,ind))
+        ### Current year
+        ftn = ("INSERT OR REPLACE INTO EDU_FTN97_{3} "
+               "SELECT a.* FROM RM_Mapping as b "
+               "left join EDU_FTN97_{2} as a on a.EMC_ID = b.EMC_ID and b.CUR_YEAR = {4} "
+               "where a.co_code = {0} "
+               "and a.EMCO_YEAR = {1}".format(co_code, year, from_serie, to_serie,ind))
+        sql_query(meter,False)
+        sql_query(inclu, False)
+        sql_query(ftn,False)
 
+    print("Moved METER, INCLU and FTN tables from {0} to {1}".format(from_serie, to_serie))
 
-####DATA LOOKUP
-#-----------------------------------------------------------------------------------------------------
-#-----------------------------------------------------------------------------------------------------
+    ### Moving EDU_COMMENT_TABLE
+    ### Current year
+    table_com = ("INSERT OR REPLACE INTO EDU_COMMENT_TABLE_{3} "
+                 "SELECT a.* FROM RM_Mapping_NonNumeric as b "
+                 "join EDU_COMMENT_TABLE_{2} as a on a.WT_NAME = b.RM_TABLE "
+                 "where a.co_code = {0} "
+                 "and a.EMCO_YEAR = {1}".format(co_code, year, from_serie, to_serie))
+    sql_query(table_com, False)
+
+    print("Moved COMMENT_TABLE table from {0} to {1}".format(from_serie, to_serie))
+     
 
 ####MISC
 #-----------------------------------------------------------------------------------------------------
@@ -125,6 +228,7 @@ def mg_id(cell_value):
     else:
         return("\"\"")
 
+    
 
 
 ## Error class for a country name that is not found in the database
@@ -132,69 +236,10 @@ class CountryNameError(Exception):
     pass
 
 
-
-####DATA EXTRACTION
+####DATA EXTRACTION CLASS
 #-----------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------
-def getADM_CODE(co_code):
-    """ A function that returns the ADM codes for a specific country"""
-    sql_str = 'Select ADM_CODE from REGIONS where CO_CODE ={0}'.format(co_code)
-    sql_str = sql_query(sql_str)[0]
 
-
-def getADM_DISTINCT(co_code):
-    """ A function that return the distinct number of ADM"""
-    sql_str = 'SELECT COUNT(ADM_CODE) FROM REGIONS WHERE CO_CODE={0}'.format(co_code)
-    query = sql_query(sql_str)[0]
-    return(query[0])
-    
-def getCO_CODE(country_name):
-    """This function returns a country code given the long name.
-    If the exact country name is found, it gives back the code,
-    otherwise it returns None.
-    """
-    name = country_name.upper().replace("'", "''")
-    sql_str = ("SELECT CO_CODE FROM COUNTRY "
-               " WHERE UPPER(CO_LONG_NAME) IS '{0}' "
-               " OR UPPER(CO_SHORT_NAME) IS '{0}' ".format(name))
-    code = sql_query(sql_str)
-    if code:
-        return(code[0][0])
-
-    
-def getCO_NAME(co_code, short=True):
-    """This function returns a country name given the country code
-    If the  country name is found it returns it  otherwise it returns None.
-    """
-    if short:
-        var = 'CO_SHORT_NAME'
-    else:
-        var = 'CO_LONG_NAME'
-    sql_str = ("SELECT {0} FROM COUNTRY "
-               " WHERE CO_CODE ={1} ".format(var , co_code))
-    code = sql_query(sql_str)
-    if code:
-        return(code[0][0])
-
-def getAvailable_countries():
-    """ Returns a tuple of the available countries"""
-    sql_str = ("SELECT DISTINCT b.CO_SHORT_NAME FROM REGIONS as a "
-               "left join COUNTRY as b on a.CO_CODE = b.CO_CODE "
-               "where a.ADM_CODE >0")
-    res = sql_query(sql_str)
-    if res:
-        return(res)
-
-def getAvailable_year(co_name):
-    """ Returns the data year of the submitted questionnaires"""
-    name = co_name.upper().replace("'", "''")
-
-    sql_str = ("SELECT DISTINCT A.EMCO_YEAR FROM EDU_METER97_REP AS A "
-               "LEFT JOIN COUNTRY AS B ON B.CO_CODE = A.CO_CODE "
-               "WHERE UPPER(B.CO_SHORT_NAME) IS '{0}' ".format(name))
-    code = sql_query(sql_str)   
-    if code:
-        return(list(chain.from_iterable(code)))
 
 class questionnaire:
     """Defines questionnaire properties and methods

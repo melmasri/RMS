@@ -16,14 +16,21 @@ def set_database_file(database_file):
         print('Connectioned failed.')
 
 
-def sql_query(sql_str):
+def sql_query(sql_str, readonly = True):
     """ Write sql queries"""
     global con
     database_cursor = con.cursor()
-    if database_cursor.execute(sql_str):
-        aux = database_cursor.fetchall()
-        database_cursor.close()
-        return aux
-    else:
-        database_cursor.close()
-        None    
+    try:
+        aux = database_cursor.execute(sql_str)    
+        if aux :
+            if readonly:
+                aux = database_cursor.fetchall()
+                database_cursor.close()
+                return aux
+            else:
+                con.commit()
+                database_cursor.close()
+    except sqlite3.Error as e:
+        print ("An error occurred:", e.args[0])
+        
+    
