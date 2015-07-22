@@ -752,6 +752,7 @@ class questionnaire:
         self.get_nadm1()
         self.get_country_name()
         self.get_country_code()
+        self.get_database_type()
         if (not os.path.exists(log_folder)):
             os.makedirs(log_folder)
         self.log_file=open( log_folder + "/{}".format(self.country_name) + ".log",'a')
