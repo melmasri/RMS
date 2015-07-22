@@ -19,14 +19,14 @@ class StdoutRedirector(object):
     def __init__(self,text_widget):
         self.text_space = text_widget
 
-
     def write(self,string):
         self.text_space.insert('end', string)
         self.text_space.see('end')
 
 
 class RM():
-   
+    
+    series = {'Reported':'REP', 'Clean': 'OBS', 'Estimated':'EST'}
     def __init__(self, master, database, log_folder=''):
         self.master = master
         self.database = database
@@ -93,7 +93,7 @@ class RM():
         self.cbox_year.grid(row=1, column=1 ,sticky='W')
         self.cbox_series = ttk.Combobox(self.writeframe)  # Make a postcommad
         self.cbox_series.grid(row=2, column =1, sticky='W')
-        self.cbox_series['values']= ['REP', 'OBS', 'EST']
+        self.cbox_series['values']= ['Reported', 'Clean', 'Estimated']
 
         pane = ttk.Panedwindow(self.writeframe, orient='horizontal')
         # Exporting options
@@ -118,8 +118,8 @@ class RM():
         # Migrating options
         self.lf_migrate = ttk.LabelFrame(pane , text="Move between databases")
         self.lf_migrate.grid(row=1, columnspan=2, sticky='WE', padx=5, pady=5, ipadx=5, ipady=5)
-        ttk.Button(self.lf_migrate, text ='REP to OBS').grid(row=0, column=0, sticky='W',padx=5,pady=5)
-        ttk.Button(self.lf_migrate, text ='OBS to EST').grid(row=0, column=1, sticky='W')
+        ttk.Button(self.lf_migrate, text ='REP to OBS', command= lambda x = 'REP', y = 'OBS': self.migrate_serie(x,y)).grid(row=0, column=0, sticky='W',padx=5,pady=5)
+        ttk.Button(self.lf_migrate, text ='OBS to EST', command = lambda x ='OBS', y = 'EST': self.migrate_serie(x,y)).grid(row=0, column=1, sticky='W')
 
         pane.add(self.lf_exOptions,weight=50)
         pane.add(self.lf_migrate,weight=50)
@@ -169,6 +169,7 @@ class RM():
         self.lf_migrate.rowconfigure(0, pad=3)
         
     def export(self,x):
+        """ Exports a whole questionnare, sheet or AC"""
         if x=='sheet':
             var = str(self.cbox_sheet.get())
         elif x=='table':
@@ -179,20 +180,22 @@ class RM():
         if var:
             co_name = str(self.cbox_co.get())
             year = self.cbox_year.get()
-            if co_name and year:
+            serie = str(self.cbox_series.get())
+            if co_name and year and serie:
                 co_code = getCO_CODE(co_name)
+                serie = RM.series[serie]
                 filename = "{0}_{1}_{2}.xlsx".format(co_name, year,var)
                 print('Exporting file {0}'.format(filename))
                 filename = "{0}/{1}".format(self.output_folder.get(),filename)
                 wb = xlsxwriter.Workbook(filename)
                 if x=='sheet' and var == 'All':
-                    [export_var(i, wb, co_code, int(year), var_type = x)for i in self.cbox_sheet['values'][1:]]
+                    [export_var(i, wb, co_code, int(year), var_type = x ,serie=serie) for i in self.cbox_sheet['values'][1:]]
                 else:
-                    export_var(var, wb, co_code, int(year), var_type = x)
+                    export_var(var, wb, co_code, int(year), var_type = x,serie=serie)
                 wb.close()
                 print('Sucessfully exported, see {0}.'.format(filename))
             else:
-                print('Error: missing country name or year.')
+                print('Error: missing country name, year or series.')
         else:
             print("Error: no {0} is specified".format(x))
 
@@ -215,8 +218,10 @@ class RM():
                 self.output_folder.insert(0, dirname)
 
     def imp_file(self,x):
+        """ Imports an excel questionnaire or sheets to the SQL database"""
         if x=='file':
             file1 = self.master.splitlist(self.entry_one.get())
+            print(file1)
             if not file1:
                 print('No file is selected.')
                 return
@@ -259,6 +264,15 @@ class RM():
             l = "SELECT DISTINCT AC FROM RM_Mapping order by AC"
             self.cbox_AC['values'] =  list(chain.from_iterable(sql_query(l)))
 
+    def migrate_serie(self, from_serie, to_serie):
+        """ A funtion that migrates data between series Reported(REP), Clean(OBS), Estimated(EST)"""
+        co_name = str(self.cbox_co.get())
+        year = self.cbox_year.get()
+        if co_name and year:
+            moveSerie(getCO_CODE(co_name), int(year), from_serie, to_serie)
+        else:
+            print('Error: missing country name or year.')
+        
    
 def main():
     database="Database/UISProd.db"

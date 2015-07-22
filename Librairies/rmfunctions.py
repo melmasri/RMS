@@ -103,13 +103,13 @@ def moveSerie(co_code, year, from_serie, to_serie):
     
     ### Move EDU_METER97
     ## Current year
+    print('Moving data for {0}-{1}'.format(co_code, year))
     for ind in [0,-1]:
         meter = ("INSERT OR REPLACE INTO EDU_METER97_{3} "
                  "SELECT a.* FROM RM_Mapping as b "
                  "left join EDU_METER97_{2} as a on a.EMC_ID = b.EMC_ID and b.CUR_YEAR ={4} "
                  "where a.co_code ={0} "
                  "and a.EMCO_YEAR ={1}".format(co_code, year-ind, from_serie, to_serie,ind))
-
         ### Moving EDU_INCLUSION
         ### Current year
         inclu= ("INSERT OR REPLACE INTO EDU_INCLUSION_{3} "
@@ -117,8 +117,6 @@ def moveSerie(co_code, year, from_serie, to_serie):
                 "join EDU_INCLUSION_{2} as a on a.EMC_ID = b.EMC_ID and b.Cur_Year = {4} "
                 "where a.co_code ={0} "
                 "and a.EMCO_YEAR ={1}".format(co_code, year-ind, from_serie, to_serie,ind))
-        
-        ### Moving  EDU_FTN97_REP
         ### Current year
         ftn = ("INSERT OR REPLACE INTO EDU_FTN97_{3} "
                "SELECT a.* FROM RM_Mapping as b "
@@ -602,6 +600,8 @@ class questionnaire:
         mapping_table = cursor.fetchall()
         if self.edit_mode:
             edit_sheets_names=self.wb.sheet_names()
+        else:
+            self.create_region_codes()
         for variables in mapping_table:
             # When we edit we are only interested in certain sheets
             if self.edit_mode and variables[0] not in edit_sheets_names:
