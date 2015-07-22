@@ -5,31 +5,35 @@ from rmfunctions import *
 import xlsxwriter
 
     
-def getTable(var, co_code, year, var_type):
-    """ A function that returns AC or Table data and labels for a specific CO_CODE and year
-        var : is either  "AC = 'somAC'" ( i.e. "AC =' T.1'") or RM_TABLE = someTableName', 
+def getTable(var, co_code, year, var_type,serie):
+    """ A function that returns AC or Table data and labels for a specific CO_CODE and year.
+        var : is either  
+                "AC = 'somAC'" ( i.e. "AC =' T.1'") 
+                "RM_TABLE = 'someTableName' 
         it depends if you want to extract a specific AC code and its labels or a whole table.
+        serie : is either 'REP', 'OBS', 'EST.
         The function returns the a list of tuples, where each tuple is an SQL record. 
         The tuple is organized as ( ADM_CODE, DATA, CELL.NO , EXL_REF)
     """
     data = []
+    # The bellow offset is to accord for the data in the questoinnaire from the previous year.
     for offset in [0,-1]:
         sql_data = ("select b.ADM_CODE, case when b.MG_ID ='1' then 'n' "
                     "when b.MG_ID ='3' then d.DESC_INCLU "
-                   "when b.MG_ID ='6' then 'Z' "
-                   "when b.MG_ID ='D' then 'm' "
-                   "else b.EM_FIG end as cell, "
-                   "a.Col, a.EXL_REF from EDU_METER97_REP as b "
-                   "left join RM_Mapping as a on a.EMC_ID = b.EMC_ID "
-                   "left join REGIONS as c on b.CO_CODE = c.CO_CODE "
-                   "and b.ADM_CODE = c.ADM_CODE "
-                   "left join EDU_INCLUSION_REP as d on d.CO_CODE =b.CO_CODE "
-                   "and d.EMCO_YEAR = b.EMCO_YEAR and d.ADM_CODE = b.ADM_CODE "
-                   "and d.EMC_ID = b.EMC_ID "
-                   "left join MAGNITUDE as e on e.MG_ID = b.MG_ID "
-                   "where b.CO_CODE ={1} and b.EMCO_YEAR ={2} "
-                   "and a.{0} and "
-                    "a.CUR_YEAR = {3}".format(var, co_code, year+offset , offset))
+                    "when b.MG_ID ='6' then 'Z' "
+                    "when b.MG_ID ='D' then 'm' "
+                    "else b.EM_FIG end as cell, "
+                    "a.Col, a.EXL_REF from EDU_METER97_{4} as b "
+                    "left join RM_Mapping as a on a.EMC_ID = b.EMC_ID "
+                    "left join REGIONS as c on b.CO_CODE = c.CO_CODE "
+                    "and b.ADM_CODE = c.ADM_CODE "
+                    "left join EDU_INCLUSION_{4} as d on d.CO_CODE =b.CO_CODE "
+                    "and d.EMCO_YEAR = b.EMCO_YEAR and d.ADM_CODE = b.ADM_CODE "
+                    "and d.EMC_ID = b.EMC_ID "
+                    "left join MAGNITUDE as e on e.MG_ID = b.MG_ID "
+                    "where b.CO_CODE ={1} and b.EMCO_YEAR ={2} "
+                    "and a.{0} and "
+                    "a.CUR_YEAR = {3}".format(var, co_code, year+offset , offset, serie))
         data = data + sql_query(sql_data)
         # Table header/label
     label_adm = ("select -1 as ADM_CODE, a.Col as cell, a.Col, a.EXL_REF "
@@ -55,31 +59,38 @@ def getTable(var, co_code, year, var_type):
     data =  data + sql_query(label_adm)
     return(data)
 
-def getCell_comment(var, co_code, year):
-    """ Returns the cell comments of a specific variable (var) if exist"""
+def getCell_comment(var, co_code, year,serie):
+    """ Returns the cell comments of a specific variable (var) if exist.
+        var : is either  
+                "AC = 'somAC'" ( i.e. "AC =' T.1'") 
+                "RM_TABLE = 'someTableName' 
+    """
     data = []
+    # The bellow offset is to accord for the data in the questoinnaire from the previous year.
     for offset in [0,-1]:
         sql_str = ("SELECT c.ADM_CODE, c.FTN_DATA, a.Col, a.EXL_REF FROM RM_Mapping AS a "
                    "LEFT JOIN EDU_METER_AID AS b ON b.AC = a.AC "
-                   "JOIN EDU_FTN97_REP AS c ON b.EMC_ID = c.EMC_ID "
+                   "JOIN EDU_FTN97_{4} AS c ON b.EMC_ID = c.EMC_ID "
                    "WHERE a.{0} AND a.CUR_YEAR = {3} "
                    "AND c.CO_CODE = {1} "
-                   "AND c.EMCO_YEAR = {2};".format(var,co_code, year+ offset, offset))
+                   "AND c.EMCO_YEAR = {2};".format(var,co_code, year+ offset, offset,serie))
         data = data + sql_query(sql_str)
     if data:
         return(data)
                 
 
-def getTable_comment(var, co_code, year, view_type):
+def getTable_comment(var, co_code, year, view_type,serie):
     """ A function that returns table comments for a specific table.
-        var: is  "RM_TABLE = 'someTableName'", i.e., "RM_TABLE = 'Table 1.2'".
-        Return value is a dictionary of Excel ref as keys and data as values.
+        var : is either  
+                "AC = 'somAC'" ( i.e. "AC =' T.1'") 
+                "RM_TABLE = 'someTableName' 
+        Return value is a dictionary of Excel references as keys and data as values.
     """
     sql_str =("select a.RM_TABLE, b.COM_DATA, a.EXL_REF "
               "from RM_Mapping_NonNumeric as a "
-              "left join EDU_COMMENT_TABLE_REP as b on b.WT_NAME = a.RM_TABLE "
+              "left join EDU_COMMENT_TABLE_{3} as b on b.WT_NAME = a.RM_TABLE "
               "where a.{0} and b.CO_CODE = {1} "
-              "and  b.EMCO_YEAR = {2};".format(var, co_code, year)) 
+              "and  b.EMCO_YEAR = {2};".format(var, co_code, year,serie)) 
     data = sql_query(sql_str)
     if(data):
         data= data[0]
@@ -90,7 +101,7 @@ def getTable_comment(var, co_code, year, view_type):
         return(data)
 
 
-def export_var(var, wb, co_code, year, var_type):
+def export_var(var, wb, co_code, year, var_type, serie= 'REP'):
     """ A function that exports to an Excel workbook a data defined in var.
         var in  {Table name, Sheet name, AC} as in the questionnaire
         var_type in {'AC', 'table', 'sheet'}
@@ -117,7 +128,7 @@ def export_var(var, wb, co_code, year, var_type):
     header_dict= {'A1': 'Country','B1': co_name,'A2': 'CO_CODE',
                   'B2': co_code,'A3': 'Year','B3': year,
                   'A4': 'Data','B4': var, 'A5': 'No.ADM', 'B5': no_ADM,
-                  'A6': 'Series', 'B6': 'REP',
+                  'A6': 'Series', 'B6': serie,
                   'A7': 'Mode', 'B7': view_type}
 
     # header format
@@ -126,16 +137,16 @@ def export_var(var, wb, co_code, year, var_type):
     
     # A loop over all tables all tables
     for ext in var_list:
-        data = getTable(ext, co_code, year, var_type)
+        data = getTable(ext, co_code, year, var_type, serie)
         data = [l + (format_data,) if l[0]>=0 else l + (format_header,) for l in data]
-        data_comment = getCell_comment(ext, co_code, year)
+        data_comment = getCell_comment(ext, co_code, year, serie)
         write_data(worksheet, header_dict)      
         if data_comment:
             write_data(worksheet, data, view_type, data_comment = data_comment, fmt=True)
         else:
             write_data(worksheet, data, view_type, fmt=True)
         if(var_type != "AC"):
-            table_comment  =  getTable_comment(ext, co_code, year, view_type)
+            table_comment  =  getTable_comment(ext, co_code, year, view_type, serie)
             write_data(worksheet,table_comment) if table_comment  else None
            
 
@@ -158,11 +169,10 @@ def write_data(worksheet, data, view_type = 'ReadOnly', **op):
                 i.e., (-2, 'Administrative divisions', 2, 'H18'), this would place the 
                 label 'Administrative divisions' above
                 region names by an offset of 2 rows above the first name.
-        2) data is a dictionary where keys are EXL_REF and values is the datum.
+        2) data is a dictionary where keys are EXL_REF and values are the datum.
                 For example {'A1': 'Country name', 'B1': Canada}
 
-        view_type: 'ReadOnly' is would shift all the Excel reference to the write of the worksheet, 
-                    for easier viewing.
+        view_type: 'ReadOnly' would shift all the Excel references to the right of the worksheet for easier viewing.
                    'Edit' would place them as is, in their original location in the questionnaire.
     """
     if(type(data)==list):

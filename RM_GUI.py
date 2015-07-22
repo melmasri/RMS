@@ -22,12 +22,16 @@ class StdoutRedirector(object):
     def write(self,string):
         self.text_space.insert('end', string)
         self.text_space.see('end')
+        
+    def flush(self):
+        pass
 
 
 class RM():
-    
+    """ A class the generated the regional moduel gui."""
     series = {'Reported':'REP', 'Clean': 'OBS', 'Estimated':'EST'}
     def __init__(self, master, database, log_folder=''):
+        """ Main initilization"""
         self.master = master
         self.database = database
         self.log_folder = log_folder
@@ -39,8 +43,9 @@ class RM():
         self.setFormating()
         
     def createWidgets(self):
+        """ Creating all widgets in the gui."""
         ## Static variables
-        pad = 5
+        pad = 5                 # size padding for frames
         ## Styles
         style = ttk.Style()
         style.configure("BW.TLabel", foreground="black", background="white")
@@ -141,6 +146,7 @@ class RM():
 
     ### Supporting functions
     def setFormating(self):
+        """ Formats the sizes and padding of different widgets"""
         ### Import frame settings
         self.lf_impOptions.columnconfigure(0, pad=3)
         self.lf_impOptions.columnconfigure(1, pad=3)
@@ -206,22 +212,23 @@ class RM():
         if x=='file':
             dirname = tk.filedialog.askopenfilenames(title="Select files",**FILEOPENOPTIONS )
             if dirname:
+                self.entry_one.delete(0,'end')
                 self.entry_one.insert(0, dirname)
         elif x=='folder':
             dirname = tk.filedialog.askdirectory( title="Select a folder")
             if(dirname):
-
-                self.entry_many.insert(1, dirname)
+                self.entry_many.delete(0, 'end')
+                self.entry_many.insert(0, dirname)
         elif x=='out_folder':
             dirname = tk.filedialog.askdirectory()
             if dirname:
+                self.out_folder.delete(0, 'end')
                 self.output_folder.insert(0, dirname)
 
     def imp_file(self,x):
         """ Imports an excel questionnaire or sheets to the SQL database"""
         if x=='file':
             file1 = self.master.splitlist(self.entry_one.get())
-            print(file1)
             if not file1:
                 print('No file is selected.')
                 return

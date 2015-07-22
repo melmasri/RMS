@@ -60,8 +60,7 @@ def getCO_CODE(country_name):
     code = sql_query(sql_str)
     if code:
         return(code[0][0])
-
-    
+   
 def getCO_NAME(co_code, short=True):
     """This function returns a country name given the country code
     If the  country name is found it returns it  otherwise it returns None.
@@ -100,7 +99,13 @@ def getAvailable_year(co_name):
 #-----------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------
 def moveSerie(co_code, year, from_serie, to_serie):
-    
+    """A function that moves data between series. From REP to OBS for example. 
+       So far, it modifies the following 3 SQL table:
+        1 - EDU_METER97_{}
+        2 - EDU_INCLUSION{}
+        3 - EDU_FTN97_{}
+        4 - EDU_COMMENT_TABLE_{}
+"""
     ### Move EDU_METER97
     ## Current year
     print('Moving data for {0}-{1}'.format(co_code, year))
