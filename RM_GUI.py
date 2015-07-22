@@ -190,7 +190,7 @@ class RM():
             if co_name and year and serie:
                 co_code = getCO_CODE(co_name)
                 serie = RM.series[serie]
-                filename = "{0}_{1}_{2}.xlsx".format(co_name, year,var)
+                filename = "{0}_{1}_{2}_{3}.xlsx".format(co_name, year,var,serie)
                 print('Exporting file {0}'.format(filename))
                 filename = "{0}/{1}".format(self.output_folder.get(),filename)
                 wb = xlsxwriter.Workbook(filename)
@@ -241,11 +241,12 @@ class RM():
                 if re.search(".xlsx", i):
                     print('Importing {0}'.format(i))
                     x=questionnaire(i,self.database,self.log_folder)
-                    x.extract_data()
-                    x.extract_comments()
-                    x.extract_table_comments()
-                    x.extract_comments()
-                    x.extract_table_comments()
+                    if x.preprocessing():
+                        x.extract_data()
+                        x.extract_comments()
+                        x.extract_table_comments()
+                        x.extract_comments()
+                        x.extract_table_comments()
                     print('Done.')
     
     def updtCountry(self):
