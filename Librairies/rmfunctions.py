@@ -327,11 +327,15 @@ class questionnaire:
                 'Teachers ISCED 3' :[ [4,3], [6,5],[8,7],[10,9],[12,11],[14,13] ],
                 'Teachers ISCED 23' :[ [4,3], [6,5],[8,7],[10,9],[12,11],[14,13] ]
                 }
+            # The following variable has the sheets that are being
+            # imported.
+            edit_sheets_names=self.wb.sheet_names()            
             def check_less():
-                """ Checks that the pairs from the
+                """Checks that the pairs from the
                 check_less_dictionary satisfy that the first one is
                 smaller than the second one"""
                 cursor=self.conn.cursor()
+                pass_test=True
                 for sheet_name,pairs_list in check_less_dictionary.items():
                     if sheet_name not in self.wb.sheet_names():
                         continue
@@ -355,44 +359,79 @@ class questionnaire:
                             big_value=bigger_meter_values[i]
                             if  (type(small_value) in [int,float] and type(big_value) in [int,float] and small_value > big_value):
                                 self.print_log("{}: In row {} the value of column {} is bigger than the value in column {}.\n".format(sheet_name,i+1,pairs[0],pairs[1]))
+                                pass_test=False
                 cursor.close()
-            check_less()
-            ## Check that the regional numbers match the total.
-            ## Other checks might be added.
-            cursor=self.conn.cursor()
-            cursor.execute("SELECT Tab,EXL_REF,RM_TABLE,Col FROM RM_MAPPING;") 
-            mapping_info=cursor.fetchall()
-            edit_sheets_names=self.wb.sheet_names()            
-            for variables in mapping_info:                
-                tab=variables[0]
-                if tab not in edit_sheets_names:
-                    continue
-                exl_ref=variables[1]
-                table=variables[2]
-                col=variables[3]
-                sheet = self.wb.sheet_by_name(tab)
-                meter_starting_coordinates = indexes(exl_ref)
-                ## Regional values
-                meter_values = sheet.col_values(meter_starting_coordinates[1],\
-                                                    meter_starting_coordinates[0],\
-                                                    meter_starting_coordinates[0]+self.nadm1)
-                ## Country value
-                meter_value_country=sheet.cell( meter_starting_coordinates[0]+self.nadm1+1,\
-                                                    meter_starting_coordinates[1]).value
-                ## If there are missing values or references we do not
-                ## make any check.
-                all_numbers = reduce(lambda x,y: x and y,
-                    map( lambda x: x in [int,float], 
-                         map(lambda x: type(x) , meter_values))
-                    )
-                if (all_numbers):
-                    regions_sum=reduce(lambda x,y : x+y, meter_values)
-                    if (regions_sum != meter_value_country):
-                        ## Error para el log
-                        self.print_log("The regional figures do not add up to the country total in {0} column {1}\n".format(table,col))
+                return(pass_test)
+                                
+            def check_regions_exist():
+                """Checks that all the regions in the sheet exist and
+                are in the same order than in the database."""
+                pass_test=True
+                cursor=self.conn.cursor()
+                cursor.execute("SELECT ADM_NAME FROM REGIONS WHERE CO_CODE=?;",(self.country_code,))
+                regions=list(map( lambda x: x[0], cursor.fetchall() ))
+                query="SELECT Tab, EXL_REF FROM RM_MAPPING WHERE Tab in (" + ','.join('?'*len(edit_sheets_names)) + ") AND AC='ADM_NAME';"
+                cursor.execute(query, edit_sheets_names )
+                regions_excel=cursor.fetchall()
+                database_regions=self.get_regions()
+                if (not database_regions):
+                    return(False)
+                for sheet_name,coordinates in regions_excel:
+                    sheet=self.wb.sheet_by_name(sheet_name)
+                    regions_starting_coordinates = indexes(coordinates)
+                    sheet_region_names = sheet.col_values(regions_starting_coordinates[1],
+                                                    regions_starting_coordinates[0],
+                                                    regions_starting_coordinates[0]+self.nadm1)
+                    for region in sheet_region_names:
+                        if (not region in database_regions.keys()):
+                            self.print_log("Region {} in sheet {} is not in the database.\n".format(region,sheet_name ))
+                            pass_test=False
+                        elif(sheet_region_names[database_regions[region]-1] != region  ):
+                            self.print_log("The order of the regions in the sheet does not match the order in the database..\n")
+                            pass_test=False
                 cursor.close()
+                return(pass_test)
+            
+            def check_region_totals():
+                """Check that the regional numbers match the total."""                
+                cursor=self.conn.cursor()
+                pass_test=True
+                cursor.execute("SELECT Tab,EXL_REF,RM_TABLE,Col FROM RM_MAPPING;") 
+                mapping_info=cursor.fetchall()
+                for variables in mapping_info:                
+                    tab=variables[0]
+                    if tab not in edit_sheets_names:
+                        continue
+                    exl_ref=variables[1]
+                    table=variables[2]
+                    col=variables[3]
+                    sheet = self.wb.sheet_by_name(tab)
+                    meter_starting_coordinates = indexes(exl_ref)
+                    ## Regional values
+                    meter_values = sheet.col_values(meter_starting_coordinates[1],\
+                                                        meter_starting_coordinates[0],\
+                                                        meter_starting_coordinates[0]+self.nadm1)
+                    ## Country value
+                    meter_value_country=sheet.cell( meter_starting_coordinates[0]+self.nadm1+1,\
+                                                        meter_starting_coordinates[1]).value
+                    ## If there are missing values or references we do not
+                    ## make any check.
+                    all_numbers = reduce(lambda x,y: x and y,
+                        map( lambda x: x in [int,float], 
+                             map(lambda x: type(x) , meter_values))
+                        )
+                    if (all_numbers):
+                        regions_sum=reduce(lambda x,y : x+y, meter_values)
+                        if (regions_sum != meter_value_country):
+                            ## Error para el log
+                            self.print_log("The regional figures do not add up to the country total in {0} column {1}\n".format(table,col))
+                            pass_test=False
+                cursor.close()
+                return(pass_test) 
 
-    
+        return( check_regions_exist() and check_less() and  check_region_totals() )
+            
+                           
     def emc_id_from_cell_info(self,sheet_name,xlrd_vector_coordinates):
         """Returns the emc_id given cell xlrd coordinates.
 
@@ -466,7 +505,22 @@ class questionnaire:
         cursor.executemany("INSERT OR REPLACE INTO REGIONS VALUES(?,?,?);",sql_values)
         self.conn.commit()
         cursor.close()
+        
+    def get_regions(self):
+        """Returns a dictionary with region name and code as key and value respectively.
 
+        The regions are read from the database. If no regions are
+        found in the database, this function returns False.
+        """
+        cursor=self.conn.cursor()
+        cursor.execute("SELECT ADM_NAME,ADM_CODE FROM REGIONS WHERE CO_CODE=? AND ADM_CODE!=0 ;",(self.country_code,) )
+        sql_return=cursor.fetchall()        
+        cursor.close()
+        if sql_return:
+            return(dict(sql_return))
+        else:
+            return(False)
+ 
     def extract_table_comments(self):
         """Extract the comments from the top of each table.
         
@@ -560,6 +614,8 @@ class questionnaire:
         mapping_table = cursor.fetchall()
         if self.edit_mode:
             edit_sheets_names=self.wb.sheet_names()
+        else:
+            self.create_region_codes()
         for variables in mapping_table:
             # When we edit we are only interested in certain sheets
             if self.edit_mode and variables[0] not in edit_sheets_names:
@@ -643,4 +699,3 @@ class questionnaire:
         if (not os.path.exists(log_folder)):
             os.makedirs(log_folder)
         self.log_file=open( log_folder + "/{}".format(self.country_name) + ".log",'a')
-
