@@ -293,7 +293,15 @@ class questionnaire:
             front_page_variables = pre_vars['fixed_sheets']['Front Page']
             sheet = self.wb.sheet_by_name('Front Page')
             self.country_name = sheet.cell( *indexes( front_page_variables['country_name'][0]  )   ).value
-
+    
+    def get_database_type(self):
+        """Sets the database type (OBS,REP,EST) from the questionnaire."""
+        if self.edit_mode:
+            sheet=self.wb.sheets()[0]
+            self.database_type = sheet.cell( 5,1 ).value
+        else:
+            self.database_type='REP'
+            
     def get_country_code(self):
         """Sets the country code by looking in the COUNTRY table.
 
@@ -361,6 +369,9 @@ class questionnaire:
                         self.print_log("{0} : {1}\n".format( sheet_name, sheet.cell(*var).value ))
             if (not  printed_main_message ):
                 self.print_log("All the checks passes. QUESTIONNAIRE CAN BE PROCESSED\n")
+                return(True)
+            else:
+                return(False)
         else:
             ## For each sheet name, the following dictionary has a
             ## list of pairs. For each pair, the first entry should be
@@ -527,7 +538,7 @@ class questionnaire:
     #                comments_table_tupple=comments_table_tupple + ( (emc_id,self.country_code,adm_code,emco_year,comment) , )
                     comments_table_tupple=comments_table_tupple + ( (self.country_code,adm_code,emco_year, emc_id,comment,table) , )
         if comments_table_tupple:
-            cursor.executemany("INSERT OR REPLACE INTO EDU_FTN97_REP VALUES(?,?,?,?,1,?,?,'R',NULL,NULL);", comments_table_tupple )
+            cursor.executemany("INSERT OR REPLACE INTO EDU_FTN97_"+self.database_type + " VALUES(?,?,?,?,1,?,?,'R',NULL,NULL);", comments_table_tupple )
             self.conn.commit()
         cursor.close()
                 
@@ -583,7 +594,7 @@ class questionnaire:
             comments=sheet.cell(*indexes(exl_ref)).value
             if comments not in ["Emter commemt here","Enter comment here"]:
                 comments_data=comments_data + ( (self.country_code,self.emco_year,rm_table,comments  ),   )
-        cursor.executemany("INSERT OR REPLACE INTO EDU_COMMENT_TABLE_REP VALUES(?,?,?,?);",comments_data)
+        cursor.executemany("INSERT OR REPLACE INTO EDU_COMMENT_TABLE_"+self.database_type+" VALUES(?,?,?,?);",comments_data)
         self.conn.commit()
         cursor.close()
 
@@ -638,8 +649,8 @@ class questionnaire:
         def export_to_sqlite():
             # LOG DATABASE
             cursor=self.conn.cursor()
-            cursor.executemany("INSERT OR REPLACE INTO EDU_METER97_REP VALUES(?,?,?,?,?,?,?,?,?,?,?,?);",meters_data)
-            cursor.executemany("INSERT OR REPLACE INTO EDU_INCLUSION_REP VALUES(?,?,?,?,?,?);",inclu_data)
+            cursor.executemany("INSERT OR REPLACE INTO EDU_METER97_"+ self.database_type +" VALUES(?,?,?,?,?,?,?,?,?,?,?,?);",meters_data)
+            cursor.executemany("INSERT OR REPLACE INTO EDU_INCLUSION_"+self.database_type+" VALUES(?,?,?,?,?,?);",inclu_data)
             for var in referenced_sql_code:
                 cursor.execute(var)
             self.conn.commit()
@@ -706,7 +717,7 @@ class questionnaire:
                         referenced_row=adm_code
                     else:
                         referenced_row=reference[0]
-                    referenced_sql_code= referenced_sql_code | {"UPDATE EDU_METER97_REP SET MG_ID=4 WHERE EMC_ID={0} AND CO_CODE={1} AND ADM_CODE={2} AND EMCO_YEAR={3};\n".format(self.emc_id(variables[3],reference[1]),self.country_code,referenced_row,emco_year)}
+                    referenced_sql_code= referenced_sql_code | {"UPDATE EDU_METER97_"+self.database_type+" SET MG_ID=4 WHERE EMC_ID={0} AND CO_CODE={1} AND ADM_CODE={2} AND EMCO_YEAR={3};\n".format(self.emc_id(variables[3],reference[1]),self.country_code,referenced_row,emco_year)}
                 else: # If we did not read a reference
                     em_fig=meter_values[i]
                 # The following if might not be necessary in the final version
@@ -732,7 +743,7 @@ class questionnaire:
         cursor.close()
         
     def __init__(self,excel_file,database_file="../Database/UISProd.db",log_folder="/tmp/log"):
-        """Set up variables for questionnaire and database reading"""                
+        """Set up variables for questionnaire and database reading"""
         self.excel_file=excel_file
         self.set_workbook(excel_file)
         self.edit_mode= not 'Checking sheet' in self.wb.sheet_names()
