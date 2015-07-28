@@ -222,7 +222,7 @@ class RM():
         elif x=='out_folder':
             dirname = tk.filedialog.askdirectory()
             if dirname:
-                self.out_folder.delete(0, 'end')
+                self.output_folder.delete(0, 'end')
                 self.output_folder.insert(0, dirname)
 
     def imp_file(self,x):
