@@ -385,7 +385,56 @@ class questionnaire:
                 }
             # The following variable has the sheets that are being
             # imported.
-            edit_sheets_names=self.wb.sheet_names()            
+            edit_sheets_names=self.wb.sheet_names()
+
+            def check_values():
+                """Checks that all the cells being imported have proper values.
+
+                """
+                def check_one_value(value):
+                    """Checks that value (the argument) is proper.
+
+                    """
+                    validity=True
+                    if((type(value) == int and value >0)  ):
+                        pass
+                    elif(type(value)==float and int(value)==value and value>0):
+                        pass
+                    elif(type(value) == str):
+                        match3=re.search('[Xx]\[[0-9]*:[0-9]+\]|^ +$|^[Zz]$|^[Mm]$',value)
+                        validity= not (match3==None)
+                    else:
+                        validity=False
+                    return(validity)
+
+                pass_test=True
+                cursor=self.conn.cursor()
+                query="SELECT Tab,EXL_REF,RM_TABLE,Col FROM RM_MAPPING WHERE Tab in (" + ','.join('?'*len(edit_sheets_names)) + ") AND AC!='ADM_NAME';"
+                cursor.execute(query, edit_sheets_names )
+                mapping_table = cursor.fetchall()
+                ## Falta obtener el número de la columna para imprimirla si hay un error.
+                for variables in mapping_table:
+                    table=variables[2]
+                    col_number=variables[3]
+                    sheet = self.wb.sheet_by_name(variables[0])
+                    meter_starting_index = variables[1]
+                    meter_starting_coordinates = indexes(meter_starting_index)
+                    ## We read the values for the regions
+                    meter_values = sheet.col_values(meter_starting_coordinates[1],\
+                                                    meter_starting_coordinates[0],\
+                                                    meter_starting_coordinates[0]+self.nadm1)
+                    ## We read the country value.
+                    meter_value_country=sheet.cell( meter_starting_coordinates[0]+self.nadm1+1,\
+                                                    meter_starting_coordinates[1]).value
+                    meter_values=[meter_value_country]+meter_values
+                    if ( not reduce( lambda x,y: x and y , map( check_one_value,meter_values ) ) ):
+                        print("Column {0} in table {1} has improper values.\n".format(col_number,table))
+                        # print(meter_values) 
+                        pass_test=False
+                        break
+                cursor.close()
+                return(pass_test)
+                
             def check_less():
                 """Checks that the pairs from the
                 check_less_dictionary satisfy that the first one is
@@ -485,7 +534,7 @@ class questionnaire:
                 cursor.close()
                 return(pass_test) 
 
-        return( check_regions_exist() and check_less() and  check_region_totals() )
+        return( check_values() and check_regions_exist() and check_less() and  check_region_totals() )
             
                            
     def emc_id_from_cell_info(self,sheet_name,xlrd_vector_coordinates):
