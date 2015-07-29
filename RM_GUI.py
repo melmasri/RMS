@@ -37,7 +37,7 @@ class RM():
         self.log_folder = log_folder
         self.master.title('Regional module Survey')
         # width x height + x_offset + y_offset:
-        self.master.geometry("700x600+50+50")
+        self.master.geometry("700x700+50+50")
         self.status = StringVar()
         self.createWidgets()
         self.setFormating()
@@ -61,7 +61,7 @@ class RM():
         ttk.Label(settingframe, text = self.log_folder, padding=2, style="BW.TLabel").grid(row=2, column=1, sticky = 'W')
         
         # ####### Import frame
-        readframe = ttk.LabelFrame(self.master, text="Importing Questionnaire to database", padding = (pad, pad, pad, pad))
+        readframe = ttk.LabelFrame(self.master, text="Importing questionnaire to database", padding = (pad, pad, pad, pad))
         readframe.pack(fill="x", side = 'top', padx = 3, pady=3,ipadx=3, ipady=3, anchor = 'nw')
         self.lf_impOptions = ttk.LabelFrame(readframe , text="Import a:")
         self.lf_impOptions.grid(row=3, columnspan=3, sticky='W', padx=5, pady=5, ipadx=5, ipady=5)
@@ -121,7 +121,7 @@ class RM():
         ttk.Button(self.lf_exOptions, text ='Export', command = lambda x='AC': self.export(x)).grid(row=2, column=3, sticky='W')
 
         # Migrating options
-        self.lf_migrate = ttk.LabelFrame(pane , text="Move between databases")
+        self.lf_migrate = ttk.LabelFrame(pane , text="Move btween databases")
         self.lf_migrate.grid(row=1, columnspan=2, sticky='WE', padx=5, pady=5, ipadx=5, ipady=5)
         ttk.Button(self.lf_migrate, text ='REP to OBS', command= lambda x = 'REP', y = 'OBS': self.migrate_serie(x,y)).grid(row=0, column=0, sticky='W',padx=5,pady=5)
         ttk.Button(self.lf_migrate, text ='OBS to EST', command = lambda x ='OBS', y = 'EST': self.migrate_serie(x,y)).grid(row=0, column=1, sticky='W')
@@ -139,9 +139,10 @@ class RM():
         ### Status frame
         self.StatusLabelFrame = ttk.LabelFrame(self.master, text="Status:")
         self.StatusLabelFrame.pack(fill="x", side = 'bottom', padx = 3, pady=3,ipadx=3, ipady=3, anchor = 's')
-        self.text_box = tk.Text(self.StatusLabelFrame,wrap='word', height = 5)
+        self.text_box = tk.Text(self.StatusLabelFrame,wrap='word', height = 15)
         self.text_box.pack(fil='x')
         sys.stdout =  StdoutRedirector(self.text_box)
+        sys.stder  = StdoutRedirector(self.text_box)
 
 
     ### Supporting functions
