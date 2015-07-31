@@ -2,9 +2,11 @@
 
 Rolling list of things to do
 * TODO
-  - [ ] Export user names from the comment table. :Mo:
+  - [-] Export user names from the comment table. :Mo:
     - [ ] Test that the export and re-imports works on windows.
-    - [ ] Test patching ~xlrd~ on windows
+    - [X] Test patching ~xlrd~ on windows
+      - Comments work with xlrd 0.9.3 without patching.
+      - Code only inserts user name in both field in EDU_FTN97. 
   - [X] Erase the Inclusion tabel :Os:
   - [ ] Complete the Gui user guide :Mo:
   - [X] Add defualt export folder in the GUI :Mo:
@@ -12,4 +14,6 @@ Rolling list of things to do
   - [X] Add a scroller the Status label.
   - [ ] Code documentation.
   - [ ] Trailing.
+  - [ ] Pre-procession to check all errors before stoping the
+    program. Currently once it find an error it stops.
     
