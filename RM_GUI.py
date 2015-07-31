@@ -210,7 +210,7 @@ class RM():
             if co_name and year and serie:
                 co_code = getCO_CODE(co_name)
                 serie = RM.series[serie]
-                print('Exporting {0} from {1} series for {2}-{3}..'.format(var,serie, co_name, year))
+                print('Exporting {0} from {1} series for {2}-{3}....'.format(var,serie, co_name, year))
                 filename = "{0}_{1}_{2}_{3}.xlsx".format(co_name, year,var,serie)
                 filename = "{0}/{1}".format(self.output_folder_var,filename)
                 wb = xlsxwriter.Workbook(filename)

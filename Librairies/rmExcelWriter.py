@@ -68,7 +68,7 @@ def getCell_comment(var, co_code, year,serie):
     data = []
     # The bellow offset is to accord for the data in the questoinnaire from the previous year.
     for offset in [0,-1]:
-        sql_str = ("SELECT c.ADM_CODE, c.FTN_DATA, a.Col, a.EXL_REF FROM RM_Mapping AS a "
+        sql_str = ("SELECT c.ADM_CODE, c.FTN_DATA, a.Col, a.EXL_REF, c.USERNAME FROM RM_Mapping AS a "
                    "LEFT JOIN EDU_METER_AID AS b ON b.AC = a.AC "
                    "JOIN EDU_FTN97_{4} AS c ON b.EMC_ID = c.EMC_ID "
                    "WHERE a.{0} AND a.CUR_YEAR = {3} "
@@ -136,7 +136,6 @@ def export_var(var, wb, co_code, year, var_type, serie= 'REP'):
     format_data  = wb.add_format({'align' : 'right'})
     # A loop over all tables all tables
     for ext in var_list:
-        print('Exporting {0}...'.format(ext), end="")
         data = getTable(ext, co_code, year, var_type, serie)
         data = [l + (format_data,) if l[0]>=0 else l + (format_header,) for l in data]
         data_comment = getCell_comment(ext, co_code, year, serie)
@@ -148,7 +147,7 @@ def export_var(var, wb, co_code, year, var_type, serie= 'REP'):
         if(var_type != "AC"):
             table_comment  =  getTable_comment(ext, co_code, year, view_type, serie)
             write_data(worksheet,table_comment) if table_comment  else None
-        print('Done.')
+
            
 
 def write_data(worksheet, data, view_type = 'ReadOnly', **op):
@@ -191,9 +190,10 @@ def write_data(worksheet, data, view_type = 'ReadOnly', **op):
                     worksheet.write(uni_ids[i[0]] + ind[0]-3 -1*(i[0]>=0), ind[1], i[1])     
 
             if(op.get('data_comment')):
+                worksheet.show_comments() # to make comments visibile once workbook is opened
                 for i in op.get('data_comment'):
                     ind = indexes(i[3])
-                    worksheet.write_comment(uni_ids[i[0]]+ind[0]-3 -1*(i[0]>=0),ind[1],i[1])
+                    worksheet.write_comment(uni_ids[i[0]]+ind[0]-3 -1*(i[0]>=0),ind[1],i[1], {'author': i[4]})
         elif view_type == "ReadOnly":
             data.sort(key=lambda tup: tup[2]) # Sorting the data by column no.
             left_top_corner = 3               # the index of the first column.
@@ -210,10 +210,11 @@ def write_data(worksheet, data, view_type = 'ReadOnly', **op):
                                     -1*(data[i][0]>=0), uni_cols[rc_ids[i][1]], data[i][1])
                     
             if(op.get('data_comment')):
+                worksheet.show_comments() # to make comments visibile once workbook is opened
                 dc = op.get('data_comment')
                 for i in range(len(dc)):
                     worksheet.write_comment(uni_ids[dc[i][0]] + rc_ids[i][0]-3
-                                -1*(dc[i][0]>=0), uni_cols[indexes(dc[i][3])[1]], dc[i][1])
+                                            -1*(dc[i][0]>=0), uni_cols[indexes(dc[i][3])[1]], dc[i][1],{'author': dc[i][4]})
     elif(type(data)==dict):
         for key, value in data.items():
             worksheet.write(key, value)
