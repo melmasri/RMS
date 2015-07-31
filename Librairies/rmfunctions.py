@@ -569,6 +569,15 @@ class questionnaire:
 
         # Missing: Check that the comment sould be in the meters
         cursor=self.conn.cursor()
+        edu_table_name="EDU_FTN97_"+self.database_type
+        if self.edit_mode:
+            for sheet in self.wb.sheets():
+                cursor.execute("SELECT  {0}.CO_CODE,{0}.EMCO_YEAR,{0}.EMC_ID,RM_Mapping.Tab FROM {0} LEFT JOIN RM_MAPPING ON {0}.EMC_ID=RM_MAPPING.EMC_ID WHERE RM_Mapping.Tab=\"{3}\" AND ( ( {0}.EMCO_YEAR={1} AND RM_MAPPING.CUR_YEAR=0 ) OR ( {0}.EMCO_YEAR={2} AND RM_MAPPING.CUR_YEAR=-1) )".format(edu_table_name,self.emco_year,self.emco_year-1,sheet.name) )
+                things_to_erase=cursor.fetchall()
+                for values_to_erase in things_to_erase:
+                    cursor.execute("DELETE FROM EDU_FTN97_"+self.database_type+" WHERE CO_CODE={0} AND EMCO_YEAR={1} AND EMC_ID={2}".format(values_to_erase[0],values_to_erase[1],values_to_erase[2]))
+                    
+        #delete from Authors where AuthorId=1        
         comments_table_tupple=()        
         for sheet in self.wb.sheets():
             for xlrd_coord in sheet.cell_note_map.keys():
@@ -584,10 +593,13 @@ class questionnaire:
                         if (emc_id in [20162,20166,20172,20184]  and  xlrd_coord ==  21 ):
                             emco_year= emco_year - 1
                     comment=sheet.cell_note_map[xlrd_coord].text
-    #                comments_table_tupple=comments_table_tupple + ( (emc_id,self.country_code,adm_code,emco_year,comment) , )
-                    comments_table_tupple=comments_table_tupple + ( (self.country_code,adm_code,emco_year, emc_id,comment,table) , )
+                    if not self.edit_mode:
+                        author=self.country_name
+                    else:
+                        author=sheet.cell_note_map[xlrd_coord].author
+                    comments_table_tupple=comments_table_tupple + ( (self.country_code,adm_code,emco_year, emc_id,comment,table,author) , )
         if comments_table_tupple:
-            cursor.executemany("INSERT OR REPLACE INTO EDU_FTN97_"+self.database_type + " VALUES(?,?,?,?,1,?,?,'R',NULL,NULL);", comments_table_tupple )
+            cursor.executemany("INSERT OR REPLACE INTO EDU_FTN97_"+self.database_type + " VALUES(?,?,?,?,1,?,?,'R',?,NULL);", comments_table_tupple )
             self.conn.commit()
         cursor.close()
                 
