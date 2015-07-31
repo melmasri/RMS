@@ -123,8 +123,8 @@ class RM():
         # Migrating options
         self.lf_migrate = ttk.LabelFrame(pane , text="Move btween databases")
         self.lf_migrate.grid(row=1, columnspan=2, sticky='WE', padx=5, pady=5, ipadx=5, ipady=5)
-        ttk.Button(self.lf_migrate, text ='REP to OBS', command= lambda x = 'REP', y = 'OBS': self.migrate_serie(x,y)).grid(row=0, column=0, sticky='W',padx=5,pady=5)
-        ttk.Button(self.lf_migrate, text ='OBS to EST', command = lambda x ='OBS', y = 'EST': self.migrate_serie(x,y)).grid(row=0, column=1, sticky='W')
+        ttk.Button(self.lf_migrate, text ='REP to CLN', command= lambda x = 'REP', y = 'OBS': self.migrate_serie(x,y)).grid(row=0, column=0, sticky='W',padx=5,pady=5)
+        ttk.Button(self.lf_migrate, text ='CLN to EST', command = lambda x ='OBS', y = 'EST': self.migrate_serie(x,y)).grid(row=0, column=1, sticky='W')
 
         pane.add(self.lf_exOptions,weight=50)
         pane.add(self.lf_migrate,weight=50)
@@ -142,7 +142,7 @@ class RM():
         self.text_box = tk.Text(self.StatusLabelFrame,wrap='word', height = 15)
         self.text_box.pack(fil='x')
         sys.stdout =  StdoutRedirector(self.text_box)
-        sys.stder  = StdoutRedirector(self.text_box)
+        sys.stderr = StdoutRedirector(self.text_box)
 
 
     ### Supporting functions
