@@ -1,4 +1,4 @@
-import sys, getpass
+import sys, getpass, os
 
 sys.path.append('Librairies')
 from rmquestionnaire import *
@@ -9,7 +9,7 @@ from rmquestionnaire import *
 # set_database_file(database)
 
 import tkinter as tk
-from tkinter import ttk,StringVar, filedialog
+from tkinter import ttk,StringVar, filedialog, scrolledtext
 import re
 #################################################
 # Useful functions
@@ -30,17 +30,23 @@ class StdoutRedirector(object):
 class RM():
     """ A class the generated the regional moduel gui."""
     series = {'Reported':'REP', 'Clean': 'OBS', 'Estimated':'EST'}
-    def __init__(self, master, database, log_folder=''):
+    def __init__(self, master, database, log_folder='Log', output_folder_var='Export'):
         """ Main initilization"""
         self.master = master
         self.database = database
+        if not os.path.exists(log_folder): os.makedirs(log_folder)
+        if not os.path.exists(output_folder_var): os.makedirs(output_folder_var)
+        self.backup_folder = 'Import'
         self.log_folder = log_folder
+        self.main_dir = os.getcwd()
+        self.output_folder_var = output_folder_var
         self.master.title('Regional module Survey')
         # width x height + x_offset + y_offset:
         self.master.geometry("700x700+50+50")
         self.status = StringVar()
         self.createWidgets()
         self.setFormating()
+        self.messages()
         
     def createWidgets(self):
         """ Creating all widgets in the gui."""
@@ -55,11 +61,16 @@ class RM():
         settingframe.pack(fill="y", side= 'top')
         ttk.Label(settingframe, text ='User ').grid(row=0, column=0, sticky = 'W')
         ttk.Label(settingframe, text = RM.username, padding=2, style="BW.TLabel").grid(row=0, column=1, sticky = 'W')
-        ttk.Label(settingframe, text = "Databse ").grid(row=1, column=0, sticky = 'W')
-        ttk.Label(settingframe, text = self.database, padding=2, style="BW.TLabel").grid(row=1, column=1, sticky = 'W')
-        ttk.Label(settingframe, text = "Log folder ").grid(row=2, column=0, sticky = 'W')
-        ttk.Label(settingframe, text = self.log_folder, padding=2, style="BW.TLabel").grid(row=2, column=1, sticky = 'W')
-        
+        ttk.Label(settingframe, text = "Main working directory ").grid(row=1, column=0, sticky = 'W')
+        ttk.Label(settingframe, text = self.main_dir, padding=2, style="BW.TLabel").grid(row=1, column=1, sticky = 'W')
+        ttk.Label(settingframe, text = "Databse ").grid(row=2, column=0, sticky = 'W')
+        ttk.Label(settingframe, text = self.database, padding=2, style="BW.TLabel").grid(row=2, column=1, sticky = 'W')
+        ttk.Label(settingframe, text = "Log folder ").grid(row=0, column=2, sticky = 'W')
+        ttk.Label(settingframe, text = self.log_folder, padding=2, style="BW.TLabel").grid(row=0, column=3, sticky = 'W')
+        ttk.Label(settingframe, text = "Output folder ").grid(row=1, column=2, sticky = 'W')
+        ttk.Label(settingframe, text = self.output_folder_var, padding=2, style="BW.TLabel").grid(row=1, column=3, sticky = 'W')
+        ttk.Label(settingframe, text = "Import backup folder ").grid(row=2, column=2, sticky = 'W')
+        ttk.Label(settingframe, text = self.backup_folder, padding=2, style="BW.TLabel").grid(row=2, column=3, sticky = 'W')
         # ####### Import frame
         readframe = ttk.LabelFrame(self.master, text="Importing questionnaire to database", padding = (pad, pad, pad, pad))
         readframe.pack(fill="x", side = 'top', padx = 3, pady=3,ipadx=3, ipady=3, anchor = 'nw')
@@ -131,7 +142,7 @@ class RM():
         pane.grid(row=3, columnspan=5,padx=5, pady=5, ipadx=5, ipady=5)
         # Output folder
         ttk.Label(self.writeframe, text='Select output folder ').grid(row=4, column=0, sticky='W')    
-        self.output_folder = ttk.Entry(self.writeframe)
+        self.output_folder = ttk.Entry(self.writeframe, textvariable= self.output_folder_var)
         self.output_folder.grid(row=4, column=1, sticky='W')
         ttk.Button(self.writeframe, text= 'Browse..', command = lambda x='out_folder': self.select_file(x)).grid(row=4, column=3, sticky='W')
 
@@ -139,8 +150,10 @@ class RM():
         ### Status frame
         self.StatusLabelFrame = ttk.LabelFrame(self.master, text="Status:")
         self.StatusLabelFrame.pack(fill="x", side = 'bottom', padx = 3, pady=3,ipadx=3, ipady=3, anchor = 's')
-        self.text_box = tk.Text(self.StatusLabelFrame,wrap='word', height = 15)
-        self.text_box.pack(fil='x')
+        self.text_box = tk.scrolledtext.ScrolledText(self.StatusLabelFrame, wrap='word')
+        self.text_box.pack()
+
+        
         sys.stdout =  StdoutRedirector(self.text_box)
         sys.stderr = StdoutRedirector(self.text_box)
 
@@ -174,6 +187,13 @@ class RM():
         self.lf_migrate.columnconfigure(0, pad=3)
         self.lf_migrate.columnconfigure(1, pad=3)
         self.lf_migrate.rowconfigure(0, pad=3)
+
+    def messages(self):
+        print('Main working directory is {0}.'.format(self.main_dir))
+        print('Connection with database at {1} is established for User {0}.'.format(RM.username, self.database))
+        print('All work logs by defualt are save to subfolder {0}.'.format(self.log_folder))
+        print('Import backups are stored in subfolder {0}, defualt output subfolder is {1}.'.format(self.backup_folder, self.output_folder_var))
+        print('-----------------------------------')
         
     def export(self,x):
         """ Exports a whole questionnare, sheet or AC"""
@@ -191,16 +211,17 @@ class RM():
             if co_name and year and serie:
                 co_code = getCO_CODE(co_name)
                 serie = RM.series[serie]
+                print('Exporting {0} from {1} series for {2}-{3}..'.format(var,serie, co_name, year))
                 filename = "{0}_{1}_{2}_{3}.xlsx".format(co_name, year,var,serie)
-                print('Exporting file {0}'.format(filename))
-                filename = "{0}/{1}".format(self.output_folder.get(),filename)
+                filename = "{0}/{1}".format(self.output_folder_var,filename)
                 wb = xlsxwriter.Workbook(filename)
+                print('File {0} is created..'.format(filename))
                 if x=='sheet' and var == 'All':
                     [export_var(i, wb, co_code, int(year), var_type = x ,serie=serie) for i in self.cbox_sheet['values'][1:]]
                 else:
                     export_var(var, wb, co_code, int(year), var_type = x,serie=serie)
                 wb.close()
-                print('Sucessfully exported, see {0}.'.format(filename))
+                print('Sucessfully exported.')
             else:
                 print('Error: missing country name, year or series.')
         else:
@@ -286,9 +307,8 @@ class RM():
 def main():
     database="Database/UISProd.db"
     set_database_file(database)
-    log_folder = "Log"
     root = tk.Tk()
-    app = RM(root, database, log_folder)
+    app = RM(root, database)
     root.mainloop()
 
 if __name__ == '__main__':
