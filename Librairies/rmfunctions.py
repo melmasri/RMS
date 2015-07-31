@@ -723,17 +723,25 @@ class questionnaire:
         def backup_imported_questionnaire():
             """Puts a copy of the questionnaire in the imports folder.
             """
-            import_folder="./import"
+            import_folder="./Import"
             if (not os.path.exists(import_folder)):
                 os.makedirs(import_folder)
-            shutil.copy(self.excel_file,"./import/RM_{}_{}_{}.xlsx".format(self.country_name,self.emco_year,datetime.datetime.now().strftime("%y-%m-%d-%H-%M")))
+            shutil.copy(self.excel_file,"./Import/RM_{}_{}_{}.xlsx".format(self.country_name,self.emco_year,datetime.datetime.now().strftime("%y-%m-%d-%H-%M")))
             
 
         # RM_TABLE is necessary for finding the xlrd coordinates
         cursor.execute("SELECT TAB, EXL_REF, EMC_ID,RM_TABLE,Col FROM RM_MAPPING;") 
         mapping_table = cursor.fetchall()
-        if self.edit_mode:
+        if self.edit_mode:            
             edit_sheets_names=self.wb.sheet_names()
+            ## Before exporting the entries in the inclusion table of
+            ## the sheets beign imported are erased.
+            inclu_table_name="EDU_INCLUSION_"+self.database_type
+            for sheet in self.wb.sheets():
+                cursor.execute("SELECT  {0}.CO_CODE,{0}.EMCO_YEAR,{0}.EMC_ID,RM_Mapping.Tab FROM {0} LEFT JOIN RM_MAPPING ON {0}.EMC_ID=RM_MAPPING.EMC_ID WHERE RM_Mapping.Tab=\"{3}\" AND ( ( {0}.EMCO_YEAR={1} AND RM_MAPPING.CUR_YEAR=0 ) OR ( {0}.EMCO_YEAR={2} AND RM_MAPPING.CUR_YEAR=-1) )".format(inclu_table_name,self.emco_year,self.emco_year-1,sheet.name) )
+                things_to_erase=cursor.fetchall()
+                for values_to_erase in things_to_erase:
+                    cursor.execute("DELETE FROM EDU_INCLUSION_"+self.database_type+" WHERE CO_CODE={0} AND EMCO_YEAR={1} AND EMC_ID={2}".format(values_to_erase[0],values_to_erase[1],values_to_erase[2]))
         else:
             self.create_region_codes()
         for variables in mapping_table:

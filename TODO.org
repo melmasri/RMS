@@ -1,15 +1,17 @@
-
+#+STARTUP: nofold
 
 Rolling list of things to do
 * TODO
   - [ ] Export user names from the comment table. :Mo:
     - [ ] Test that the export and re-imports works on windows.
     - [ ] Test patching ~xlrd~ on windows
-  - [ ] Erase the Inclusion tabel :Os:
+  - [X] Erase the Inclusion tabel :Os:
   - [ ] Complete the Gui user guide :Mo:
   - [ ] Add defualt export folder in the GUI :Mo:
   - [ ] Put confirmation statments after each step :Mo: :Os:
   - [ ] Add a scroller the Status label.
-
+  - [ ] Code documentation.
+  - [ ] Trailing.
+    
 
 
