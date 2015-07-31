@@ -149,11 +149,10 @@ class RM():
 
         ### Status frame
         self.StatusLabelFrame = ttk.LabelFrame(self.master, text="Status:")
-        self.StatusLabelFrame.pack(fill="x", side = 'bottom', padx = 3, pady=3,ipadx=3, ipady=3, anchor = 's')
+        self.StatusLabelFrame.pack(fill="both", side = 'bottom', padx = 3, pady=3,ipadx=3, ipady=3, anchor = 's')
         self.text_box = tk.scrolledtext.ScrolledText(self.StatusLabelFrame, wrap='word')
         self.text_box.pack()
-
-        
+        ## Error and information output.
         sys.stdout =  StdoutRedirector(self.text_box)
         sys.stderr = StdoutRedirector(self.text_box)
 
@@ -221,7 +220,7 @@ class RM():
                 else:
                     export_var(var, wb, co_code, int(year), var_type = x,serie=serie)
                 wb.close()
-                print('Sucessfully exported.')
+                print('Done.')
             else:
                 print('Error: missing country name, year or series.')
         else:
@@ -269,7 +268,10 @@ class RM():
                         x.extract_table_comments()
                         x.extract_comments()
                         x.extract_table_comments()
-                    print('Done.')
+                        print('Import successful...Done')
+                    else: 
+                        print('Pre-processing validation failed. Some erros exist see log file in:')
+                        print(self.log_folder)
     
     def updtCountry(self):
         """Queries the names of countries that submitted an rm questinnaire"""

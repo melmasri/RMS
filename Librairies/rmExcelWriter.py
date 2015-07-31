@@ -134,23 +134,21 @@ def export_var(var, wb, co_code, year, var_type, serie= 'REP'):
     # header format
     format_header = wb.add_format({'bold' : True, 'align' : 'left'})
     format_data  = wb.add_format({'align' : 'right'})
-    
     # A loop over all tables all tables
     for ext in var_list:
+        print('Exporting {0}...'.format(ext), end="")
         data = getTable(ext, co_code, year, var_type, serie)
         data = [l + (format_data,) if l[0]>=0 else l + (format_header,) for l in data]
         data_comment = getCell_comment(ext, co_code, year, serie)
-        print('Data extracted, writing headers...')
         write_data(worksheet, header_dict)
-        print('Writing data...')
         if data_comment:
             write_data(worksheet, data, view_type, data_comment = data_comment, fmt=True)
         else:
             write_data(worksheet, data, view_type, fmt=True)
         if(var_type != "AC"):
-            print('Writing table comments..')
             table_comment  =  getTable_comment(ext, co_code, year, view_type, serie)
             write_data(worksheet,table_comment) if table_comment  else None
+        print('Done.')
            
 
 def write_data(worksheet, data, view_type = 'ReadOnly', **op):
