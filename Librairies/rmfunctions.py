@@ -90,7 +90,7 @@ def getAvailable_year(co_name):
 
     sql_str = ("SELECT DISTINCT A.EMCO_YEAR FROM EDU_METER97_REP AS A "
                "LEFT JOIN COUNTRY AS B ON B.CO_CODE = A.CO_CODE "
-               "WHERE UPPER(B.CO_SHORT_NAME) IS '{0}' and A.EMC_ID= 900001".format(name))
+               "WHERE UPPER(B.CO_SHORT_NAME) IS '{0}' and A.EMC_ID= 900001".format(name)) #900001 == Pop.Ag0t99
     code = sql_query(sql_str)   
     if code:
         return(list(chain.from_iterable(code)))
