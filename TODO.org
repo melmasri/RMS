@@ -5,18 +5,24 @@ Rolling list of things to do
   - [-] Export user names from the comment table. :Mo:
     - [ ] Test that the export and re-imports works on windows.
     - [X] Test patching ~xlrd~ on windows
-      - Comments work with xlrd 0.9.3 without patching.
+      - Comments work with xlrd 0.9.3 without patching only in Edit mode.
       - Code only inserts user name in both field in EDU_FTN97. 
-  - [X] Erase the Inclusion tabel :Os:
+  - [X] Erase the Inclusion table :Os:
   - [ ] Complete the Gui user guide :Mo:
     - Missing :Os: import for what type of pre-processing checks. 
-  - [X] Add defualt export folder in the GUI :Mo:
-  - [ ] Put confirmation statments after each step :Mo: :Os:
+  - [X] Add default export folder in the GUI :Mo:
+  - [ ] Put confirmation statements after each step :Mo: :Os:
   - [X] Add a scroller the Status label.
   - [ ] Code documentation.
   - [ ] Trailing.
-  - [ ] Pre-procession to check all errors before stoping the
+  - [ ] Pre-procession to check all errors before stopping the
     program. Currently once it find an error it stops.
   - [ ] List all pre-processing steps. :Os:
   - [ ] Cell comments should have time stamp to when they are inserted.
+    - We can follow the following convention: Username(TimeDate):
+      comment data, and then I can till users to not edit
+      Username(TimeDate section). :Os: :Mo:
+  - [ ] properly name log file :Os:
+  - [ ] Create the Readme file :Mo:
+  - [X] Format error :Os:
     
