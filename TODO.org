@@ -34,3 +34,20 @@ Rolling list of things to do
   - [ ] Create the Readme file :Mo:
   - [X] Format error :Os:
     
+
+* Example exit with xlrd 0.9.4:
+Date: 08/04/15
+Questionnaire path: /home/oscar/RMS/Regional_Questionnaire_Asia_Final_v7_locked_LAOS.xlsx
+All the checks passes. QUESTIONNAIRE CAN BE PROCESSED
+Front Page:dict_keys([(13, 20)])
+Respondent Information:dict_keys([(15, 11), (26, 11), (17, 9)])
+Administrative divisions:dict_keys([(18, 13)])
+Policy information:dict_keys([(37, 23)])
+Pupils:dict_keys([(18, 49)])
+Teachers ISCED 1:dict_keys([])
+Teachers ISCED 2:dict_keys([])
+Teachers ISCED 3:dict_keys([])
+Teachers ISCED 23:dict_keys([])
+Checking sheet:dict_keys([])
+Changes log:dict_keys([])
+Unlocked areas:dict_keys([])
