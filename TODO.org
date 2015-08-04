@@ -17,8 +17,13 @@ Rolling list of things to do
   - [ ] Trailing.
   - [X] Pre-procession to check all errors before stopping the
     program. Currently once it find an error it stops.
+<<<<<<< HEAD
+  - [X] List all pre-processing steps. :Os:
+  - [ ] Cell comments should have time stamp to when they are inserted.
+=======
   - [ ] List all pre-processing steps. :Os:
   - [X] Cell comments should have time stamp to when they are inserted.
+>>>>>>> d44bdf22011f55e43a6bda0df26613af81b4819d
     - We can follow the following convention: Username(TimeDate):
       comment data, and then I can till users to not edit.
     - Differed for later
