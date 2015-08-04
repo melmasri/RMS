@@ -15,14 +15,14 @@ Rolling list of things to do
   - [X] Add a scroller the Status label.
   - [ ] Code documentation.
   - [ ] Trailing.
-  - [ ] Pre-procession to check all errors before stopping the
+  - [X] Pre-procession to check all errors before stopping the
     program. Currently once it find an error it stops.
-  - [ ] List all pre-processing steps. :Os:
+  - [X] List all pre-processing steps. :Os:
   - [ ] Cell comments should have time stamp to when they are inserted.
     - We can follow the following convention: Username(TimeDate):
       comment data, and then I can till users to not edit
       Username(TimeDate section). :Os: :Mo:
-  - [ ] properly name log file :Os:
+  - [X] properly name log file :Os:
   - [ ] Create the Readme file :Mo:
   - [X] Format error :Os:
     

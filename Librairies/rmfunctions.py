@@ -604,7 +604,9 @@ class questionnaire:
         #delete from Authors where AuthorId=1        
         comments_table_tupple=()        
         for sheet in self.wb.sheets():
+            self.print_log(sheet.name+":"+str(sheet.cell_note_map.keys())+"\n")
             for xlrd_coord in sheet.cell_note_map.keys():
+                
                 emc_id=self.emc_id_from_cell_info(sheet.name, xlrd_coord )
                 if emc_id:
                     emco_year=self.emco_year
@@ -623,7 +625,7 @@ class questionnaire:
                         author=sheet.cell_note_map[xlrd_coord].author
                     comments_table_tupple=comments_table_tupple + ( (self.country_code,adm_code,emco_year, emc_id,comment,table,author) , )
         if comments_table_tupple:
-            cursor.executemany("INSERT OR REPLACE INTO EDU_FTN97_"+self.database_type + " VALUES(?,?,?,?,1,?,?,'R',?,NULL);", comments_table_tupple )
+            cursor.executemany("INSERT OR REPLACE INTO EDU_FTN97_"+self.database_type+"(CO_CODE,ADM_CODE,EMCO_YEAR,EMC_ID,FTN_CODE,FTN_DATA,NTABLE,QUESTNAME,USERNAME,DATE_ADDED)" + " VALUES(?,?,?,?,1,?,?,'R',?);", comments_table_tupple )
             self.conn.commit()
         cursor.close()
                 
@@ -851,4 +853,4 @@ class questionnaire:
         self.get_database_type()
         if (not os.path.exists(log_folder)):
             os.makedirs(log_folder)
-        self.log_file=open( log_folder + "/{}".format(self.country_name) + ".log",'a')
+        self.log_file=open( log_folder + "/{}".format(self.country_name) + "_"+datetime.datetime.now().strftime("%y-%m-%d-%H-%M")+".log",'a')
