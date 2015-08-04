@@ -4,6 +4,11 @@ Rolling list of things to do
 * TODO
   - [-] Export user names from the comment table. :Mo:
     - [ ] Test that the export and re-imports works on windows.
+      * Tested version 0.9.3 works for both windows and linux with
+        Edit mode but not the original questionnaire.
+      * Tested version 0.9.4, doesn't work for either windows or
+        linux. Shifting of worksheet name, when sheet doesn't have a
+        comment. Possible solution is to add dummy comments to every sheet. 
     - [X] Test patching ~xlrd~ on windows
       - Comments work with xlrd 0.9.3 without patching only in Edit mode.
       - Code only inserts user name in both field in EDU_FTN97. 
@@ -17,13 +22,10 @@ Rolling list of things to do
   - [ ] Trailing.
   - [X] Pre-procession to check all errors before stopping the
     program. Currently once it find an error it stops.
-<<<<<<< HEAD
   - [X] List all pre-processing steps. :Os:
-  - [ ] Cell comments should have time stamp to when they are inserted.
-=======
+  - [X] Cell comments should have time stamp to when they are inserted.
   - [ ] List all pre-processing steps. :Os:
   - [X] Cell comments should have time stamp to when they are inserted.
->>>>>>> d44bdf22011f55e43a6bda0df26613af81b4819d
     - We can follow the following convention: Username(TimeDate):
       comment data, and then I can till users to not edit.
     - Differed for later
