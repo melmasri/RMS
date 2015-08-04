@@ -17,4 +17,6 @@ Rolling list of things to do
   - [ ] Trailing.
   - [ ] Pre-procession to check all errors before stoping the
     program. Currently once it find an error it stops.
+  - [ ] List all pre-processing steps. :Os:
+  - [ ] Cell comments should have time stamp to when they are inserted.
     
