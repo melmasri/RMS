@@ -625,7 +625,7 @@ class questionnaire:
                         author=sheet.cell_note_map[xlrd_coord].author
                     comments_table_tupple=comments_table_tupple + ( (self.country_code,adm_code,emco_year, emc_id,comment,table,author) , )
         if comments_table_tupple:
-            cursor.executemany("INSERT OR REPLACE INTO EDU_FTN97_"+self.database_type+"(CO_CODE,ADM_CODE,EMCO_YEAR,EMC_ID,FTN_CODE,FTN_DATA,NTABLE,QUESTNAME,USERNAME,DATE_ADDED)" + " VALUES(?,?,?,?,1,?,?,'R',?);", comments_table_tupple )
+            cursor.executemany("INSERT OR REPLACE INTO EDU_FTN97_"+self.database_type+"(CO_CODE,ADM_CODE,EMCO_YEAR,EMC_ID,FTN_CODE,FTN_DATA,NTABLE,QUESTNAME,USERNAME)" + " VALUES(?,?,?,?,1,?,?,'R',?);", comments_table_tupple )
             self.conn.commit()
         cursor.close()
                 
