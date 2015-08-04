@@ -271,7 +271,7 @@ class RM():
                         x.extract_table_comments()
                         print('Import successful...Done')
                     else: 
-                        print('Pre-processing validation failed. Some erros exist see log file in:')
+                        print('Pre-processing validation failed. Some errors exist see log file in:')
                         print(self.log_folder)
     
     def updtCountry(self):
