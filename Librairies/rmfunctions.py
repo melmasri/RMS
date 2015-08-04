@@ -334,7 +334,7 @@ class questionnaire:
     def print_log(self,text_string):
         """Puts the text in the log file and in stdout.
         """
-        print(text_string)
+        print(text_string,end="")
         self.log_file.write(text_string)
         self.log_file.flush()
         os.fsync(self.log_file.fileno())
@@ -366,7 +366,7 @@ class questionnaire:
                             self.print_log("The following items have No in the Checking sheet:\n")
                             printed_main_message=True
                         var[1]-=5
-                        self.print_log("{0} : {1}\n".format( sheet_name, sheet.cell(*var).value ))
+                        self.print_log("{0} : {1}".format( sheet_name, sheet.cell(*var).value ))
             if (not  printed_main_message ):
                 self.print_log("All the checks passes. QUESTIONNAIRE CAN BE PROCESSED\n")
                 return(True)
@@ -410,6 +410,7 @@ class questionnaire:
                 pass_test=True
                 cursor=self.conn.cursor()
                 query="SELECT Tab,EXL_REF,RM_TABLE,Col FROM RM_MAPPING WHERE Tab in (" + ','.join('?'*len(edit_sheets_names)) + ") AND AC!='ADM_NAME';"
+                self.print_log("Checking that all the values are proper...")
                 cursor.execute(query, edit_sheets_names )
                 mapping_table = cursor.fetchall()
                 ## Falta obtener el número de la columna para imprimirla si hay un error.
@@ -428,11 +429,14 @@ class questionnaire:
                                                     meter_starting_coordinates[1]).value
                     meter_values=[meter_value_country]+meter_values
                     if ( not reduce( lambda x,y: x and y , map( check_one_value,meter_values ) ) ):
-                        print("Column {0} in table {1} has improper values.\n".format(col_number,table))
+                        if pass_test:
+                            self.print_log("\n")
+                        self.print_log("Column {0} in table {1} has improper values.\n".format(col_number,table))
                         # print(meter_values) 
                         pass_test=False
-                        break
                 cursor.close()
+                if  pass_test :
+                    self.print_log("Test passed.\n")                        
                 return(pass_test)
                 
             def check_less():
@@ -441,6 +445,7 @@ class questionnaire:
                 smaller than the second one"""
                 cursor=self.conn.cursor()
                 pass_test=True
+                self.print_log("Checking that parts are less than the totals...")
                 for sheet_name,pairs_list in check_less_dictionary.items():
                     if sheet_name not in self.wb.sheet_names():
                         continue
@@ -463,15 +468,20 @@ class questionnaire:
                             small_value=smaller_meter_values[i]
                             big_value=bigger_meter_values[i]
                             if  (type(small_value) in [int,float] and type(big_value) in [int,float] and small_value > big_value):
+                                if pass_test:
+                                    self.print_log("\n")
                                 self.print_log("{}: In row {} the value of column {} is bigger than the value in column {}.\n".format(sheet_name,i+1,pairs[0],pairs[1]))
                                 pass_test=False
                 cursor.close()
+                if  pass_test :
+                    self.print_log("Test passed.\n")                        
                 return(pass_test)
                                 
             def check_regions_exist():
                 """Checks that all the regions in the sheet exist and
                 are in the same order than in the database."""
                 pass_test=True
+                self.print_log("Checking region names...")
                 cursor=self.conn.cursor()
                 cursor.execute("SELECT ADM_NAME FROM REGIONS WHERE CO_CODE=?;",(self.country_code,))
                 regions=list(map( lambda x: x[0], cursor.fetchall() ))
@@ -489,18 +499,25 @@ class questionnaire:
                                                     regions_starting_coordinates[0]+self.nadm1)
                     for region in sheet_region_names:
                         if (not region in database_regions.keys()):
+                            if pass_test:
+                                    self.print_log("\n")
                             self.print_log("Region {} in sheet {} is not in the database.\n".format(region,sheet_name ))
                             pass_test=False
                         elif(sheet_region_names[database_regions[region]-1] != region  ):
+                            if pass_test:
+                                    self.print_log("\n")
                             self.print_log("The order of the regions in the sheet does not match the order in the database..\n")
                             pass_test=False
                 cursor.close()
+                if  pass_test :
+                    self.print_log("Test passed.\n")                        
                 return(pass_test)
             
             def check_region_totals():
                 """Check that the regional numbers match the total."""                
                 cursor=self.conn.cursor()
                 pass_test=True
+                self.print_log("Checking that region values add to the country value...")
                 cursor.execute("SELECT Tab,EXL_REF,RM_TABLE,Col FROM RM_MAPPING;") 
                 mapping_info=cursor.fetchall()
                 for variables in mapping_info:                
@@ -529,13 +546,20 @@ class questionnaire:
                         regions_sum=reduce(lambda x,y : x+y, meter_values)
                         if (regions_sum != meter_value_country):
                             ## Error para el log
+                            if pass_test:
+                                    self.print_log("\n")
                             self.print_log("The regional figures do not add up to the country total in {0} column {1}\n".format(table,col))
                             pass_test=False
                 cursor.close()
-                return(pass_test) 
-
-        return( check_values() and check_regions_exist() and check_less() and  check_region_totals() )
-            
+                if  pass_test :
+                    self.print_log("Test passed.\n")                        
+                return(pass_test)
+        
+        check_values_test=check_values()        
+        region_names_test=check_regions_exist()
+        less_test=check_less()
+        region_totals_test=check_region_totals()
+        return(check_values_test and region_names_test and less_test and region_totals_test)            
                            
     def emc_id_from_cell_info(self,sheet_name,xlrd_vector_coordinates):
         """Returns the emc_id given cell xlrd coordinates.
