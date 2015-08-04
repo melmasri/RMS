@@ -80,15 +80,15 @@ One a Country name is selected, the data year of all available data should be av
 
 The series drop-down list has three options
     1. Reported (REP): where the original questionnaire is inserted. Given that no programme team has changed modified any of the data in this series, it should be the same as the original questionnaire.
-    2. Clean (CLN): where the programme teams modify and validate the data.
+    2. Observed (OBS): where the programme teams modify and validate the data.
     3. Estimated (EST): where the disseminated data set should be.
 
 ** Moving data between series
-An orgininal questionnaire is always imported to the Reported series, to move it the Clean or Estimated series, choose first the country and year, and then click on the button in the ~Move between databses~ frame.
+An orgininal questionnaire is always imported to the Reported series, to move it the Observed or Estimated series, choose first the country and year, and then click on the button in the ~Move between databses~ frame.
 
-~REP to CLN~ would move the data of the selected country and year from Reported series to Clean series.
+~REP to OBS~ would move the data of the selected country and year from Reported series to Observed series.
 
-~CLN to EST~ would move the data of the selected country and year from the Clean series to Estimated series.
+~OBS to EST~ would move the data of the selected country and year from the Observed series to Estimated series.
 
 ** Exporting options
 
@@ -150,7 +150,7 @@ This implies the import is successfully.
 ** Moving to and exporting from the /Observed/(Clean) series.
 After a successful original import, one can move the data from /Reported/ to /Observed/ series. First notice that the ~Country~ drop-down list included Laos to confirm it exists in the database. Select ~Laos~ and the corresponding year, then click on ~REP to OBS~ button. The ~Status~ frame looks like [[fig:laosREP2CLN][this]] now.
 
-#+CAPTION: LAOS data moved from REP to CLN.
+#+CAPTION: LAOS data moved from REP to OBS.
 #+NAME:   fig:laosREP2CLN
 [[./img/LASO_moveCLN.png]]
 

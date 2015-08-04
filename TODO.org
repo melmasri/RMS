@@ -9,6 +9,7 @@ Rolling list of things to do
       - Code only inserts user name in both field in EDU_FTN97. 
   - [X] Erase the Inclusion tabel :Os:
   - [ ] Complete the Gui user guide :Mo:
+    - Missing :Os: import for what type of pre-processing checks. 
   - [X] Add defualt export folder in the GUI :Mo:
   - [ ] Put confirmation statments after each step :Mo: :Os:
   - [X] Add a scroller the Status label.
