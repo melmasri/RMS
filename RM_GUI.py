@@ -29,7 +29,7 @@ class StdoutRedirector(object):
 
 class RM():
     """ A class the generated the regional moduel gui."""
-    series = {'Reported':'REP', 'Clean': 'OBS', 'Estimated':'EST'}
+    series = {'Reported':'REP', 'Observed': 'OBS', 'Estimated':'EST'}
     def __init__(self, master, database, log_folder='Log', output_folder_var='Export'):
         """ Main initilization"""
         self.master = master
@@ -109,7 +109,7 @@ class RM():
         self.cbox_year.grid(row=1, column=1 ,sticky='W')
         self.cbox_series = ttk.Combobox(self.writeframe)  # Make a postcommad
         self.cbox_series.grid(row=2, column =1, sticky='W')
-        self.cbox_series['values']= ['Reported', 'Clean', 'Estimated']
+        self.cbox_series['values']= ['Reported', 'Observed', 'Estimated']
 
         pane = ttk.Panedwindow(self.writeframe, orient='horizontal')
         # Exporting options
@@ -134,8 +134,8 @@ class RM():
         # Migrating options
         self.lf_migrate = ttk.LabelFrame(pane , text="Move btween databases")
         self.lf_migrate.grid(row=1, columnspan=2, sticky='WE', padx=5, pady=5, ipadx=5, ipady=5)
-        ttk.Button(self.lf_migrate, text ='REP to CLN', command= lambda x = 'REP', y = 'OBS': self.migrate_serie(x,y)).grid(row=0, column=0, sticky='W',padx=5,pady=5)
-        ttk.Button(self.lf_migrate, text ='CLN to EST', command = lambda x ='OBS', y = 'EST': self.migrate_serie(x,y)).grid(row=0, column=1, sticky='W')
+        ttk.Button(self.lf_migrate, text ='REP to OBS', command= lambda x = 'REP', y = 'OBS': self.migrate_serie(x,y)).grid(row=0, column=0, sticky='W',padx=5,pady=5)
+        ttk.Button(self.lf_migrate, text ='OBS to EST', command = lambda x ='OBS', y = 'EST': self.migrate_serie(x,y)).grid(row=0, column=1, sticky='W')
 
         pane.add(self.lf_exOptions,weight=50)
         pane.add(self.lf_migrate,weight=50)
@@ -143,8 +143,8 @@ class RM():
         # Output folder
         ttk.Label(self.writeframe, text='Select output folder ').grid(row=4, column=0, sticky='W')    
         self.output_folder = ttk.Entry(self.writeframe, textvariable= self.output_folder_var)
-        self.output_folder.grid(row=4, column=1, sticky='W')
-        ttk.Button(self.writeframe, text= 'Browse..', command = lambda x='out_folder': self.select_file(x)).grid(row=4, column=3, sticky='W')
+        self.output_folder.grid(row=4, column=1, columnspan =3, sticky='WE')
+        ttk.Button(self.writeframe, text= 'Browse..', command = lambda x='out_folder': self.select_file(x)).grid(row=4, column=5, sticky='W')
 
 
         ### Status frame
@@ -243,6 +243,7 @@ class RM():
         elif x=='out_folder':
             dirname = tk.filedialog.askdirectory()
             if dirname:
+                self.output_folder_var  =dirname
                 self.output_folder.delete(0, 'end')
                 self.output_folder.insert(0, dirname)
 

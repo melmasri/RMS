@@ -1,0 +1,252 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module rmfunctions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>rmfunctions</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/mo/Github/RMS/Librairies/rmfunctions.py">/home/mo/Github/RMS/Librairies/rmfunctions.py</a></font></td></tr></table>
+    <p><tt>#&nbsp;#&nbsp;import&nbsp;sqlite3&nbsp;#sql&nbsp;connection<br>
+#&nbsp;import&nbsp;xlrd&nbsp;#to&nbsp;read&nbsp;excel&nbsp;file<br>
+#&nbsp;from&nbsp;xlrd&nbsp;import&nbsp;open_workbook<br>
+#&nbsp;import&nbsp;re<br>
+#&nbsp;import&nbsp;collections&nbsp;#enable&nbsp;namedtuple:&nbsp;varname&nbsp;=&nbsp;collections.namedtuple('varname','val1,&nbsp;val2,&nbsp;val3..')&nbsp;and&nbsp;ordered&nbsp;dic<br>
+#&nbsp;import&nbsp;sys,&nbsp;json<br>
+#&nbsp;from&nbsp;rmsqlfunctions&nbsp;import&nbsp;*<br>
+#&nbsp;import&nbsp;os<br>
+#&nbsp;from&nbsp;functools&nbsp;import&nbsp;reduce<br>
+#&nbsp;import&nbsp;shutil<br>
+#&nbsp;import&nbsp;datetime<br>
+#&nbsp;from&nbsp;itertools&nbsp;import&nbsp;chain<br>
+#&nbsp;import&nbsp;time</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="builtins.html#Exception">builtins.Exception</a>(<a href="builtins.html#BaseException">builtins.BaseException</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="rmfunctions.html#CountryNameError">CountryNameError</a>
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="builtins.html#object">builtins.object</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="rmfunctions.html#questionnaire">questionnaire</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="CountryNameError">class <strong>CountryNameError</strong></a>(<a href="builtins.html#Exception">builtins.Exception</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>##&nbsp;Error&nbsp;class&nbsp;for&nbsp;a&nbsp;country&nbsp;name&nbsp;that&nbsp;is&nbsp;not&nbsp;found&nbsp;in&nbsp;the&nbsp;database<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="rmfunctions.html#CountryNameError">CountryNameError</a></dd>
+<dd><a href="builtins.html#Exception">builtins.Exception</a></dd>
+<dd><a href="builtins.html#BaseException">builtins.BaseException</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Methods inherited from <a href="builtins.html#Exception">builtins.Exception</a>:<br>
+<dl><dt><a name="CountryNameError-__init__"><strong>__init__</strong></a>(self, /, *args, **kwargs)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="CountryNameError-__new__"><strong>__new__</strong></a>(*args, **kwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="builtins.html#type">builtins.type</a></font></font></dt><dd><tt>Create&nbsp;and&nbsp;return&nbsp;a&nbsp;new&nbsp;<a href="builtins.html#object">object</a>.&nbsp;&nbsp;See&nbsp;help(type)&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="builtins.html#BaseException">builtins.BaseException</a>:<br>
+<dl><dt><a name="CountryNameError-__delattr__"><strong>__delattr__</strong></a>(self, name, /)</dt><dd><tt>Implement&nbsp;delattr(self,&nbsp;name).</tt></dd></dl>
+
+<dl><dt><a name="CountryNameError-__getattribute__"><strong>__getattribute__</strong></a>(self, name, /)</dt><dd><tt>Return&nbsp;getattr(self,&nbsp;name).</tt></dd></dl>
+
+<dl><dt><a name="CountryNameError-__reduce__"><strong>__reduce__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="CountryNameError-__repr__"><strong>__repr__</strong></a>(self, /)</dt><dd><tt>Return&nbsp;repr(self).</tt></dd></dl>
+
+<dl><dt><a name="CountryNameError-__setattr__"><strong>__setattr__</strong></a>(self, name, value, /)</dt><dd><tt>Implement&nbsp;setattr(self,&nbsp;name,&nbsp;value).</tt></dd></dl>
+
+<dl><dt><a name="CountryNameError-__setstate__"><strong>__setstate__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="CountryNameError-__str__"><strong>__str__</strong></a>(self, /)</dt><dd><tt>Return&nbsp;str(self).</tt></dd></dl>
+
+<dl><dt><a name="CountryNameError-with_traceback"><strong>with_traceback</strong></a>(...)</dt><dd><tt><a href="builtins.html#Exception">Exception</a>.<a href="#CountryNameError-with_traceback">with_traceback</a>(tb)&nbsp;--<br>
+set&nbsp;self.<strong>__traceback__</strong>&nbsp;to&nbsp;tb&nbsp;and&nbsp;return&nbsp;self.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="builtins.html#BaseException">builtins.BaseException</a>:<br>
+<dl><dt><strong>__cause__</strong></dt>
+<dd><tt>exception&nbsp;cause</tt></dd>
+</dl>
+<dl><dt><strong>__context__</strong></dt>
+<dd><tt>exception&nbsp;context</tt></dd>
+</dl>
+<dl><dt><strong>__dict__</strong></dt>
+</dl>
+<dl><dt><strong>__suppress_context__</strong></dt>
+</dl>
+<dl><dt><strong>__traceback__</strong></dt>
+</dl>
+<dl><dt><strong>args</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="questionnaire">class <strong>questionnaire</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Defines&nbsp;<a href="#questionnaire">questionnaire</a>&nbsp;properties&nbsp;and&nbsp;methods<br>
+&nbsp;<br>
+Attributes:<br>
+&nbsp;&nbsp;wb&nbsp;=&nbsp;the&nbsp;workbook&nbsp;that&nbsp;correspond&nbsp;to&nbsp;the&nbsp;class.<br>
+&nbsp;&nbsp;conn&nbsp;=&nbsp;connection&nbsp;<a href="builtins.html#object">object</a>&nbsp;to&nbsp;the&nbsp;database<br>
+&nbsp;&nbsp;emco_year&nbsp;=&nbsp;the&nbsp;emco_year&nbsp;read&nbsp;from&nbsp;the&nbsp;workbook.<br>
+&nbsp;&nbsp;nadm1&nbsp;=&nbsp;&nbsp;number&nbsp;of&nbsp;administrative&nbsp;divisions&nbsp;in&nbsp;the&nbsp;file<br>
+&nbsp;&nbsp;country_name&nbsp;=&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;country&nbsp;that&nbsp;filled&nbsp;the&nbsp;<a href="#questionnaire">questionnaire</a>.<br>
+&nbsp;&nbsp;country_code&nbsp;=&nbsp;the&nbsp;code&nbsp;of&nbsp;the&nbsp;country.<br>
+&nbsp;&nbsp;edit_mode&nbsp;=&nbsp;True&nbsp;or&nbsp;False,&nbsp;wether&nbsp;the&nbsp;class&nbsp;if&nbsp;going&nbsp;to&nbsp;be&nbsp;used&nbsp;for&nbsp;editing&nbsp;existing&nbsp;data.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="questionnaire-__init__"><strong>__init__</strong></a>(self, excel_file, database_file='../Database/UISProd.db', log_folder='/tmp/log')</dt><dd><tt>Set&nbsp;up&nbsp;variables&nbsp;for&nbsp;<a href="#questionnaire">questionnaire</a>&nbsp;and&nbsp;database&nbsp;reading</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-create_region_codes"><strong>create_region_codes</strong></a>(self)</dt><dd><tt>Writes&nbsp;the&nbsp;region&nbsp;codes&nbsp;to&nbsp;the&nbsp;regions&nbsp;database.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-emc_id"><strong>emc_id</strong></a>(self, table_name, column)</dt><dd><tt>Returns&nbsp;the&nbsp;emc_id&nbsp;given&nbsp;then&nbsp;table&nbsp;and&nbsp;column&nbsp;number.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-emc_id_from_cell_info"><strong>emc_id_from_cell_info</strong></a>(self, sheet_name, xlrd_vector_coordinates)</dt><dd><tt>Returns&nbsp;the&nbsp;emc_id&nbsp;given&nbsp;cell&nbsp;xlrd&nbsp;coordinates.<br>
+&nbsp;<br>
+xlrd_vector_coordinates&nbsp;should&nbsp;be&nbsp;a&nbsp;list&nbsp;with&nbsp;the&nbsp;xlrd<br>
+coordinates.<br>
+sheet_name&nbsp;is&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;sheet&nbsp;in&nbsp;wich&nbsp;the&nbsp;cell&nbsp;is.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-extract_comments"><strong>extract_comments</strong></a>(self)</dt><dd><tt>Writes&nbsp;the&nbsp;cell&nbsp;comments&nbsp;to&nbsp;the&nbsp;comments&nbsp;table</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-extract_data"><strong>extract_data</strong></a>(self, write_csv_files=False, write_sql=True)</dt><dd><tt>Reads&nbsp;and&nbsp;exports&nbsp;the&nbsp;data&nbsp;of&nbsp;the&nbsp;<a href="#questionnaire">questionnaire</a><br>
+&nbsp;<br>
+If&nbsp;the&nbsp;argument&nbsp;write_sql&nbsp;is&nbsp;True,&nbsp;it&nbsp;will&nbsp;import&nbsp;all&nbsp;the&nbsp;data<br>
+to&nbsp;the&nbsp;sql&nbsp;database.<br>
+&nbsp;<br>
+If&nbsp;the&nbsp;argument&nbsp;write_csv_files&nbsp;is&nbsp;True,&nbsp;it&nbsp;will&nbsp;write&nbsp;3<br>
+files.&nbsp;All&nbsp;of&nbsp;them&nbsp;in&nbsp;the&nbsp;folder&nbsp;imported_data.&nbsp;Let&nbsp;C&nbsp;be&nbsp;the<br>
+country&nbsp;code.&nbsp;The&nbsp;files&nbsp;will&nbsp;be:&nbsp;C_meters_data.csv,<br>
+C_inclu_data.csv&nbsp;and&nbsp;C_references.sql.&nbsp;<br>
+&nbsp;<br>
+C_meters_data.csv&nbsp;will&nbsp;have&nbsp;a&nbsp;csv&nbsp;files&nbsp;with&nbsp;the&nbsp;entries&nbsp;to<br>
+the&nbsp;meters&nbsp;table&nbsp;that&nbsp;correspond&nbsp;to&nbsp;the&nbsp;data&nbsp;being&nbsp;read.<br>
+&nbsp;<br>
+C_inclu_data.csv&nbsp;will&nbsp;have&nbsp;the&nbsp;entries&nbsp;that&nbsp;go&nbsp;to&nbsp;the&nbsp;inclu<br>
+table,&nbsp;i.e.,&nbsp;the&nbsp;fields&nbsp;that&nbsp;are&nbsp;begin&nbsp;referenced.<br>
+&nbsp;<br>
+C_references.sql&nbsp;will&nbsp;have&nbsp;sql&nbsp;code&nbsp;that&nbsp;sets&nbsp;the&nbsp;mg_id&nbsp;of&nbsp;the<br>
+referenced&nbsp;cells&nbsp;to&nbsp;4.&nbsp;<br>
+&nbsp;<br>
+If&nbsp;both&nbsp;csv&nbsp;files&nbsp;are&nbsp;imported&nbsp;in&nbsp;the&nbsp;sql&nbsp;tables&nbsp;and&nbsp;then&nbsp;the<br>
+sql&nbsp;code&nbsp;in&nbsp;C_references.sql&nbsp;was&nbsp;run&nbsp;it&nbsp;would&nbsp;be&nbsp;equivalent&nbsp;to<br>
+what&nbsp;this&nbsp;function&nbsp;adds&nbsp;to&nbsp;the&nbsp;sql&nbsp;tables&nbsp;when&nbsp;write_sql&nbsp;is<br>
+set&nbsp;to&nbsp;True.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-extract_table_comments"><strong>extract_table_comments</strong></a>(self)</dt><dd><tt>Extract&nbsp;the&nbsp;comments&nbsp;from&nbsp;the&nbsp;top&nbsp;of&nbsp;each&nbsp;table.<br>
+&nbsp;<br>
+This&nbsp;function&nbsp;cannot&nbsp;be&nbsp;used&nbsp;with&nbsp;the&nbsp;edit&nbsp;mode.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-get_country_code"><strong>get_country_code</strong></a>(self)</dt><dd><tt>Sets&nbsp;the&nbsp;country&nbsp;code&nbsp;by&nbsp;looking&nbsp;in&nbsp;the&nbsp;COUNTRY&nbsp;table.<br>
+&nbsp;<br>
+This&nbsp;function&nbsp;searches&nbsp;the&nbsp;country&nbsp;code&nbsp;in&nbsp;the&nbsp;COUNTRY&nbsp;table<br>
+using&nbsp;the&nbsp;self.<strong>country_name</strong>&nbsp;variable&nbsp;of&nbsp;the&nbsp;class.&nbsp;It&nbsp;assumes<br>
+that&nbsp;there&nbsp;will&nbsp;be&nbsp;an&nbsp;exact&nbsp;match&nbsp;up&nbsp;to&nbsp;case.&nbsp;If&nbsp;this&nbsp;is&nbsp;not<br>
+the&nbsp;case&nbsp;it&nbsp;returns&nbsp;None.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-get_country_name"><strong>get_country_name</strong></a>(self)</dt><dd><tt>Sets&nbsp;the&nbsp;country&nbsp;name&nbsp;based&nbsp;on&nbsp;the&nbsp;front&nbsp;page&nbsp;of&nbsp;the&nbsp;<a href="#questionnaire">questionnaire</a>.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-get_database_type"><strong>get_database_type</strong></a>(self)</dt><dd><tt>Sets&nbsp;the&nbsp;database&nbsp;type&nbsp;(OBS,REP,EST)&nbsp;from&nbsp;the&nbsp;<a href="#questionnaire">questionnaire</a>.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-get_emco_year"><strong>get_emco_year</strong></a>(self)</dt><dd><tt>Sets&nbsp;the&nbsp;attribute&nbsp;emco_year</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-get_nadm1"><strong>get_nadm1</strong></a>(self)</dt><dd><tt>Sets&nbsp;the&nbsp;attribute&nbsp;nadm1&nbsp;based&nbsp;on&nbsp;the&nbsp;<a href="#questionnaire">questionnaire</a></tt></dd></dl>
+
+<dl><dt><a name="questionnaire-get_regions"><strong>get_regions</strong></a>(self)</dt><dd><tt>Returns&nbsp;a&nbsp;dictionary&nbsp;with&nbsp;region&nbsp;name&nbsp;and&nbsp;code&nbsp;as&nbsp;key&nbsp;and&nbsp;value&nbsp;respectively.<br>
+&nbsp;<br>
+The&nbsp;regions&nbsp;are&nbsp;read&nbsp;from&nbsp;the&nbsp;database.&nbsp;If&nbsp;no&nbsp;regions&nbsp;are<br>
+found&nbsp;in&nbsp;the&nbsp;database,&nbsp;this&nbsp;function&nbsp;returns&nbsp;False.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-preprocessing"><strong>preprocessing</strong></a>(self)</dt><dd><tt>Checks&nbsp;the&nbsp;consistency&nbsp;of&nbsp;the&nbsp;<a href="#questionnaire">questionnaire</a>.<br>
+&nbsp;<br>
+This&nbsp;variable&nbsp;reads&nbsp;the&nbsp;Checking&nbsp;sheets&nbsp;and&nbsp;writes&nbsp;in&nbsp;the&nbsp;log<br>
+if&nbsp;there&nbsp;is&nbsp;any&nbsp;NO.&nbsp;&nbsp;<br>
+&nbsp;<br>
+If&nbsp;in&nbsp;edit&nbsp;mode,&nbsp;it&nbsp;checks&nbsp;that&nbsp;the&nbsp;meter&nbsp;values&nbsp;of&nbsp;the<br>
+administrative&nbsp;divisions&nbsp;add&nbsp;to&nbsp;the&nbsp;country&nbsp;total&nbsp;and&nbsp;also<br>
+checks&nbsp;that&nbsp;the&nbsp;female&nbsp;columns&nbsp;are&nbsp;less&nbsp;or&nbsp;equal&nbsp;than&nbsp;the<br>
+total&nbsp;of&nbsp;both&nbsp;sexes.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-print_log"><strong>print_log</strong></a>(self, text_string)</dt><dd><tt>Puts&nbsp;the&nbsp;text&nbsp;in&nbsp;the&nbsp;log&nbsp;file&nbsp;and&nbsp;in&nbsp;stdout.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-set_database_connection"><strong>set_database_connection</strong></a>(self, database_file)</dt><dd><tt>Sets&nbsp;the&nbsp;connection&nbsp;to&nbsp;the&nbsp;database</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-set_workbook"><strong>set_workbook</strong></a>(self, excel_file)</dt><dd><tt>Setw&nbsp;the&nbsp;workbook<br>
+&nbsp;<br>
+excel_file&nbsp;should&nbsp;be&nbsp;the&nbsp;full&nbsp;path&nbsp;to&nbsp;the&nbsp;excel&nbsp;file.</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-ec_td_id"><strong>ec_td_id</strong></a>(sheet_name)</dt><dd><tt>Returns&nbsp;the&nbsp;EC_TD_ID&nbsp;given&nbsp;the&nbsp;sheet&nbsp;name.</tt></dd></dl>
+ <dl><dt><a name="-getADM_CODE"><strong>getADM_CODE</strong></a>(co_code)</dt><dd><tt>A&nbsp;function&nbsp;that&nbsp;returns&nbsp;the&nbsp;ADM&nbsp;codes&nbsp;for&nbsp;a&nbsp;specific&nbsp;country</tt></dd></dl>
+ <dl><dt><a name="-getADM_DISTINCT"><strong>getADM_DISTINCT</strong></a>(co_code)</dt><dd><tt>A&nbsp;function&nbsp;that&nbsp;return&nbsp;the&nbsp;distinct&nbsp;number&nbsp;of&nbsp;ADM</tt></dd></dl>
+ <dl><dt><a name="-getAvailable_countries"><strong>getAvailable_countries</strong></a>()</dt><dd><tt>Returns&nbsp;a&nbsp;tuple&nbsp;of&nbsp;the&nbsp;available&nbsp;countries</tt></dd></dl>
+ <dl><dt><a name="-getAvailable_year"><strong>getAvailable_year</strong></a>(co_name)</dt><dd><tt>Returns&nbsp;the&nbsp;data&nbsp;year&nbsp;of&nbsp;the&nbsp;submitted&nbsp;questionnaires</tt></dd></dl>
+ <dl><dt><a name="-getCO_CODE"><strong>getCO_CODE</strong></a>(country_name)</dt><dd><tt>This&nbsp;function&nbsp;returns&nbsp;a&nbsp;country&nbsp;code&nbsp;given&nbsp;the&nbsp;long&nbsp;name.<br>
+If&nbsp;the&nbsp;exact&nbsp;country&nbsp;name&nbsp;is&nbsp;found,&nbsp;it&nbsp;gives&nbsp;back&nbsp;the&nbsp;code,<br>
+otherwise&nbsp;it&nbsp;returns&nbsp;None.</tt></dd></dl>
+ <dl><dt><a name="-getCO_NAME"><strong>getCO_NAME</strong></a>(co_code, short=True)</dt><dd><tt>This&nbsp;function&nbsp;returns&nbsp;a&nbsp;country&nbsp;name&nbsp;given&nbsp;the&nbsp;country&nbsp;code<br>
+If&nbsp;the&nbsp;&nbsp;country&nbsp;name&nbsp;is&nbsp;found&nbsp;it&nbsp;returns&nbsp;it&nbsp;&nbsp;otherwise&nbsp;it&nbsp;returns&nbsp;None.</tt></dd></dl>
+ <dl><dt><a name="-indexes"><strong>indexes</strong></a>(cellname)</dt><dd><tt>This&nbsp;function&nbsp;returns&nbsp;a&nbsp;vector&nbsp;with&nbsp;the&nbsp;indices&nbsp;of&nbsp;a&nbsp;cell&nbsp;given&nbsp;its&nbsp;name<br>
+&nbsp;<br>
+For&nbsp;example&nbsp;if&nbsp;cellname='A1'&nbsp;it&nbsp;returns&nbsp;[0,0].</tt></dd></dl>
+ <dl><dt><a name="-indexes_inverse"><strong>indexes_inverse</strong></a>(xlrd_coordinates)</dt><dd><tt>Returns&nbsp;excel&nbsp;coordinates&nbsp;given&nbsp;a&nbsp;vector&nbsp;with&nbsp;xlrd&nbsp;coordinates.<br>
+&nbsp;<br>
+It&nbsp;works&nbsp;for&nbsp;a&nbsp;maximumn&nbsp;of&nbsp;two&nbsp;letters&nbsp;in&nbsp;the&nbsp;column&nbsp;name.</tt></dd></dl>
+ <dl><dt><a name="-is_reference"><strong>is_reference</strong></a>(cell_value)</dt><dd><tt>Checks&nbsp;if&nbsp;a&nbsp;value&nbsp;is&nbsp;a&nbsp;reference&nbsp;to&nbsp;another&nbsp;cell.<br>
+&nbsp;<br>
+This&nbsp;functions&nbsp;receives&nbsp;a&nbsp;string,&nbsp;and&nbsp;checks&nbsp;if&nbsp;it&nbsp;has&nbsp;the&nbsp;form<br>
+X[a:b].&nbsp;If&nbsp;yes,&nbsp;it&nbsp;returns&nbsp;[a,b],&nbsp;else&nbsp;it&nbsp;returns&nbsp;None.&nbsp;<br>
+If&nbsp;it&nbsp;has&nbsp;the&nbsp;form&nbsp;X[:b]&nbsp;it&nbsp;returns&nbsp;[None,b].</tt></dd></dl>
+ <dl><dt><a name="-mg_id"><strong>mg_id</strong></a>(cell_value)</dt><dd><tt>This&nbsp;function&nbsp;gets&nbsp;the&nbsp;MG_ID&nbsp;for&nbsp;the&nbsp;read&nbsp;data<br>
+&nbsp;<br>
+This&nbsp;works&nbsp;for&nbsp;the&nbsp;meters&nbsp;table&nbsp;only.&nbsp;Reading&nbsp;a&nbsp;number&nbsp;will&nbsp;return&nbsp;0.</tt></dd></dl>
+ <dl><dt><a name="-moveSerie"><strong>moveSerie</strong></a>(co_code, year, from_serie, to_serie)</dt><dd><tt>A&nbsp;function&nbsp;that&nbsp;moves&nbsp;data&nbsp;between&nbsp;series.&nbsp;From&nbsp;REP&nbsp;to&nbsp;OBS&nbsp;for&nbsp;example.&nbsp;<br>
+So&nbsp;far,&nbsp;it&nbsp;modifies&nbsp;the&nbsp;following&nbsp;3&nbsp;SQL&nbsp;table:<br>
+&nbsp;1&nbsp;-&nbsp;EDU_METER97_{}<br>
+&nbsp;2&nbsp;-&nbsp;EDU_INCLUSION{}<br>
+&nbsp;3&nbsp;-&nbsp;EDU_FTN97_{}<br>
+&nbsp;4&nbsp;-&nbsp;EDU_COMMENT_TABLE_{}</tt></dd></dl>
+</td></tr></table>
+</body></html>

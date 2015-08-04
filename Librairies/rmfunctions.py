@@ -90,7 +90,7 @@ def getAvailable_year(co_name):
 
     sql_str = ("SELECT DISTINCT A.EMCO_YEAR FROM EDU_METER97_REP AS A "
                "LEFT JOIN COUNTRY AS B ON B.CO_CODE = A.CO_CODE "
-               "WHERE UPPER(B.CO_SHORT_NAME) IS '{0}' ".format(name))
+               "WHERE UPPER(B.CO_SHORT_NAME) IS '{0}' and A.EMC_ID= 900001".format(name))
     code = sql_query(sql_str)   
     if code:
         return(list(chain.from_iterable(code)))
@@ -114,20 +114,20 @@ def moveSerie(co_code, year, from_serie, to_serie):
                  "SELECT a.* FROM RM_Mapping as b "
                  "left join EDU_METER97_{2} as a on a.EMC_ID = b.EMC_ID and b.CUR_YEAR ={4} "
                  "where a.co_code ={0} "
-                 "and a.EMCO_YEAR ={1}".format(co_code, year-ind, from_serie, to_serie,ind))
+                 "and a.EMCO_YEAR ={1}".format(co_code, year + ind, from_serie, to_serie,ind))
         ### Moving EDU_INCLUSION
         ### Current year
         inclu= ("INSERT OR REPLACE INTO EDU_INCLUSION_{3} "
                 "SELECT a.* FROM RM_Mapping as b "
                 "join EDU_INCLUSION_{2} as a on a.EMC_ID = b.EMC_ID and b.Cur_Year = {4} "
                 "where a.co_code ={0} "
-                "and a.EMCO_YEAR ={1}".format(co_code, year-ind, from_serie, to_serie,ind))
+                "and a.EMCO_YEAR ={1}".format(co_code, year + ind, from_serie, to_serie,ind))
         ### Current year
         ftn = ("INSERT OR REPLACE INTO EDU_FTN97_{3} "
                "SELECT a.* FROM RM_Mapping as b "
                "left join EDU_FTN97_{2} as a on a.EMC_ID = b.EMC_ID and b.CUR_YEAR = {4} "
                "where a.co_code = {0} "
-               "and a.EMCO_YEAR = {1}".format(co_code, year, from_serie, to_serie,ind))
+               "and a.EMCO_YEAR = {1}".format(co_code, year + ind, from_serie, to_serie,ind))
         sql_query(meter,False)
         sql_query(inclu, False)
         sql_query(ftn,False)
