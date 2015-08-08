@@ -20,7 +20,8 @@ pip install xlsxwriter
 pip install https://github.com/melmasri/xlrd.zip
 ```
 
-**To install the main package** download or clone this repository
+### Installation of the main package
+download or clone this repository
 
 * **To download**: click on the download link on the left, or   [here](https://github.com/melmasri/RMS/archive/master.zip).
 * **To clone**: in your terminal run `git clone https://github.com/melmasri/RMS`
@@ -28,9 +29,7 @@ pip install https://github.com/melmasri/xlrd.zip
 
 Move the downloaded/cloned folder to your desired destination and then create a shortcut to `RM_GUI.py`.
 
-From now on, all you have to do is to double-click the created shortcut and the GUI would pop up to guide
+To start double-click on the `RM_GUI.py` shortcut.
 
-
-
-
+For more details please see the 
 
