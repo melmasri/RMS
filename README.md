@@ -18,7 +18,7 @@ For a complete GUI user guide see [user guide](Documentation/User_guide.html)
 * Python `>=3.4`. 
 * [xlsxWriter](https://xlsxwriter.readthedocs.org/), tested under version 0.7.3.
 * [xlrd](https://pypi.python.org/pypi/xlrd), tested under version 0.9.4. However
-  xlrd has some issues in processing comments. A fix patch is submitted to the maintainer, but has not been integrated yet. Therefore, until the patch is integrated please use the xlrd 0.9.4 version in the following GitHub [repo](https://github.com/python-excel/xlrd).
+  xlrd has some issues in processing comments. A fix patch is submitted to the maintainer, but has not been integrated yet. Therefore, until the patch is integrated please use the xlrd 0.9.4 version in the following GitHub [repo](https://github.com/melmasri/xlrd).
 
 All those packages could be installed using [Pip](https://pypi.python.org/pypi/pip). To install Pip download the [get-pip.py](get-pip.py) and run the following in the terminal where `get-pip.py` exist. (for more details see [this](https://pip.pypa.io/en/stable/installing.html#install-pip))
 
