@@ -1,12 +1,16 @@
 # Regional Module processing software
 A Regional Module data management system created using Python and SQLite. Using the simply designed graphical user interface(GUI) `RM_GUI.py`, users are able to:
 
+
+![](Documentation/img/RM_GUI.png "Regional model user interface")
+
 * import filled Excel questionnaires to the SQLite database;
 * export country specific data points and complete questionnaire tables back to Excel;
 * modify and clean the data in Excel and re-import then back in the SQLite database;
 * create different copies of country specific data, one to hold the original data, one for cleaning and one for dissemination.
 
-For a complete GUI user guide see [user guide](./Documentation/User_guide.html)
+For a complete GUI user guide see [user guide](Documentation/User_guide.html)
+
 
 ## Installation (on windows)
 ### Required packages:
