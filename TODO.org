@@ -5,10 +5,12 @@ Rolling list of things to do
   - [-] Export user names from the comment table. :Mo:
     - [ ] Test that the export and re-imports works on windows.
       * Tested version 0.9.3 works for both windows and linux with
-        Edit mode but not the original questionnaire.
+        Edit mode but not the original questionnaire. 
       * Tested version 0.9.4, doesn't work for either windows or
         linux. Shifting of worksheet name, when sheet doesn't have a
-        comment. Possible solution is to add dummy comments to every sheet. 
+        comment. Possible solution is to add dummy comments to every sheet.
+      * Tested version 0.9.2, works perfectly with Linux and
+        patch, not with windows.
     - [X] Test patching ~xlrd~ on windows
       - Comments work with xlrd 0.9.3 without patching only in Edit mode.
       - Code only inserts user name in both field in EDU_FTN97. 

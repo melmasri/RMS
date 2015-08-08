@@ -4,7 +4,7 @@ sys.path.append('Librairies')
 from rmquestionnaire import *
 
 # excel_file = "../../../../Dropbox/Regional module Survey/tests/Regional_Questionnaire_Asia_Final_v7_locked_LAOS.xlsx"
-# database="../../Database/UISProd.db"
+# database="../../Database/Prod.db"
 # log_folder = "../../Log"
 # set_database_file(database)
 
@@ -312,7 +312,7 @@ class RM():
         
    
 def main():
-    database="Database/UISProd.db"
+    database="Database/Prod.db"
     set_database_file(database)
     root = tk.Tk()
     app = RM(root, database)

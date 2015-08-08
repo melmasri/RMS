@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+'markdown' is not recognized as an internal or external command,
+operable program or batch file.<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
@@ -11,67 +12,7 @@
 
 <body>
 
-<h1>Regional Module processing software</h1>
 
-<p>A Regional Module data management system created using Python and SQLite. Using the simply designed graphical user interface(GUI) <code>RM_GUI.py</code>, users are able to:</p>
-
-<p><img src="Documentation/img/RM_GUI.png" alt="" title="Regional model user interface" /></p>
-
-<ul>
-<li>import filled Excel questionnaires to the SQLite database;</li>
-<li>export country specific data points and complete questionnaire tables back to Excel;</li>
-<li>modify and clean the data in Excel and re-import then back in the SQLite database;</li>
-<li>create different copies of country specific data, one to hold the original data, one for cleaning and one for dissemination.</li>
-</ul>
-
-<p>For a complete GUI user guide see <a href="Documentation/User_guide.html">user guide</a></p>
-
-<h2>Installation (on windows)</h2>
-
-<h3>Required packages:</h3>
-
-<ul>
-<li>Python <code>&gt;=3.4</code>. </li>
-<li><a href="https://xlsxwriter.readthedocs.org/">xlsxWriter</a>, tested under version 0.7.3.</li>
-<li><a href="https://pypi.python.org/pypi/xlrd">xlrd</a>, tested under version 0.9.4. However
-xlrd has some issues in processing comments. A fix patch is submitted to the maintainer, but has not been integrated yet. Therefore, until the patch is integrated please use the xlrd 0.9.4 version in the following GitHub <a href="https://github.com/python-excel/xlrd">repo</a>.</li>
-</ul>
-
-<p>All those packages could be installed using <a href="https://pypi.python.org/pypi/pip">Pip</a>. To install Pip download the <a href="get-pip.py">get-pip.py</a> and run the following in the terminal where <code>get-pip.py</code> exist. (for more details see <a href="https://pip.pypa.io/en/stable/installing.html#install-pip">this</a>)</p>
-
-<p><code>
-python get-pip.py
-</code>
-Once Pip is installed run the following in your terminal to install all required packages.</p>
-
-<p><code>
-pip install xlsxwriter
-pip install https://github.com/melmasri/xlrd.zip
-</code></p>
-
-<h3>Installation of the main package</h3>
-
-<p>To installation options are available:</p>
-
-<ul>
-<li><strong>Downloading</strong>: download and extract the following <a href="https://github.com/melmasri/RMS/archive/master.zip">zip file.</a>.</li>
-<li><strong>Git cloning</strong>: in your terminal run <code>git clone https://github.com/melmasri/RMS</code></li>
-</ul>
-
-<p>Move the downloaded/cloned folder to your desired destination and then create a shortcut to <code>RM_GUI.py</code>.</p>
-
-<p>To start double-click on the <code>RM_GUI.py</code> shortcut and the GUI should pop-up.</p>
-
-<p>For more details refer to
-* Python scripts documentation.
-* Python help files</p>
-
-<h2>Issues and extra features <sup><a href="#myfootnote1">1</a></sup></h2>
-
-<p>Report issues and suggest features and improvements on the [GitHub issue tracker.]
-(https://github.com/melmasri/RMS/issues)</p>
-
-<p><a name="myfootnote1">1</a>: The addition of new features are at the developers discretion.</p>
 
 </body>
 </html>

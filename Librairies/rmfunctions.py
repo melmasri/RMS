@@ -13,7 +13,7 @@ from itertools import chain
 import time
 
 #Global variables
-# conn = sqlite3.connect('../../Database/UISProd.db')
+# conn = sqlite3.connect('../../Database/Prod.db')
 # #Uncomment the line below for creating virtual database
 # #createDb = sqlite3.connect(":memory:")
 # #creates the cursor object for SQL queries
@@ -840,7 +840,7 @@ class questionnaire:
         backup_imported_questionnaire()
         cursor.close()
         
-    def __init__(self,excel_file,database_file="../Database/UISProd.db",log_folder="/tmp/log"):
+    def __init__(self,excel_file,database_file="../Database/Prod.db",log_folder="/tmp/log"):
         """Set up variables for questionnaire and database reading"""
         self.excel_file=excel_file
         self.set_workbook(excel_file)

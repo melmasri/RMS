@@ -20,7 +20,9 @@ For a complete GUI user guide see [user guide](Documentation/User_guide.html)
 * [xlrd](https://pypi.python.org/pypi/xlrd), tested under version 0.9.4. However
   xlrd has some issues in processing comments. A fix patch is submitted to the maintainer, but has not been integrated yet. Therefore, until the patch is integrated please use the xlrd 0.9.4 version in the following GitHub [repo](https://github.com/melmasri/xlrd).
 
-All those packages could be installed using [Pip](https://pypi.python.org/pypi/pip). To install Pip download the [get-pip.py](get-pip.py) and run the following in the terminal where `get-pip.py` exist. (for more details see [this](https://pip.pypa.io/en/stable/installing.html#install-pip))
+All those packages could be installed using
+[Pip](https://pypi.python.org/pypi/pip). On Windows Pip is bundled
+with Python, if it is not installed you can install it by downloading the [get-pip.py](get-pip.py) and running the following in the terminal where `get-pip.py` exist. (for more details see [this](https://pip.pypa.io/en/stable/installing.html#install-pip))
 
 ```
 python get-pip.py
@@ -29,7 +31,7 @@ Once Pip is installed run the following in your terminal to install all required
 
 ```
 pip install xlsxwriter
-pip install https://github.com/melmasri/xlrd.zip
+pip install https://github.com/melmasri/xlrd/archive/master.zip
 ```
 
 ### Installation of the main package
