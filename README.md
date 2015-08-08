@@ -42,14 +42,12 @@ For more details refer to
 * Python scripts documentation.
 * Python help files
 
-## Issues and extra features [^footnote]
+## Issues and extra features <sup>[1](#myfootnote1)</sup>
 Report issues and suggest features and improvements on the [GitHub issue tracker.]
 (https://github.com/melmasri/RMS/issues)
 
 
-
-[^footnote]: The addition of new features are at the developers discretion.
-
+<a name="myfootnote1">1</a>: The addition of new features are at the developers discretion.
 
 
 
