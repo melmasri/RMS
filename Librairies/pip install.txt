@@ -1,3 +1,5 @@
+# Installed python libraries on Linux.
+
 pip install XlsxWriter
 pip install xlrd
 apt-get install python-tk idle python-pmw python-imaging

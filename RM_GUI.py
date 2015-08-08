@@ -275,14 +275,19 @@ class RM():
     def updtCountry(self):
         """Queries the names of countries that submitted an rm questinnaire"""
         l = getAvailable_countries()
-        self.cbox_co['values'] =  list(chain.from_iterable(l))
+        if l: 
+            self.cbox_co['values'] =  list(chain.from_iterable(l))
+        else:
+            print('No questionnaires are exist in the databse.')
 
     def updtYear(self):
         """ For a specific selectd country, returns the list of avialable data years."""
         l= str(self.cbox_co.get())
         if l:
             l = getAvailable_year(l)
-            self.cbox_year['values'] = l   
+            self.cbox_year['values'] = l
+        else:
+            print('No country is selected.')
 
     def getSheetTableAC(self,m):
         if m =='sheet':
@@ -301,6 +306,7 @@ class RM():
         year = self.cbox_year.get()
         if co_name and year:
             moveSerie(getCO_CODE(co_name), int(year), from_serie, to_serie)
+            print('Done.')
         else:
             print('Error: missing country name or year.')
         
