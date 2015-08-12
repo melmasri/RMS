@@ -1,3 +1,6 @@
+
+<link rel='stylesheet' href='markdown.css'/>
+
 # Regional Module processing software
 A Regional Module data management system created using Python and SQLite. Using the simply designed graphical user interface(GUI) `RM_GUI.py`, users are able to:
 
@@ -9,7 +12,7 @@ A Regional Module data management system created using Python and SQLite. Using 
 * modify and clean the data in Excel and re-import then back in the SQLite database;
 * create different copies of country specific data, one to hold the original data, one for cleaning and one for dissemination.
 
-For a complete GUI user guide see [user guide](Documentation/User_guide.html)
+**For a complete GUI user guide see** [user guide](Documentation/User_guide.html)
 
 
 ## Installation (on windows)
@@ -44,7 +47,7 @@ Move the downloaded/cloned folder to your desired destination and then create a 
 
 To start double-click on the `RM_GUI.py` shortcut and the GUI should pop-up.
 
-For more details refer to
+**For more details refer to**
 
 * A simple [technical user guide.](Documentation/User_guide-technical.html)
 * Python functions [help files](Documentation/help files)
