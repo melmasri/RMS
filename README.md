@@ -45,8 +45,8 @@ Move the downloaded/cloned folder to your desired destination and then create a 
 To start double-click on the `RM_GUI.py` shortcut and the GUI should pop-up.
 
 For more details refer to
-* Python scripts documentation.
-* Python help files
+* A simple [technical user guide.](Documentation/User_guide-technical.html)
+* Python functions [help files](Documentation/help files)
 
 ## Issues and extra features <sup>[1](#myfootnote1)</sup>
 Report issues and suggest features and improvements on the [GitHub issue tracker.]
