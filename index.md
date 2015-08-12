@@ -9,7 +9,7 @@ A Regional Module data management system created using Python and SQLite. Using 
 * modify and clean the data in Excel and re-import then back in the SQLite database;
 * create different copies of country specific data, one to hold the original data, one for cleaning and one for dissemination.
 
-**For a complete GUI user guide see** [user guide](Documentation/User_guide.html)
+**For more information see the [GUI user guide](Documentation/User_guide.html)**.
 
 ## Installation (on windows)
 ### Required packages:
