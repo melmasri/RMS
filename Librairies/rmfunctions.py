@@ -25,13 +25,13 @@ import time
 # with open(mapping_file_json) as f:
 #     pre_vars=json.loads(f.read())
 
-if ( re.search('\\\\Tests\\\\mo$',os.getcwd()) or re.search('/Tests/os$',os.getcwd()) or re.search('/Tests/mo$',os.getcwd())   ):
-    with open("../../Librairies/variables_for_preprocessing.json") as f:
-        pre_vars=json.loads(f.read())
-else:
-    with open("Librairies/variables_for_preprocessing.json") as f:
-        pre_vars=json.loads(f.read())
-
+# if ( re.search('\\\\Tests\\\\mo$',os.getcwd()) or re.search('/Tests/os$',os.getcwd()) or
+     # re.search('/Tests/mo$',os.getcwd())   ):
+#     with open("../../Librairies/variables_for_preprocessing.json") as f:
+#         pre_vars=json.loads(f.read())
+# else:
+with open("Librairies/variables_for_preprocessing.json") as f:
+     pre_vars=json.loads(f.read())
 
 ####DATA EXTRACTION
 #-----------------------------------------------------------------------------------------------------
