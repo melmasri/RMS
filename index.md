@@ -20,13 +20,14 @@ A Regional Module data management system created using Python and SQLite. Using 
   xlrd has some issues in processing comments. A fix patch is submitted to the maintainer, but has not been integrated yet. Therefore, until the patch is integrated please use the xlrd 0.9.4 version in the following GitHub [repo](https://github.com/melmasri/xlrd).
 
 All those packages could be installed using
-[Pip](https://pypi.python.org/pypi/pip). On Windows Pip is bundled
-with Python, if it is not installed you can install it by downloading the [get-pip.py](get-pip.py) and running the following in the terminal where `get-pip.py` exist. (for more details see [this](https://pip.pypa.io/en/stable/installing.html#install-pip))
+[PIP](https://pypi.python.org/pypi/pip). On Windows PIP is bundled
+with Python, if not, install it by downloading  [get-pip.py](get-pip.py) and running the following command in the terminal where `get-pip.py` exist. (for more details see [this](https://pip.pypa.io/en/stable/installing.html#install-pip))
 
 ```
 python get-pip.py
 ```
-Once Pip is installed run the following in your terminal to install all required packages.
+
+Once PIP is installed run the following in your terminal to install all required packages.
 
 ```
 pip install xlsxwriter
@@ -34,7 +35,7 @@ pip install https://github.com/melmasri/xlrd/archive/master.zip
 ```
 
 ### Installation of the main package
-To installation options are available:
+Two installation options are available:
 
 * **Downloading**: download and extract the following [zip file.](https://github.com/melmasri/RMS/archive/master.zip).
 * **Git cloning**: in your terminal run `git clone https://github.com/melmasri/RMS`
@@ -49,8 +50,7 @@ To start double-click on the `RM_GUI.py` shortcut and the GUI should pop-up.
 * Python functions [help files](Documentation/help files/)
 
 ## Issues and extra features <sup>[1](#myfootnote1)</sup>
-Report issues and suggest features and improvements on the [GitHub issue tracker.]
-(https://github.com/melmasri/RMS/issues)
+Report issues and suggest features and improvements on the [GitHub issue tracker.](https://github.com/melmasri/RMS/issues)
 
 
 <a name="myfootnote1">1</a>: The addition of new features are at the developers discretion.
