@@ -2,20 +2,21 @@
 
 Rolling list of things to do
 * TODO
-  - [-] Export user names from the comment table. :Mo:
-    - [ ] Test that the export and re-imports works on windows.
-      * Tested version 0.9.3 works for both windows and linux with
+  - [X] Export user names from the comment table. :Mo:
+    - [X] Test that the export and re-imports works on windows.
+      * Tested version 0.9.3 works for both windows and Linux with
         Edit mode but not the original questionnaire. 
       * Tested version 0.9.4, doesn't work for either windows or
-        linux. Shifting of worksheet name, when sheet doesn't have a
+        Linux. Shifting of worksheet name, when sheet doesn't have a
         comment. Possible solution is to add dummy comments to every sheet.
       * Tested version 0.9.2, works perfectly with Linux and
         patch, not with windows.
+      * Patched xlrs 0.94 on window, tested to work on windows 8.1
     - [X] Test patching ~xlrd~ on windows
       - Comments work with xlrd 0.9.3 without patching only in Edit mode.
       - Code only inserts user name in both field in EDU_FTN97. 
   - [X] Erase the Inclusion table :Os:
-  - [ ] Complete the Gui user guide :Mo:
+  - [X] Complete the Gui user guide :Mo:
     - Missing :Os: import for what type of pre-processing checks. 
   - [X] Add default export folder in the GUI :Mo:
   - [X] Put confirmation statements after each step :Mo: :Os:
@@ -33,23 +34,46 @@ Rolling list of things to do
     - Differed for later
       Username(TimeDate section). :Os: :Mo:
   - [X] properly name log file :Os:
-  - [ ] Create the Readme file :Mo:
+  - [X] Create the Readme file :Mo:
+  - [ ] Create a Readme file for how to create a database :Mo:
   - [X] Format error :Os:
-    
+  - [ ] Add qualifiers algebra as shown blow    
 
-* Example exit with xlrd 0.9.4:
-Date: 08/04/15
-Questionnaire path: /home/oscar/RMS/Regional_Questionnaire_Asia_Final_v7_locked_LAOS.xlsx
-All the checks passes. QUESTIONNAIRE CAN BE PROCESSED
-Front Page:dict_keys([(13, 20)])
-Respondent Information:dict_keys([(15, 11), (26, 11), (17, 9)])
-Administrative divisions:dict_keys([(18, 13)])
-Policy information:dict_keys([(37, 23)])
-Pupils:dict_keys([(18, 49)])
-Teachers ISCED 1:dict_keys([])
-Teachers ISCED 2:dict_keys([])
-Teachers ISCED 3:dict_keys([])
-Teachers ISCED 23:dict_keys([])
-Checking sheet:dict_keys([])
-Changes log:dict_keys([])
-Unlocked areas:dict_keys([])
+And that the “qualifiers” algebra should define:
+                n is a special qualifier and should be treated as 0
+undefined and undeterminate forms (due to the use of n as 0) = m in the absence of any other way of qualifying such results.
+
+Starting with the definition of qualifiers multiplication (I think in general people start to define multiplication before defining division):
+X*a = a
+X*m = m
+X*n = n
+X*value = X*value
+Which combined with the precedence rules would give us the table
+
+ *      a       m       n       value
+a       a       a       a       a
+m       a       m       m       m
+n       a       m       n       n
+value   a       m       n       value
+
+                Qualifiers division:
+                                X/a = a
+                                X/m = m
+                                X/n = m
+                                X/value = X/value
+
+                And the table of combinations (using multiplication and division rules defined above):
+
+ N/D    a       m       n       value
+a       a       a       a       a
+m       a       m       m       m
+n       a       m       m       n
+value   a       m       m       value
+
+So I almost agree with your table except for one case: n/m. If I had to defend this I would say that:
+n/m= n * 1/m
+Applying the qualifiers division rule (that I admittedly just designed 2 minutes before the demonstration…):
+n/m = n * m
+Applying the qualifiers multiplication rule and the precedence:
+n/m = m
+This seems also more logical to me as ‘m’ could be anything in [a, n, value] and affecting the result ‘n’ would mean that we only consider that ‘m’ could be ‘value’ which seems wrong to me given all the different possibilities."
