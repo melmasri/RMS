@@ -1,6 +1,6 @@
 import sys, getpass, os
 
-sys.path.append('Librairies')
+sys.path.append('Libraries')
 from rmquestionnaire import *
 
 # excel_file = "../../../../Dropbox/Regional module Survey/tests/Regional_Questionnaire_Asia_Final_v7_locked_LAOS.xlsx"
@@ -28,10 +28,10 @@ class StdoutRedirector(object):
 
 
 class RM():
-    """ A class the generated the regional moduel gui."""
+    """ A class the generated the regional module GUI."""
     series = {'Reported':'REP', 'Observed': 'OBS', 'Estimated':'EST'}
     def __init__(self, master, database, log_folder='Log', output_folder_var='Export'):
-        """ Main initilization"""
+        """ Main initialization"""
         self.master = master
         self.database = database
         if not os.path.exists(log_folder): os.makedirs(log_folder)
@@ -49,7 +49,7 @@ class RM():
         self.messages()
         
     def createWidgets(self):
-        """ Creating all widgets in the gui."""
+        """ Creating all widgets in the GUI."""
         ## Static variables
         pad = 5                 # size padding for frames
         ## Styles
@@ -63,7 +63,7 @@ class RM():
         ttk.Label(settingframe, text = RM.username, padding=2, style="BW.TLabel").grid(row=0, column=1, sticky = 'W')
         ttk.Label(settingframe, text = "Main working directory ").grid(row=1, column=0, sticky = 'W')
         ttk.Label(settingframe, text = self.main_dir, padding=2, style="BW.TLabel").grid(row=1, column=1, sticky = 'W')
-        ttk.Label(settingframe, text = "Databse ").grid(row=2, column=0, sticky = 'W')
+        ttk.Label(settingframe, text = "Database ").grid(row=2, column=0, sticky = 'W')
         ttk.Label(settingframe, text = self.database, padding=2, style="BW.TLabel").grid(row=2, column=1, sticky = 'W')
         ttk.Label(settingframe, text = "Log folder ").grid(row=0, column=2, sticky = 'W')
         ttk.Label(settingframe, text = self.log_folder, padding=2, style="BW.TLabel").grid(row=0, column=3, sticky = 'W')
@@ -132,7 +132,7 @@ class RM():
         ttk.Button(self.lf_exOptions, text ='Export', command = lambda x='AC': self.export(x)).grid(row=2, column=3, sticky='W')
 
         # Migrating options
-        self.lf_migrate = ttk.LabelFrame(pane , text="Move btween databases")
+        self.lf_migrate = ttk.LabelFrame(pane , text="Move between databases")
         self.lf_migrate.grid(row=1, columnspan=2, sticky='WE', padx=5, pady=5, ipadx=5, ipady=5)
         ttk.Button(self.lf_migrate, text ='REP to OBS', command= lambda x = 'REP', y = 'OBS': self.migrate_serie(x,y)).grid(row=0, column=0, sticky='W',padx=5,pady=5)
         ttk.Button(self.lf_migrate, text ='OBS to EST', command = lambda x ='OBS', y = 'EST': self.migrate_serie(x,y)).grid(row=0, column=1, sticky='W')
@@ -190,12 +190,12 @@ class RM():
     def messages(self):
         print('Main working directory is {0}.'.format(self.main_dir))
         print('Connection with database at {1} is established for User {0}.'.format(RM.username, self.database))
-        print('All work logs by defualt are save to subfolder {0}.'.format(self.log_folder))
-        print('Import backups are stored in subfolder {0}, defualt output subfolder is {1}.'.format(self.backup_folder, self.output_folder_var))
+        print('All work logs by default are save to subfolder {0}.'.format(self.log_folder))
+        print('Import backups are stored in subfolder {0}, default output subfolder is {1}.'.format(self.backup_folder, self.output_folder_var))
         print('-----------------------------------')
         
     def export(self,x):
-        """ Exports a whole questionnare, sheet or AC"""
+        """ Exports a whole questionnaire, sheet or AC"""
         if x=='sheet':
             var = str(self.cbox_sheet.get())
         elif x=='table':
@@ -273,15 +273,15 @@ class RM():
                         print(self.log_folder)
     
     def updtCountry(self):
-        """Queries the names of countries that submitted an rm questinnaire"""
+        """Queries the names of countries that submitted an rm questionnaire"""
         l = getAvailable_countries()
         if l: 
             self.cbox_co['values'] =  list(chain.from_iterable(l))
         else:
-            print('No questionnaires are exist in the databse.')
+            print('No questionnaires are exist in the database.')
 
     def updtYear(self):
-        """ For a specific selectd country, returns the list of avialable data years."""
+        """ For a specific selected country, returns the list of available data years."""
         l= str(self.cbox_co.get())
         if l:
             l = getAvailable_year(l)
@@ -301,7 +301,7 @@ class RM():
             self.cbox_AC['values'] =  list(chain.from_iterable(sql_query(l)))
 
     def migrate_serie(self, from_serie, to_serie):
-        """ A funtion that migrates data between series Reported(REP), Clean(OBS), Estimated(EST)"""
+        """ A function that migrates data between series Reported(REP), Clean(OBS), Estimated(EST)"""
         co_name = str(self.cbox_co.get())
         year = self.cbox_year.get()
         if co_name and year:

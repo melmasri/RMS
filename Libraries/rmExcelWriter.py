@@ -1,5 +1,5 @@
 import sys
-sys.path.append('../../Librairies')
+sys.path.append('../../Libraries')
 from rmsqlfunctions  import *
 from rmfunctions import *
 import xlsxwriter
@@ -16,7 +16,7 @@ def getTable(var, co_code, year, var_type,serie):
         The tuple is organized as ( ADM_CODE, DATA, CELL.NO , EXL_REF)
     """
     data = []
-    # The bellow offset is to accord for the data in the questoinnaire from the previous year.
+    # The bellow offset is to accord for the data in the questionnaire from the previous year.
     for offset in [0,-1]:
         sql_data = ("select b.ADM_CODE, case when b.MG_ID ='1' then 'n' "
                     "when b.MG_ID ='3' then d.DESC_INCLU "
@@ -66,7 +66,7 @@ def getCell_comment(var, co_code, year,serie):
                 "RM_TABLE = 'someTableName' 
     """
     data = []
-    # The bellow offset is to accord for the data in the questoinnaire from the previous year.
+    # The bellow offset is to accord for the data in the questionnaire from the previous year.
     for offset in [0,-1]:
         sql_str = ("SELECT c.ADM_CODE, c.FTN_DATA, a.Col, a.EXL_REF, c.USERNAME FROM RM_Mapping AS a "
                    "LEFT JOIN EDU_METER_AID AS b ON b.AC = a.AC "
@@ -157,8 +157,8 @@ def write_data(worksheet, data, view_type = 'ReadOnly', **op):
                 For example (00, 'National level', 2, H18) which is 
                 (ADM_CODE for national level, label , Table column 2, Excel ref H18)
                 Note that the EXL_REF need to be the reference of the first datum in the column.
-                For example, if first region label is in H18 and there are 10 regions 
-                than National level Excel reference is H30 ( 18 + 10 +2)
+                For example, if first region label is in H18 and there are 10 regions, 
+                than National level Excel reference is H30 ( 18 + 10 +2),
                 but in the tuple EXL_REF is H18 not H30 as in the tuple example above. 
                 This is the same for all datum, EXL_REF is Excel reference for the first datum 
                 in that column. 
@@ -210,7 +210,7 @@ def write_data(worksheet, data, view_type = 'ReadOnly', **op):
                                     -1*(data[i][0]>=0), uni_cols[rc_ids[i][1]], data[i][1])
                     
             if(op.get('data_comment')):
-                worksheet.show_comments() # to make comments visibile once workbook is opened
+                worksheet.show_comments() # to make comments visible once workbook is opened
                 dc = op.get('data_comment')
                 for i in range(len(dc)):
                     worksheet.write_comment(uni_ids[dc[i][0]] + rc_ids[i][0]-3

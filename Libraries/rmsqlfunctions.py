@@ -3,17 +3,17 @@ import sqlite3 #sql connection
 
 
 def set_database_file(database_file):
-    """Sets the databse file.
+    """Sets the database file.
 
     This function will set the country_cursor global variable to  a
-    cursor connected to the dabase in databse_file
+    cursor connected to the debase in database_file
     """
     global con
     con=sqlite3.connect(database_file)
     if con:
-        print('Connectoin established')
+        print('Connection established.')
     else :
-        print('Connectioned failed.')
+        print('Connection failed.')
 
 
 def sql_query(sql_str, readonly = True):

@@ -56,14 +56,14 @@
 <font color="#000000" face="helvetica, arial"><a name="RM">class <strong>RM</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
     
 <tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
-<td colspan=2><tt>A&nbsp;class&nbsp;the&nbsp;generated&nbsp;the&nbsp;regional&nbsp;moduel&nbsp;gui.<br>&nbsp;</tt></td></tr>
+<td colspan=2><tt>A&nbsp;class&nbsp;the&nbsp;generated&nbsp;the&nbsp;regional&nbsp;module&nbsp;GUI.<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%">Methods defined here:<br>
-<dl><dt><a name="RM-__init__"><strong>__init__</strong></a>(self, master, database, log_folder='Log', output_folder_var='Export')</dt><dd><tt>Main&nbsp;initilization</tt></dd></dl>
+<dl><dt><a name="RM-__init__"><strong>__init__</strong></a>(self, master, database, log_folder='Log', output_folder_var='Export')</dt><dd><tt>Main&nbsp;initialization</tt></dd></dl>
 
-<dl><dt><a name="RM-createWidgets"><strong>createWidgets</strong></a>(self)</dt><dd><tt>Creating&nbsp;all&nbsp;widgets&nbsp;in&nbsp;the&nbsp;gui.</tt></dd></dl>
+<dl><dt><a name="RM-createWidgets"><strong>createWidgets</strong></a>(self)</dt><dd><tt>Creating&nbsp;all&nbsp;widgets&nbsp;in&nbsp;the&nbsp;GUI.</tt></dd></dl>
 
-<dl><dt><a name="RM-export"><strong>export</strong></a>(self, x)</dt><dd><tt>Exports&nbsp;a&nbsp;whole&nbsp;questionnare,&nbsp;sheet&nbsp;or&nbsp;AC</tt></dd></dl>
+<dl><dt><a name="RM-export"><strong>export</strong></a>(self, x)</dt><dd><tt>Exports&nbsp;a&nbsp;whole&nbsp;questionnaire,&nbsp;sheet&nbsp;or&nbsp;AC</tt></dd></dl>
 
 <dl><dt><a name="RM-getSheetTableAC"><strong>getSheetTableAC</strong></a>(self, m)</dt></dl>
 
@@ -71,15 +71,15 @@
 
 <dl><dt><a name="RM-messages"><strong>messages</strong></a>(self)</dt></dl>
 
-<dl><dt><a name="RM-migrate_serie"><strong>migrate_serie</strong></a>(self, from_serie, to_serie)</dt><dd><tt>A&nbsp;funtion&nbsp;that&nbsp;migrates&nbsp;data&nbsp;between&nbsp;series&nbsp;Reported(REP),&nbsp;Clean(OBS),&nbsp;Estimated(EST)</tt></dd></dl>
+<dl><dt><a name="RM-migrate_serie"><strong>migrate_serie</strong></a>(self, from_serie, to_serie)</dt><dd><tt>A&nbsp;function&nbsp;that&nbsp;migrates&nbsp;data&nbsp;between&nbsp;series&nbsp;Reported(REP),&nbsp;Clean(OBS),&nbsp;Estimated(EST)</tt></dd></dl>
 
 <dl><dt><a name="RM-select_file"><strong>select_file</strong></a>(self, x)</dt><dd><tt>Requests&nbsp;from&nbsp;the&nbsp;user&nbsp;to&nbsp;select&nbsp;a&nbsp;file/folder&nbsp;of&nbsp;questionnaires&nbsp;to&nbsp;import</tt></dd></dl>
 
 <dl><dt><a name="RM-setFormating"><strong>setFormating</strong></a>(self)</dt><dd><tt>Formats&nbsp;the&nbsp;sizes&nbsp;and&nbsp;padding&nbsp;of&nbsp;different&nbsp;widgets</tt></dd></dl>
 
-<dl><dt><a name="RM-updtCountry"><strong>updtCountry</strong></a>(self)</dt><dd><tt>Queries&nbsp;the&nbsp;names&nbsp;of&nbsp;countries&nbsp;that&nbsp;submitted&nbsp;an&nbsp;rm&nbsp;questinnaire</tt></dd></dl>
+<dl><dt><a name="RM-updtCountry"><strong>updtCountry</strong></a>(self)</dt><dd><tt>Queries&nbsp;the&nbsp;names&nbsp;of&nbsp;countries&nbsp;that&nbsp;submitted&nbsp;an&nbsp;rm&nbsp;questionnaire</tt></dd></dl>
 
-<dl><dt><a name="RM-updtYear"><strong>updtYear</strong></a>(self)</dt><dd><tt>For&nbsp;a&nbsp;specific&nbsp;selectd&nbsp;country,&nbsp;returns&nbsp;the&nbsp;list&nbsp;of&nbsp;avialable&nbsp;data&nbsp;years.</tt></dd></dl>
+<dl><dt><a name="RM-updtYear"><strong>updtYear</strong></a>(self)</dt><dd><tt>For&nbsp;a&nbsp;specific&nbsp;selected&nbsp;country,&nbsp;returns&nbsp;the&nbsp;list&nbsp;of&nbsp;available&nbsp;data&nbsp;years.</tt></dd></dl>
 
 <hr>
 Data descriptors defined here:<br>
@@ -140,6 +140,6 @@ sequence&nbsp;is&nbsp;empty.</tt></dd></dl>
 <font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
     
 <tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><strong>f</strong> = &lt;_io.TextIOWrapper name='Librairies/variables_for_preprocessing.json' mode='r' encoding='UTF-8'&gt;<br>
+<td width="100%"><strong>f</strong> = &lt;_io.TextIOWrapper name='Libraries/variables_for_preprocessing.json' mode='r' encoding='UTF-8'&gt;<br>
 <strong>pre_vars</strong> = {'Checking sheet': {'Administrative divisions': [[14, 15, 16, 17, 18, 19], 10], 'Front page': [[9, 10, 11], 10], 'Policy information (General information)': [[23, 24, 25, 26, 27, 28], 10], 'Policy information (Table iii)': [[30, 31], 10], 'Pupils': [[34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, ...], 10], 'Teachers ISCED 1 (Table 1.1)': [[10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, ...], 17], 'Teachers ISCED 1 (Table 1.2)': [[58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, ...], 17], 'Teachers ISCED 1 (Table 1.3)': [[89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, ...], 17], 'Teachers ISCED 1 (Table 1.4)': [[120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, ...], 17], 'Teachers ISCED 2 (Table 2.1)': [[10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, ...], 24], ...}, 'fixed_sheets': {'Administrative divisions': {'adm1': ['N10', 1], 'adm1_number': ['O12', 2], 'id_start': ['H21', 2]}, 'Front Page': {'academic_year': ['U14', 2], 'country_name': ['U12', 1], 'school_year_ending': ['U19', 1]}, 'Pupils': {'adm1_names_start': ['I18', 1]}, 'Respondent Information': {'address': ['F14', 1], 'city': ['O14', 1], 'country': ['F16', 1], 'department': ['F10', 1], 'email': ['F25', 1], 'family_name': ['J6', 1], 'first_name': ['O6', 1], 'institution': ['F12', 1], 'job_title': ['F8', 1], 'notes': ['F30', 1], ...}}, 'names': ['Front Page', 'Respondent Information', 'Administrative divisions', 'Policy information', 'Pupils', 'Teachers ISCED 1', 'Teachers ISCED 2', 'Teachers ISCED 3', 'Teachers ISCED 23', 'Checking sheet', 'Changes log'], 'nsheets': 11}</td></tr></table>
 </body></html>

@@ -27,11 +27,11 @@ import time
 
 # if ( re.search('\\\\Tests\\\\mo$',os.getcwd()) or re.search('/Tests/os$',os.getcwd()) or
      # re.search('/Tests/mo$',os.getcwd())   ):
-#     with open("../../Librairies/variables_for_preprocessing.json") as f:
+#     with open("../../Libraries/variables_for_preprocessing.json") as f:
 #         pre_vars=json.loads(f.read())
 # else:
-with open("Librairies/variables_for_preprocessing.json") as f:
-     pre_vars=json.loads(f.read())
+with open("Libraries/variables_for_preprocessing.json") as f:
+    pre_vars=json.loads(f.read())
 
 ####DATA EXTRACTION
 #-----------------------------------------------------------------------------------------------------
@@ -49,7 +49,7 @@ def getADM_DISTINCT(co_code):
     return(query[0])
     
 def getCO_CODE(country_name):
-    """This function returns a country code given the long name.
+    """This function returns a country code given the long or short name.
     If the exact country name is found, it gives back the code,
     otherwise it returns None.
     """
@@ -63,7 +63,7 @@ def getCO_CODE(country_name):
    
 def getCO_NAME(co_code, short=True):
     """This function returns a country name given the country code
-    If the  country name is found it returns it  otherwise it returns None.
+    If the  country name is found it returns it, otherwise it returns None.
     """
     if short:
         var = 'CO_SHORT_NAME'
@@ -168,7 +168,7 @@ def indexes(cellname):
 def indexes_inverse(xlrd_coordinates):
     """Returns excel coordinates given a vector with xlrd coordinates.
 
-    It works for a maximumn of two letters in the column name.
+    It works for a maximum of two letters in the column name.
     """
     # The following gives the number of letters
     column_letter=""
@@ -251,10 +251,10 @@ class questionnaire:
       nadm1 =  number of administrative divisions in the file
       country_name = the name of the country that filled the questionnaire.
       country_code = the code of the country.
-      edit_mode = True or False, wether the class if going to be used for editing existing data.
+      edit_mode = True or False, whether the class if going to be used for editing existing data.
     """
     def set_workbook(self,excel_file):
-        """Setw the workbook
+        """Set the workbook
 
         excel_file should be the full path to the excel file.
         """
@@ -334,7 +334,7 @@ class questionnaire:
     def print_log(self,text_string):
         """Puts the text in the log file and in stdout.
         """
-        print(text_string,end="")
+        print(text_string,end='')
         self.log_file.write(text_string)
         self.log_file.flush()
         os.fsync(self.log_file.fileno())
@@ -566,7 +566,7 @@ class questionnaire:
 
         xlrd_vector_coordinates should be a list with the xlrd
         coordinates.
-        sheet_name is the name of the sheet in wich the cell is.
+        sheet_name is the name of the sheet in which the cell is.
         """
         excel_ref=indexes_inverse(xlrd_vector_coordinates)
         row=xlrd_vector_coordinates[0]
@@ -591,7 +591,7 @@ class questionnaire:
         # Tuple of tuples with the information of the data Each entry
         # will be (emc_id,co_code,adm_code,emco_year,comments)
 
-        # Missing: Check that the comment sould be in the meters
+        # Missing: Check that the comment should be in the meters
         cursor=self.conn.cursor()
         edu_table_name="EDU_FTN97_"+self.database_type
         if self.edit_mode:
@@ -682,7 +682,7 @@ class questionnaire:
                 exl_ref=variables[3]
                 sheet = self.wb.sheet_by_name(tab)
                 comments=sheet.cell(*indexes(exl_ref)).value
-                if comments not in ["Emter commemt here","Enter comment here"]:
+                if comments not in ["Enter comment here","Enter comment here"]:
                     comments_data=comments_data + ( (self.country_code,self.emco_year,rm_table,comments  ),   )
             cursor.executemany("INSERT OR REPLACE INTO EDU_COMMENT_TABLE_"+self.database_type+" VALUES(?,?,?,?);",comments_data)
             self.conn.commit()
@@ -761,7 +761,7 @@ class questionnaire:
         if self.edit_mode:            
             edit_sheets_names=self.wb.sheet_names()
             ## Before exporting the entries in the inclusion table of
-            ## the sheets beign imported are erased.
+            ## the sheets being imported are erased.
             inclu_table_name="EDU_INCLUSION_"+self.database_type
             for sheet in self.wb.sheets():
                 cursor.execute("SELECT  {0}.CO_CODE,{0}.EMCO_YEAR,{0}.EMC_ID,RM_Mapping.Tab FROM {0} LEFT JOIN RM_MAPPING ON {0}.EMC_ID=RM_MAPPING.EMC_ID WHERE RM_Mapping.Tab=\"{3}\" AND ( ( {0}.EMCO_YEAR={1} AND RM_MAPPING.CUR_YEAR=0 ) OR ( {0}.EMCO_YEAR={2} AND RM_MAPPING.CUR_YEAR=-1) )".format(inclu_table_name,self.emco_year,self.emco_year-1,sheet.name) )

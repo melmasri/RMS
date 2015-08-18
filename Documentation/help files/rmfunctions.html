@@ -8,7 +8,7 @@
 <td valign=bottom>&nbsp;<br>
 <font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>rmfunctions</strong></big></big></font></td
 ><td align=right valign=bottom
-><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/mo/Github/RMS/Librairies/rmfunctions.py">/home/mo/Github/RMS/Librairies/rmfunctions.py</a></font></td></tr></table>
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/mo/Github/RMS/Libraries/rmfunctions.py">/home/mo/Github/RMS/Libraries/rmfunctions.py</a></font></td></tr></table>
     <p><tt>#&nbsp;import&nbsp;sqlite3&nbsp;#sql&nbsp;connection</tt></p>
 <p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
@@ -125,7 +125,7 @@ Attributes:<br>
 &nbsp;&nbsp;nadm1&nbsp;=&nbsp;&nbsp;number&nbsp;of&nbsp;administrative&nbsp;divisions&nbsp;in&nbsp;the&nbsp;file<br>
 &nbsp;&nbsp;country_name&nbsp;=&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;country&nbsp;that&nbsp;filled&nbsp;the&nbsp;<a href="#questionnaire">questionnaire</a>.<br>
 &nbsp;&nbsp;country_code&nbsp;=&nbsp;the&nbsp;code&nbsp;of&nbsp;the&nbsp;country.<br>
-&nbsp;&nbsp;edit_mode&nbsp;=&nbsp;True&nbsp;or&nbsp;False,&nbsp;wether&nbsp;the&nbsp;class&nbsp;if&nbsp;going&nbsp;to&nbsp;be&nbsp;used&nbsp;for&nbsp;editing&nbsp;existing&nbsp;data.<br>&nbsp;</tt></td></tr>
+&nbsp;&nbsp;edit_mode&nbsp;=&nbsp;True&nbsp;or&nbsp;False,&nbsp;whether&nbsp;the&nbsp;class&nbsp;if&nbsp;going&nbsp;to&nbsp;be&nbsp;used&nbsp;for&nbsp;editing&nbsp;existing&nbsp;data.<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%">Methods defined here:<br>
 <dl><dt><a name="questionnaire-__init__"><strong>__init__</strong></a>(self, excel_file, database_file='../Database/Prod.db', log_folder='/tmp/log')</dt><dd><tt>Set&nbsp;up&nbsp;variables&nbsp;for&nbsp;<a href="#questionnaire">questionnaire</a>&nbsp;and&nbsp;database&nbsp;reading</tt></dd></dl>
@@ -138,7 +138,7 @@ Attributes:<br>
 &nbsp;<br>
 xlrd_vector_coordinates&nbsp;should&nbsp;be&nbsp;a&nbsp;list&nbsp;with&nbsp;the&nbsp;xlrd<br>
 coordinates.<br>
-sheet_name&nbsp;is&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;sheet&nbsp;in&nbsp;wich&nbsp;the&nbsp;cell&nbsp;is.</tt></dd></dl>
+sheet_name&nbsp;is&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;sheet&nbsp;in&nbsp;which&nbsp;the&nbsp;cell&nbsp;is.</tt></dd></dl>
 
 <dl><dt><a name="questionnaire-extract_comments"><strong>extract_comments</strong></a>(self)</dt><dd><tt>Writes&nbsp;the&nbsp;cell&nbsp;comments&nbsp;to&nbsp;the&nbsp;comments&nbsp;table</tt></dd></dl>
 
@@ -204,7 +204,7 @@ total&nbsp;of&nbsp;both&nbsp;sexes.</tt></dd></dl>
 
 <dl><dt><a name="questionnaire-set_database_connection"><strong>set_database_connection</strong></a>(self, database_file)</dt><dd><tt>Sets&nbsp;the&nbsp;connection&nbsp;to&nbsp;the&nbsp;database</tt></dd></dl>
 
-<dl><dt><a name="questionnaire-set_workbook"><strong>set_workbook</strong></a>(self, excel_file)</dt><dd><tt>Setw&nbsp;the&nbsp;workbook<br>
+<dl><dt><a name="questionnaire-set_workbook"><strong>set_workbook</strong></a>(self, excel_file)</dt><dd><tt>Set&nbsp;the&nbsp;workbook<br>
 &nbsp;<br>
 excel_file&nbsp;should&nbsp;be&nbsp;the&nbsp;full&nbsp;path&nbsp;to&nbsp;the&nbsp;excel&nbsp;file.</tt></dd></dl>
 
@@ -228,17 +228,17 @@ Data descriptors defined here:<br>
  <dl><dt><a name="-getADM_DISTINCT"><strong>getADM_DISTINCT</strong></a>(co_code)</dt><dd><tt>A&nbsp;function&nbsp;that&nbsp;return&nbsp;the&nbsp;distinct&nbsp;number&nbsp;of&nbsp;ADM</tt></dd></dl>
  <dl><dt><a name="-getAvailable_countries"><strong>getAvailable_countries</strong></a>()</dt><dd><tt>Returns&nbsp;a&nbsp;tuple&nbsp;of&nbsp;the&nbsp;available&nbsp;countries</tt></dd></dl>
  <dl><dt><a name="-getAvailable_year"><strong>getAvailable_year</strong></a>(co_name)</dt><dd><tt>Returns&nbsp;the&nbsp;data&nbsp;year&nbsp;of&nbsp;the&nbsp;submitted&nbsp;questionnaires</tt></dd></dl>
- <dl><dt><a name="-getCO_CODE"><strong>getCO_CODE</strong></a>(country_name)</dt><dd><tt>This&nbsp;function&nbsp;returns&nbsp;a&nbsp;country&nbsp;code&nbsp;given&nbsp;the&nbsp;long&nbsp;name.<br>
+ <dl><dt><a name="-getCO_CODE"><strong>getCO_CODE</strong></a>(country_name)</dt><dd><tt>This&nbsp;function&nbsp;returns&nbsp;a&nbsp;country&nbsp;code&nbsp;given&nbsp;the&nbsp;long&nbsp;or&nbsp;short&nbsp;name.<br>
 If&nbsp;the&nbsp;exact&nbsp;country&nbsp;name&nbsp;is&nbsp;found,&nbsp;it&nbsp;gives&nbsp;back&nbsp;the&nbsp;code,<br>
 otherwise&nbsp;it&nbsp;returns&nbsp;None.</tt></dd></dl>
  <dl><dt><a name="-getCO_NAME"><strong>getCO_NAME</strong></a>(co_code, short=True)</dt><dd><tt>This&nbsp;function&nbsp;returns&nbsp;a&nbsp;country&nbsp;name&nbsp;given&nbsp;the&nbsp;country&nbsp;code<br>
-If&nbsp;the&nbsp;&nbsp;country&nbsp;name&nbsp;is&nbsp;found&nbsp;it&nbsp;returns&nbsp;it&nbsp;&nbsp;otherwise&nbsp;it&nbsp;returns&nbsp;None.</tt></dd></dl>
+If&nbsp;the&nbsp;&nbsp;country&nbsp;name&nbsp;is&nbsp;found&nbsp;it&nbsp;returns&nbsp;it,&nbsp;otherwise&nbsp;it&nbsp;returns&nbsp;None.</tt></dd></dl>
  <dl><dt><a name="-indexes"><strong>indexes</strong></a>(cellname)</dt><dd><tt>This&nbsp;function&nbsp;returns&nbsp;a&nbsp;vector&nbsp;with&nbsp;the&nbsp;indices&nbsp;of&nbsp;a&nbsp;cell&nbsp;given&nbsp;its&nbsp;name<br>
 &nbsp;<br>
 For&nbsp;example&nbsp;if&nbsp;cellname='A1'&nbsp;it&nbsp;returns&nbsp;[0,0].</tt></dd></dl>
  <dl><dt><a name="-indexes_inverse"><strong>indexes_inverse</strong></a>(xlrd_coordinates)</dt><dd><tt>Returns&nbsp;excel&nbsp;coordinates&nbsp;given&nbsp;a&nbsp;vector&nbsp;with&nbsp;xlrd&nbsp;coordinates.<br>
 &nbsp;<br>
-It&nbsp;works&nbsp;for&nbsp;a&nbsp;maximumn&nbsp;of&nbsp;two&nbsp;letters&nbsp;in&nbsp;the&nbsp;column&nbsp;name.</tt></dd></dl>
+It&nbsp;works&nbsp;for&nbsp;a&nbsp;maximum&nbsp;of&nbsp;two&nbsp;letters&nbsp;in&nbsp;the&nbsp;column&nbsp;name.</tt></dd></dl>
  <dl><dt><a name="-is_reference"><strong>is_reference</strong></a>(cell_value)</dt><dd><tt>Checks&nbsp;if&nbsp;a&nbsp;value&nbsp;is&nbsp;a&nbsp;reference&nbsp;to&nbsp;another&nbsp;cell.<br>
 &nbsp;<br>
 This&nbsp;functions&nbsp;receives&nbsp;a&nbsp;string,&nbsp;and&nbsp;checks&nbsp;if&nbsp;it&nbsp;has&nbsp;the&nbsp;form<br>
