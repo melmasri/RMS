@@ -1,2 +1,2 @@
 :: Create a database
-C:\sqlite3 Prod.db < main.sql
+sqlite3.exe Prod.db < main.sql
