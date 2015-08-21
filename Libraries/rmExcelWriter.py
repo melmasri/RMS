@@ -68,7 +68,7 @@ def getCell_comment(var, co_code, year,serie):
     data = []
     # The bellow offset is to accord for the data in the questionnaire from the previous year.
     for offset in [0,-1]:
-        sql_str = ("SELECT c.ADM_CODE, c.FTN_DATA, a.Col, a.EXL_REF, c.USERNAME FROM RM_Mapping AS a "
+        sql_str = ("SELECT c.ADM_CODE, '[' || c.DATE_ADDED || '] ' || c.FTN_DATA, a.Col, a.EXL_REF, c.USERNAME FROM RM_Mapping AS a "
                    "LEFT JOIN EDU_METER_AID AS b ON b.AC = a.AC "
                    "JOIN EDU_FTN97_{4} AS c ON b.EMC_ID = c.EMC_ID "
                    "WHERE a.{0} AND a.CUR_YEAR = {3} "

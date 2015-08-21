@@ -43,7 +43,7 @@ The `main.sql` goes through the following steps
   * `Inserted data/RM_Mapping_NonNumeric.csv"` to table `RM_Mapping_NonNumeric`
 
     For more information about the tables refer to `insert_data.sql`.
-## logging and errors
+## Logging and errors
 
 The `main.sql` script is designed to exit the process if any errors are encountered. Before exiting it writes all warnings and errors to the text file `log_sqlite.log`.
 
