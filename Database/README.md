@@ -39,7 +39,8 @@ The `main.sql` goes through the following steps
   * `Inserted data/EDU_METER_AID(data).csv"` to table `EDU_METER_AID`
   * `Inserted data/All AC CODES.csv"` to table `AC_TEMP` and then creates new codes and inserts them into `EDU_METER_AID`
   * `Inserted data/RM_Mapping.csv"` to table `RM_TEMP` and then to `RM_Mapping`
-  * `Inserted data/ADM_table.csv"` to table `REGIONS` `Inserted data/RM_Mapping_NonNumeric.csv"` to table `RM_Mapping_NonNumeric`
+  * `Inserted data/ADM_table.csv"` to table `REGIONS`
+  * `Inserted data/RM_Mapping_NonNumeric.csv"` to table `RM_Mapping_NonNumeric`
 
     For more information about the tables refer to `insert_data.sql`.
 ## logging and errors
