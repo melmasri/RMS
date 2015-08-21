@@ -603,8 +603,7 @@ class questionnaire:
                     
         #delete from Authors where AuthorId=1        
         comments_table_tupple=()        
-        for sheet in self.wb.sheets():
-            self.print_log(sheet.name+":"+str(sheet.cell_note_map.keys())+"\n")
+        for sheet in self.wb.sheets():            
             for xlrd_coord in sheet.cell_note_map.keys():
                 
                 emc_id=self.emc_id_from_cell_info(sheet.name, xlrd_coord )
@@ -623,12 +622,12 @@ class questionnaire:
                         author=self.country_name
                     else:
                         author=sheet.cell_note_map[xlrd_coord].author
-                    match=re.search('\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}',comment)
+                    match=re.search('\[(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\] (.*)',comment)
                     if match==None:
                         date_string=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") # We are not forced to use this format
-                        comment = comment + " " + date_string
                     else:
-                        date_string=match.group(0)
+                        date_string=match.group(1)
+                        comment=match.group(2)
                         
                     comments_table_tupple=comments_table_tupple + ( (self.country_code,adm_code,emco_year, emc_id,comment,table,author,date_string) , )
         if comments_table_tupple:
