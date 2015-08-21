@@ -27,17 +27,16 @@ Rolling list of things to do
     program. Currently once it find an error it stops.
   - [X] List all pre-processing steps. :Os:
   - [X] Cell comments should have time stamp to when they are inserted.
-  - [ ] List all pre-processing steps. :Os:
-  - [X] Cell comments should have time stamp to when they are inserted.
     - We can follow the following convention: Username(TimeDate):
       comment data, and then I can till users to not edit.
     - Differed for later
       Username(TimeDate section). :Os: :Mo:
   - [X] properly name log file :Os:
   - [X] Create the Readme file :Mo:
-  - [ ] Create a Readme file for how to create a database :Mo:
+  - [X] Create a Readme file for how to create a database :Mo:
   - [X] Format error :Os:
-  - [ ] Add qualifiers algebra as shown blow    
+  - [ ] add date to comments
+  - [ ] Add qualifiers algebra as shown blow
 
 And that the “qualifiers” algebra should define:
                 n is a special qualifier and should be treated as 0
