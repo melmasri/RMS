@@ -35,5 +35,5 @@ Rolling list of things to do
   - [X] Create the Readme file :Mo:
   - [X] Create a Readme file for how to create a database :Mo:
   - [X] Format error :Os:
-  - [ ] add date to comments
+  - [X] add date to comments
   - [X] Add qualifiers algebra as shown in Patrick email.
