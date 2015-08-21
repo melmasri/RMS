@@ -366,7 +366,7 @@ class questionnaire:
                             self.print_log("The following items have No in the Checking sheet:\n")
                             printed_main_message=True
                         var[1]-=5
-                        self.print_log("{0} : {1}".format( sheet_name, sheet.cell(*var).value ))
+                        self.print_log("{0} : {1}\n".format( sheet_name, sheet.cell(*var).value ))
             if (not  printed_main_message ):
                 self.print_log("All the checks passes. QUESTIONNAIRE CAN BE PROCESSED\n")
                 return(True)
@@ -623,9 +623,16 @@ class questionnaire:
                         author=self.country_name
                     else:
                         author=sheet.cell_note_map[xlrd_coord].author
-                    comments_table_tupple=comments_table_tupple + ( (self.country_code,adm_code,emco_year, emc_id,comment,table,author) , )
+                    match=re.search('\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}',comment)
+                    if match==None:
+                        date_string=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") # We are not forced to use this format
+                        comment = comment + " " + date_string
+                    else:
+                        date_string=match.group(0)
+                        
+                    comments_table_tupple=comments_table_tupple + ( (self.country_code,adm_code,emco_year, emc_id,comment,table,author,date_string) , )
         if comments_table_tupple:
-            cursor.executemany("INSERT OR REPLACE INTO EDU_FTN97_"+self.database_type+"(CO_CODE,ADM_CODE,EMCO_YEAR,EMC_ID,FTN_CODE,FTN_DATA,NTABLE,QUESTNAME,USERNAME)" + " VALUES(?,?,?,?,1,?,?,'R',?);", comments_table_tupple )
+            cursor.executemany("INSERT OR REPLACE INTO EDU_FTN97_"+self.database_type+"(CO_CODE,ADM_CODE,EMCO_YEAR,EMC_ID,FTN_CODE,FTN_DATA,NTABLE,QUESTNAME,USERNAME,DATE_ADDED)" + " VALUES(?,?,?,?,1,?,?,'R',?,?);", comments_table_tupple )
             self.conn.commit()
         cursor.close()
                 
@@ -815,7 +822,7 @@ class questionnaire:
                         referenced_row=adm_code
                     else:
                         referenced_row=reference[0]
-                    referenced_sql_code= referenced_sql_code | {"UPDATE EDU_METER97_"+self.database_type+" SET MG_ID=4 WHERE EMC_ID={0} AND CO_CODE={1} AND ADM_CODE={2} AND EMCO_YEAR={3};\n".format(self.emc_id(variables[3],reference[1]),self.country_code,referenced_row,emco_year)}
+                    referenced_sql_code= referenced_sql_code | {"UPDATE EDU_METER97_"+self.database_type+" SET MG_ID=4 WHERE EMC_ID={0} AND CO_CODE={1} AND ADM_CODE={2} AND EMCO_YEAR={3} AND MG_ID IS NULL;\n".format(self.emc_id(variables[3],reference[1]),self.country_code,referenced_row,emco_year)}
                 else: # If we did not read a reference
                     em_fig=meter_values[i]
                 # The following if might not be necessary in the final version
