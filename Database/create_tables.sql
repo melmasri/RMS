@@ -329,6 +329,49 @@ CREATE TABLE EDU_FTN97_EST(
 	DATE_ADDED datetime DEFAULT CURRENT_TIMESTAMP,
 PRIMARY KEY (CO_CODE ASC, ADM_CODE ASC,  EMCO_YEAR ASC, EMC_ID ASC ));
 
+
+----------- Audit trial tables
+--  METER_AUDIT_TRAIL TABLE
+DROP TABLE IF EXISTS METER_AUDIT_TRAIL;
+-- Creating table
+CREATE TABLE METER_AUDIT_TRAIL(
+	Audit_ID Integer , -- Based on ROWID definition in SQLite, this should do the same job as autoincrement
+	MC_ID decimal(6, 0) NOT NULL,
+    CO_CODE decimal(6, 0) NOT NULL,
+    ADM_CODE INT NOT NULL, -- Administrative Division code.
+	MC_YEAR decimal(4, 0) NOT NULL,
+	EM_FIG_NEW varchar(4000) NULL,
+	EM_FIG_OLD varchar(4000) NULL,
+	MQ_ID_NEW char(1) NULL,
+	MQ_ID_OLD char(1) NULL,
+	MG_ID_NEW char(1) NULL,
+	MG_ID_OLD char(1) NULL,
+	TYPE_MOD char(1) NULL, --- I don't know what is this
+	USER_NAME varchar(20) NOT NULL,
+	SYS_DATE datetime DEFAULT CURRENT_TIMESTAMP,
+	SERIES varchar(10) NOT NULL,
+	SURVEY_ID char(2) NULL, --- Regional model default is set to 'RM'
+    PRIMARY KEY (Audit_ID ASC));
+
+--------- A temp table to hold Audit_trail by combining the New and Old values before inserting them in METER_AUDIT_TRAIL
+--  METER_AUDIT_TEMP
+DROP TABLE IF EXISTS METER_AUDIT_TEMP;
+-- Creating table
+CREATE TABLE METER_AUDIT_TEMP(
+	MC_ID decimal(6, 0) NOT NULL,
+    CO_CODE decimal(6, 0) NOT NULL,
+    ADM_CODE INT NOT NULL, -- Administrative Division code.
+	MC_YEAR decimal(4, 0) NOT NULL,
+	EM_FIG_OLD varchar(4000) NULL,
+	MQ_ID_OLD char(1) NULL,
+	MG_ID_OLD char(1) NULL,
+	TYPE_MOD char(1) NULL, --- I don't know what is this
+	USER_NAME varchar(20) NOT NULL,
+	SERIES varchar(10) NOT NULL,
+	SURVEY_ID char(2) NULL, --- Regional model default is set to 'RM'
+    PRIMARY KEY (MC_ID ASC,CO_CODE ASC,ADM_CODE ASC, MC_YEAR ASC));
+
+
 -- -- EDU_FTN_ASSO97_OBS TABLE
 -- -- Deleting table
 -- DROP TABLE IF EXISTS EDU_FTN_ASSO97_OBS

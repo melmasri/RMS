@@ -262,7 +262,7 @@ class RM():
         for i in file1:
                 if re.search(".xlsx", i):
                     print('Importing {0}'.format(i))
-                    x=questionnaire(i,self.database,self.log_folder)
+                    x=questionnaire(i,self.database,self.log_folder,RM.username)
                     if x.preprocessing():
                         x.extract_data()
                         x.extract_comments()
