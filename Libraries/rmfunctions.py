@@ -778,6 +778,7 @@ class questionnaire:
                                "and a.MC_YEAR = b.EMCO_YEAR AND "
                                "(a.EM_FIG_OLD !=b.EM_FIG OR a.MQ_ID_OLD != b.MQ_ID OR a.MG_ID_OLD != b.MG_ID)"))
                 cursor.execute("DELETE FROM METER_AUDIT_TEMP")
+                self.conn.commit()
             cursor.close()
 
         def backup_imported_questionnaire():
