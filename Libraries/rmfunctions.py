@@ -745,11 +745,39 @@ class questionnaire:
         def export_to_sqlite():
             # LOG DATABASE
             cursor=self.conn.cursor()
+            ## Copy old values from
+            
+            if self.edit_mode:
+                cursor.execute("DELETE FROM METER_AUDIT_TEMP")
+                for Table in self.wb.sheet_names():
+                    cursor.execute(("INSERT INTO METER_AUDIT_TEMP (MC_ID, CO_CODE, ADM_CODE, MC_YEAR, "
+                                   "EM_FIG_OLD, MQ_ID_OLD, MG_ID_OLD, USER_NAME, SERIES, SURVEY_ID) "
+                                   "SELECT c.EMC_ID,c.CO_CODE, c.ADM_CODE, c.EMCO_YEAR,"
+                                   "c.EM_FIG, c.MQ_ID, c.MG_ID, '{5}', '{4}', 'RM' from RM_MAPPING as a "
+                                   "LEFT JOIN EDU_METER_AID AS b ON b.AC = a.AC "
+                                    "JOIN EDU_METER97_{5} as c  ON b.EMC_ID = c.EMC_ID "
+                                   "WHERE a.Tab='{0}' AND  c.CO_CODE = {1} AND "
+                                   "(( c.EMCO_YEAR= {2} AND a.CUR_YEAR=0 ) OR ( c.EMCO_YEAR= {3} AND a.CUR_YEAR=-1))".format(Table,self.country_code, self.emco_year,self.emco_year-1,self.username, self.database_type)))
+            
             cursor.executemany("INSERT OR REPLACE INTO EDU_METER97_"+ self.database_type +" VALUES(?,?,?,?,?,?,?,?,?,?,?,?);",meters_data)
+             
             cursor.executemany("INSERT OR REPLACE INTO EDU_INCLUSION_"+self.database_type+" VALUES(?,?,?,?,?,?);",inclu_data)
             for var in referenced_sql_code:
                 cursor.execute(var)
             self.conn.commit()
+            if self.edit_mode:
+                cursor.execute(("INSERT INTO METER_AUDIT_TRAIL " 
+                               "(MC_ID, CO_CODE, ADM_CODE, MC_YEAR, EM_FIG_OLD, MQ_ID_OLD, "
+                               "MG_ID_OLD, USER_NAME, SERIES, SURVEY_ID, EM_FIG_NEW, MQ_ID_NEW, MG_ID_NEW) " 
+                               "SELECT a.MC_ID, a.CO_CODE, a.ADM_CODE, a.MC_YEAR," 
+                               "a.EM_FIG_OLD, a.MQ_ID_OLD, a.MG_ID_OLD," 
+                               "a.USER_NAME, a.SERIES, a.SURVEY_ID," 
+                               "b.EM_FIG, b.MQ_ID, b.MG_ID from  METER_AUDIT_TEMP as a "
+                               "join EDU_METER97_"+ self.database_type +" as b on a.MC_ID = b.EMC_ID "
+                               "and a.CO_CODE = b.CO_CODE and a.ADM_CODE = b.ADM_CODE "
+                               "and a.MC_YEAR = b.EMCO_YEAR AND "
+                               "(a.EM_FIG_OLD !=b.EM_FIG OR a.MQ_ID_OLD != b.MQ_ID OR a.MG_ID_OLD != b.MG_ID)"))
+                cursor.execute("DELETE FROM METER_AUDIT_TEMP")
             cursor.close()
 
         def backup_imported_questionnaire():
@@ -846,7 +874,7 @@ class questionnaire:
         backup_imported_questionnaire()
         cursor.close()
         
-    def __init__(self,excel_file,database_file="../Database/Prod.db",log_folder="/tmp/log"):
+    def __init__(self,excel_file,database_file="../Database/Prod.db",log_folder="/tmp/log",username="user"):
         """Set up variables for questionnaire and database reading"""
         self.excel_file=excel_file
         self.set_workbook(excel_file)
@@ -857,6 +885,7 @@ class questionnaire:
         self.get_country_name()
         self.get_country_code()
         self.get_database_type()
+        self.username=username
         if (not os.path.exists(log_folder)):
             os.makedirs(log_folder)
         self.log_file=open( log_folder + "/{}".format(self.country_name) + "_"+datetime.datetime.now().strftime("%y-%m-%d-%H-%M")+".log",'a')
