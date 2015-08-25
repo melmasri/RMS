@@ -761,10 +761,10 @@ class questionnaire:
                                    "(( c.EMCO_YEAR= {2} AND a.CUR_YEAR=0 ) OR ( c.EMCO_YEAR= {3} AND a.CUR_YEAR=-1))".format(Table,self.country_code, self.emco_year,self.emco_year-1,self.username, self.database_type)))
             
             cursor.executemany("INSERT OR REPLACE INTO EDU_METER97_"+ self.database_type +" VALUES(?,?,?,?,?,?,?,?,?,?,?,?);",meters_data)
-             
             for var in referenced_sql_code:
                 cursor.execute(var)
             self.conn.commit()
+                         
             if self.edit_mode:
                 cursor.execute(("INSERT INTO METER_AUDIT_TRAIL " 
                                "(MC_ID, CO_CODE, ADM_CODE, MC_YEAR, EM_FIG_OLD, MQ_ID_OLD, "
@@ -779,32 +779,28 @@ class questionnaire:
                                "(a.EM_FIG_OLD !=b.EM_FIG OR a.MQ_ID_OLD != b.MQ_ID OR a.MG_ID_OLD != b.MG_ID)"))
                 cursor.execute("DELETE FROM METER_AUDIT_TEMP")
                 self.conn.commit()
-                for Table in self.wb.sheet_names():
-                    cursor.execute(("INSERT INTO METER_AUDIT_TEMP (MC_ID, CO_CODE, ADM_CODE, MC_YEAR, "
-                                    "EM_FIG_OLD, USER_NAME, SERIES, SURVEY_ID) "
-                                    "SELECT c.EMC_ID,c.CO_CODE, c.ADM_CODE, c.EMCO_YEAR,"
-                                    "c.DESC_INCLU, '{4}', '{5}', 'RM' from RM_MAPPING as a "
-                                    "LEFT JOIN EDU_METER_AID AS b ON b.AC = a.AC "
-                                    "JOIN EDU_INCLUSION_{5} as c  ON b.EMC_ID = c.EMC_ID "
-                                    "WHERE a.Tab='{0}' AND  c.CO_CODE = {1} AND "
-                                    "(( c.EMCO_YEAR={2} AND a.CUR_YEAR=0) OR (c.EMCO_YEAR={3} AND a.CUR_YEAR=-1))".format(Table,self.country_code, self.emco_year,self.emco_year-1,self.username, self.database_type )) )
+                # for Table in self.wb.sheet_names():
+                    # query="INSERT INTO METER_AUDIT_TEMP (MC_ID, CO_CODE, ADM_CODE, MC_YEAR,EM_FIG_OLD, USER_NAME, SERIES, SURVEY_ID) SELECT c.EMC_ID,c.CO_CODE, c.ADM_CODE, c.EMCO_YEAR,c.DESC_INCLU, '{4}', '{5}', 'RM' from RM_MAPPING as a LEFT JOIN EDU_METER_AID AS b ON b.AC = a.AC JOIN EDU_INCLUSION_{5} as c  ON b.EMC_ID = c.EMC_ID WHERE a.Tab='{0}' AND  c.CO_CODE = {1} AND (( c.EMCO_YEAR={2} AND a.CUR_YEAR=0) OR (c.EMCO_YEAR={3} AND a.CUR_YEAR=-1))".format(Table,self.country_code, self.emco_year,self.emco_year-1,self.username, self.database_type )
+                    # cursor.execute(query)
+                    # self.conn.commit() 
 
-            cursor.executemany("INSERT OR REPLACE INTO EDU_INCLUSION_"+self.database_type+" VALUES(?,?,?,?,?,?);",inclu_data)
-            # self.conn.commit()
             
-            if self.edit_mode:
-                cursor.execute(("INSERT INTO METER_AUDIT_TRAIL " 
-                                "(MC_ID, CO_CODE, ADM_CODE, MC_YEAR, EM_FIG_OLD, "
-                                "USER_NAME, SERIES, SURVEY_ID, EM_FIG_NEW) " 
-                                "SELECT a.MC_ID, a.CO_CODE, a.ADM_CODE, a.MC_YEAR," 
-                                "a.EM_FIG_OLD, a.USER_NAME, a.SERIES, a.SURVEY_ID," 
-                                "b.DESC_INCLU from  METER_AUDIT_TEMP as a "
-                                "join EDU_INCLUSION_{0} as b on a.MC_ID = b.EMC_ID "
-                                "and a.CO_CODE = b.CO_CODE and a.ADM_CODE = b.ADM_CODE "
-                                "and a.MC_YEAR = b.EMCO_YEAR AND "
-                                "(a.EM_FIG_OLD !=b.DESC_INCLU)".format(self.database_type)))
-#                cursor.execute("DELETE FROM METER_AUDIT_TEMP")
-                self.conn.commit()
+            cursor.executemany("INSERT OR REPLACE INTO EDU_INCLUSION_"+self.database_type+" VALUES(?,?,?,?,?,?);",inclu_data)
+            self.conn.commit()
+            
+            # if self.edit_mode:
+            #     cursor.execute(("INSERT INTO METER_AUDIT_TRAIL " 
+            #                     "(MC_ID, CO_CODE, ADM_CODE, MC_YEAR, EM_FIG_OLD, "
+            #                     "USER_NAME, SERIES, SURVEY_ID, EM_FIG_NEW) " 
+            #                     "SELECT a.MC_ID, a.CO_CODE, a.ADM_CODE, a.MC_YEAR," 
+            #                     "a.EM_FIG_OLD, a.USER_NAME, a.SERIES, a.SURVEY_ID," 
+            #                     "b.DESC_INCLU from  METER_AUDIT_TEMP as a "
+            #                     "join EDU_INCLUSION_{0} as b on a.MC_ID = b.EMC_ID "
+            #                     "and a.CO_CODE = b.CO_CODE and a.ADM_CODE = b.ADM_CODE "
+            #                     "and a.MC_YEAR = b.EMCO_YEAR AND "
+            #                     "(a.EM_FIG_OLD !=b.DESC_INCLU)".format(self.database_type)))
+            #     cursor.execute("DELETE FROM METER_AUDIT_TEMP")
+            #     self.conn.commit()
                     
             cursor.close()
 
