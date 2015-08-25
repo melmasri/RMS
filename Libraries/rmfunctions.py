@@ -600,6 +600,7 @@ class questionnaire:
                 things_to_erase=cursor.fetchall()
                 for values_to_erase in things_to_erase:
                     cursor.execute("DELETE FROM EDU_FTN97_"+self.database_type+" WHERE CO_CODE={0} AND EMCO_YEAR={1} AND EMC_ID={2}".format(values_to_erase[0],values_to_erase[1],values_to_erase[2]))
+                    self.conn.commit()
                     
         #delete from Authors where AuthorId=1        
         comments_table_tupple=()        
@@ -803,6 +804,7 @@ class questionnaire:
                 things_to_erase=cursor.fetchall()
                 for values_to_erase in things_to_erase:
                     cursor.execute("DELETE FROM EDU_INCLUSION_"+self.database_type+" WHERE CO_CODE={0} AND EMCO_YEAR={1} AND EMC_ID={2}".format(values_to_erase[0],values_to_erase[1],values_to_erase[2]))
+                    self.conn.commit()
         else:
             self.create_region_codes()
         for variables in mapping_table:
