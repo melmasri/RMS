@@ -350,14 +350,35 @@ class questionnaire:
         checks that the female columns are less or equal than the
         total of both sexes.
         """
+        check_variables=pre_vars["Checking sheet"]
+        self.print_log("----------"+"Date: "+datetime.datetime.now().strftime("%B %d, %Y")+"----------\n\n\n")
         if (not self.edit_mode):
-            check_variables=pre_vars["Checking sheet"]
+            self.print_log("Original questionnaire submited with path:\n")
+            self.print_log(self.excel_file+"\n\n")
+            administrative_divisions_variables=pre_vars['fixed_sheets']['Administrative divisions']
+                
+            
+        else:
+            self.print_log("Edited questionnaire submited with path:\n")
+            self.print_log(self.excel_file+"\n\n")
+        self.print_log("Country name: {0}\n".format(self.country_name))
+        self.print_log("Reference year: {0}\n".format(self.emco_year))
+        self.print_log("Number of Administrative divisions: {0}\n".format(self.nadm1))
+        if (not self.edit_mode):
+            self.print_log("Administrative divisions:\n")
+            sheet=self.wb.sheet_by_name('Administrative divisions')
+            id_start_coordinates=indexes( administrative_divisions_variables['id_start'][0])
+            regions_names=sheet.col_values(id_start_coordinates[1]+1,\
+                                           id_start_coordinates[0],\
+                                           id_start_coordinates[0]+self.nadm1)
+            for region in regions_names:
+                self.print_log("    {}\n".format(region))
+            self.print_log("\n\n")
+        if (not self.edit_mode):            
             sheet=self.wb.sheet_by_name("Checking sheet")
-            self.print_log("Date: "+ time.strftime("%x") + "\n")
-            self.print_log("Questionnaire path: " + self.excel_file + "\n")
             ## Check the number of sheets
             if pre_vars['nsheets']==self.wb.nsheets:
-                self.print_log("The correct number of sheets has been submited.\n")
+                self.print_log("The correct number of sheets"+ "({})".format(self.wb.nsheets) +"has been submited.\n")
             printed_main_message=False
             for sheet_name in check_variables.keys():
                 for var in [[x, check_variables[sheet_name][1] ] for x in check_variables[sheet_name][0] ]:
@@ -368,11 +389,12 @@ class questionnaire:
                         var[1]-=5
                         self.print_log("{0} : {1}\n".format( sheet_name, sheet.cell(*var).value ))
             if (not  printed_main_message ):
-                self.print_log("All the checks passes. QUESTIONNAIRE CAN BE PROCESSED\n")
+                self.print_log("All the checks passed. QUESTIONNAIRE CAN BE PROCESSED\n")
                 return(True)
             else:
+                self.print_log("Preprocessing tests failed. QUESTIONNAIRE CANNOT BE PROCESSED\n")
                 return(False)
-        else:
+        else:            
             ## For each sheet name, the following dictionary has a
             ## list of pairs. For each pair, the first entry should be
             ## smaller than the second one
@@ -779,7 +801,7 @@ class questionnaire:
                                "(a.EM_FIG_OLD !=b.EM_FIG OR a.MQ_ID_OLD != b.MQ_ID OR a.MG_ID_OLD != b.MG_ID)"))
                 cursor.execute("DELETE FROM METER_AUDIT_TEMP")
                 self.conn.commit()
-                # for Table in self.wb.sheet_names():
+            #               for Table in self.wb.sheet_names():
                     # query="INSERT INTO METER_AUDIT_TEMP (MC_ID, CO_CODE, ADM_CODE, MC_YEAR,EM_FIG_OLD, USER_NAME, SERIES, SURVEY_ID) SELECT c.EMC_ID,c.CO_CODE, c.ADM_CODE, c.EMCO_YEAR,c.DESC_INCLU, '{4}', '{5}', 'RM' from RM_MAPPING as a LEFT JOIN EDU_METER_AID AS b ON b.AC = a.AC JOIN EDU_INCLUSION_{5} as c  ON b.EMC_ID = c.EMC_ID WHERE a.Tab='{0}' AND  c.CO_CODE = {1} AND (( c.EMCO_YEAR={2} AND a.CUR_YEAR=0) OR (c.EMCO_YEAR={3} AND a.CUR_YEAR=-1))".format(Table,self.country_code, self.emco_year,self.emco_year-1,self.username, self.database_type )
                     # cursor.execute(query)
                     # self.conn.commit() 
