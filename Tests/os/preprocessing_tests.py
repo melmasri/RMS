@@ -53,14 +53,53 @@ class questionnaire_test(questionnaire):
             cellname=front_page_variables['country_name'][0]
             sheet=self.wb.sheet_by_name('Front Page')
             return( sheet.cell_type( *indexes(cellname) ) == front_page_variables['country_name'][1] )
+    def check_number_of_sheets(self):
+        if (self.edit_mode):
+            pass
+        else:
+            if pre_vars['nsheets']==self.wb.nsheets:
+                self.print_log("The correct number of sheets"+ "({})".format(self.wb.nsheets) +"has been submited.\n")
+    def check_edited_configuration_part(self):
+        """This functions checks that the table in the top left corner of
+        the sheet exists in an edite questionnaire.
+        """
+        if (self.edit_mode):
+            sheet=self.wb.sheets()[0]
+            configuration_names=sheet.col_values(0,0,6) # names in the configuration (country, co_code, year,etc.). i.e. first column
+            configuration_values=sheet.col_values(1,0,6) # values of the configuration, i.e. second column
+            # test1 is to check if the names coincide with the exported ones
+            test1= configuration_names == ['Country', 'CO_CODE', 'Year', 'Data', 'No.ADM', 'Series']
+            # test2 os to check that the values are not empty (May be it could be improved). 
+            test2=reduce( lambda x,y: x and y, configuration_values)
+            return(test1 and test2)
+        else:
+            pass
 
-            
-                
-            
+    def check_one_value(value):
+        """Checks that value (the argument) is proper.
+        
+        This function can return three values:
+        0 if there is an error.
+        1 accept but write error (A or N).
+        2 if the value is OK.
+        """
+        return_value=0
+        if((type(value) == int or type(value) == float)  and value >=0  ):
+            return_value=2
+        elif(type(value) == str):
+            match1=re.search('[Xx]\[[0-9]*:[0-9]+\]|^ +$|^[Zz]$|^[Mm]|^[Xx]',value) #Accept regexp
+            match2=re.search('[Aa]$|^[Nn]$',value) # Accept with error regexp
+            if ( not (match1==None) ):
+                return_value=2 
+            elif ( not (match2==None) ):
+                return_value=1 
+        return(return_value)
 
 
-excel_file="../../Export/----"
+
+
+excel_file="Export/Lao People's Democratic Republic_2012_All_REP.xlsx"
 database="Database/Prod.db"
 
 x=questionnaire_test(excel_file,database)
-x.check_nadm1()
+#x.check_nadm1()
