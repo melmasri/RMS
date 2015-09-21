@@ -75,29 +75,84 @@ class questionnaire_test(questionnaire):
         else:
             pass
 
-    def check_one_value(value):
+    def check_one_value(self,value):
         """Checks that value (the argument) is proper.
         
         This function can return three values:
         0 if there is an error.
-        1 accept but write error (A or N).
-        2 if the value is OK.
+        1 if the value is OK.
+        2 accept but write error (A or N).
         """
         return_value=0
         if((type(value) == int or type(value) == float)  and value >=0  ):
-            return_value=2
+            return_value=1
         elif(type(value) == str):
             match1=re.search('[Xx]\[[0-9]*:[0-9]+\]|^ +$|^[Zz]$|^[Mm]|^[Xx]',value) #Accept regexp
             match2=re.search('[Aa]$|^[Nn]$',value) # Accept with error regexp
             if ( not (match1==None) ):
-                return_value=2 
-            elif ( not (match2==None) ):
                 return_value=1 
+            elif ( not (match2==None) ):
+                return_value=2 
         return(return_value)
+    
+    def check_values(self):
+        edit_sheets_names=self.wb.sheet_names()
+        cursor=self.conn.cursor()
+        query="SELECT Tab,EXL_REF,RM_TABLE,Col FROM RM_MAPPING WHERE Tab in (" + ','.join('?'*len(edit_sheets_names)) + ") AND AC!='ADM_NAME';"
+        #self.print_log("Checking that all the values are proper...") 
+        cursor.execute(query, edit_sheets_names )
+        mapping_table = cursor.fetchall()
+        overall_test=1
+        for variables in mapping_table:
+            table=variables[2]
+            col_number=variables[3]
+            sheet = self.wb.sheet_by_name(variables[0])
+            meter_starting_index = variables[1]
+            meter_starting_coordinates = indexes(meter_starting_index)
+            ## We read the values for the regions
+            meter_values = sheet.col_values(meter_starting_coordinates[1],\
+                                            meter_starting_coordinates[0],\
+                                            meter_starting_coordinates[0]+self.nadm1)
+            ## We read the country value.
+            meter_value_country=sheet.cell( meter_starting_coordinates[0]+self.nadm1+1,\
+                                            meter_starting_coordinates[1]).value
+            self.print_log("{}".format(meter_values))
+            meter_values=[meter_value_country]+meter_values
+            # The following will be zero if there is at least one
+            # error. 1 if everything is ok and 2 id there is at least one A or N.
+            column_test=reduce( lambda x,y: x * y , map( self.check_one_value,meter_values ) ) 
+            if(not column_test):
+                self.print_log("Column {0} in table {1} has improper values.\n".format(col_number,table))
+            elif(column_test==2):
+                self.print_log("Column {0} in table {1} has at least one A or N.\n".format(col_number,table))
+            overall_test=overall_test and column_test
+        return(overall_test)
+    def print_log_new(self,log_type=False,text_string):
+        """Puts the test in log and stdout.
 
+        if log_type=True (the default), it writes to the validation log
+        if log_type=False (the default), it writes to the error log
+        """
+        print(text_string,end='')
+        if (log_type):            
+            self.validation_log_file.write(text_string)
+            self.validation_log_file.flush()
+            os.fsync(self.validation_log_file.fileno())
+        else:
+            self.error_log_file.write(text_string)
+            self.error_log_file.flush()
+            os.fsync(self.error_log_file.fileno())
 
+                
 
+    def validation(self):
+        check_variables=pre_vars["Checking sheet"]
+        self.print_log("----------"+"Date: "+datetime.datetime.now().strftime("%B %d, %Y")+"----------\n\n\n")
 
+    def init(self):
+        self.validation_log_file=open( log_folder + "/{}".format(self.country_name) + "_"+datetime.datetime.now().strftime("%y-%m-%d-%H-%M")+"_validation.log",'a')
+        self.error_log_file=open( log_folder + "/{}".format(self.country_name) + "_"+datetime.datetime.now().strftime("%y-%m-%d-%H-%M")+"_error.log",'a')
+            
 excel_file="Export/Lao People's Democratic Republic_2012_All_REP.xlsx"
 database="Database/Prod.db"
 

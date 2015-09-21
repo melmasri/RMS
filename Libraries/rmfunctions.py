@@ -335,6 +335,7 @@ class questionnaire:
 
     def print_log(self,text_string):
         """Puts the text in the log file and in stdout.
+
         """
         print(text_string,end='')
         self.log_file.write(text_string)
