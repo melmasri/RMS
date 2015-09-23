@@ -199,6 +199,117 @@ class questionnaire_test(questionnaire):
         values_test=self.check_values()        
         return ( nadm1_test and adm1_names_test and reference_year_test and country_name_test and number_of_sheets_test and edited_configuration_part_test and values_test )
 
+    def check_region_totals(self):
+        """Check that the regional numbers match the total."""                
+        cursor=self.conn.cursor()
+        edit_sheets_names=self.wb.sheet_names()
+        pass_test=True
+        self.print_log("Checking that region values add to the country value...")
+        cursor.execute("SELECT Tab,EXL_REF,RM_TABLE,Col FROM RM_MAPPING;") 
+        mapping_info=cursor.fetchall()
+        for variables in mapping_info:                
+            tab=variables[0]
+            if tab not in edit_sheets_names:
+                continue
+            exl_ref=variables[1]
+            table=variables[2]
+            col=variables[3]
+            sheet = self.wb.sheet_by_name(tab)
+            meter_starting_coordinates = indexes(exl_ref)
+            ## Regional values
+            meter_values = sheet.col_values(meter_starting_coordinates[1],\
+                                                meter_starting_coordinates[0],\
+                                                meter_starting_coordinates[0]+self.nadm1)
+            ## Country value
+            meter_value_country=sheet.cell( meter_starting_coordinates[0]+self.nadm1+1,\
+                                                meter_starting_coordinates[1]).value
+            ## If there are missing values or references we do not
+            ## make any check.
+            all_numbers = reduce(lambda x,y: x and y,
+                map( lambda x: x in [int,float], 
+                     map(lambda x: type(x) , meter_values))
+                )
+            if (all_numbers):
+                regions_sum=reduce(lambda x,y : x+y, meter_values)
+                if (regions_sum != meter_value_country):
+                    ## Error para el log
+                    if pass_test:
+                            self.print_log("\n")
+                    self.print_log("The regional figures do not add up to the country total in {0} column {1}\n".format(table,col))
+                    pass_test=False
+        cursor.close()
+        if  pass_test :
+            self.print_log("Test passed.\n")                        
+        return(pass_test)
+
+    def check_less(self):
+        """Checks that the pairs from the
+        check_less_dictionary satisfy that the first one is
+        smaller than the second one"""
+        check_less_dictionary={
+            'Pupils' : [ [16,14], [17,15], [13,12] ],
+            'Teachers ISCED 1' :[ [4,3], [6,5],[8,7],[10,9],[12,11],[14,13] ],
+            'Teachers ISCED 2' :[ [4,3], [6,5],[8,7],[10,9],[12,11],[14,13] ],
+            'Teachers ISCED 3' :[ [4,3], [6,5],[8,7],[10,9],[12,11],[14,13] ],
+            'Teachers ISCED 23' :[ [4,3], [6,5],[8,7],[10,9],[12,11],[14,13] ]
+        }
+        cursor=self.conn.cursor()
+        pass_test=True
+        self.print_log("Checking that parts are less than the totals...")
+        for sheet_name,pairs_list in check_less_dictionary.items():
+            if sheet_name not in self.wb.sheet_names():
+                continue
+            sheet=self.wb.sheet_by_name(sheet_name)
+            for pairs in pairs_list:
+                cursor.execute("SELECT EXL_REF FROM RM_MAPPING WHERE Tab=\'{}\' AND Col={}".format(sheet_name,pairs[0]))
+                ref_smaller=cursor.fetchone()[0]
+                cursor.execute("SELECT EXL_REF FROM RM_MAPPING WHERE Tab=\'{}\' AND Col={}".format(sheet_name,pairs[1]))
+                ref_bigger=cursor.fetchone()[0]
+                smaller_meter_starting_coordinates = indexes(ref_smaller)
+                bigger_meter_starting_coordinates = indexes(ref_bigger)
+                smaller_meter_values=sheet.col_values(smaller_meter_starting_coordinates[1],
+                                                      smaller_meter_starting_coordinates[0],
+                                                      smaller_meter_starting_coordinates[0]+self.nadm1)
+                bigger_meter_values=sheet.col_values(bigger_meter_starting_coordinates[1],
+                                                      bigger_meter_starting_coordinates[0],
+                                                      bigger_meter_starting_coordinates[0]+self.nadm1)
+                for i in range(self.nadm1):
+                    ## Error para el log
+                    small_value=smaller_meter_values[i]
+                    big_value=bigger_meter_values[i]
+                    if  (type(small_value) in [int,float] and type(big_value) in [int,float] and small_value > big_value):
+                        if pass_test:
+                            self.print_log("\n")
+                        self.print_log("{}: In row {} the value of column {} is bigger than the value in column {}.\n".format(sheet_name,i+1,pairs[0],pairs[1]))
+                        pass_test=False
+        cursor.close()
+        if  pass_test :
+            self.print_log("Test passed.\n")                        
+        return(pass_test)
+    
+    def check_column_sums(self):
+        """Checks columns that have to add up to other columns"""
+        check_columns_sums_dictionary={
+            ## Each item has two items. The first item is a list whose
+            ## terms have to add up to the second item
+            'Table 1.1' : [ [[20,21,22],3 ],[[23,24,25],7]  ],
+            'Table 2.1' : [ [[26,27,28],3] , [[29,30,31],7 ] ],
+            'Table 3.1' : [ [[26,27,28],3] , [[29,30,31],7 ] ],
+            'Table 4.1' : [ [[26,27,28],3] , [[29,30,31],7 ] ],
+            'Table 1.2' : [ [[3,4,5,6,7,8,9,10],3 ],[[11,12,13,14,15,16,17,18],7 ],[ [19,20,21,22,23,24,25,26],11 ]  ],
+            'Table 2.2' : [ [[3,4,5,6,7,8,9,10],3 ],[[11,12,13,14,15,16,17,18],7 ],[ [19,20,21,22,23,24,25,26],11 ]  ],
+            'Table 3.2' : [ [[3,4,5,6,7,8,9,10],3 ],[[11,12,13,14,15,16,17,18],7 ],[ [19,20,21,22,23,24,25,26],11 ]  ],
+            'Table 4.2' : [ [[3,4,5,6,7,8,9,10],3 ],[[11,12,13,14,15,16,17,18],7 ],[ [19,20,21,22,23,24,25,26],11 ]  ],
+            'Table 1.3' : [ [[3,5,6,7,8,9,10],3  ] , [[11,13,14,15,16,17,18],7] , [[19,21,22,23,24,25,26 ],11   ]  ],
+            'Table 2.3' : [ [[3,5,6,7,8,9,10],3  ] , [[11,13,14,15,16,17,18],7] , [[19,21,22,23,24,25,26 ],11   ]  ],
+            'Table 3.3' : [ [[3,5,6,7,8,9,10],3  ] , [[11,13,14,15,16,17,18],7] , [[19,21,22,23,24,25,26 ],11   ]  ],
+            'Table 4.3' : [ [[3,5,6,7,8,9,10],3  ] , [[11,13,14,15,16,17,18],7] , [[19,21,22,23,24,25,26 ],11   ]  ],
+            'Table 1.4' : [ [[3,4,5,6,7,8,9],3], [ [10,11,12,13,14,15,16],7], [[17,18,19,20,21,22,23],11 ]  ],
+            'Table 2.4' : [ [[3,4,5,6,7,8,9],3], [ [10,11,12,13,14,15,16],7], [[17,18,19,20,21,22,23],11 ]  ],
+            'Table 3.4' : [ [[3,4,5,6,7,8,9],3], [ [10,11,12,13,14,15,16],7], [[17,18,19,20,21,22,23],11 ]  ],
+            'Table 4.4' : [ [[3,4,5,6,7,8,9],3], [ [10,11,12,13,14,15,16],7], [[17,18,19,20,21,22,23],11 ]  ],
+            }
+
     def init2(self,log_folder="/tmp/log"):
         self.validation_log_file=open( log_folder + "/{}".format(self.country_name) + "_"+datetime.datetime.now().strftime("%y-%m-%d-%H-%M")+"_validation.log",'a')
         self.error_log_file=open( log_folder + "/{}".format(self.country_name) + "_"+datetime.datetime.now().strftime("%y-%m-%d-%H-%M")+"_error.log",'a')
@@ -208,4 +319,6 @@ database="Database/Prod.db"
 
 x=questionnaire_test(excel_file,database)
 x.init2()
-x.validation()
+#x.validation()
+#x.check_region_totals()
+x.check_less()
