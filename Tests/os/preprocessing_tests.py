@@ -286,7 +286,29 @@ class questionnaire_test(questionnaire):
         if  pass_test :
             self.print_log("Test passed.\n")                        
         return(pass_test)
-    
+
+
+    def add_values(self,x,y):
+        """If both x and y are numbers returns their sum. Otherwise the value of one of them."""        
+        if ( type(x) in [int,float] and type(y) in [int,float]):
+            return(x+y)
+        elif( type(x) not in [int,float] ):
+            return(x)
+        else:
+            return(y)
+
+    def are_equal(self,x,y):
+        """Checks is x and y are equal numbers. 
+
+        Returns True if both x and y are numbers and they are equal or
+        if at least one of the values is not a number. Otherwise it
+        returns False.
+        """
+        if ( ( (type(x) in [int,float] ) and (type(y) in [int,float]) and x==y) or ( (type(x) not in [int,float] ) or (type(y) not in [int,float])    )   ):
+            return(True)
+        else:
+            return(False)
+        
     def check_column_sums(self):
         """Checks columns that have to add up to other columns"""
         check_columns_sums_dictionary={
@@ -309,7 +331,51 @@ class questionnaire_test(questionnaire):
             'Table 3.4' : [ [[3,4,5,6,7,8,9],3], [ [10,11,12,13,14,15,16],7], [[17,18,19,20,21,22,23],11 ]  ],
             'Table 4.4' : [ [[3,4,5,6,7,8,9],3], [ [10,11,12,13,14,15,16],7], [[17,18,19,20,21,22,23],11 ]  ],
             }
-
+        cursor=self.conn.cursor()
+        pass_test=True
+        self.print_log("Checking sums of columns...")
+        for table_name,columns_sum_list in check_columns_sums_dictionary.items():
+            cursor.execute("SELECT Tab  FROM RM_Mapping WHERE RM_TABLE=\'{}\' LIMIT 1".format(table_name))
+            sheet_name=cursor.fetchone()[0]
+            if sheet_name not in self.wb.sheet_names():
+                continue
+            sheet=self.wb.sheet_by_name(sheet_name)
+            for columns_sum_info in columns_sum_list:
+                summands_columns=columns_sum_info[0]
+                total_column=columns_sum_info[1]
+                ## We start by finding the totals
+                
+                ## First we accumulate the sums of the summans columns in a list
+                accumulated_sum=[0]*self.nadm1
+                for column_number in summands_columns:
+                    cursor.execute("SELECT EXL_REF FROM RM_Mapping WHERE RM_TABLE=\'{}\' and Col=\'{}\'".format(table_name,column_number))
+                    ref=cursor.fetchone()[0]
+                    column_starting_coordinates= indexes(ref)
+                    column_meter_values=sheet.col_values(column_starting_coordinates[1],
+                                                         column_starting_coordinates[0],
+                                                         column_starting_coordinates[0]+self.nadm1)
+                    accumulated_sum=map(self.add_values, accumulated_sum,column_meter_values )
+                ## Now we get the total values
+                ## The total column is always in the first table of the sheet.
+                total_table_name=table_name[0:8]+"1" 
+                cursor.execute("SELECT EXL_REF FROM RM_Mapping WHERE RM_TABLE=\'{}\' and Col=\'{}\'".format(total_table_name,total_column))
+                ref=cursor.fetchone()[0]
+                column_starting_coordinates= indexes(ref)
+                total_column_values=sheet.col_values(column_starting_coordinates[1],
+                                                     column_starting_coordinates[0],
+                                                     column_starting_coordinates[0]+self.nadm1)
+                list_accumulated_sum=list(accumulated_sum)
+                tests_vector=list(map( self.are_equal , list_accumulated_sum  , total_column_values ))
+                rows_problem=[]
+                for i in range(1,self.nadm1+1):
+                    if (not tests_vector[i-1]):
+                        rows_problem=rows_problem+[i]
+                if rows_problem:
+                    ## We need to add a second argument to print_log here.
+                    self.print_log("Columns {} in  {} do not add to column {} in {}. Problems in row(s) {}.".format(summands_columns,table_name,total_column,total_table_name,rows_problem))
+                pass_test= (not rows_problem) and pass_test
+        return(pass_test)
+    
     def init2(self,log_folder="/tmp/log"):
         self.validation_log_file=open( log_folder + "/{}".format(self.country_name) + "_"+datetime.datetime.now().strftime("%y-%m-%d-%H-%M")+"_validation.log",'a')
         self.error_log_file=open( log_folder + "/{}".format(self.country_name) + "_"+datetime.datetime.now().strftime("%y-%m-%d-%H-%M")+"_error.log",'a')
@@ -322,3 +388,4 @@ x.init2()
 #x.validation()
 #x.check_region_totals()
 x.check_less()
+x.check_column_sums()
