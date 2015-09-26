@@ -126,7 +126,7 @@ class questionnaire_test(questionnaire):
             match1=re.search('[Xx]\[[0-9]*:[0-9]+\]|^ +$|^[Zz]$|^[Mm]',value)
             # Accept with error regexp
             match2=re.search('[Aa]$|^[Nn]$',value)
-            # Incomplete reference
+            # Undefined reference
             match3=re.search('^[Xx] *$',value)
             # Missing value
             match4=re.search('^ *$',value)            
@@ -156,18 +156,22 @@ class questionnaire_test(questionnaire):
 
     def add_data_issues(self,sheet_name,table,issue_type,relevant_data):
         """Adds information to the data issues dictionary"""
-        if (issue_type == 'undefined_reference'):
-            ## For undefined reference relevant_data is just the number of the column
-            if (sheet_name in self.data_issues_dictionary.keys()):
-                existing_tables_dict=self.data_issues_dictionary[sheet_name]
-                if (table in existing_tables_dict):
-                    existing_tables_dict[table] = existing_tables_dict[table] + [relevant_data]
+        ## issue_types: undefined_reference, check_less
+        ## relevant_data for undefined_reference is the column number
+        ## for check_less it is a list [ smaller_column bigger_column [ list of rows with problems]   ]
+        if (sheet_name in self.data_issues_dictionary.keys()):
+            existing_tables_dict=self.data_issues_dictionary[sheet_name]
+            if (table in existing_tables_dict.keys()):
+                existing_issues_dict=existing_tables_dict[table]
+                if (issue_type in existing_issues_dict.keys() ):
+                    existing_issues_dict[issue_type] = existing_issues_dict[issue_type] + [relevant_data]
                 else:
-                    existing_tables_dict[table] = [relevant_data]
-            else:## sheet_name in dictionay
-                self.data_issues_dictionary = { table : [relevant_data]}
-        else: ##issue_type else
-            pass
+                    existing_issues_dict[issue_type] = [relevant_data]
+            else:                
+                existing_tables_dict[table] = {issue_type : [relevant_data]}
+        else:## sheet_name in dictionay
+            self.data_issues_dictionary = { sheet_name : {table : { issue_type: [relevant_data]}}}
+
         
     def check_values(self):
         edit_sheets_names=self.wb.sheet_names()
@@ -198,7 +202,10 @@ class questionnaire_test(questionnaire):
             if (0 in values_test):
                 self.print_log("Error: Column {0} in table {1} has improper values.\n".format(col_number,table))
             if (2 in values_test):
-                self.print_log("Error: Column {0} in table {1} has at least one A or N.\n".format(col_number,table))            
+                self.zprint_log("Error: Column {0} in table {1} has at least one A or N.\n".format(col_number,table))
+            if (3 in values_test):
+                self.print_log("Error: Column {0} in table {1} has at least one undefined reference.\n".format(col_number,table))
+                self.add_data_issues(variables[0],table,'undefined_reference',col_number )
             if (4 in values_test):
                 self.print_log("Error: Column {0} in table {1} has at least one missing value.\n".format(col_number,table))            
                 self.add_missing_column(variables[0],table,col_number)
@@ -294,23 +301,32 @@ class questionnaire_test(questionnaire):
         check_less_dictionary satisfy that the first one is
         smaller than the second one"""
         check_less_dictionary={
-            'Pupils' : [ [16,14], [17,15], [13,12] ],
-            'Teachers ISCED 1' :[ [4,3], [6,5],[8,7],[10,9],[12,11],[14,13] ],
-            'Teachers ISCED 2' :[ [4,3], [6,5],[8,7],[10,9],[12,11],[14,13] ],
-            'Teachers ISCED 3' :[ [4,3], [6,5],[8,7],[10,9],[12,11],[14,13] ],
-            'Teachers ISCED 23' :[ [4,3], [6,5],[8,7],[10,9],[12,11],[14,13] ]
+            ## All the inequalities correspond to the first table
+            'Table 0.1' : [ [16,14], [17,15], [13,12] ],
+            'Table 1.1' :[ [4,3], [6,5],[8,7],[10,9],[12,11],[14,13] ],
+            'Table 2.1' :[ [4,3], [6,5],[8,7],[10,9],[12,11],[14,13] ],
+            'Table 3.1' :[ [4,3], [6,5],[8,7],[10,9],[12,11],[14,13] ],
+            'Table 4.1' :[ [4,3], [6,5],[8,7],[10,9],[12,11],[14,13] ]
+        }
+        table_sheet_dictionary={
+            'Table 0.1' : 'Pupils' ,
+            'Table 1.1' : 'Teachers ISCED 1' ,
+            'Table 2.1' : 'Teachers ISCED 2' ,
+            'Table 3.1' : 'Teachers ISCED 3' ,
+            'Table 4.1' : 'Teachers ISCED 23'
         }
         cursor=self.conn.cursor()
         pass_test=True
         self.print_log("Checking that parts are less than the totals...")
-        for sheet_name,pairs_list in check_less_dictionary.items():
+        for table,pairs_list in check_less_dictionary.items():
+            sheet_name=table_sheet_dictionary[table]
             if sheet_name not in self.wb.sheet_names():
                 continue
             sheet=self.wb.sheet_by_name(sheet_name)
             for pairs in pairs_list:
-                cursor.execute("SELECT EXL_REF FROM RM_MAPPING WHERE Tab=\'{}\' AND Col={}".format(sheet_name,pairs[0]))
+                cursor.execute("SELECT EXL_REF FROM RM_MAPPING WHERE RM_TABLE=\'{}\' AND Col={}".format(table,pairs[0]))
                 ref_smaller=cursor.fetchone()[0]
-                cursor.execute("SELECT EXL_REF FROM RM_MAPPING WHERE Tab=\'{}\' AND Col={}".format(sheet_name,pairs[1]))
+                cursor.execute("SELECT EXL_REF FROM RM_MAPPING WHERE RM_TABLE=\'{}\' AND Col={}".format(table,pairs[1]))
                 ref_bigger=cursor.fetchone()[0]
                 smaller_meter_starting_coordinates = indexes(ref_smaller)
                 bigger_meter_starting_coordinates = indexes(ref_bigger)
@@ -320,15 +336,20 @@ class questionnaire_test(questionnaire):
                 bigger_meter_values=sheet.col_values(bigger_meter_starting_coordinates[1],
                                                       bigger_meter_starting_coordinates[0],
                                                       bigger_meter_starting_coordinates[0]+self.nadm1)
+                rows_with_problem=[]
                 for i in range(self.nadm1):
                     ## Error para el log
                     small_value=smaller_meter_values[i]
                     big_value=bigger_meter_values[i]
                     if  (type(small_value) in [int,float] and type(big_value) in [int,float] and small_value > big_value):
+                        rows_with_problem=rows_with_problem+[i+1]
                         if pass_test:
                             self.print_log("\n")
                         self.print_log("{}: In row {} the value of column {} is bigger than the value in column {}.\n".format(sheet_name,i+1,pairs[0],pairs[1]))
                         pass_test=False
+                if rows_with_problem:
+                    self.add_data_issues(sheet_name, table,'check_less',[pairs[0],pairs[1],rows_with_problem ])
+                    
         cursor.close()
         if  pass_test :
             self.print_log("Test passed.\n")                        
