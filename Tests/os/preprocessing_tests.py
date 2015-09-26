@@ -115,19 +115,60 @@ class questionnaire_test(questionnaire):
         0 if there is an error.
         1 if the value is OK.
         2 accept but write error (A or N).
+        3 if there is an X with no reference.
+        4 if there is a missing value.
         """
         return_value=0
         if((type(value) == int or type(value) == float)  and value >=0  ):
             return_value=1
         elif(type(value) == str):
-            match1=re.search('[Xx]\[[0-9]*:[0-9]+\]|^ +$|^[Zz]$|^[Mm]|^[Xx]',value) #Accept regexp
-            match2=re.search('[Aa]$|^[Nn]$',value) # Accept with error regexp
+            #Accept regexp
+            match1=re.search('[Xx]\[[0-9]*:[0-9]+\]|^ +$|^[Zz]$|^[Mm]',value)
+            # Accept with error regexp
+            match2=re.search('[Aa]$|^[Nn]$',value)
+            # Incomplete reference
+            match3=re.search('^[Xx] *$',value)
+            # Missing value
+            match4=re.search('^ *$',value)            
             if ( not (match1==None) ):
                 return_value=1 
             elif ( not (match2==None) ):
-                return_value=2 
+                return_value=2
+            elif ( not (match3==None) ):
+                return_value=3
+            elif ( not (match4==None) ):
+                return_value=4                
         return(return_value)
     
+    def add_missing_column(self,sheet_name,table,column):
+        """Adds a columns to the missing values dictionary."""
+        if (sheet_name in self.missing_data_dictionary.keys()):
+            existing_tables_dict=self.missing_data_dictionary[sheet_name]
+            if (table in existing_tables_dict):
+                ## Checks go column by column, so it is not necessary
+                ## to check if a column has already been added ot to
+                ## use sets.
+                existing_tables_dict[table]= existing_tables_dict[table] + [column]
+            else:
+                existing_tables_dict[table]=[column]
+        else:
+            self.missing_data_dictionary[sheet_name]={table:[column]}
+
+    def add_data_issues(self,sheet_name,table,issue_type,relevant_data):
+        """Adds information to the data issues dictionary"""
+        if (issue_type == 'undefined_reference'):
+            ## For undefined reference relevant_data is just the number of the column
+            if (sheet_name in self.data_issues_dictionary.keys()):
+                existing_tables_dict=self.data_issues_dictionary[sheet_name]
+                if (table in existing_tables_dict):
+                    existing_tables_dict[table] = existing_tables_dict[table] + [relevant_data]
+                else:
+                    existing_tables_dict[table] = [relevant_data]
+            else:## sheet_name in dictionay
+                self.data_issues_dictionary = { table : [relevant_data]}
+        else: ##issue_type else
+            pass
+        
     def check_values(self):
         edit_sheets_names=self.wb.sheet_names()
         cursor=self.conn.cursor()
@@ -152,12 +193,18 @@ class questionnaire_test(questionnaire):
             meter_values=[meter_value_country]+meter_values
             # The following will be zero if there is at least one
             # error. 1 if everything is ok and 2 id there is at least one A or N.
-            column_test=reduce( lambda x,y: x * y , map( self.check_one_value,meter_values ) ) 
-            if(not column_test):
+            values_test=list(map( self.check_one_value,meter_values ))
+            no_errors_test= 0 not in values_test
+            if (0 in values_test):
                 self.print_log("Error: Column {0} in table {1} has improper values.\n".format(col_number,table))
-            elif(column_test==2):
-                self.print_log("Error: Column {0} in table {1} has at least one A or N.\n".format(col_number,table))
-            overall_test=overall_test and column_test
+            if (2 in values_test):
+                self.print_log("Error: Column {0} in table {1} has at least one A or N.\n".format(col_number,table))            
+            if (4 in values_test):
+                self.print_log("Error: Column {0} in table {1} has at least one missing value.\n".format(col_number,table))            
+                self.add_missing_column(variables[0],table,col_number)
+                # Next, add option for X.
+                
+            overall_test=overall_test and no_errors_test
         return(overall_test)
     
     def print_log(self,text_string,log_type=False):
@@ -353,6 +400,7 @@ class questionnaire_test(questionnaire):
                     column_starting_coordinates= indexes(ref)
                     column_meter_values=sheet.col_values(column_starting_coordinates[1],
                                                          column_starting_coordinates[0],
+
                                                          column_starting_coordinates[0]+self.nadm1)
                     accumulated_sum=map(self.add_values, accumulated_sum,column_meter_values )
                 ## Now we get the total values
@@ -375,17 +423,36 @@ class questionnaire_test(questionnaire):
                     self.print_log("Columns {} in  {} do not add to column {} in {}. Problems in row(s) {}.".format(summands_columns,table_name,total_column,total_table_name,rows_problem))
                 pass_test= (not rows_problem) and pass_test
         return(pass_test)
+
+#    def 
+
+#    def log_missing_values(self):
+        
+        
+
+#    def data_report(self):
+        
     
     def init2(self,log_folder="/tmp/log"):
         self.validation_log_file=open( log_folder + "/{}".format(self.country_name) + "_"+datetime.datetime.now().strftime("%y-%m-%d-%H-%M")+"_validation.log",'a')
         self.error_log_file=open( log_folder + "/{}".format(self.country_name) + "_"+datetime.datetime.now().strftime("%y-%m-%d-%H-%M")+"_error.log",'a')
+        self.missing_data_dictionary={}
+        ## Next to do data_issues={ 'sheet' : 'table' : 'issue'}
+        ## Possible issues: 'undefined_reference','check_less','column_sums','region_totals'
+        self.data_issues_dictionary={}
+        # If needed, a similar thing can be done with incomplete
+        # references (i.e. X alone with no further reference to other
+        # column). A similar function to the one of missing data might
+        # be added for this, or a parameter can be added to the
+        # existing one.        
+
             
 excel_file="Export/Lao People's Democratic Republic_2012_All_REP.xlsx"
 database="Database/Prod.db"
 
 x=questionnaire_test(excel_file,database)
 x.init2()
-#x.validation()
+x.validation()
 #x.check_region_totals()
-x.check_less()
-x.check_column_sums()
+#x.check_less()
+#x.check_column_sums()
