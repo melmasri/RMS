@@ -123,13 +123,13 @@ class questionnaire_test(questionnaire):
             return_value=1
         elif(type(value) == str):
             #Accept regexp
-            match1=re.search('[Xx]\[[0-9]*:[0-9]+\]|^ +$|^[Zz]$|^[Mm]',value)
+            match1=re.search('[Xx]\[[0-9]*:[0-9]+\]|^ +$|^[Zz]$',value)
             # Accept with error regexp
             match2=re.search('[Aa]$|^[Nn]$',value)
             # Undefined reference
             match3=re.search('^[Xx] *$',value)
             # Missing value
-            match4=re.search('^ *$',value)            
+            match4=re.search('^ *$|^[Mm] *',value)            
             if ( not (match1==None) ):
                 return_value=1 
             elif ( not (match2==None) ):
@@ -155,10 +155,16 @@ class questionnaire_test(questionnaire):
             self.missing_data_dictionary[sheet_name]={table:[column]}
 
     def add_data_issues(self,sheet_name,table,issue_type,relevant_data):
-        """Adds information to the data issues dictionary"""
-        ## issue_types: undefined_reference, check_less
-        ## relevant_data for undefined_reference is the column number
-        ## for check_less it is a list [ smaller_column bigger_column [ list of rows with problems]   ]
+        """Adds information to the data issues dictionary.
+        
+
+        There are 4 types of data issues: 'undefined_reference','check_less','column_sums','region_totals'.
+        
+        For 'check_less' relevant_data is [smaller_column bigger_column [ list of rows with problems] ].
+        For 'undefined_reference' it is the column number.
+        For 'column_sums' [[summands_columns],total_column,[row_problems]]
+        For 'region_totals' it is the column number
+        """
         if (sheet_name in self.data_issues_dictionary.keys()):
             existing_tables_dict=self.data_issues_dictionary[sheet_name]
             if (table in existing_tables_dict.keys()):
@@ -170,7 +176,7 @@ class questionnaire_test(questionnaire):
             else:                
                 existing_tables_dict[table] = {issue_type : [relevant_data]}
         else:## sheet_name in dictionay
-            self.data_issues_dictionary = { sheet_name : {table : { issue_type: [relevant_data]}}}
+            self.data_issues_dictionary[sheet_name] = {table : { issue_type: [relevant_data]}}
 
         
     def check_values(self):
@@ -181,6 +187,8 @@ class questionnaire_test(questionnaire):
         cursor.execute(query, edit_sheets_names )
         mapping_table = cursor.fetchall()
         overall_test=1
+        overall_missing=False
+        overall_undefined_references=False
         for variables in mapping_table:
             table=variables[2]
             col_number=variables[3]
@@ -202,16 +210,22 @@ class questionnaire_test(questionnaire):
             if (0 in values_test):
                 self.print_log("Error: Column {0} in table {1} has improper values.\n".format(col_number,table))
             if (2 in values_test):
-                self.zprint_log("Error: Column {0} in table {1} has at least one A or N.\n".format(col_number,table))
+                self.print_log("Error: Column {0} in table {1} has at least one A or N.\n".format(col_number,table))
             if (3 in values_test):
-                self.print_log("Error: Column {0} in table {1} has at least one undefined reference.\n".format(col_number,table))
+                #self.print_log("Error: Column {0} in table {1} has at least one undefined reference.\n".format(col_number,table))
+                overall_undefined_references=True
                 self.add_data_issues(variables[0],table,'undefined_reference',col_number )
             if (4 in values_test):
-                self.print_log("Error: Column {0} in table {1} has at least one missing value.\n".format(col_number,table))            
+                #self.print_log("Error: Column {0} in table {1} has at least one missing value.\n".format(col_number,table))
+                overall_missing=True
                 self.add_missing_column(variables[0],table,col_number)
                 # Next, add option for X.
                 
             overall_test=overall_test and no_errors_test
+        if overall_missing:
+            print("The questionnaire contains missing values. See data report for details.\n")
+        if overall_undefined_references:
+            print("The questionnaire contains undefined references. See data report for details.\n")
         return(overall_test)
     
     def print_log(self,text_string,log_type=False):
@@ -289,6 +303,7 @@ class questionnaire_test(questionnaire):
                     ## Error para el log
                     if pass_test:
                             self.print_log("\n")
+                    self.add_data_issues(tab,table,'region_totals',col)
                     self.print_log("The regional figures do not add up to the country total in {0} column {1}\n".format(table,col))
                     pass_test=False
         cursor.close()
@@ -441,24 +456,55 @@ class questionnaire_test(questionnaire):
                         rows_problem=rows_problem+[i]
                 if rows_problem:
                     ## We need to add a second argument to print_log here.
-                    self.print_log("Columns {} in  {} do not add to column {} in {}. Problems in row(s) {}.".format(summands_columns,table_name,total_column,total_table_name,rows_problem))
+                    self.add_data_issues(sheet_name,table_name,'column_sums',[summands_columns,total_column,rows_problem])
+                    self.print_log("Columns {} in  {} do not add to column {} in {}. Problems in row(s) {}.\n".format(summands_columns,table_name,total_column,total_table_name,rows_problem))
                 pass_test= (not rows_problem) and pass_test
         return(pass_test)
 
-#    def 
-
-#    def log_missing_values(self):
-        
-        
-
-#    def data_report(self):
-        
+    def write_data_report(self):
+        data_report_path=self.log_folder + "/{}".format(self.country_name) + "_"+datetime.datetime.now().strftime("%y-%m-%d-%H-%M")+"_data_report.csv"
+        file=open(data_report_path,'a')
+        if ( not (self.missing_data_dictionary or self.data_issues_dictionary ) ):
+            file.write('No data issues were found.,')
+        else:
+            if self.missing_data_dictionary:
+                file.write("1. Missing data:,\n\n")
+                for sheet_name in self.missing_data_dictionary.keys():
+                    file.write("Sheet: {},\n".format(sheet_name))
+                    for table in self.missing_data_dictionary[sheet_name].keys():
+                        file.write(",{0},\n".format(table))
+                        file.write(",\"Missing data in column(s) {}\",\n".format( self.missing_data_dictionary[sheet_name][table] ))
+            file.write("\n\n")
+            if self.data_issues_dictionary:
+                file.write("2. Data Issues:,\n\n")
+                for sheet_name in self.data_issues_dictionary.keys():
+                    file.write("Sheet: {},\n".format(sheet_name))
+                    for table in self.data_issues_dictionary[sheet_name].keys():
+                        file.write(",{0},\n".format(table))
+                        for issue in self.data_issues_dictionary[sheet_name][table].keys():
+                            if 'undefined_reference' == issue:
+                                file.write(",\"Undefined reference(s) in column(s) {}.\",\n".format(self.data_issues_dictionary[sheet_name][table][issue]) )
+                            elif 'region_totals' == issue:
+                                file.write(",\"Regional values do not add up to country value in column(s) {}.\",\n".format(self.data_issues_dictionary[sheet_name][table][issue]) )
+                            elif 'column_sums' == issue:
+                                for relevant_data in self.data_issues_dictionary[sheet_name][table][issue]:
+                                    summands=relevant_data[0]
+                                    total_column=relevant_data[1]
+                                    rows=relevant_data[2]
+                                    file.write(",\"Column(s) {0} do not add up to column {1} on row(s) {2}.\",\n".format(summands,total_column,rows))
+                            elif 'check_less' == issue:
+                                for relevant_data in self.data_issues_dictionary[sheet_name][table][issue]:
+                                    smaller_column=relevant_data[0]
+                                    bigger_column=relevant_data[1]
+                                    rows=relevant_data[2]
+                                    file.write(",\"Value in column {0} is greater than value in column {1} on row(s) {2}.\",\n".format(smaller_column,bigger_column,rows))
+                                
+                    
     
     def init2(self,log_folder="/tmp/log"):
+        self.log_folder=log_folder
         self.validation_log_file=open( log_folder + "/{}".format(self.country_name) + "_"+datetime.datetime.now().strftime("%y-%m-%d-%H-%M")+"_validation.log",'a')
-        self.error_log_file=open( log_folder + "/{}".format(self.country_name) + "_"+datetime.datetime.now().strftime("%y-%m-%d-%H-%M")+"_error.log",'a')
         self.missing_data_dictionary={}
-        ## Next to do data_issues={ 'sheet' : 'table' : 'issue'}
         ## Possible issues: 'undefined_reference','check_less','column_sums','region_totals'
         self.data_issues_dictionary={}
         # If needed, a similar thing can be done with incomplete
@@ -474,6 +520,7 @@ database="Database/Prod.db"
 x=questionnaire_test(excel_file,database)
 x.init2()
 x.validation()
-#x.check_region_totals()
-#x.check_less()
-#x.check_column_sums()
+x.check_region_totals()
+x.check_less()
+x.check_column_sums()
+x.write_data_report()
