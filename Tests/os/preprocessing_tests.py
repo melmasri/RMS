@@ -260,7 +260,8 @@ class questionnaire_test(questionnaire):
 
         nadm1_test=self.check_nadm1()
         adm1_names_test=self.check_adm1_names()
-        reference_year_test=self.check_reference_year()
+        #reference_year_test=self.check_reference_year()
+        reference_year_test=True
         country_name_test=self.check_country_name()
         number_of_sheets_test=self.check_number_of_sheets()
         edited_configuration_part_test=self.check_edited_configuration_part()
@@ -498,7 +499,20 @@ class questionnaire_test(questionnaire):
                                     bigger_column=relevant_data[1]
                                     rows=relevant_data[2]
                                     file.write(",\"Value in column {0} is greater than value in column {1} on row(s) {2}.\",\n".format(smaller_column,bigger_column,rows))
-                                
+        ## If it is an original questionnaire print in the data reports if there are nos.
+        if(not self.edit_mode):
+            check_variables=pre_vars["Checking sheet"]
+            sheet=self.wb.sheet_by_name("Checking sheet")
+            printed_main_message=False
+            for sheet_name in check_variables.keys():
+                for var in [[x, check_variables[sheet_name][1] ] for x in check_variables[sheet_name][0] ]:
+                    if( sheet.cell( *var ).value == 'No' ):
+                        if(not printed_main_message):                                                        
+                            self.print_log("The following items have No in the Checking sheet:\n")
+                            printed_main_message=True
+                        var[1]-=5
+                        self.print_log("{0} : {1}\n".format( sheet_name, sheet.cell(*var).value ))
+
                     
     
     def init2(self,log_folder="/tmp/log"):
@@ -514,7 +528,10 @@ class questionnaire_test(questionnaire):
         # existing one.        
 
             
-excel_file="Export/Lao People's Democratic Republic_2012_All_REP.xlsx"
+#excel_file="Export/Lao People's Democratic Republic_2012_All_REP.xlsx"
+
+# Original questoinnaire
+excel_file="Import/RM_Lao People's Democratic Republic_2012_15-08-20-21-29.xlsx"
 database="Database/Prod.db"
 
 x=questionnaire_test(excel_file,database)
