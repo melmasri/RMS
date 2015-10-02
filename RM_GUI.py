@@ -94,8 +94,10 @@ class RM():
         ttk.Button(self.lf_impOptions, text ='Browse..', command = lambda x='file': self.select_file(x)).grid(row=0, column=3, sticky='W') 
         ttk.Button(self.lf_impOptions, text= 'Browse..', command = lambda x='folder': self.select_file(x)).grid(row=1, column=3, sticky='W')
         ttk.Button(self.lf_impOptions, text= 'Browse..', command = lambda x='folder': self.select_file(x)).grid(row=1, column=3, sticky='W')
-        ttk.Button(self.lf_impOptions, text ='Insert', command = lambda x='file': self.imp_file(x)).grid(row=0, column=4, sticky='W')
-        ttk.Button(self.lf_impOptions, text ='Insert', command = lambda x='folder': self.imp_file(x)).grid(row=1, column=4, sticky='W')
+        ttk.Button(self.lf_impOptions, text ='Validate', command = lambda x='file': self.val_file(x)).grid(row=0, column=4, sticky='W')
+        ttk.Button(self.lf_impOptions, text ='Validate', command = lambda x='folder': self.val_file(x)).grid(row=1, column=4, sticky='W')
+        ttk.Button(self.lf_impOptions, text ='Insert', command = lambda x='file': self.imp_file(x)).grid(row=0, column=5, sticky='W')
+        ttk.Button(self.lf_impOptions, text ='Insert', command = lambda x='folder': self.imp_file(x)).grid(row=1, column=5, sticky='W')
 
         ttk.Label(self.lf_impOptions, text='file ').grid(row=0, column=0, sticky='W')
         ttk.Label(self.lf_impOptions, text='folder ').grid(row=1, column=0, sticky='W')
@@ -262,6 +264,14 @@ class RM():
                 self.output_folder.delete(0, 'end')
                 self.output_folder.insert(0, dirname)
 
+    def val_file(self, x):
+        """ Validateing that the file is good for importing."""
+        if x=='file':
+            print('not ready')
+            
+        if x=='folder':
+            print('not ready.')
+                
     def imp_file(self,x):
         """ Imports an excel questionnaire or sheets to the SQL database"""
         if x=='file':
@@ -293,7 +303,7 @@ class RM():
         if l: 
             self.cbox_co['values'] =  list(chain.from_iterable(l))
         else:
-            print('No questionnaires are exist in the database.')
+            print('No questionnaires exist in the database.')
 
     def updtYear(self):
         """ For a specific selected country, returns the list of available data years."""

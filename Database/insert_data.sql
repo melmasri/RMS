@@ -109,6 +109,7 @@ DROP TABLE IF EXISTS RM_TEMP;
 CREATE TABLE RM_TEMP(
 	Tab nvarchar(50)  NOT NULL, -- Sheet name in the questionnaire.
 	RM_TABLE  nvarchar(50) NOT NULL, -- Table name and number in the Questionniare
+    RM_TABLE_NAME  nvarchar(250) NOT NULL, -- Table FULL NAME
 	Col int(10) ,                    -- Col number.
     AC varchar(100),            -- Alphanumeric codeing scheme.
     EXL_REF varchar(10),

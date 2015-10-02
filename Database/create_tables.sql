@@ -188,6 +188,7 @@ CREATE TABLE RM_Mapping(
 	EMC_ID decimal(19, 0) NOT NULL,
 	Tab nvarchar(50)  NOT NULL, -- Sheet name in the questionnaire.
 	RM_TABLE  nvarchar(50) NOT NULL, -- Table name and number in the Questionniare
+    RM_TABLE_NAME  nvarchar(250) NOT NULL, -- Table FULL NAME
 	Col int(10) ,                    -- Col number.
     AC varchar(100),            -- Alphanumeric codeing scheme.
     EXL_REF varchar(10),      -- EXCEL cell address. Firtst cell in the column.
@@ -200,6 +201,7 @@ DROP TABLE IF EXISTS RM_Mapping_NonNumeric;
 CREATE TABLE RM_Mapping_NonNumeric(
 	Tab nvarchar(50)  NOT NULL, -- Sheet name in the questionnaire.
 	RM_TABLE  nvarchar(50) NOT NULL, -- Table name and number in the Questionniare
+    RM_TABLE_NAME  nvarchar(250) NOT NULL, -- Table FULL NAME
     AC varchar(100),            -- Alphanumeric codeing scheme.
     EXL_REF varchar(10));      -- EXCEL cell address. Firtst cell in the column.
 
