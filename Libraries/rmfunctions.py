@@ -189,9 +189,11 @@ def is_reference(cell_value):
     """
     if type(cell_value) in [int,float]:
         return(None)
-    match=re.search('[Xx]\[([0-9]*):([0-9]+)\]$',cell_value)
+    match=re.search('[Xx]\[([0-9]*):([0-9]+)\]$|[Xx]',cell_value)
     if not (match==None):
         reference=list(match.groups())
+        if reference[1]==None:
+            return("empty_reference")
         if reference[0]=='':
             reference[0]=None
         else:
@@ -333,6 +335,7 @@ class questionnaire:
 
     def print_log(self,text_string):
         """Puts the text in the log file and in stdout.
+
         """
         print(text_string,end='')
         self.log_file.write(text_string)
@@ -356,11 +359,10 @@ class questionnaire:
             self.print_log("Original questionnaire submited with path:\n")
             self.print_log(self.excel_file+"\n\n")
             administrative_divisions_variables=pre_vars['fixed_sheets']['Administrative divisions']
-                
-            
         else:
             self.print_log("Edited questionnaire submited with path:\n")
             self.print_log(self.excel_file+"\n\n")
+            
         self.print_log("Country name: {0}\n".format(self.country_name))
         self.print_log("Reference year: {0}\n".format(self.emco_year))
         self.print_log("Number of Administrative divisions: {0}\n".format(self.nadm1))
@@ -389,10 +391,10 @@ class questionnaire:
                         var[1]-=5
                         self.print_log("{0} : {1}\n".format( sheet_name, sheet.cell(*var).value ))
             if (not  printed_main_message ):
-                self.print_log("All the checks passed. QUESTIONNAIRE CAN BE PROCESSED\n")
+                self.print_log("All the checks passed. VALIDATION PASSED. QUESTIONNAIRE PROCESSED\n")
                 return(True)
             else:
-                self.print_log("Preprocessing tests failed. QUESTIONNAIRE CANNOT BE PROCESSED\n")
+                self.print_log("Preprocessing tests failed. VALIDATION DID NOT PASS. QUESTIONNAIRE CANNOT BE PROCESSED\n")
                 return(False)
         else:            
             ## For each sheet name, the following dictionary has a
@@ -418,12 +420,10 @@ class questionnaire:
 
                     """
                     validity=True
-                    if((type(value) == int and value >0)  ):
-                        pass
-                    elif(type(value)==float and int(value)==value and value>0):
+                    if((type(value) == int or type(value) == float)  and value >=0  ):
                         pass
                     elif(type(value) == str):
-                        match3=re.search('[Xx]\[[0-9]*:[0-9]+\]|^ +$|^[Zz]$|^[Mm]$',value)
+                        match3=re.search('[Xx]\[[0-9]*:[0-9]+\]|^ +$|^[Zz]$|^[Mm]|^[Xx]|^[Aa]$|^[Nn]$',value)
                         validity= not (match3==None)
                     else:
                         validity=False
@@ -891,12 +891,13 @@ class questionnaire:
                                             variables[2],\
                                             meter_values[i],\
                                             ec_td_id(variables[0]) ),)
-                    if reference[0]==None: # First reference coordinate empty
+                    if reference!="empty_reference":
+                        if reference[0]==None: # First reference coordinate empty
                         ## Same row if a=None in X[a:b]
-                        referenced_row=adm_code
-                    else:
-                        referenced_row=reference[0]
-                    referenced_sql_code= referenced_sql_code | {"UPDATE EDU_METER97_"+self.database_type+" SET MG_ID=4 WHERE EMC_ID={0} AND CO_CODE={1} AND ADM_CODE={2} AND EMCO_YEAR={3} AND MG_ID IS NULL;\n".format(self.emc_id(variables[3],reference[1]),self.country_code,referenced_row,emco_year)}
+                            referenced_row=adm_code
+                        else:
+                            referenced_row=reference[0]                    
+                            referenced_sql_code= referenced_sql_code | {"UPDATE EDU_METER97_"+self.database_type+" SET MG_ID=4 WHERE EMC_ID={0} AND CO_CODE={1} AND ADM_CODE={2} AND EMCO_YEAR={3} AND MG_ID IS NULL;\n".format(self.emc_id(variables[3],reference[1]),self.country_code,referenced_row,emco_year)}                            
                 else: # If we did not read a reference
                     em_fig=meter_values[i]
                 # The following if might not be necessary in the final version
