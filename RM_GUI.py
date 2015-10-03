@@ -94,10 +94,8 @@ class RM():
         ttk.Button(self.lf_impOptions, text ='Browse..', command = lambda x='file': self.select_file(x)).grid(row=0, column=3, sticky='W') 
         ttk.Button(self.lf_impOptions, text= 'Browse..', command = lambda x='folder': self.select_file(x)).grid(row=1, column=3, sticky='W')
         ttk.Button(self.lf_impOptions, text= 'Browse..', command = lambda x='folder': self.select_file(x)).grid(row=1, column=3, sticky='W')
-        ttk.Button(self.lf_impOptions, text ='Validate', command = lambda x='file': self.val_file(x)).grid(row=0, column=4, sticky='W')
-        ttk.Button(self.lf_impOptions, text ='Validate', command = lambda x='folder': self.val_file(x)).grid(row=1, column=4, sticky='W')
-        ttk.Button(self.lf_impOptions, text ='Insert', command = lambda x='file': self.imp_file(x)).grid(row=0, column=5, sticky='W')
-        ttk.Button(self.lf_impOptions, text ='Insert', command = lambda x='folder': self.imp_file(x)).grid(row=1, column=5, sticky='W')
+        ttk.Button(self.lf_impOptions, text ='Insert', command = lambda x='file': self.imp_file(x)).grid(row=0, column=4, sticky='W')
+        ttk.Button(self.lf_impOptions, text ='Insert', command = lambda x='folder': self.imp_file(x)).grid(row=1, column=4, sticky='W')
 
         ttk.Label(self.lf_impOptions, text='file ').grid(row=0, column=0, sticky='W')
         ttk.Label(self.lf_impOptions, text='folder ').grid(row=1, column=0, sticky='W')
@@ -222,7 +220,6 @@ class RM():
             co_name = str(self.cbox_co.get())
             year = self.cbox_year.get()
             serie = str(self.cbox_series.get())
-            self.MsgBox()
             if co_name and year and serie:
                 co_code = getCO_CODE(co_name)
                 serie = RM.series[serie]
@@ -264,13 +261,6 @@ class RM():
                 self.output_folder.delete(0, 'end')
                 self.output_folder.insert(0, dirname)
 
-    def val_file(self, x):
-        """ Validateing that the file is good for importing."""
-        if x=='file':
-            print('not ready')
-            
-        if x=='folder':
-            print('not ready.')
                 
     def imp_file(self,x):
         """ Imports an excel questionnaire or sheets to the SQL database"""
@@ -284,11 +274,15 @@ class RM():
             if not file1:
                 print('No folder is selected.')
                 return
+        if not self.MsgBox(file_type = x, file_name= file1[0]):
+            print('You must confirm before proceeding!')
+            return
         for i in file1:
                 if re.search(".xlsx", i):
                     print('Inserting {0}'.format(i))
                     x=questionnaire(i,self.database,self.log_folder,RM.username)
-                    if x.preprocessing():
+                    if x.validation() or True:
+                        x.write_data_report()
                         x.extract_data()
                         x.extract_comments()
                         x.extract_table_comments()
@@ -335,13 +329,18 @@ class RM():
         else:
             print('Error: missing country name or year.')
 
-    def MsgBox(self):
+    def MsgBox(self, file_type = 'file', file_name= 'Test', series='REP'):
         """ A pop-up message box to confirm an action"""
-        result = tk.messagebox.askquestion("Are you sure you want to import", "Are You Sure?", icon='warning')
-    # if result == 'yes':
-    #     print("Deleted")
-    # else:
-    #     print ("I'm Not Deleted Yet")
+        if file_type =='file':
+            msg = "Are you sure you want to import file {0} to {1} series ?".format(file_name, series)
+        if file_type =='folder':
+            msg = "Are you sure you want to import all files in {0}?".format(file_name)
+        result = tk.messagebox.askquestion("Import confirmatoin", msg, icon='warning')
+        if result == 'yes':
+            return(True)
+        else:
+            return (False)
+
         
    
 def main():
