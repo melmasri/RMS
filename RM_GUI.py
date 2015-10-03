@@ -1,4 +1,4 @@
-import sys, getpass, os
+import, getpass, os
 
 sys.path.append('Libraries')
 from rmquestionnaire import *
@@ -17,9 +17,10 @@ def open_file_local(f):
     """ Opens a file with the proper default program"""
     if sys.platform == 'linux':
         os.system("xdg-open \"{0}\" &".format(f))
-    #elif sys.platform == 'windows':
+    elif re.search("win", sys.platform):
         # http://www.quora.com/What-is-the-equivalent-of-xdg-open-on-Windows
-        # os.system("xdg-open {0} &".format(f)) 
+        os.system("start \"\" \"{0}\"".format(f))
+
         
 class StdoutRedirector(object):
     """ A class to write out the standard output to a tkinter Text widget."""
