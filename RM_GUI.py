@@ -1,5 +1,4 @@
-import, getpass, os
-
+import sys, getpass, os
 sys.path.append('Libraries')
 from rmquestionnaire import *
 
@@ -7,7 +6,6 @@ from rmquestionnaire import *
 # database="../../Database/Prod.db"
 # log_folder = "../../Log"
 # set_database_file(database)
-
 import tkinter as tk
 from tkinter import ttk,StringVar, filedialog, scrolledtext, messagebox
 import re
@@ -98,6 +96,12 @@ class RM():
         ttk.Button(self.lf_impOptions, text ='Insert', command = lambda x='file': self.imp_file(x)).grid(row=0, column=4, sticky='W')
         ttk.Button(self.lf_impOptions, text ='Insert', command = lambda x='folder': self.imp_file(x)).grid(row=1, column=4, sticky='W')
 
+        ## Import into rep
+        self.rep_import = tk.IntVar()
+        self.checkbox =   ttk.Checkbutton(self.lf_impOptions, text="Import to REP", variable= self.rep_import)
+        self.checkbox.grid(row=2, column = 3, sticky = 'W')
+        
+        
         ttk.Label(self.lf_impOptions, text='file ').grid(row=0, column=0, sticky='W')
         ttk.Label(self.lf_impOptions, text='folder ').grid(row=1, column=0, sticky='W')
 
@@ -282,7 +286,11 @@ class RM():
                 if re.search(".xlsx", i):
                     print('Inserting {0}'.format(i))
                     x=questionnaire(i,self.database,self.log_folder,RM.username)
-                    if x.validation() or True:
+                    if(x.database_type == 'REP' and x.edit_mode):
+                        if(not  self.rep_import.get()):
+                            print("You're trying to import the data in REP series. If sure, please tick the checkbox 'Import to REP'! ")
+                            continue
+                    if x.validation() and False:
                         x.write_data_report()
                         x.extract_data()
                         x.extract_comments()
