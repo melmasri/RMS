@@ -788,6 +788,7 @@ class questionnaire:
         return(pass_test)
 
     def write_data_report(self):
+        cursor=self.conn.cursor()
         data_report_path=self.log_folder + "/{}".format(self.country_name) + "_"+datetime.datetime.now().strftime("%y-%m-%d-%H-%M")+"_data_report.csv"
         file=open(data_report_path,'a')
         if ( not (self.missing_data_dictionary or self.data_issues_dictionary ) ):
@@ -795,10 +796,12 @@ class questionnaire:
         else:
             if self.missing_data_dictionary:
                 file.write("1. Missing data:,\n\n")
-                for sheet_name in self.missing_data_dictionary.keys():
+                for sheet_name in self.missing_data_dictionary.keys():                    
                     file.write("Sheet: {},\n".format(sheet_name))
                     for table in self.missing_data_dictionary[sheet_name].keys():
-                        file.write(",{0},\n".format(table))
+                        cursor.execute("SELECT RM_TABLE_NAME FROM RM_Mapping WHERE RM_TABLE=?", (table,) )
+                        table_name=cursor.fetchone()[0]
+                        file.write(",\"{0}: {1}\",\n".format(table,table_name))
                         file.write(",\"Missing data in column(s) {}\",\n".format( self.missing_data_dictionary[sheet_name][table] ))
             file.write("\n\n")
             if self.data_issues_dictionary:
@@ -806,7 +809,9 @@ class questionnaire:
                 for sheet_name in self.data_issues_dictionary.keys():
                     file.write("Sheet: {},\n".format(sheet_name))
                     for table in self.data_issues_dictionary[sheet_name].keys():
-                        file.write(",{0},\n".format(table))
+                        cursor.execute("SELECT RM_TABLE_NAME FROM RM_Mapping WHERE RM_TABLE=?", (table,) )
+                        table_name=cursor.fetchone()[0]
+                        file.write(",\"{0}: {1}\",\n".format(table,table_name))
                         for issue in self.data_issues_dictionary[sheet_name][table].keys():
                             if 'undefined_reference' == issue:
                                 file.write(",\"Undefined reference(s) in column(s) {}.\",\n".format(self.data_issues_dictionary[sheet_name][table][issue]) )
@@ -833,10 +838,11 @@ class questionnaire:
                 for var in [[x, check_variables[sheet_name][1] ] for x in check_variables[sheet_name][0] ]:
                     if( sheet.cell( *var ).value == 'No' ):
                         if(not printed_main_message):                                                        
-                            self.print_log("The following items have No in the Checking sheet:\n")
+                            file.write("\n\nThe following items have No in the Checking sheet:\n")
                             printed_main_message=True
                         var[1]-=5
-                        self.print_log("{0} : {1}\n".format( sheet_name, sheet.cell(*var).value ))
+                        file.write("\"{0}:\", \"{1}\"\n".format( sheet_name, sheet.cell(*var).value ))
+        cursor.close()    
                            
     def emc_id_from_cell_info(self,sheet_name,xlrd_vector_coordinates):
         """Returns the emc_id given cell xlrd coordinates.

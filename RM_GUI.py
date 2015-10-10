@@ -291,6 +291,9 @@ class RM():
                             print("You're trying to import the data in REP series. If sure, please tick the checkbox 'Import to REP'! ")
                             continue
                     if x.validation() and False:
+                        x.check_region_totals()
+                        x.check_less()
+                        x.check_column_sums()
                         x.write_data_report()
                         x.extract_data()
                         x.extract_comments()
