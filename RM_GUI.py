@@ -48,11 +48,12 @@ class RM():
         self.output_folder_var = output_folder_var
         self.master.title('Regional module Survey: main dir ' + self.main_dir)
         # width x height + x_offset + y_offset:
-        self.master.geometry("700x700+50+50")
+        self.master.geometry("730x730+50+50")
         self.status = StringVar()
         self.createWidgets()
         self.setFormating()
         self.messages()
+        self.valid_file = 'empty'
         
     def createWidgets(self):
         """ Creating all widgets in the GUI."""
@@ -86,24 +87,31 @@ class RM():
         # ## Text boxes
         self.entry_one = ttk.Entry(self.lf_impOptions,width=50)
         self.entry_one.grid(row=0, column=1, sticky='W')
-        self.entry_many = ttk.Entry(self.lf_impOptions,width=50)
-        self.entry_many.grid(row=1, column=1, sticky='W')
 
         # # Buttons
-        ttk.Button(self.lf_impOptions, text ='Browse..', command = lambda x='file': self.select_file(x)).grid(row=0, column=3, sticky='W') 
-        ttk.Button(self.lf_impOptions, text= 'Browse..', command = lambda x='folder': self.select_file(x)).grid(row=1, column=3, sticky='W')
-        ttk.Button(self.lf_impOptions, text= 'Browse..', command = lambda x='folder': self.select_file(x)).grid(row=1, column=3, sticky='W')
-        ttk.Button(self.lf_impOptions, text ='Insert', command = lambda x='file': self.imp_file(x)).grid(row=0, column=4, sticky='W')
-        ttk.Button(self.lf_impOptions, text ='Insert', command = lambda x='folder': self.imp_file(x)).grid(row=1, column=4, sticky='W')
+        self.rep_validate = tk.IntVar()
+        ttk.Button(self.lf_impOptions, text ='Browse..', command = lambda x='file': self.select_file(x)).grid(row=0, column=3, sticky='W')
+        ttk.Button(self.lf_impOptions, text ='Validate', command = lambda x='file': self.validate_file(x)).grid(row=0, column=4, sticky='W') 
+        ttk.Button(self.lf_impOptions, text ='Insert', command = lambda x='file': self.imp_file(x)).grid(row=0, column=5, sticky='W')
 
         ## Import into rep
         self.rep_import = tk.IntVar()
         self.checkbox =   ttk.Checkbutton(self.lf_impOptions, text="Import to REP", variable= self.rep_import)
-        self.checkbox.grid(row=2, column = 3, sticky = 'W')
+        self.checkbox.grid(row=1, column = 3, sticky = 'W', columnspan=3)
+
+        self.open_log = tk.IntVar()
+        self.open_log.set(1)
+        self.OpenLogCB =  ttk.Checkbutton(self.lf_impOptions, text="Open log file", variable= self.open_log)
+        self.OpenLogCB.grid(row=2, column = 3, sticky = 'W', columnspan=3)
+
+        # self.open_data_report = tk.IntVar()
+        # self.open_data_report.set(1)
+        # self.OpenDRCB =  ttk.Checkbutton(self.lf_impOptions, text="Open data report", variable= self.open_data_report)
+        # self.OpenDRCB.grid(row=3, column = 3, sticky = 'W', columnspan=3)
+
         
         
         ttk.Label(self.lf_impOptions, text='file ').grid(row=0, column=0, sticky='W')
-        ttk.Label(self.lf_impOptions, text='folder ').grid(row=1, column=0, sticky='W')
 
         # ####### Export frame
         # General Frame
@@ -175,8 +183,8 @@ class RM():
         ### Import frame settings
         self.lf_impOptions.columnconfigure(0, pad=3)
         self.lf_impOptions.columnconfigure(1, pad=3)
-        self.lf_impOptions.columnconfigure(2, pad=3)
-        self.lf_impOptions.columnconfigure(3, pad=3)
+        # self.lf_impOptions.columnconfigure(2, pad=0)
+        # self.lf_impOptions.columnconfigure(3, pad=0)
         self.lf_impOptions.rowconfigure(0, pad=3)
         self.lf_impOptions.rowconfigure(1, pad=3)
 
@@ -266,6 +274,27 @@ class RM():
                 self.output_folder.delete(0, 'end')
                 self.output_folder.insert(0, dirname)
 
+
+    def validate_file(self,x):
+        """ Validating the file for processing"""
+        i = self.master.splitlist(self.entry_one.get())
+        if not i:
+            print('No file is selected.')
+            return
+        i = i[0]
+        if re.search(".xlsx", i):
+            print('Valdating {0}'.format(i))
+            x=questionnaire(i,self.database,self.log_folder,RM.username)
+            if x.validation():
+                self.valid_file = i
+                print('Validation successful, see report in:')
+            else:                
+                print('Pre-processing validation failed. Some errors exist see log file in:')
+            print(x.validation_log_file.name)
+            if self.open_log.get():
+                open_file_local(x.validation_log_file.name)
+
+
                 
     def imp_file(self,x):
         """ Imports an excel questionnaire or sheets to the SQL database"""
@@ -274,34 +303,39 @@ class RM():
             if not file1:
                 print('No file is selected.')
                 return
-        elif x=='folder':
-            file1 = self.entry_many.get()
-            if not file1:
-                print('No folder is selected.')
-                return
+        if self.valid_file != file1[0]:
+            print('Please validate the file first!')
+            return
+        # elif x=='folder':
+        #     file1 = self.entry_many.get()
+        #     if not file1:
+        #         print('No folder is selected.')
+        #         return
         if not self.MsgBox(file_type = x, file_name= file1[0]):
             print('You must confirm before proceeding!')
             return
         for i in file1:
-                if re.search(".xlsx", i):
-                    print('Inserting {0}'.format(i))
-                    x=questionnaire(i,self.database,self.log_folder,RM.username)
-                    if(x.database_type == 'REP' and x.edit_mode):
-                        if(not  self.rep_import.get()):
-                            print("You're trying to import the data in REP series. If sure, please tick the checkbox 'Import to REP'! ")
-                            continue
-                    if x.validation() and False:
-                        x.check_region_totals()
-                        x.check_less()
-                        x.check_column_sums()
-                        x.write_data_report()
-                        x.extract_data()
-                        x.extract_comments()
-                        x.extract_table_comments()
-                        print('Insert successful...Done')
-                    else: 
-                        print('Pre-processing validation failed. Some errors exist see log file in: ', end = '')
-                        print(self.log_folder)
+            if re.search(".xlsx", i):
+                print('Inserting {0}'.format(i))
+                x=questionnaire(i,self.database,self.log_folder,RM.username)
+                if(x.database_type == 'REP' and x.edit_mode):
+                    if(not  self.rep_import.get()):
+                        print("You're trying to import the data in REP series. If sure, please tick the checkbox 'Import to REP'! ")
+                        continue
+                if x.validation():
+                    x.check_region_totals()
+                    x.check_less()
+                    x.check_column_sums()
+                    x.write_data_report()
+                    x.extract_data()
+                    x.extract_comments()
+                    x.extract_table_comments()
+                    print('Insert successful...Done')
+                    # if open_data_report.get():
+                    #     open_file_local(x.)
+                else: 
+                    print('Pre-processing validation failed. Some errors exist see log file in: ', end = '')
+                    print(self.log_folder)
     
     def updtCountry(self):
         """Queries the names of countries that submitted an rm questionnaire"""
