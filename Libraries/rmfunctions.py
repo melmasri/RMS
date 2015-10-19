@@ -590,7 +590,8 @@ class questionnaire:
         country_name_test=self.check_country_name()
         number_of_sheets_test=self.check_number_of_sheets()
         edited_configuration_part_test=self.check_edited_configuration_part()
-        values_test=self.check_values()        
+        values_test=self.check_values()
+        self.validation_log_file.close()
         return ( nadm1_test and adm1_names_test and reference_year_test and country_name_test and number_of_sheets_test and edited_configuration_part_test and values_test )
 
     def check_region_totals(self):
@@ -790,6 +791,7 @@ class questionnaire:
     def write_data_report(self):
         cursor=self.conn.cursor()
         data_report_path=self.log_folder + "/{}".format(self.country_name) + "_"+datetime.datetime.now().strftime("%y-%m-%d-%H-%M")+"_data_report.csv"
+        self.data_report_file=data_report_path
         file=open(data_report_path,'a')
         if ( not (self.missing_data_dictionary or self.data_issues_dictionary ) ):
             file.write('No data issues were found.,')
@@ -842,7 +844,8 @@ class questionnaire:
                             printed_main_message=True
                         var[1]-=5
                         file.write("\"{0}:\", \"{1}\"\n".format( sheet_name, sheet.cell(*var).value ))
-        cursor.close()    
+        cursor.close()
+        file.close()
                            
     def emc_id_from_cell_info(self,sheet_name,xlrd_vector_coordinates):
         """Returns the emc_id given cell xlrd coordinates.
