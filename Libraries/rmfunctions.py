@@ -318,10 +318,10 @@ class questionnaire:
         cursor=self.conn.cursor()
         #The following is not working so I am using .format, but this is not secure
 #        cursor.execute(u'SELECT CO_CODE FROM COUNTRY  WHERE UPPER(CO_LONG_NAME) IS ?', (name,) )
-        cursor.execute("SELECT CO_CODE FROM COUNTRY  WHERE UPPER(CO_LONG_NAME) IS {0};".format(name) )        
+        cursor.execute("SELECT CO_CODE FROM COUNTRY  WHERE UPPER(CO_LONG_NAME) IS {0};".format(name) )
         country_code=cursor.fetchone()
         if(country_code==None):
-            raise CountryNameError("Country name \'{0}\' not found in the COUNTRY database.".format(self.country_name))
+            self.country_code=0
         else:
             self.country_code=country_code[0]
         cursor.close()
@@ -398,7 +398,7 @@ class questionnaire:
             if (test_value):
                 self.print_log("Country name is filled: {0}\n".format(country_name))
             else:
-                seld.print_log("Error: Country name is not filled or has a wrong format.")
+                self.print_log("Error: Country name is not filled or has a wrong format.")
             return(test_value)
         
     def check_number_of_sheets(self):
