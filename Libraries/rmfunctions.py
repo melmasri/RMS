@@ -1201,7 +1201,7 @@ class questionnaire:
         self.log_folder=log_folder
         if (not os.path.exists(log_folder)):
             os.makedirs(log_folder)
-        self.validation_log_file=open( log_folder + "/{}".format(self.country_name) + "_"+datetime.datetime.now().strftime("%y-%m-%d-%H-%M")+"_validation.log",'a')
+        self.validation_log_file=open( log_folder + "/{}".format(self.country_name) + "_"+datetime.datetime.now().strftime("%y-%m-%d-%H-%M")+"_validation.txt",'a')
         self.missing_data_dictionary={}
         self.data_issues_dictionary={}
 #        self.log_file=open( log_folder + "/{}".format(self.country_name) + "_"+datetime.datetime.now().strftime("%y-%m-%d-%H-%M")+".log",'a')
