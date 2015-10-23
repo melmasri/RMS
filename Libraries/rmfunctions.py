@@ -354,24 +354,27 @@ class questionnaire:
     def check_adm1_names(self):
         """Checks that the region names are filled.
         """
-        administrative_divisions_variables = pre_vars['fixed_sheets']['Administrative divisions']
-        sheet=self.wb.sheet_by_name('Administrative divisions')
-        id_start_coordinates=indexes( administrative_divisions_variables['id_start'][0])
-        regions_names=sheet.col_values(id_start_coordinates[1]+1,\
-                                       id_start_coordinates[0],\
-                                       id_start_coordinates[0]+self.nadm1)
-        all_regions_good=reduce( lambda x,y: x and y,
-                                 ##The following line tests wether it is not empty and different that ...
-                                 map( lambda region_name: region_name and region_name != "..." , 
-                                      regions_names))
-        if (all_regions_good):
-            self.print_log("Administrative divisions:\n")
-            for region in regions_names:
-                self.print_log("                  {}\n".format(region))
-            self.print_log("\n")
+        if (self.edit_mode):
+            return(True)
         else:
-            self.print_log("Error: Empty names for administrative divisions.")
-        return(all_regions_good)
+            administrative_divisions_variables = pre_vars['fixed_sheets']['Administrative divisions']
+            sheet=self.wb.sheet_by_name('Administrative divisions')
+            id_start_coordinates=indexes( administrative_divisions_variables['id_start'][0])
+            regions_names=sheet.col_values(id_start_coordinates[1]+1,\
+                                           id_start_coordinates[0],\
+                                           id_start_coordinates[0]+self.nadm1)
+            all_regions_good=reduce( lambda x,y: x and y,
+                                     ##The following line tests wether it is not empty and different that ...
+                                     map( lambda region_name: region_name and region_name != "..." , 
+                                          regions_names))
+            if (all_regions_good):
+                self.print_log("Administrative divisions:\n")
+                for region in regions_names:
+                    self.print_log("                  {}\n".format(region))
+                self.print_log("\n")
+            else:
+                self.print_log("Error: Empty names for administrative divisions.")
+            return(all_regions_good)
 
     def check_reference_year(self):
         """Checks that the reference year is filled with the right value"""
@@ -395,11 +398,14 @@ class questionnaire:
             sheet=self.wb.sheet_by_name('Front Page')
             country_name=sheet.cell(*indexes(cellname)).value
             test_value=sheet.cell_type( *indexes(cellname) ) == front_page_variables['country_name'][1]
-            if (test_value):
-                self.print_log("Country name is filled: {0}\n".format(country_name))
-            else:
+            code_test=self.country_code
+            if (not test_value ):
                 self.print_log("Error: Country name is not filled or has a wrong format.\n")
-            return(test_value)
+            elif(not code_test ):
+                self.print_log("Error: Country name was not found in the database.\n")
+            else:
+                self.print_log("Country name is filled: {0}\n".format(country_name))
+            return(test_value and code_test)
         
     def check_number_of_sheets(self):
         if (self.edit_mode):
@@ -978,7 +984,7 @@ class questionnaire:
         sql_return=cursor.fetchall()        
         cursor.close()
         if sql_return:
-            return(dict(sql_return))
+            return(sql_return)
         else:
             return(False)
  
