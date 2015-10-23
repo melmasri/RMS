@@ -83,7 +83,7 @@ class RM():
         readframe = ttk.LabelFrame(self.master, text="Importing questionnaire to database", padding = (pad, pad, pad, pad))
         readframe.pack(fill="x", side = 'top', padx = 3, pady=3,ipadx=3, ipady=3, anchor = 'nw')
         self.lf_impOptions = ttk.LabelFrame(readframe , text="Insert a:")
-        self.lf_impOptions.grid(row=3, columnspan=3, sticky='W', padx=5, pady=5, ipadx=5, ipady=5)
+        self.lf_impOptions.grid(row=3, columnspan=3, sticky='NSEW', padx=5, pady=5, ipadx=5, ipady=5)
 
         # ## Text boxes
         self.entry_one = ttk.Entry(self.lf_impOptions,width=50)
@@ -111,7 +111,11 @@ class RM():
         self.OpenDRCB =  ttk.Checkbutton(self.lf_impOptions, text="Open data report", variable= self.open_data_report)
         self.OpenDRCB.grid(row=3, column = 3, sticky = 'W', columnspan=3)
 
-        
+        ## Force insert
+        self.force_insert =  tk.IntVar()
+        self.ForceCB =  ttk.Checkbutton(self.lf_impOptions, text="Force insert", variable= self.force_insert)
+        self.ForceCB.grid(row=4, column = 3, sticky = 'W', columnspan=3)
+     
         
         ttk.Label(self.lf_impOptions, text='file ').grid(row=0, column=0, sticky='W')
 
@@ -309,7 +313,8 @@ class RM():
         if self.valid_file != file1[0]:
             print('Please validate the file first!')
             return
-        if not self.MsgBox(file_name= file1[0],series = self.valid_series):
+        msg = "Are you sure you want to import file: \n\n {0} \n\n to {1} series ?".format(file1[0], self.valid_series)
+        if not self.MsgBox("Import confirmation" , msg):
             print('You must confirm before proceeding!')
             return
         i=file1[0]
@@ -371,16 +376,14 @@ class RM():
         else:
             print('Error: missing country name or year.')
 
-    def MsgBox(self, file_name, series):
+    def MsgBox(self, header = 'Default header' , msg='Generic.'):
         """ A pop-up message box to confirm an action"""
-        msg = "Are you sure you want to import file: \n {0} \n to {1} series ?".format(file_name, series)
-        result = tk.messagebox.askquestion("Import confirmation", msg, icon='warning')
+        result = tk.messagebox.askquestion(header, msg, icon='warning')
         if result == 'yes':
             return(True)
         else:
             return (False)
-
-        
+      
    
 def main():
     database="Database/Prod.db"
