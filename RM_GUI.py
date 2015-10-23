@@ -54,6 +54,7 @@ class RM():
         self.setFormating()
         self.messages()
         self.valid_file = 'empty'
+        self.valid_series = ''
         
     def createWidgets(self):
         """ Creating all widgets in the GUI."""
@@ -288,9 +289,12 @@ class RM():
             x=questionnaire(i,self.database,self.log_folder,RM.username)
             if x.validation():
                 self.valid_file = i
+                self.valid_series = x.database_type
                 print('Validation successful, see report in:')
             else:                
                 print('Pre-processing validation failed. Some errors exist see log file in:')
+                self.valid_file = ''
+                self.valid_series = ''
             print(x.validation_log_file.name)
             if self.open_log.get():
                 open_file_local(x.validation_log_file.name)
@@ -305,7 +309,7 @@ class RM():
         if self.valid_file != file1[0]:
             print('Please validate the file first!')
             return
-        if not self.MsgBox(file_name= file1[0]):
+        if not self.MsgBox(file_name= file1[0],series = self.valid_series):
             print('You must confirm before proceeding!')
             return
         i=file1[0]
@@ -367,10 +371,10 @@ class RM():
         else:
             print('Error: missing country name or year.')
 
-    def MsgBox(self, file_name= 'Test', series='REP'):
+    def MsgBox(self, file_name, series):
         """ A pop-up message box to confirm an action"""
-        msg = "Are you sure you want to import file {0} to {1} series ?".format(file_name, series)
-        result = tk.messagebox.askquestion("Import confirmatoin", msg, icon='warning')
+        msg = "Are you sure you want to import file: \n {0} \n to {1} series ?".format(file_name, series)
+        result = tk.messagebox.askquestion("Import confirmation", msg, icon='warning')
         if result == 'yes':
             return(True)
         else:
