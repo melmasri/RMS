@@ -92,8 +92,9 @@ class RM():
         # # Buttons
         self.rep_validate = tk.IntVar()
         ttk.Button(self.lf_impOptions, text ='Browse..', command = lambda x='file': self.select_file(x)).grid(row=0, column=3, sticky='W')
-        ttk.Button(self.lf_impOptions, text ='Validate', command =  self.validate_file).grid(row=0, column=4, sticky='W') 
-        ttk.Button(self.lf_impOptions, text ='Insert', command =  self.imp_file).grid(row=0, column=5, sticky='W')
+        ttk.Button(self.lf_impOptions, text ='Validate', command =  self.validate_file).grid(row=0, column=4, sticky='W')
+        ttk.Button(self.lf_impOptions, text ='Check only', command =  self.check_file).grid(row=0, column=5, sticky='W')
+        ttk.Button(self.lf_impOptions, text ='Insert', command =  self.imp_file).grid(row=1, column=5, sticky='W')
 
         ## Import into rep
         self.rep_import = tk.IntVar()
@@ -301,9 +302,30 @@ class RM():
                 self.valid_series = ''
             print(x.validation_log_file.name)
             if self.open_log.get():
-                open_file_local(x.validation_log_file.name)
+                open_file_local(self.main_dir + '/' + x.validation_log_file.name)
 
-                
+
+    def check_file(self):
+        file1 = self.master.splitlist(self.entry_one.get())
+        if not file1:
+            print('No file is selected.')
+            return
+        if self.valid_file != file1[0]:
+            print('Please validate the file first!')
+            return
+        i=file1[0]
+        if re.search(".xlsx", i):
+            print('Writing data report for \n {0}'.format(i))
+            x=questionnaire(i,self.database,self.log_folder,RM.username)
+            x.check_region_totals()
+            x.check_less()
+            x.check_column_sums()
+            x.write_data_report()
+            print("Data report written to: \n {0}".format(x.data_report_file))
+            if self.open_data_report.get():
+                open_file_local(self.main_dir + '/' + x.data_report_file)
+
+        
     def imp_file(self):
         """ Imports an excel questionnaire or sheets to the SQL database"""
         file1 = self.master.splitlist(self.entry_one.get())
@@ -333,10 +355,10 @@ class RM():
             x.extract_comments()
             x.extract_table_comments()
             self.valid_file = ''
-            print(self.valid_file)
-            print('Insert successful...Done')
+            print(x.data_report_file)
+            print("Data report written to: \n {0}".format(x.data_report_file))
             if self.open_data_report.get():
-                open_file_local(x.data_report_file)
+                open_file_local(self.main_dir + '/' + x.data_report_file)
   
     def updtCountry(self):
         """Queries the names of countries that submitted an rm questionnaire"""
