@@ -954,12 +954,12 @@ class questionnaire:
         """
         if (self.regions_from_sheet==None):
             self.read_regions_from_sheet()
-        regions_from_databaset=self.get_regions()
-        if (not regions_from_databaset):
+        regions_from_database=self.get_regions()
+        if (not regions_from_database):
             return(1)
         else:
             regions_from_database=list(map(str.upper,regions_from_database ))
-            regions_from_sheet=list(map(str.upper,regions_from_database ))
+            regions_from_sheet=list(map(str.upper, self.regions_from_sheet ))
             return ( regions_from_database == regions_from_sheet )
                             
     def insert_region_codes(self):
