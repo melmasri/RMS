@@ -511,6 +511,12 @@ class questionnaire:
 
         
     def check_values(self):
+        """Check data types.
+
+        It checks the data types of all the entries in the
+        questionnaire. It also creates the dictionaries for mussing
+        data and data_issues.
+        """
         edit_sheets_names=self.wb.sheet_names()
         cursor=self.conn.cursor()
         query="SELECT Tab,EXL_REF,RM_TABLE,Col FROM RM_MAPPING WHERE Tab in (" + ','.join('?'*len(edit_sheets_names)) + ") AND AC!='ADM_NAME';"
@@ -958,7 +964,7 @@ class questionnaire:
         if (not regions_from_database):
             return(1)
         else:
-            regions_from_database=list(map(str.upper,regions_from_database ))
+            regions_from_database=list(map( str.upper , regions_from_database ))
             regions_from_sheet=list(map(str.upper, self.regions_from_sheet ))
             return ( regions_from_database == regions_from_sheet )
                             
@@ -981,7 +987,7 @@ class questionnaire:
         """
         cursor=self.conn.cursor()
         cursor.execute("SELECT ADM_NAME FROM REGIONS WHERE CO_CODE=? AND ADM_CODE!=0 ORDER BY ADM_CODE ASC;",(self.country_code,) )
-        sql_return=cursor.fetchall()        
+        sql_return=cursor.fetchall()[0]        
         cursor.close()
         if sql_return:
             return(sql_return)
@@ -1149,7 +1155,7 @@ class questionnaire:
             if (names_test==1): ## names_test==1 if the names do not exist in the database.
                 self.insert_region_codes()
             elif ( not names_test): ## names_test==False if the names do not match.
-                self.print_log("Error: Region names from the sheet do not match the existing region names in the database.\n Importing aborted.\n")
+                self.print_log("\nError: Unmatching region names from sheet and database.\nImporting aborted.\n")
                 
         for variables in mapping_table:
             # When we edit we are only interested in certain sheets
