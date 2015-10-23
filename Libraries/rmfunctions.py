@@ -398,7 +398,7 @@ class questionnaire:
             if (test_value):
                 self.print_log("Country name is filled: {0}\n".format(country_name))
             else:
-                self.print_log("Error: Country name is not filled or has a wrong format.")
+                self.print_log("Error: Country name is not filled or has a wrong format.\n")
             return(test_value)
         
     def check_number_of_sheets(self):
@@ -548,9 +548,9 @@ class questionnaire:
                 
             overall_test=overall_test and no_errors_test
         if overall_missing:
-            print("The questionnaire contains missing values. See data report for details.\n")
+            self.print_log("Warning: The questionnaire contains missing values.\n")
         if overall_undefined_references:
-            print("The questionnaire contains undefined references. See data report for details.\n")
+            self.print_log("Warning: The questionnaire contains undefined references.\n")
         return(overall_test)
     
     def print_log(self,text_string,log_type=False):
@@ -586,11 +586,10 @@ class questionnaire:
         nadm1_test=self.check_nadm1()
         adm1_names_test=self.check_adm1_names()
         reference_year_test=self.check_reference_year()
-        reference_year_test=True
         country_name_test=self.check_country_name()
         number_of_sheets_test=self.check_number_of_sheets()
         edited_configuration_part_test=self.check_edited_configuration_part()
-        values_test=self.check_values()
+        values_test=self.check_values() 
         self.validation_log_file.close()
         return ( nadm1_test and adm1_names_test and reference_year_test and country_name_test and number_of_sheets_test and edited_configuration_part_test and values_test )
 
@@ -921,23 +920,49 @@ class questionnaire:
             cursor.executemany("INSERT OR REPLACE INTO EDU_FTN97_"+self.database_type+"(CO_CODE,ADM_CODE,EMCO_YEAR,EMC_ID,FTN_CODE,FTN_DATA,NTABLE,QUESTNAME,USERNAME,DATE_ADDED)" + " VALUES(?,?,?,?,1,?,?,'R',?,?);", comments_table_tupple )
             self.conn.commit()
         cursor.close()
-                
-    
-    def create_region_codes(self):
-        """Writes the region codes to the regions database.
+
+    def read_regions_from_sheet(self):
+        """Reads region names from the questionnaire.
+        
+        It reads the  region names from the  questoinnaire and creates
+        the attribute self.regions_from_sheet containing the read names.
         """
-        # LOG DATABASE
-        cursor=self.conn.cursor()
         administrative_divisions_variables=pre_vars['fixed_sheets']['Administrative divisions']
         sheet=self.wb.sheet_by_name('Administrative divisions')
         id_start_coordinates=indexes( administrative_divisions_variables['id_start'][0])    
         regions_index=list(map(int,sheet.col_values(id_start_coordinates[1],\
                                                         id_start_coordinates[0],\
                                                         id_start_coordinates[0]+self.nadm1)))
-        regions_names=sheet.col_values(id_start_coordinates[1]+1,\
-                                           id_start_coordinates[0],\
-                                           id_start_coordinates[0]+self.nadm1)
-        sql_values=tuple(map(lambda x,y,z: (x,y,z), [self.country_code] * self.nadm1 , regions_index, regions_names  ))
+        self.regions_from_sheet=sheet.col_values(id_start_coordinates[1]+1,\
+                                                 id_start_coordinates[0],\
+                                                 id_start_coordinates[0]+self.nadm1)
+
+        
+    def compare_region_names(self):
+        """Compares region names in sheet and database.
+        
+        Returns 1 if regions do not exist in the database.  If they
+        exist, returns True if names in the database are the same than
+        in the sheet and False otherwise.
+
+        """
+        if (self.regions_from_sheet==None):
+            self.read_regions_from_sheet()
+        regions_from_databaset=self.get_regions()
+        if (not regions_from_databaset):
+            return(1)
+        else:
+            regions_from_database=list(map(str.upper,regions_from_database ))
+            regions_from_sheet=list(map(str.upper,regions_from_database ))
+            return ( regions_from_database == regions_from_sheet )
+                            
+    def insert_region_codes(self):
+        """Writes the regions from the sheet to the regions database.
+
+        If the regions exist already in the database they are rewriten.
+        """
+        cursor=self.conn.cursor()        
+        sql_values=tuple(map(lambda x,y,z: (x,y,z), [self.country_code] * self.nadm1 , regions_index, self.regions_from_sheet  ))
         cursor.executemany("INSERT OR REPLACE INTO REGIONS VALUES(?,?,?);",sql_values)
         self.conn.commit()
         cursor.close()
@@ -949,7 +974,7 @@ class questionnaire:
         found in the database, this function returns False.
         """
         cursor=self.conn.cursor()
-        cursor.execute("SELECT ADM_NAME,ADM_CODE FROM REGIONS WHERE CO_CODE=? AND ADM_CODE!=0 ;",(self.country_code,) )
+        cursor.execute("SELECT ADM_NAME FROM REGIONS WHERE CO_CODE=? AND ADM_CODE!=0 ORDER BY ADM_CODE ASC;",(self.country_code,) )
         sql_return=cursor.fetchall()        
         cursor.close()
         if sql_return:
@@ -1114,7 +1139,12 @@ class questionnaire:
                     cursor.execute("DELETE FROM EDU_INCLUSION_"+self.database_type+" WHERE CO_CODE={0} AND EMCO_YEAR={1} AND EMC_ID={2}".format(values_to_erase[0],values_to_erase[1],values_to_erase[2]))
                     self.conn.commit()
         else:
-            self.create_region_codes()
+            names_test=self.compare_region_names()
+            if (names_test==1): ## names_test==1 if the names do not exist in the database.
+                self.insert_region_codes()
+            elif ( not names_test): ## names_test==False if the names do not match.
+                self.print_log("Error: Region names from the sheet do not match the existing region names in the database.\n Importing aborted.\n")
+                
         for variables in mapping_table:
             # When we edit we are only interested in certain sheets
             if self.edit_mode and variables[0] not in edit_sheets_names:
@@ -1204,4 +1234,5 @@ class questionnaire:
         self.validation_log_file=open( log_folder + "/{}".format(self.country_name) + "_"+datetime.datetime.now().strftime("%y-%m-%d-%H-%M")+"_validation.txt",'a')
         self.missing_data_dictionary={}
         self.data_issues_dictionary={}
+        self.regions_from_sheet=None
 #        self.log_file=open( log_folder + "/{}".format(self.country_name) + "_"+datetime.datetime.now().strftime("%y-%m-%d-%H-%M")+".log",'a')
