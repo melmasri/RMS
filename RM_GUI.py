@@ -289,7 +289,6 @@ class RM():
             return
         i = i[0]
         if re.search(".xlsx", i):
-            print('Valdating {0}'.format(i))
             x=questionnaire(i,self.database,self.log_folder,RM.username)
             if x.validation():
                 self.valid_quest = x

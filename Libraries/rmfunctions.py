@@ -562,18 +562,18 @@ class questionnaire:
     def print_log(self,text_string,log_type=False):
         """Puts the test in log and stdout.
 
-        if log_type=True (the default), it writes to the validation log
-        if log_type=False (the default), it writes to the error log
+        if log_type=False, it writes to the validation log
+        if log_type=True (the default) , it writes sys.stdout using print
         """
         print(text_string,end='')
         if (not log_type):            
             self.validation_log_file.write(text_string)
             self.validation_log_file.flush()
             os.fsync(self.validation_log_file.fileno())
-        else:
-            self.error_log_file.write(text_string)
-            self.error_log_file.flush()
-            os.fsync(self.error_log_file.fileno())
+        # else:
+            # self.error_log_file.write(text_string)
+            # self.error_log_file.flush()
+            # os.fsync(self.error_log_file.fileno())
 
                 
 
@@ -604,7 +604,7 @@ class questionnaire:
         cursor=self.conn.cursor()
         edit_sheets_names=self.wb.sheet_names()
         pass_test=True
-        self.print_log("Checking that region values add to the country value...")
+        self.print_log("Checking that region values add to the country value...", True)
         cursor.execute("SELECT Tab,EXL_REF,RM_TABLE,Col FROM RM_MAPPING;") 
         mapping_info=cursor.fetchall()
         for variables in mapping_info:                
@@ -634,13 +634,13 @@ class questionnaire:
                 if (regions_sum != meter_value_country):
                     ## Error para el log
                     if pass_test:
-                            self.print_log("\n")
+                            self.print_log("\n", True)
                     self.add_data_issues(tab,table,'region_totals',col)
-                    self.print_log("The regional figures do not add up to the country total in {0} column {1}\n".format(table,col))
+                    self.print_log("The regional figures do not add up to the country total in {0} column {1}\n".format(table,col), True)
                     pass_test=False
         cursor.close()
         if  pass_test :
-            self.print_log("Test passed.\n")                        
+            self.print_log("Test passed.\n", True)                        
         return(pass_test)
 
     def check_less(self):
@@ -664,7 +664,7 @@ class questionnaire:
         }
         cursor=self.conn.cursor()
         pass_test=True
-        self.print_log("Checking that parts are less than the totals...")
+        self.print_log("Checking that parts are less than the totals...", True)
         for table,pairs_list in check_less_dictionary.items():
             sheet_name=table_sheet_dictionary[table]
             if sheet_name not in self.wb.sheet_names():
@@ -691,15 +691,15 @@ class questionnaire:
                     if  (type(small_value) in [int,float] and type(big_value) in [int,float] and small_value > big_value):
                         rows_with_problem=rows_with_problem+[i+1]
                         if pass_test:
-                            self.print_log("\n")
-                        self.print_log("{}: In row {} the value of column {} is bigger than the value in column {}.\n".format(sheet_name,i+1,pairs[0],pairs[1]))
+                            self.print_log("\n", True)
+                        self.print_log("{}: In row {} the value of column {} is bigger than the value in column {}.\n".format(sheet_name,i+1,pairs[0],pairs[1]), True)
                         pass_test=False
                 if rows_with_problem:
                     self.add_data_issues(sheet_name, table,'check_less',[pairs[0],pairs[1],rows_with_problem ])
                     
         cursor.close()
         if  pass_test :
-            self.print_log("Test passed.\n")                        
+            self.print_log("Test passed.\n", True)                        
         return(pass_test)
 
 
@@ -748,7 +748,7 @@ class questionnaire:
             }
         cursor=self.conn.cursor()
         pass_test=True
-        self.print_log("Checking sums of columns...")
+        self.print_log("Checking sums of columns...", True)
         for table_name,columns_sum_list in check_columns_sums_dictionary.items():
             cursor.execute("SELECT Tab  FROM RM_Mapping WHERE RM_TABLE=\'{}\' LIMIT 1".format(table_name))
             sheet_name=cursor.fetchone()[0]
@@ -789,7 +789,7 @@ class questionnaire:
                 if rows_problem:
                     ## We need to add a second argument to print_log here.
                     self.add_data_issues(sheet_name,table_name,'column_sums',[summands_columns,total_column,rows_problem])
-                    self.print_log("Columns {} in  {} do not add to column {} in {}. Problems in row(s) {}.\n".format(summands_columns,table_name,total_column,total_table_name,rows_problem))
+                    self.print_log("Columns {} in  {} do not add to column {} in {}. Problems in row(s) {}.\n".format(summands_columns,table_name,total_column,total_table_name,rows_problem), True)
                 pass_test= (not rows_problem) and pass_test
         return(pass_test)
 
@@ -954,7 +954,7 @@ class questionnaire:
         """
         if (self.regions_from_sheet==None):
             self.read_regions_from_sheet()
-        regions_from_database=self.get_regions()
+        regions_from_database=self.get_regions()[0]
         if (not regions_from_database):
             return(1)
         else:
@@ -1149,7 +1149,7 @@ class questionnaire:
             if (names_test==1): ## names_test==1 if the names do not exist in the database.
                 self.insert_region_codes()
             elif ( not names_test): ## names_test==False if the names do not match.
-                self.print_log("Error: Region names from the sheet do not match the existing region names in the database.\n Importing aborted.\n")
+                self.print_log("Error: Region names from the sheet do not match the existing region names in the database.\n Importing aborted.\n", True)
                 
         for variables in mapping_table:
             # When we edit we are only interested in certain sheets
