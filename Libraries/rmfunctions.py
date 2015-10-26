@@ -808,7 +808,9 @@ class questionnaire:
                 file.write("1. Missing data:,\n\n")
                 for sheet_name in self.missing_data_dictionary.keys():                    
                     file.write("Sheet: {},\n".format(sheet_name))
-                    for table in self.missing_data_dictionary[sheet_name].keys():
+                    table_list=list(self.missing_data_dictionary[sheet_name].keys())
+                    table_list.sort()
+                    for table in table_list :
                         cursor.execute("SELECT RM_TABLE_NAME FROM RM_Mapping WHERE RM_TABLE=?", (table,) )
                         table_name=cursor.fetchone()[0]
                         file.write(",\"{0}: {1}\",\n".format(table,table_name))
@@ -1160,6 +1162,7 @@ class questionnaire:
                 self.validation_log_file=open(self.validation_full_path ,'a')
                 self.print_log("\nError: Unmatching region names between sheet and database.")
                 database_regions=self.get_regions()
+                print (database_regions)
                 ## number of regions in database:
                 dnr=len(database_regions)
                 ## number of regions in sheet
@@ -1167,7 +1170,7 @@ class questionnaire:
                 nregions=max(dnr,snr)
                 self.print_log("Database region names:       Sheet region names:\n")                
                 for i in range(1,nregions+1):
-                    if (i<dhr):                        
+                    if (i<dnr):                        
                         self.print_log("  {0}".format(database_regions[i]))
                     if(i<snr):
                        nspaces=30-len(database_regions[i])
