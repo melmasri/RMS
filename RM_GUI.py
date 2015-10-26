@@ -53,8 +53,7 @@ class RM():
         self.createWidgets()
         self.setFormating()
         self.messages()
-        self.valid_file = 'empty'
-        self.valid_series = ''
+        self.valid_quest = ''
         
     def createWidgets(self):
         """ Creating all widgets in the GUI."""
@@ -290,16 +289,13 @@ class RM():
             return
         i = i[0]
         if re.search(".xlsx", i):
-            print('Valdating {0}'.format(i))
             x=questionnaire(i,self.database,self.log_folder,RM.username)
             if x.validation():
-                self.valid_file = i
-                self.valid_series = x.database_type
+                self.valid_quest = x
                 print('Validation successful, see report in:')
             else:                
                 print('Pre-processing validation failed. Some errors exist see log file in:')
-                self.valid_file = ''
-                self.valid_series = ''
+                self.valid_quest = ''
             print(x.validation_log_file.name)
             if self.open_log.get():
                 open_file_local(self.main_dir + '/' + x.validation_log_file.name)
@@ -310,9 +306,9 @@ class RM():
         if not file1:
             print('No file is selected.')
             return
-        if self.valid_file != file1[0]:
-            print('Please validate the file first!')
-            return
+        # if self.valid_file != file1[0]:
+        #     print('Please validate the file first!')
+        #     return
         i=file1[0]
         if re.search(".xlsx", i):
             print('Writing data report for \n {0}'.format(i))
@@ -328,21 +324,18 @@ class RM():
         
     def imp_file(self):
         """ Imports an excel questionnaire or sheets to the SQL database"""
-        file1 = self.master.splitlist(self.entry_one.get())
-        if not file1:
-            print('No file is selected.')
+        if self.valid_quest == '':
+            print('Please select a file and validate it.')
             return
-        if self.valid_file != file1[0]:
-            print('Please validate the file first!')
-            return
-        msg = "Are you sure you want to import file: \n\n {0} \n\n to {1} series ?".format(file1[0], self.valid_series)
+        file1  = self.valid_quest.excel_file
+        x = self.valid_quest
+        msg = "Are you sure you want to import file: \n\n {0} \n\n to {1} series ?".format(file1, x.database_type)
         if not self.MsgBox("Import confirmation" , msg):
             print('You must confirm before proceeding!')
             return
-        i=file1[0]
-        if re.search(".xlsx", i):
-            print('Inserting {0}'.format(i))
-            x=questionnaire(i,self.database,self.log_folder,RM.username)
+        if re.search(".xlsx", file1):
+            print('Inserting {0}'.format(file1))
+            # x=questionnaire(i,self.database,self.log_folder,RM.username)
             if(x.database_type == 'REP' and x.edit_mode):
                 if(not  self.rep_import.get()):
                     print("You're trying to import the data in REP series. If sure, please tick the checkbox 'Import to REP'! ")
@@ -354,8 +347,7 @@ class RM():
             x.extract_data()
             x.extract_comments()
             x.extract_table_comments()
-            self.valid_file = ''
-            print(x.data_report_file)
+            self.valid_quest = ''
             print("Data report written to: \n {0}".format(x.data_report_file))
             if self.open_data_report.get():
                 open_file_local(self.main_dir + '/' + x.data_report_file)

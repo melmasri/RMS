@@ -386,6 +386,8 @@ class questionnaire:
             test_value= type(reference_year) == float or type(reference_year) == int
             if (test_value):
                 self.print_log("Reference year: {0}\n".format(int(reference_year)))
+            else:
+                self.print_log("Error: Reference year not filled.\n")
             return(test_value)
 
     def check_country_name(self):
@@ -568,18 +570,18 @@ class questionnaire:
     def print_log(self,text_string,log_type=False):
         """Puts the test in log and stdout.
 
-        if log_type=True (the default), it writes to the validation log
-        if log_type=False (the default), it writes to the error log
+        if log_type=False, it writes to the validation log
+        if log_type=True (the default) , it writes sys.stdout using print
         """
         print(text_string,end='')
         if (not log_type):            
             self.validation_log_file.write(text_string)
             self.validation_log_file.flush()
             os.fsync(self.validation_log_file.fileno())
-        else:
-            self.error_log_file.write(text_string)
-            self.error_log_file.flush()
-            os.fsync(self.error_log_file.fileno())
+        # else:
+            # self.error_log_file.write(text_string)
+            # self.error_log_file.flush()
+            # os.fsync(self.error_log_file.fileno())
 
                 
 
@@ -601,7 +603,8 @@ class questionnaire:
         country_name_test=self.check_country_name()
         number_of_sheets_test=self.check_number_of_sheets()
         edited_configuration_part_test=self.check_edited_configuration_part()
-        values_test=self.check_values() 
+        values_test=self.check_values()
+        print("\n----------Questionnaire Validation finished.----------.\n")
         self.validation_log_file.close()
         return ( nadm1_test and adm1_names_test and reference_year_test and country_name_test and number_of_sheets_test and edited_configuration_part_test and values_test )
 
@@ -610,7 +613,7 @@ class questionnaire:
         cursor=self.conn.cursor()
         edit_sheets_names=self.wb.sheet_names()
         pass_test=True
-        self.print_log("Checking that region values add to the country value...")
+        self.print_log("Checking that region values add to the country value...", True)
         cursor.execute("SELECT Tab,EXL_REF,RM_TABLE,Col FROM RM_MAPPING;") 
         mapping_info=cursor.fetchall()
         for variables in mapping_info:                
@@ -640,13 +643,13 @@ class questionnaire:
                 if (regions_sum != meter_value_country):
                     ## Error para el log
                     if pass_test:
-                            self.print_log("\n")
+                            self.print_log("\n", True)
                     self.add_data_issues(tab,table,'region_totals',col)
-                    self.print_log("The regional figures do not add up to the country total in {0} column {1}\n".format(table,col))
+                    self.print_log("The regional figures do not add up to the country total in {0} column {1}\n".format(table,col), True)
                     pass_test=False
         cursor.close()
         if  pass_test :
-            self.print_log("Test passed.\n")                        
+            self.print_log("Test passed.\n", True)                        
         return(pass_test)
 
     def check_less(self):
@@ -670,7 +673,7 @@ class questionnaire:
         }
         cursor=self.conn.cursor()
         pass_test=True
-        self.print_log("Checking that parts are less than the totals...")
+        self.print_log("Checking that parts are less than the totals...", True)
         for table,pairs_list in check_less_dictionary.items():
             sheet_name=table_sheet_dictionary[table]
             if sheet_name not in self.wb.sheet_names():
@@ -697,15 +700,15 @@ class questionnaire:
                     if  (type(small_value) in [int,float] and type(big_value) in [int,float] and small_value > big_value):
                         rows_with_problem=rows_with_problem+[i+1]
                         if pass_test:
-                            self.print_log("\n")
-                        self.print_log("{}: In row {} the value of column {} is bigger than the value in column {}.\n".format(sheet_name,i+1,pairs[0],pairs[1]))
+                            self.print_log("\n", True)
+                        self.print_log("{}: In row {} the value of column {} is bigger than the value in column {}.\n".format(sheet_name,i+1,pairs[0],pairs[1]), True)
                         pass_test=False
                 if rows_with_problem:
                     self.add_data_issues(sheet_name, table,'check_less',[pairs[0],pairs[1],rows_with_problem ])
                     
         cursor.close()
         if  pass_test :
-            self.print_log("Test passed.\n")                        
+            self.print_log("Test passed.\n", True)                        
         return(pass_test)
 
 
@@ -754,7 +757,7 @@ class questionnaire:
             }
         cursor=self.conn.cursor()
         pass_test=True
-        self.print_log("Checking sums of columns...")
+        self.print_log("Checking sums of columns...", True)
         for table_name,columns_sum_list in check_columns_sums_dictionary.items():
             cursor.execute("SELECT Tab  FROM RM_Mapping WHERE RM_TABLE=\'{}\' LIMIT 1".format(table_name))
             sheet_name=cursor.fetchone()[0]
@@ -795,7 +798,7 @@ class questionnaire:
                 if rows_problem:
                     ## We need to add a second argument to print_log here.
                     self.add_data_issues(sheet_name,table_name,'column_sums',[summands_columns,total_column,rows_problem])
-                    self.print_log("Columns {} in  {} do not add to column {} in {}. Problems in row(s) {}.\n".format(summands_columns,table_name,total_column,total_table_name,rows_problem))
+                    self.print_log("Columns {} in  {} do not add to column {} in {}. Problems in row(s) {}.\n".format(summands_columns,table_name,total_column,total_table_name,rows_problem), True)
                 pass_test= (not rows_problem) and pass_test
         return(pass_test)
 
@@ -811,7 +814,9 @@ class questionnaire:
                 file.write("1. Missing data:,\n\n")
                 for sheet_name in self.missing_data_dictionary.keys():                    
                     file.write("Sheet: {},\n".format(sheet_name))
-                    for table in self.missing_data_dictionary[sheet_name].keys():
+                    table_list=list(self.missing_data_dictionary[sheet_name].keys())
+                    table_list.sort()
+                    for table in table_list :
                         cursor.execute("SELECT RM_TABLE_NAME FROM RM_Mapping WHERE RM_TABLE=?", (table,) )
                         table_name=cursor.fetchone()[0]
                         file.write(",\"{0}: {1}\",\n".format(table,table_name))
@@ -941,10 +946,7 @@ class questionnaire:
         """
         administrative_divisions_variables=pre_vars['fixed_sheets']['Administrative divisions']
         sheet=self.wb.sheet_by_name('Administrative divisions')
-        id_start_coordinates=indexes( administrative_divisions_variables['id_start'][0])    
-        regions_index=list(map(int,sheet.col_values(id_start_coordinates[1],\
-                                                        id_start_coordinates[0],\
-                                                        id_start_coordinates[0]+self.nadm1)))
+        id_start_coordinates=indexes( administrative_divisions_variables['id_start'][0])
         self.regions_from_sheet=sheet.col_values(id_start_coordinates[1]+1,\
                                                  id_start_coordinates[0],\
                                                  id_start_coordinates[0]+self.nadm1)
@@ -973,7 +975,14 @@ class questionnaire:
 
         If the regions exist already in the database they are rewriten.
         """
-        cursor=self.conn.cursor()        
+        cursor=self.conn.cursor()
+        administrative_divisions_variables=pre_vars['fixed_sheets']['Administrative divisions']
+        sheet=self.wb.sheet_by_name('Administrative divisions')
+        id_start_coordinates=indexes( administrative_divisions_variables['id_start'][0])    
+        regions_index=list(map(int,sheet.col_values(id_start_coordinates[1],\
+                                                        id_start_coordinates[0],\
+                                                        id_start_coordinates[0]+self.nadm1)))
+
         sql_values=tuple(map(lambda x,y,z: (x,y,z), [self.country_code] * self.nadm1 , regions_index, self.regions_from_sheet  ))
         cursor.executemany("INSERT OR REPLACE INTO REGIONS VALUES(?,?,?);",sql_values)
         self.conn.commit()
@@ -987,10 +996,14 @@ class questionnaire:
         """
         cursor=self.conn.cursor()
         cursor.execute("SELECT ADM_NAME FROM REGIONS WHERE CO_CODE=? AND ADM_CODE!=0 ORDER BY ADM_CODE ASC;",(self.country_code,) )
+<<<<<<< HEAD
         sql_return=cursor.fetchall()[0]        
+=======
+        sql_return=cursor.fetchall()
+>>>>>>> 16da2bc74fe2b21ead308f7a57336f1cd10fb7f5
         cursor.close()
         if sql_return:
-            return(sql_return)
+            return(sql_return[0])
         else:
             return(False)
  
@@ -1152,10 +1165,38 @@ class questionnaire:
                     self.conn.commit()
         else:
             names_test=self.compare_region_names()
-            if (names_test==1): ## names_test==1 if the names do not exist in the database.
+            ## names_test==False if the names do not match.
+            if ( names_test==1 or self.force_import ):
                 self.insert_region_codes()
+<<<<<<< HEAD
             elif ( not names_test): ## names_test==False if the names do not match.
                 self.print_log("\nError: Unmatching region names from sheet and database.\nImporting aborted.\n")
+=======
+            else:
+                self.validation_log_file=open(self.validation_full_path ,'a')
+                self.print_log("\nError: Unmatching region names between sheet and database.")
+                database_regions=self.get_regions()
+                print (database_regions)
+                ## number of regions in database:
+                dnr=len(database_regions)
+                ## number of regions in sheet
+                snr=len(self.regions_from_sheet)
+                nregions=max(dnr,snr)
+                self.print_log("Database region names:       Sheet region names:\n")                
+                for i in range(1,nregions+1):
+                    if (i<dnr):                        
+                        self.print_log("  {0}".format(database_regions[i]))
+                    if(i<snr):
+                       nspaces=30-len(database_regions[i])
+                       self.print_log(" "*nspaces + "{}".format( regions_from_sheet [i]))
+                if(self.force_import):
+                    self.print_log("\nImporting forced.")
+                    self.insert_region_codes()
+                else:
+                    self.print_log("\nImporting aborted.")
+                self.validation_log_file.close()
+                
+>>>>>>> 16da2bc74fe2b21ead308f7a57336f1cd10fb7f5
                 
         for variables in mapping_table:
             # When we edit we are only interested in certain sheets
@@ -1228,7 +1269,7 @@ class questionnaire:
         backup_imported_questionnaire()
         cursor.close()
         
-    def __init__(self,excel_file,database_file="../Database/Prod.db",log_folder="/tmp/log",username="user"):
+    def __init__(self,excel_file,database_file="../Database/Prod.db",log_folder="/tmp/log",username="user",force_import=False):
         """Set up variables for questionnaire and database reading"""
         self.excel_file=excel_file
         self.set_workbook(excel_file)
@@ -1243,7 +1284,9 @@ class questionnaire:
         self.log_folder=log_folder
         if (not os.path.exists(log_folder)):
             os.makedirs(log_folder)
-        self.validation_log_file=open( log_folder + "/{}".format(self.country_name) + "_"+datetime.datetime.now().strftime("%y-%m-%d-%H-%M")+"_validation.txt",'a')
+        self.validation_full_path=log_folder + "/{}".format(self.country_name) + "_"+datetime.datetime.now().strftime("%y-%m-%d-%H-%M")+"_validation.txt"
+        self.validation_log_file=open(self.validation_full_path,'a')
+        self.force_import=force_import
         self.missing_data_dictionary={}
         self.data_issues_dictionary={}
         self.regions_from_sheet=None
