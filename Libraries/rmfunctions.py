@@ -386,6 +386,8 @@ class questionnaire:
             test_value= type(reference_year) == float or type(reference_year) == int
             if (test_value):
                 self.print_log("Reference year: {0}\n".format(int(reference_year)))
+            else:
+                self.print_log("Error: Reference year not filled.\n")
             return(test_value)
 
     def check_country_name(self):
@@ -595,7 +597,8 @@ class questionnaire:
         country_name_test=self.check_country_name()
         number_of_sheets_test=self.check_number_of_sheets()
         edited_configuration_part_test=self.check_edited_configuration_part()
-        values_test=self.check_values() 
+        values_test=self.check_values()
+        print("\n----------Questionnaire Validation finished.----------.\n")
         self.validation_log_file.close()
         return ( nadm1_test and adm1_names_test and reference_year_test and country_name_test and number_of_sheets_test and edited_configuration_part_test and values_test )
 
@@ -935,10 +938,7 @@ class questionnaire:
         """
         administrative_divisions_variables=pre_vars['fixed_sheets']['Administrative divisions']
         sheet=self.wb.sheet_by_name('Administrative divisions')
-        id_start_coordinates=indexes( administrative_divisions_variables['id_start'][0])    
-        regions_index=list(map(int,sheet.col_values(id_start_coordinates[1],\
-                                                        id_start_coordinates[0],\
-                                                        id_start_coordinates[0]+self.nadm1)))
+        id_start_coordinates=indexes( administrative_divisions_variables['id_start'][0])
         self.regions_from_sheet=sheet.col_values(id_start_coordinates[1]+1,\
                                                  id_start_coordinates[0],\
                                                  id_start_coordinates[0]+self.nadm1)
@@ -954,7 +954,7 @@ class questionnaire:
         """
         if (self.regions_from_sheet==None):
             self.read_regions_from_sheet()
-        regions_from_database=self.get_regions()[0]
+        regions_from_database=self.get_regions()
         if (not regions_from_database):
             return(1)
         else:
@@ -967,7 +967,14 @@ class questionnaire:
 
         If the regions exist already in the database they are rewriten.
         """
-        cursor=self.conn.cursor()        
+        cursor=self.conn.cursor()
+        administrative_divisions_variables=pre_vars['fixed_sheets']['Administrative divisions']
+        sheet=self.wb.sheet_by_name('Administrative divisions')
+        id_start_coordinates=indexes( administrative_divisions_variables['id_start'][0])    
+        regions_index=list(map(int,sheet.col_values(id_start_coordinates[1],\
+                                                        id_start_coordinates[0],\
+                                                        id_start_coordinates[0]+self.nadm1)))
+
         sql_values=tuple(map(lambda x,y,z: (x,y,z), [self.country_code] * self.nadm1 , regions_index, self.regions_from_sheet  ))
         cursor.executemany("INSERT OR REPLACE INTO REGIONS VALUES(?,?,?);",sql_values)
         self.conn.commit()
@@ -981,10 +988,10 @@ class questionnaire:
         """
         cursor=self.conn.cursor()
         cursor.execute("SELECT ADM_NAME FROM REGIONS WHERE CO_CODE=? AND ADM_CODE!=0 ORDER BY ADM_CODE ASC;",(self.country_code,) )
-        sql_return=cursor.fetchall()        
+        sql_return=cursor.fetchall()
         cursor.close()
         if sql_return:
-            return(sql_return)
+            return(sql_return[0])
         else:
             return(False)
  
@@ -1146,10 +1153,32 @@ class questionnaire:
                     self.conn.commit()
         else:
             names_test=self.compare_region_names()
-            if (names_test==1): ## names_test==1 if the names do not exist in the database.
+            ## names_test==False if the names do not match.
+            if ( names_test==1 or self.force_import ):
                 self.insert_region_codes()
-            elif ( not names_test): ## names_test==False if the names do not match.
-                self.print_log("Error: Region names from the sheet do not match the existing region names in the database.\n Importing aborted.\n", True)
+            else:
+                self.validation_log_file=open(self.validation_full_path ,'a')
+                self.print_log("\nError: Unmatching region names between sheet and database.")
+                database_regions=self.get_regions()
+                ## number of regions in database:
+                dnr=len(database_regions)
+                ## number of regions in sheet
+                snr=len(self.regions_from_sheet)
+                nregions=max(dnr,snr)
+                self.print_log("Database region names:       Sheet region names:\n")                
+                for i in range(1,nregions+1):
+                    if (i<dhr):                        
+                        self.print_log("  {0}".format(database_regions[i]))
+                    if(i<snr):
+                       nspaces=30-len(database_regions[i])
+                       self.print_log(" "*nspaces + "{}".format( regions_from_sheet [i]))
+                if(self.force_import):
+                    self.print_log("\nImporting forced.")
+                    self.insert_region_codes()
+                else:
+                    self.print_log("\nImporting aborted.")
+                self.validation_log_file.close()
+                
                 
         for variables in mapping_table:
             # When we edit we are only interested in certain sheets
@@ -1222,7 +1251,7 @@ class questionnaire:
         backup_imported_questionnaire()
         cursor.close()
         
-    def __init__(self,excel_file,database_file="../Database/Prod.db",log_folder="/tmp/log",username="user"):
+    def __init__(self,excel_file,database_file="../Database/Prod.db",log_folder="/tmp/log",username="user",force_import=False):
         """Set up variables for questionnaire and database reading"""
         self.excel_file=excel_file
         self.set_workbook(excel_file)
@@ -1237,7 +1266,9 @@ class questionnaire:
         self.log_folder=log_folder
         if (not os.path.exists(log_folder)):
             os.makedirs(log_folder)
-        self.validation_log_file=open( log_folder + "/{}".format(self.country_name) + "_"+datetime.datetime.now().strftime("%y-%m-%d-%H-%M")+"_validation.txt",'a')
+        self.validation_full_path=log_folder + "/{}".format(self.country_name) + "_"+datetime.datetime.now().strftime("%y-%m-%d-%H-%M")+"_validation.txt"
+        self.validation_log_file=open(self.validation_full_path,'a')
+        self.force_import=force_import
         self.missing_data_dictionary={}
         self.data_issues_dictionary={}
         self.regions_from_sheet=None
