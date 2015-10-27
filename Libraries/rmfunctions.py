@@ -513,12 +513,6 @@ class questionnaire:
 
         
     def check_values(self):
-        """Check data types.
-
-        It checks the data types of all the entries in the
-        questionnaire. It also creates the dictionaries for mussing
-        data and data_issues.
-        """
         edit_sheets_names=self.wb.sheet_names()
         cursor=self.conn.cursor()
         query="SELECT Tab,EXL_REF,RM_TABLE,Col FROM RM_MAPPING WHERE Tab in (" + ','.join('?'*len(edit_sheets_names)) + ") AND AC!='ADM_NAME';"
@@ -966,7 +960,7 @@ class questionnaire:
         if (not regions_from_database):
             return(1)
         else:
-            regions_from_database=list(map( str.upper , regions_from_database ))
+            regions_from_database=list(map(str.upper,regions_from_database ))
             regions_from_sheet=list(map(str.upper, self.regions_from_sheet ))
             return ( regions_from_database == regions_from_sheet )
                             
@@ -995,15 +989,12 @@ class questionnaire:
         found in the database, this function returns False.
         """
         cursor=self.conn.cursor()
-        cursor.execute("SELECT ADM_NAME FROM REGIONS WHERE CO_CODE=? AND ADM_CODE!=0 ORDER BY ADM_CODE ASC;",(self.country_code,) )
-<<<<<<< HEAD
-        sql_return=cursor.fetchall()[0]        
-=======
+        cursor.execute("SELECT ADM_NAME FROM REGIONS WHERE CO_CODE=? AND ADM_CODE>0 ORDER BY ADM_CODE ASC;",(self.country_code,) )
         sql_return=cursor.fetchall()
->>>>>>> 16da2bc74fe2b21ead308f7a57336f1cd10fb7f5
         cursor.close()
         if sql_return:
-            return(sql_return[0])
+            sql_return=reduce(lambda x,y: x+y,sql_return)
+            return(sql_return)
         else:
             return(False)
  
@@ -1168,10 +1159,6 @@ class questionnaire:
             ## names_test==False if the names do not match.
             if ( names_test==1 or self.force_import ):
                 self.insert_region_codes()
-<<<<<<< HEAD
-            elif ( not names_test): ## names_test==False if the names do not match.
-                self.print_log("\nError: Unmatching region names from sheet and database.\nImporting aborted.\n")
-=======
             else:
                 self.validation_log_file=open(self.validation_full_path ,'a')
                 self.print_log("\nError: Unmatching region names between sheet and database.")
@@ -1183,12 +1170,13 @@ class questionnaire:
                 snr=len(self.regions_from_sheet)
                 nregions=max(dnr,snr)
                 self.print_log("Database region names:       Sheet region names:\n")                
-                for i in range(1,nregions+1):
+                for i in range(0,nregions):
                     if (i<dnr):                        
-                        self.print_log("  {0}".format(database_regions[i]))
-                    if(i<snr):
+                        self.print_log("  {}".format(database_regions[i]))
+                    if (i<snr):
                        nspaces=30-len(database_regions[i])
-                       self.print_log(" "*nspaces + "{}".format( regions_from_sheet [i]))
+                       self.print_log(" "*nspaces + "{}".format( self.regions_from_sheet[i]))
+                    self.print_log("\n")
                 if(self.force_import):
                     self.print_log("\nImporting forced.")
                     self.insert_region_codes()
@@ -1196,7 +1184,6 @@ class questionnaire:
                     self.print_log("\nImporting aborted.")
                 self.validation_log_file.close()
                 
->>>>>>> 16da2bc74fe2b21ead308f7a57336f1cd10fb7f5
                 
         for variables in mapping_table:
             # When we edit we are only interested in certain sheets
