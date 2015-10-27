@@ -86,18 +86,17 @@ def getTable_comment(var, co_code, year, view_type,serie):
                 "RM_TABLE = 'someTableName' 
         Return value is a dictionary of Excel references as keys and data as values.
     """
-    sql_str =("select a.RM_TABLE, b.COM_DATA, a.EXL_REF "
+    sql_str =("select a.RM_TABLE || ': ' || a.RM_TABLE_NAME, b.COM_DATA, a.EXL_REF "
               "from RM_Mapping_NonNumeric as a "
               "left join EDU_COMMENT_TABLE_{3} as b on b.WT_NAME = a.RM_TABLE "
-              "where a.{0} and b.CO_CODE = {1} "
-              "and  b.EMCO_YEAR = {2};".format(var, co_code, year,serie)) 
+              "and b.CO_CODE = {1} and  b.EMCO_YEAR = {2} "
+              "where a.{0} ;".format(var, co_code, year,serie)) 
     data = sql_query(sql_str)
     if(data):
         data= data[0]
         ind = indexes(data[2])
         ind[1] = 3 if view_type == 'ReadOnly' else ind[1]
-        data = {indexes_inverse([ind[0]-1, ind[1]]): 'Table comments:',
-                indexes_inverse(ind): data[1]}
+        data = {indexes_inverse(ind): data[1], indexes_inverse([ind[0]-3, ind[1]]): data[0], indexes_inverse([ind[0]-1, ind[1]]): 'Table comments:'}
         return(data)
 
 

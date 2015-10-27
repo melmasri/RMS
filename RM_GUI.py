@@ -334,6 +334,8 @@ class RM():
             print('You must confirm before proceeding!')
             return
         if re.search(".xlsx", file1):
+            print("----------"+"Date: "+datetime.datetime.now().strftime("%B %d, %Y")+"----------\n")
+            print("INSERTION STEP\n\n")
             print('Inserting {0}'.format(file1))
             # x=questionnaire(i,self.database,self.log_folder,RM.username)
             if(x.database_type == 'REP' and x.edit_mode):
@@ -347,6 +349,7 @@ class RM():
             x.extract_data()
             x.extract_comments()
             x.extract_table_comments()
+            print("\n----------Questionnaire Insertion finished.----------.\n")
             self.valid_quest = ''
             print("Data report written to: \n {0}".format(x.data_report_file))
             if self.open_data_report.get():

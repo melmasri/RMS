@@ -1,4 +1,5 @@
 Tab,RM_TABLE,RM_TABLE_NAME,AC,EXL_REF
+Administrative divisions,Table i,List of first administrative level divisions,Table_COMM,G15
 Pupils,Table 0.1," Pupils by ADM1,  by level of education, primary and secondary general programmes, by type of institution",Table_COMM,H11
 Teachers ISCED 1,Table 1.1,"Number of teachers by ADM1, type of institution and professional status. ISCED 1",Table_COMM,H11
 Teachers ISCED 1,Table 1.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 1",Table_COMM,AI11
