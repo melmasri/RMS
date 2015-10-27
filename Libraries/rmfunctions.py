@@ -422,7 +422,7 @@ class questionnaire:
             
     def check_edited_configuration_part(self):
         """This functions checks that the table in the top left corner of
-        the sheet exists in an edite questionnaire.
+        the sheet exists in an edited questionnaire.
         """
         if (self.edit_mode):
             sheet=self.wb.sheets()[0]
@@ -440,6 +440,7 @@ class questionnaire:
             return(test_value)
         else:
             return(True)
+
 
     def check_one_value(self,value):
         """Checks that value (the argument) is proper.
@@ -806,7 +807,9 @@ class questionnaire:
         else:
             if self.missing_data_dictionary:
                 file.write("1. Missing data:,\n\n")
-                for sheet_name in self.missing_data_dictionary.keys():                    
+                sheet_names_list=list(self.missing_data_dictionary.keys())
+                sheet_names_list.sort()
+                for sheet_name in sheet_names_list:                    
                     file.write("Sheet: {},\n".format(sheet_name))
                     table_list=list(self.missing_data_dictionary[sheet_name].keys())
                     table_list.sort()
@@ -1160,28 +1163,36 @@ class questionnaire:
             if ( names_test==1 or self.force_import ):
                 self.insert_region_codes()
             else:
+                file=open(self.data_report_file,'a')
                 self.validation_log_file=open(self.validation_full_path ,'a')
-                self.print_log("\nError: Unmatching region names between sheet and database.")
+                print("\nError: Unmatching region names between sheet and database.",end='')
+                file.write("General errors,\n")
+                file.write("\nError: Unmatching region names between sheet and database.,")
                 database_regions=self.get_regions()
-                print (database_regions)
                 ## number of regions in database:
                 dnr=len(database_regions)
                 ## number of regions in sheet
                 snr=len(self.regions_from_sheet)
                 nregions=max(dnr,snr)
-                self.print_log("Database region names:       Sheet region names:\n")                
+                print("\nDatabase region names:       Sheet region names:\n",end='')
+                file.write("\nDatabase region names:,       Sheet region names:\n")
                 for i in range(0,nregions):
                     if (i<dnr):                        
-                        self.print_log("  {}".format(database_regions[i]))
+                        print("  {}".format(database_regions[i]),end='')
+                        file.write("{}".format(database_regions[i]))
+                    file.write(",")
                     if (i<snr):
                        nspaces=30-len(database_regions[i])
-                       self.print_log(" "*nspaces + "{}".format( self.regions_from_sheet[i]))
-                    self.print_log("\n")
+                       print(" "*nspaces + "{}".format( self.regions_from_sheet[i]),end='')
+                       file.write( "{}".format( self.regions_from_sheet[i]))
+                    print("\n",end='')
+                    file.write("\n")
+                file.close()
                 if(self.force_import):
-                    self.print_log("\nImporting forced.")
+                    print("\nImporting forced.",end='')
                     self.insert_region_codes()
                 else:
-                    self.print_log("\nImporting aborted.")
+                    print("\nImporting aborted.",end='')
                 self.validation_log_file.close()
                 
                 
