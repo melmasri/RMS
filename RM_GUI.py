@@ -111,12 +111,11 @@ class RM():
         self.OpenDRCB =  ttk.Checkbutton(self.lf_impOptions, text="Open data report", variable= self.open_data_report)
         self.OpenDRCB.grid(row=3, column = 3, sticky = 'W', columnspan=3)
 
-        ## Force insert
-        self.force_insert =  tk.IntVar()
-        self.ForceCB =  ttk.Checkbutton(self.lf_impOptions, text="Force insert", variable= self.force_insert)
-        self.ForceCB.grid(row=4, column = 3, sticky = 'W', columnspan=3)
-     
-        
+        # ## Force insert
+        # self.force_insert =  tk.IntVar()
+        # self.ForceCB =  ttk.Checkbutton(self.lf_impOptions, text="Force insert", variable= self.force_insert)
+        # self.ForceCB.grid(row=4, column = 3, sticky = 'W', columnspan=3)
+             
         ttk.Label(self.lf_impOptions, text='file ').grid(row=0, column=0, sticky='W')
 
         # ####### Export frame
