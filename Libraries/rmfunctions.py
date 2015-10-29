@@ -284,7 +284,15 @@ class questionnaire:
         else:
             administrative_divisions_variables = pre_vars['fixed_sheets']['Administrative divisions']
             sheet = self.wb.sheet_by_name('Administrative divisions')
-            self.nadm1 = int(sheet.cell( *indexes( administrative_divisions_variables['adm1_number'][0]  )   ).value)
+            try:
+                self.nadm1 = sheet.cell( *indexes( administrative_divisions_variables['adm1_number'][0]  )   ).value
+            except(IndexError):
+                self.nadm1 = False
+                
+            if (type(self.nadm1) in [int,float] and self.nadm1>0 ):
+                self.nadm1=int(self.nadm1)
+            else:
+                self.nadm1=False
 
     def get_country_name(self):
         """Sets the country name based on the front page of the questionnaire."""
@@ -343,19 +351,42 @@ class questionnaire:
         else:
             administrative_divisions_variables = pre_vars['fixed_sheets']['Administrative divisions']
             sheet = self.wb.sheet_by_name('Administrative divisions')
-            nadm1 = sheet.cell( *indexes( administrative_divisions_variables['adm1_number'][0]  )   ).value
+            try:
+                nadm1 = sheet.cell( *indexes( administrative_divisions_variables['adm1_number'][0]  )   ).value
+            except(IndexError):
+                nadm1 = False
         if( (type(nadm1) == int or type(nadm1) == float) and int(nadm1)==nadm1 and nadm1 > 0 ):
             self.print_log("Number of administrative divisions: {0}\n".format(nadm1))
             return(True)
         else:
             self.print_log("Error: Wrong value for number of administrative divisions.\n")
             return(False)
+
+    def check_adm1_label(self):
+        """Checks that the name of administrative divisions is given. """
+        if self.edit_mode:
+            sheet=self.wb.sheets()[0]
+            nadm1= sheet.cell(4,1).value
+            #print("nadm1: {0}\n".format(nadm1))
+        else:
+            administrative_divisions_variables = pre_vars['fixed_sheets']['Administrative divisions']
+            sheet = self.wb.sheet_by_name('Administrative divisions')            
+            adm1_label = sheet.cell( *indexes( administrative_divisions_variables['adm1'][0]  )   ).value
+        if( (type(adm1_label) == str) and adm1_label ):
+            self.print_log("ADM1 name provided: {0}\n".format(adm1_label))
+            return(True)
+        else:
+            self.print_log("Error: ADM1 name not provided.\n")
+            return(False)
+
         
     def check_adm1_names(self):
         """Checks that the region names are filled.
         """
         if (self.edit_mode):
             return(True)
+        elif (not self.nadm1):
+            return(False)
         else:
             administrative_divisions_variables = pre_vars['fixed_sheets']['Administrative divisions']
             sheet=self.wb.sheet_by_name('Administrative divisions')
@@ -593,6 +624,7 @@ class questionnaire:
             self.print_log(self.excel_file+"\n\n")
 
         nadm1_test=self.check_nadm1()
+        adm1_label_test=self.check_adm1_label()
         adm1_names_test=self.check_adm1_names()
         reference_year_test=self.check_reference_year()
         country_name_test=self.check_country_name()
@@ -601,7 +633,7 @@ class questionnaire:
         values_test=self.check_values()
         print("\n----------Questionnaire Validation finished.----------.\n")
         self.validation_log_file.close()
-        return ( nadm1_test and adm1_names_test and reference_year_test and country_name_test and number_of_sheets_test and edited_configuration_part_test and values_test )
+        return ( nadm1_test and adm1_label_test and adm1_names_test and reference_year_test and country_name_test and number_of_sheets_test and edited_configuration_part_test and values_test )
 
     def check_region_totals(self):
         """Check that the regional numbers match the total."""                
