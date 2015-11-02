@@ -461,21 +461,25 @@ class questionnaire:
             
     def check_edited_configuration_part(self):
         """This functions checks that the table in the top left corner of
-        the sheet exists in an edited questionnaire.
+        the sheet exists in an edited questionnaire and it is in Edit mode.
         """
         if (self.edit_mode):
             sheet=self.wb.sheets()[0]
-            configuration_names=sheet.col_values(0,0,6) # names in the configuration (country, co_code, year,etc.). i.e. first column
-            configuration_values=sheet.col_values(1,0,6) # values of the configuration, i.e. second column
+            configuration_names=sheet.col_values(0,0,7) # names in the configuration (country, co_code, year,etc.). i.e. first column
+            configuration_values=sheet.col_values(1,0,7) # values of the configuration, i.e. second column
             # test1 is to check if the names coincide with the exported ones
-            test1= configuration_names == ['Country', 'CO_CODE', 'Year', 'Data', 'No.ADM', 'Series']
-            # test2 os to check that the values are not empty (May be it could be improved). 
+            test1= configuration_names == ['Country', 'CO_CODE', 'Year', 'Data', 'No.ADM', 'Series','Mode']
+            # test2 is to check that the values are not empty (May be it could be improved). 
             test2=reduce( lambda x,y: x and y, configuration_values)
-            test_value=test1 and test2
-            if (test_value):
-                self.print_log("Configuration section of edited questionnaire is properly filled\n")
+            # test3 is to check that it is Edit mode and not Read only
+            test3= configuration_values[6] == "Edit"
+            test_value=test1 and test2 and test3            
+            if ( not ( test1 and test2 )   ):
+                self.print_log("Error: Configuration section has wrong values.\n")
+            elif( not test3  ):
+                self.print_log("Error: Edited questionnaire is in read-only mode.\n")
             else:
-                self.print_log("Error: Configuration section has wrong values.")
+                self.print_log("Configuration section of edited questionnaire is properly filled\n")                
             return(test_value)
         else:
             return(True)
