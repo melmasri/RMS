@@ -110,8 +110,12 @@ def moveSerie(co_code, year, from_serie, to_serie):
     ## Current year
     print('Moving data for {0}-{1}'.format(co_code, year))
     ### Deleting existing data
-    sql_query("DELETE FROM EDU_FTN97_{0} where CO_CODE ={1} and EMCO_YEAR = {2} and EMC_ID in (select EMC_ID from RM_Mapping)".format(to_serie, co_code,year))
-    sql_query("DELETE FROM EDU_INCLUSION_{0} where CO_CODE ={1} and EMCO_YEAR = {2} and EMC_ID in (select EMC_ID from RM_Mapping)".format(to_serie, co_code,year))
+    sql_query(("DELETE FROM EDU_FTN97_{0} where CO_CODE ={1} and "
+               "((EMCO_YEAR ={2} and EMC_ID in (select EMC_ID from RM_Mapping where CUR_YEAR=0)) OR "
+               "(EMCO_YEAR ={3} and EMC_ID in (select EMC_ID from RM_Mapping where CUR_YEAR=0)))".format(to_serie, co_code,year, year -1)))
+    sql_query(("DELETE FROM EDU_INCLUSION_{0} where CO_CODE ={1} and  "
+               "((EMCO_YEAR={2} and EMC_ID in (select EMC_ID from RM_Mapping where CUR_YEAR = 0)) OR "
+               "(EMCO_YEAR={3} and EMC_ID in (select EMC_ID from RM_Mapping where CUR_YEAR = -1 )))".format(to_serie, co_code,year, year -1)))
     for ind in [0,-1]:
         meter = ("INSERT OR REPLACE INTO EDU_METER97_{3} "
                  "SELECT a.* FROM RM_Mapping as b "
