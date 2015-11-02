@@ -11,7 +11,7 @@ import shutil
 import datetime
 from itertools import chain
 import time
-
+from time import sleep
 #Global variables
 # conn = sqlite3.connect('../../Database/Prod.db')
 # #Uncomment the line below for creating virtual database
@@ -223,7 +223,7 @@ def mg_id(cell_value):
         return("")
     elif is_reference(cell_value):
         return(3)
-    elif cell_value in ["Z","z"]:
+    elif cell_value in ["Z","z","A","a"]:
         return(6)
     elif cell_value in ["M","m"]:
         return("D")
@@ -367,11 +367,11 @@ class questionnaire:
         if self.edit_mode:
             sheet=self.wb.sheets()[0]
             nadm1= sheet.cell(4,1).value
-            #print("nadm1: {0}\n".format(nadm1))
+            return(True)
         else:
             administrative_divisions_variables = pre_vars['fixed_sheets']['Administrative divisions']
             sheet = self.wb.sheet_by_name('Administrative divisions')            
-            adm1_label = sheet.cell( *indexes( administrative_divisions_variables['adm1'][0]  )   ).value
+            adm1_label = sheet.cell( *indexes( administrative_divisions_variables['adm1'][0]  )   ).value            
         if( (type(adm1_label) == str) and adm1_label ):
             self.print_log("ADM1 name provided: {0}\n".format(adm1_label))
             return(True)
@@ -1088,22 +1088,6 @@ class questionnaire:
         inclu_data=()
         # For the sql file we use a set in order to avoid repetitions
         referenced_sql_code=set()
-        ## The following local function writes the csv files
-        def export_to_csv_files():
-            meters_file=open("imported_data/"+str(self.country_code)+"_meters_data.csv",'w')
-            inclu_file=open("imported_data/"+str(self.country_code)+"_inclu_data.csv",'w')
-            sql_file=open("imported_data/"+str(self.country_code)+"_references.sql",'w')            
-            inclu_file.write("CO_CODE,EMCO_YEAR,ADM_CODE,EMC_ID,DESC_INCLU,EC_TD_ID\n")
-            meters_file.write("EMC_ID,CO_CODE, ADM_CODE, EMCO_YEAR,EAG_AGE,ST_ID,ABE_ID,MQ_ID,MG_ID,EM_FIG,EC_TD_ID,NOTEYESNO\n")
-            for var in meters_data:
-                meters_file.write("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}\n".format(*var))
-            for var in inclu_data:
-                inclu_file.write("{0},{1},{2},{3},{4},{5}\n".format(*var))
-            for var in referenced_sql_code:
-                sql_file.write(var)    
-            meters_file.close()
-            inclu_file.close()
-            sql_file.close()
 
         def export_to_sqlite():
             # LOG DATABASE
@@ -1141,28 +1125,37 @@ class questionnaire:
                                "(a.EM_FIG_OLD !=b.EM_FIG OR a.MQ_ID_OLD != b.MQ_ID OR a.MG_ID_OLD != b.MG_ID)"))
                 cursor.execute("DELETE FROM METER_AUDIT_TEMP")
                 self.conn.commit()
-            #               for Table in self.wb.sheet_names():
-                    # query="INSERT INTO METER_AUDIT_TEMP (MC_ID, CO_CODE, ADM_CODE, MC_YEAR,EM_FIG_OLD, USER_NAME, SERIES, SURVEY_ID) SELECT c.EMC_ID,c.CO_CODE, c.ADM_CODE, c.EMCO_YEAR,c.DESC_INCLU, '{4}', '{5}', 'RM' from RM_MAPPING as a LEFT JOIN EDU_METER_AID AS b ON b.AC = a.AC JOIN EDU_INCLUSION_{5} as c  ON b.EMC_ID = c.EMC_ID WHERE a.Tab='{0}' AND  c.CO_CODE = {1} AND (( c.EMCO_YEAR={2} AND a.CUR_YEAR=0) OR (c.EMCO_YEAR={3} AND a.CUR_YEAR=-1))".format(Table,self.country_code, self.emco_year,self.emco_year-1,self.username, self.database_type )
-                    # cursor.execute(query)
-                    # self.conn.commit() 
+                query_script=""
+                for Table in self.wb.sheet_names():
+                    query_script=query_script+"""INSERT INTO METER_AUDIT_TEMP (MC_ID, CO_CODE, ADM_CODE, MC_YEAR,EM_FIG_OLD, USER_NAME, SERIES, SURVEY_ID) SELECT EDU_INCLUSION_{5}.EMC_ID,EDU_INCLUSION_{5}.CO_CODE, EDU_INCLUSION_{5}.ADM_CODE, EDU_INCLUSION_{5}.EMCO_YEAR,EDU_INCLUSION_{5}.DESC_INCLU, '{4}', '{5}', 'RM' from RM_MAPPING LEFT JOIN EDU_METER_AID ON EDU_METER_AID.AC = RM_MAPPING.AC JOIN EDU_INCLUSION_{5}  ON EDU_METER_AID.EMC_ID = EDU_INCLUSION_{5}.EMC_ID WHERE RM_MAPPING.Tab='{0}' AND  EDU_INCLUSION_{5}.CO_CODE = {1} AND (( EDU_INCLUSION_{5}.EMCO_YEAR={2} AND RM_MAPPING.CUR_YEAR=0) OR (EDU_INCLUSION_{5}.EMCO_YEAR={3} AND RM_MAPPING.CUR_YEAR=-1));\n\n""".format(Table,self.country_code, self.emco_year,self.emco_year-1,self.username, self.database_type )                    
+                cursor.executescript(query_script)
+                
+            edit_sheets_names=self.wb.sheet_names()
+            ## Before exporting the entries in the inclusion table of
+            ## the sheets being imported are erased.
+            inclu_table_name="EDU_INCLUSION_"+self.database_type
+            for sheet in self.wb.sheets():
+                cursor.execute("SELECT  {0}.CO_CODE,{0}.EMCO_YEAR,{0}.EMC_ID,RM_Mapping.Tab FROM {0} LEFT JOIN RM_MAPPING ON {0}.EMC_ID=RM_MAPPING.EMC_ID WHERE RM_Mapping.Tab=\"{3}\" AND ( ( {0}.EMCO_YEAR={1} AND RM_MAPPING.CUR_YEAR=0 ) OR ( {0}.EMCO_YEAR={2} AND RM_MAPPING.CUR_YEAR=-1) )".format(inclu_table_name,self.emco_year,self.emco_year-1,sheet.name) )
+                things_to_erase=cursor.fetchall()
+                for values_to_erase in things_to_erase:
+                    cursor.execute("DELETE FROM EDU_INCLUSION_"+self.database_type+" WHERE CO_CODE={0} AND EMCO_YEAR={1} AND EMC_ID={2}".format(values_to_erase[0],values_to_erase[1],values_to_erase[2]))
+                    self.conn.commit()
 
-            
             cursor.executemany("INSERT OR REPLACE INTO EDU_INCLUSION_"+self.database_type+" VALUES(?,?,?,?,?,?);",inclu_data)
             self.conn.commit()
             
-            # if self.edit_mode:
-            #     cursor.execute(("INSERT INTO METER_AUDIT_TRAIL " 
-            #                     "(MC_ID, CO_CODE, ADM_CODE, MC_YEAR, EM_FIG_OLD, "
-            #                     "USER_NAME, SERIES, SURVEY_ID, EM_FIG_NEW) " 
-            #                     "SELECT a.MC_ID, a.CO_CODE, a.ADM_CODE, a.MC_YEAR," 
-            #                     "a.EM_FIG_OLD, a.USER_NAME, a.SERIES, a.SURVEY_ID," 
-            #                     "b.DESC_INCLU from  METER_AUDIT_TEMP as a "
-            #                     "join EDU_INCLUSION_{0} as b on a.MC_ID = b.EMC_ID "
-            #                     "and a.CO_CODE = b.CO_CODE and a.ADM_CODE = b.ADM_CODE "
-            #                     "and a.MC_YEAR = b.EMCO_YEAR AND "
-            #                     "(a.EM_FIG_OLD !=b.DESC_INCLU)".format(self.database_type)))
-            #     cursor.execute("DELETE FROM METER_AUDIT_TEMP")
-            #     self.conn.commit()
+            if self.edit_mode:
+                cursor.execute(("INSERT INTO METER_AUDIT_TRAIL " 
+                                "(MC_ID, CO_CODE, ADM_CODE, MC_YEAR, EM_FIG_OLD, "
+                                "USER_NAME, SERIES, SURVEY_ID, EM_FIG_NEW) " 
+                                "SELECT a.MC_ID, a.CO_CODE, a.ADM_CODE, a.MC_YEAR," 
+                                "a.EM_FIG_OLD, a.USER_NAME, a.SERIES, a.SURVEY_ID," 
+                                "b.DESC_INCLU from  METER_AUDIT_TEMP as a "
+                                "join EDU_INCLUSION_{0} as b on a.MC_ID = b.EMC_ID "
+                                "and a.CO_CODE = b.CO_CODE and a.ADM_CODE = b.ADM_CODE "
+                                "and a.MC_YEAR = b.EMCO_YEAR AND "
+                                "(a.EM_FIG_OLD !=b.DESC_INCLU)".format(self.database_type)))
+                self.conn.commit()
                     
             cursor.close()
 
@@ -1178,21 +1171,12 @@ class questionnaire:
         # RM_TABLE is necessary for finding the xlrd coordinates
         cursor.execute("SELECT TAB, EXL_REF, EMC_ID,RM_TABLE,Col FROM RM_MAPPING;") 
         mapping_table = cursor.fetchall()
-        if self.edit_mode:            
+        if self.edit_mode:
             edit_sheets_names=self.wb.sheet_names()
-            ## Before exporting the entries in the inclusion table of
-            ## the sheets being imported are erased.
-            inclu_table_name="EDU_INCLUSION_"+self.database_type
-            for sheet in self.wb.sheets():
-                cursor.execute("SELECT  {0}.CO_CODE,{0}.EMCO_YEAR,{0}.EMC_ID,RM_Mapping.Tab FROM {0} LEFT JOIN RM_MAPPING ON {0}.EMC_ID=RM_MAPPING.EMC_ID WHERE RM_Mapping.Tab=\"{3}\" AND ( ( {0}.EMCO_YEAR={1} AND RM_MAPPING.CUR_YEAR=0 ) OR ( {0}.EMCO_YEAR={2} AND RM_MAPPING.CUR_YEAR=-1) )".format(inclu_table_name,self.emco_year,self.emco_year-1,sheet.name) )
-                things_to_erase=cursor.fetchall()
-                for values_to_erase in things_to_erase:
-                    cursor.execute("DELETE FROM EDU_INCLUSION_"+self.database_type+" WHERE CO_CODE={0} AND EMCO_YEAR={1} AND EMC_ID={2}".format(values_to_erase[0],values_to_erase[1],values_to_erase[2]))
-                    self.conn.commit()
         else:
             names_test=self.compare_region_names()
             ## names_test==False if the names do not match.
-            if ( names_test==1 or self.force_import ):
+            if ( names_test==1 ):
                 self.insert_region_codes()
             else:
                 file=open(self.data_report_file,'a')
@@ -1220,11 +1204,6 @@ class questionnaire:
                     print("\n",end='')
                     file.write("\n")
                 file.close()
-                if(self.force_import):
-                    print("\nImporting forced.",end='')
-                    self.insert_region_codes()
-                else:
-                    print("\nImporting aborted.",end='')
                 self.validation_log_file.close()
                 
                 
@@ -1292,14 +1271,12 @@ class questionnaire:
                                              em_fig,\
                                              ec_td_id(variables[0]),\
                                              ""),)
-        if write_csv_files:
-            export_to_csv_files()
         if write_sql:
             export_to_sqlite()
         backup_imported_questionnaire()
         cursor.close()
         
-    def __init__(self,excel_file,database_file="../Database/Prod.db",log_folder="/tmp/log",username="user",force_import=False):
+    def __init__(self,excel_file,database_file="../Database/Prod.db",log_folder="/tmp/log",username="user"):
         """Set up variables for questionnaire and database reading"""
         self.excel_file=excel_file
         self.set_workbook(excel_file)
@@ -1316,7 +1293,6 @@ class questionnaire:
             os.makedirs(log_folder)
         self.validation_full_path=log_folder + "/{}".format(self.country_name) + "_"+datetime.datetime.now().strftime("%y-%m-%d-%H-%M")+"_validation.txt"
         self.validation_log_file=open(self.validation_full_path,'a')
-        self.force_import=force_import
         self.missing_data_dictionary={}
         self.data_issues_dictionary={}
         self.regions_from_sheet=None
