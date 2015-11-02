@@ -109,6 +109,9 @@ def moveSerie(co_code, year, from_serie, to_serie):
     ### Move EDU_METER97
     ## Current year
     print('Moving data for {0}-{1}'.format(co_code, year))
+    ### Deleting existing data
+    sql_query("DELETE FROM EDU_FTN97_{0} where CO_CODE ={1} and EMCO_YEAR = {2} and EMC_ID in (select EMC_ID from RM_Mapping)".format(to_serie, co_code,year))
+    sql_query("DELETE FROM EDU_INCLUSION_{0} where CO_CODE ={1} and EMCO_YEAR = {2} and EMC_ID in (select EMC_ID from RM_Mapping)".format(to_serie, co_code,year))
     for ind in [0,-1]:
         meter = ("INSERT OR REPLACE INTO EDU_METER97_{3} "
                  "SELECT a.* FROM RM_Mapping as b "
@@ -136,6 +139,7 @@ def moveSerie(co_code, year, from_serie, to_serie):
 
     ### Moving EDU_COMMENT_TABLE
     ### Current year
+    sql_query("DELETE FROM EDU_COMMENT_TABLE_{0} where CO_CODE ={1} and EMCO_YEAR = {2} and WT_NAME in (select RM_TABLE from RM_Mapping_NonNumeric)".format(to_serie, co_code,year))
     table_com = ("INSERT OR REPLACE INTO EDU_COMMENT_TABLE_{3} "
                  "SELECT a.* FROM RM_Mapping_NonNumeric as b "
                  "join EDU_COMMENT_TABLE_{2} as a on a.WT_NAME = b.RM_TABLE "
@@ -367,7 +371,7 @@ class questionnaire:
         if self.edit_mode:
             sheet=self.wb.sheets()[0]
             nadm1= sheet.cell(4,1).value
-            #print("nadm1: {0}\n".format(nadm1))
+            return(True)
         else:
             administrative_divisions_variables = pre_vars['fixed_sheets']['Administrative divisions']
             sheet = self.wb.sheet_by_name('Administrative divisions')            
@@ -925,14 +929,13 @@ class questionnaire:
         # Missing: Check that the comment should be in the meters
         cursor=self.conn.cursor()
         edu_table_name="EDU_FTN97_"+self.database_type
-        if self.edit_mode:
-            for sheet in self.wb.sheets():
-                cursor.execute("SELECT  {0}.CO_CODE,{0}.EMCO_YEAR,{0}.EMC_ID,RM_Mapping.Tab FROM {0} LEFT JOIN RM_MAPPING ON {0}.EMC_ID=RM_MAPPING.EMC_ID WHERE RM_Mapping.Tab=\"{3}\" AND ( ( {0}.EMCO_YEAR={1} AND RM_MAPPING.CUR_YEAR=0 ) OR ( {0}.EMCO_YEAR={2} AND RM_MAPPING.CUR_YEAR=-1) )".format(edu_table_name,self.emco_year,self.emco_year-1,sheet.name) )
-                things_to_erase=cursor.fetchall()
-                for values_to_erase in things_to_erase:
-                    cursor.execute("DELETE FROM EDU_FTN97_"+self.database_type+" WHERE CO_CODE={0} AND EMCO_YEAR={1} AND EMC_ID={2}".format(values_to_erase[0],values_to_erase[1],values_to_erase[2]))
-                    self.conn.commit()
-                    
+        for sheet in self.wb.sheets():
+            cursor.execute("SELECT  {0}.CO_CODE,{0}.EMCO_YEAR,{0}.EMC_ID,RM_Mapping.Tab FROM {0} LEFT JOIN RM_MAPPING ON {0}.EMC_ID=RM_MAPPING.EMC_ID WHERE RM_Mapping.Tab=\"{3}\" AND ( ( {0}.EMCO_YEAR={1} AND RM_MAPPING.CUR_YEAR=0 ) OR ( {0}.EMCO_YEAR={2} AND RM_MAPPING.CUR_YEAR=-1) )".format(edu_table_name,self.emco_year,self.emco_year-1,sheet.name) )
+            things_to_erase=cursor.fetchall()
+            for values_to_erase in things_to_erase:
+                cursor.execute("DELETE FROM EDU_FTN97_"+self.database_type+" WHERE CO_CODE={0} AND EMCO_YEAR={1} AND EMC_ID={2}".format(values_to_erase[0],values_to_erase[1],values_to_erase[2]))
+                self.conn.commit()
+                                       
         #delete from Authors where AuthorId=1        
         comments_table_tupple=()        
         for sheet in self.wb.sheets():            
@@ -947,19 +950,20 @@ class questionnaire:
                         adm_code=xlrd_coord[0]-16
                     else:
                         adm_code=xlrd_coord[0]-17
-                        if (emc_id in [20162,20166,20172,20184]  and  xlrd_coord ==  21 ):
+                        if (emc_id in [20162,20166,20172,20184]  and  xlrd_coord[1] ==  21 ):
                             emco_year= emco_year - 1
                     comment=sheet.cell_note_map[xlrd_coord].text
                     if not self.edit_mode:
                         author=self.country_name
                     else:
                         author=sheet.cell_note_map[xlrd_coord].author
-                    match=re.search('\[(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\] (.*)',comment)
+                    match=re.search('\[(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\] (.*)',comment, re.MULTILINE|re.DOTALL)
                     if match==None:
                         date_string=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") # We are not forced to use this format
                     else:
                         date_string=match.group(1)
                         comment=match.group(2)
+
                         
                     comments_table_tupple=comments_table_tupple + ( (self.country_code,adm_code,emco_year, emc_id,comment,table,author,date_string) , )
         if comments_table_tupple:
@@ -1036,27 +1040,26 @@ class questionnaire:
     def extract_table_comments(self):
         """Extract the comments from the top of each table.
         
-        This function cannot be used with the edit mode.
+        This function can also be used with the edit mode.
         """
-        if self.edit_mode:
-            pass
-        else:
-            cursor=self.conn.cursor()
-            comments_data=()
-            cursor.execute("SELECT Tab,RM_TABLE,AC,EXL_REF FROM RM_Mapping_NonNumeric WHERE AC=\"Table_COMM\"")
-            comments_info=cursor.fetchall()
-            for variables in comments_info:
-                tab=variables[0]
+        cursor=self.conn.cursor()
+        comments_data=()
+        cursor.execute("SELECT Tab,RM_TABLE,AC,EXL_REF FROM RM_Mapping_NonNumeric WHERE AC=\"Table_COMM\"")
+        comments_info=cursor.fetchall()
+        for variables in comments_info:
+            tab=variables[0]
+            if tab in self.wb.sheet_names():
                 rm_table=variables[1]
                 exl_ref=variables[3]
                 sheet = self.wb.sheet_by_name(tab)
                 comments=sheet.cell(*indexes(exl_ref)).value
                 if comments not in ["Enter comment here","Enter comment here"]:
                     comments_data=comments_data + ( (self.country_code,self.emco_year,rm_table,comments  ),   )
-            cursor.executemany("INSERT OR REPLACE INTO EDU_COMMENT_TABLE_"+self.database_type+" VALUES(?,?,?,?);",comments_data)
-            self.conn.commit()
-            cursor.close()
+                    cursor.executemany("INSERT OR REPLACE INTO EDU_COMMENT_TABLE_"+self.database_type+" VALUES(?,?,?,?);",comments_data)
+        self.conn.commit()
+        cursor.close()
 
+            
     def extract_data(self,write_csv_files=False,write_sql=True):
         """Reads and exports the data of the questionnaire
 
