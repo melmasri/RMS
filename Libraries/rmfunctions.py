@@ -1176,8 +1176,8 @@ class questionnaire:
                                 "and a.CO_CODE = b.CO_CODE and a.ADM_CODE = b.ADM_CODE "
                                 "and a.MC_YEAR = b.EMCO_YEAR AND "
                                 "(a.EM_FIG_OLD !=b.DESC_INCLU)".format(self.database_type)))
+                cursor.execute("DELETE FROM METER_AUDIT_TEMP")
                 self.conn.commit()
-                    
             cursor.close()
 
         def backup_imported_questionnaire():
