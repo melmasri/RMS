@@ -292,7 +292,11 @@ class questionnaire:
         """Sets the attribute nadm1 based on the questionnaire"""
         if self.edit_mode:
             sheet=self.wb.sheets()[0]
-            self.nadm1= int(sheet.cell(4,1).value)
+            self.nadm1= sheet.cell(4,1).value
+            if (type(self.nadm1) in [int,float] and self.nadm1>0 ):
+                self.nadm1=int(self.nadm1)
+            else:
+                self.nadm1=False
         else:
             administrative_divisions_variables = pre_vars['fixed_sheets']['Administrative divisions']
             sheet = self.wb.sheet_by_name('Administrative divisions')
@@ -436,7 +440,10 @@ class questionnaire:
     def check_country_name(self):
         """Checks if the country name is filled"""
         if (self.edit_mode):
-            return(True)
+            code_test=self.country_code
+            if(not code_test ):
+                self.print_log("Error: Country name was not found in the database.\n")
+            return(code_test)
         else:
             front_page_variables=pre_vars['fixed_sheets']['Front Page']
             cellname=front_page_variables['country_name'][0]
