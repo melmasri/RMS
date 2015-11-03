@@ -274,7 +274,11 @@ class questionnaire:
         """Sets the attribute emco_year"""
         if self.edit_mode:
             sheet=self.wb.sheets()[0]
-            self.emco_year= int( sheet.cell(2,1).value)
+            self.emco_year= sheet.cell(2,1).value
+            if (type(self.emco_year) in [int,float] and self.emco_year>0 ):
+                self.emco_year=int(self.emco_year)
+            else:
+                self.emco_year=False
         else:
             front_page_variables = pre_vars['fixed_sheets']['Front Page']
             sheet = self.wb.sheet_by_name('Front Page')
@@ -469,11 +473,17 @@ class questionnaire:
             test2=reduce( lambda x,y: x and y, configuration_values)
             # test3 is to check that it is Edit mode and not Read only
             test3= configuration_values[6] == "Edit"
-            test_value=test1 and test2 and test3            
+            test4=self.emco_year
+            test5=self.database_type in ['OBS','REP','EST']
+            test_value=test1 and test2 and test3 and test4 and test5
             if ( not ( test1 and test2 )   ):
                 self.print_log("Error: Configuration section has wrong values.\n")
             elif( not test3  ):
                 self.print_log("Error: Edited questionnaire is in read-only mode.\n")
+            elif(not test4 ):
+                self.print_log("Error: Non valid emco year.\n")
+            elif(not test5 ):
+                self.print_log("Error: Non valid database type.\n")
             else:
                 self.print_log("Configuration section of edited questionnaire is properly filled\n")                
             return(test_value)
