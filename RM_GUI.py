@@ -263,7 +263,7 @@ class RM():
         """ Requests from the user to select a file/folder of questionnaires to import"""
         FILEOPENOPTIONS = dict(filetypes=[('Excel sheets','*.xlsx*'),('All files','*.*')])
         if x=='file':
-            dirname = tk.filedialog.askopenfilenames(title="Select files",**FILEOPENOPTIONS )
+            dirname = tk.filedialog.askopenfilename(title="Select files",**FILEOPENOPTIONS )
             if dirname:
                 self.entry_one.delete(0,'end')
                 self.entry_one.insert(0, dirname)
@@ -282,11 +282,10 @@ class RM():
 
     def validate_file(self):
         """ Validating the file for processing"""
-        i = self.master.splitlist(self.entry_one.get())
+        i = self.entry_one.get()
         if not i:
             print('No file is selected.')
             return
-        i = i[0]
         if re.search(".xlsx", i):
             x=questionnaire(i,self.database,self.log_folder,RM.username)
             if x.validation():
@@ -301,14 +300,10 @@ class RM():
 
 
     def check_file(self):
-        file1 = self.master.splitlist(self.entry_one.get())
+        file1 = self.entry_one.get()
         if not file1:
             print('No file is selected.')
             return
-        # if self.valid_file != file1[0]:
-        #     print('Please validate the file first!')
-        #     return
-        i=file1[0]
         if re.search(".xlsx", i):
             print('Writing data report for \n {0}'.format(i))
             x=questionnaire(i,self.database,self.log_folder,RM.username)
