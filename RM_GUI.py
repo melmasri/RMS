@@ -243,7 +243,10 @@ class RM():
                 serie = RM.series[serie]
                 print('Extracting {0} from {1} series for {2}-{3}....'.format(var,serie, co_name, year))
                 filename = "{0}_{1}_{2}_{3}.xlsx".format(co_name, year,var,serie)
-                filename = "{0}/{1}".format(self.output_folder_var,filename)
+                if self.output_folder_var:
+                    filename = "{0}/{1}".format(self.output_folder_var,filename)
+                else:
+                    filename = "{0}/{1}".format(self.main_dir,filename)
                 wb = xlsxwriter.Workbook(filename)
                 print('File {0} is created..'.format(filename))
                 if x=='sheet' and var == 'All':
@@ -251,7 +254,7 @@ class RM():
                 else:
                     export_var(var, wb, co_code, int(year), var_type = x,serie=serie)
                 wb.close()
-                open_file_local(self.main_dir + '/' +  filename)
+                open_file_local(filename)
                 print('Done.')
             else:
                 print('Error: missing country name, year or series.')

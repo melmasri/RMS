@@ -429,7 +429,7 @@ class questionnaire:
             return(True)
         else:
             sheet=self.wb.sheet_by_name('Policy information')
-            reference_year=sheet.cell(*indexes('M15')).value
+            reference_year=sheet.cell(*indexes('M14')).value
             test_value= type(reference_year) == float or type(reference_year) == int
             if (test_value):
                 self.print_log("Reference year: {0}\n".format(int(reference_year)))
