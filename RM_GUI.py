@@ -243,7 +243,10 @@ class RM():
                 serie = RM.series[serie]
                 print('Extracting {0} from {1} series for {2}-{3}....'.format(var,serie, co_name, year))
                 filename = "{0}_{1}_{2}_{3}.xlsx".format(co_name, year,var,serie)
-                filename = "{0}/{1}".format(self.output_folder_var,filename)
+                if self.output_folder_var:
+                    filename = "{0}/{1}".format(self.output_folder_var,filename)
+                else:
+                    filename = "{0}/{1}".format(self.main_dir,filename)
                 wb = xlsxwriter.Workbook(filename)
                 print('File {0} is created..'.format(filename))
                 if x=='sheet' and var == 'All':
@@ -251,7 +254,7 @@ class RM():
                 else:
                     export_var(var, wb, co_code, int(year), var_type = x,serie=serie)
                 wb.close()
-                open_file_local(self.main_dir + '/' +  filename)
+                open_file_local(filename)
                 print('Done.')
             else:
                 print('Error: missing country name, year or series.')
@@ -263,7 +266,7 @@ class RM():
         """ Requests from the user to select a file/folder of questionnaires to import"""
         FILEOPENOPTIONS = dict(filetypes=[('Excel sheets','*.xlsx*'),('All files','*.*')])
         if x=='file':
-            dirname = tk.filedialog.askopenfilenames(title="Select files",**FILEOPENOPTIONS )
+            dirname = tk.filedialog.askopenfilename(title="Select files",**FILEOPENOPTIONS )
             if dirname:
                 self.entry_one.delete(0,'end')
                 self.entry_one.insert(0, dirname)
@@ -282,11 +285,10 @@ class RM():
 
     def validate_file(self):
         """ Validating the file for processing"""
-        i = self.master.splitlist(self.entry_one.get())
+        i = self.entry_one.get()
         if not i:
             print('No file is selected.')
             return
-        i = i[0]
         if re.search(".xlsx", i):
             x=questionnaire(i,self.database,self.log_folder,RM.username)
             if x.validation():
@@ -301,14 +303,10 @@ class RM():
 
 
     def check_file(self):
-        file1 = self.master.splitlist(self.entry_one.get())
+        file1 = self.entry_one.get()
         if not file1:
             print('No file is selected.')
             return
-        # if self.valid_file != file1[0]:
-        #     print('Please validate the file first!')
-        #     return
-        i=file1[0]
         if re.search(".xlsx", i):
             print('Writing data report for \n {0}'.format(i))
             x=questionnaire(i,self.database,self.log_folder,RM.username)

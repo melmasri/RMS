@@ -429,7 +429,7 @@ class questionnaire:
             return(True)
         else:
             sheet=self.wb.sheet_by_name('Policy information')
-            reference_year=sheet.cell(*indexes('M15')).value
+            reference_year=sheet.cell(*indexes('M14')).value
             test_value= type(reference_year) == float or type(reference_year) == int
             if (test_value):
                 self.print_log("Reference year: {0}\n".format(int(reference_year)))
@@ -1183,8 +1183,8 @@ class questionnaire:
                                 "and a.CO_CODE = b.CO_CODE and a.ADM_CODE = b.ADM_CODE "
                                 "and a.MC_YEAR = b.EMCO_YEAR AND "
                                 "(a.EM_FIG_OLD !=b.DESC_INCLU)".format(self.database_type)))
+                cursor.execute("DELETE FROM METER_AUDIT_TEMP")
                 self.conn.commit()
-                    
             cursor.close()
 
         def backup_imported_questionnaire():
