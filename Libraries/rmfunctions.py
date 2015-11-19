@@ -933,9 +933,9 @@ class questionnaire:
         col_ref=None
         # col_ref contains the EXL_REF that can be found in the
         # Rm_Mapping table.
-        if (sheet_name=="Pupils" and ( (row>= 17 and row<=17+self.nadm1) or row==19+self.nadm1)  ):
+        if (sheet_name=="Pupils" and ( (row>= 17 and row<=16+self.nadm1) or row==18+self.nadm1)  ):
             col_ref=re.sub("[0-9]+","18",excel_ref )            
-        elif ( (row>= 18 and row<=18+self.nadm1) or row==20+self.nadm1)   :
+        elif ( (row>= 18 and row<=17+self.nadm1) or row==19+self.nadm1)   :
             col_ref=re.sub("[0-9]+","19", excel_ref )
         cursor=self.conn.cursor()
         cursor.execute("SELECT EMC_ID FROM RM_Mapping WHERE EXL_REF = '{0}' AND Tab = '{1}' ;".format(col_ref,sheet_name ) )
