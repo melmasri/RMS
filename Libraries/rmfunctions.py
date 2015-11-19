@@ -973,8 +973,12 @@ class questionnaire:
                     table=float( cursor.fetchone()[0][5:] )
                     if (sheet.name== "Pupils"):
                         adm_code=xlrd_coord[0]-16
+                        if adm_code>self.nadm1:
+                            adm_code=0
                     else:
                         adm_code=xlrd_coord[0]-17
+                        if adm_code>self.nadm1:
+                            adm_code=0
                         if (emc_id in [20162,20166,20172,20184]  and  xlrd_coord[1] ==  21 ):
                             emco_year= emco_year - 1
                     comment=sheet.cell_note_map[xlrd_coord].text
