@@ -934,9 +934,12 @@ class questionnaire:
         # col_ref contains the EXL_REF that can be found in the
         # Rm_Mapping table.
         if (sheet_name=="Pupils" and ( (row>= 17 and row<=16+self.nadm1) or row==18+self.nadm1)  ):
-            col_ref=re.sub("[0-9]+","18",excel_ref )            
+            col_ref=re.sub("[0-9]+","18",excel_ref )
+        elif (  sheet_name=="Administrative divisions" and ( (row>= 20 and row<=19+self.nadm1) or row==21+self.nadm1)     ) :
+            col_ref=re.sub("[0-9]+","21",excel_ref )
         elif ( (row>= 18 and row<=17+self.nadm1) or row==19+self.nadm1)   :
             col_ref=re.sub("[0-9]+","19", excel_ref )
+
         cursor=self.conn.cursor()
         cursor.execute("SELECT EMC_ID FROM RM_Mapping WHERE EXL_REF = '{0}' AND Tab = '{1}' ;".format(col_ref,sheet_name ) )
         emc_id=cursor.fetchone()
@@ -970,17 +973,28 @@ class questionnaire:
                 if emc_id:
                     emco_year=self.emco_year
                     cursor.execute("SELECT RM_TABLE FROM RM_Mapping WHERE EMC_ID={0} limit 1;".format(emc_id))
-                    table=float( cursor.fetchone()[0][5:] )
+                    
+                    table1=cursor.fetchone()[0][5:]
+                    ## If it is table i, we are in administrative divisions
+                    ## so we set the table to -1.
+                    if (table1==" i"):
+                        table=-1
+                    else:
+                        table=float( table1 )
                     if (sheet.name== "Pupils"):
                         adm_code=xlrd_coord[0]-16
                         if adm_code>self.nadm1:
                             adm_code=0
-                    else:
+                    elif (sheet.name!= "Administrative divisions"):
                         adm_code=xlrd_coord[0]-17
                         if adm_code>self.nadm1:
                             adm_code=0
                         if (emc_id in [20162,20166,20172,20184]  and  xlrd_coord[1] ==  21 ):
                             emco_year= emco_year - 1
+                    else:
+                        adm_code=xlrd_coord[0]-19
+                        if adm_code>self.nadm1:
+                            adm_code=0                            
                     comment=sheet.cell_note_map[xlrd_coord].text
                     if not self.edit_mode:
                         author=self.country_name
