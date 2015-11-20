@@ -945,6 +945,9 @@ class questionnaire:
         emc_id=cursor.fetchone()
         if emc_id:
             emc_id=emc_id[0]
+            ## We can only make comments on region names in the administrative divisions sheet.
+            if ( (emc_id in [900001,900002]) and sheet_name!="Administrative divisions" ):
+                emc_id=None
         cursor.close()
         return(emc_id)
 
