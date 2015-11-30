@@ -225,7 +225,9 @@ def ec_td_id(sheet_name):
 def mg_id(cell_value):
     """This function gets the MG_ID for the read data
 
-    This works for the meters table only. Reading a number will return 0.
+    This works for the meters table only. Reading a number will return
+    an empty string.
+
     """
     if type(cell_value) in [int,float]:
         return("")

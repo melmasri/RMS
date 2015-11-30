@@ -1,5 +1,11 @@
 import sqlite3,re
 
+def aux(x):
+    if(x==''):
+        return(0)
+    else:
+        return(x)
+
 class indicators():
     def get_nadm1(self):
         """Gets the number of regions"""
@@ -56,8 +62,10 @@ class indicators():
         emc_id2=cursor.fetchone()[0]
         cursor.execute("select EM_FIG,MG_ID from EDU_METER97_REP where CO_CODE={} and emc_id={} and emco_year={}".format(self.country_code,emc_id1,self.emco_year+year1))
         values1=cursor.fetchall()  #list(map(lambda x: x[0],cursor.fetchall() ))
+        #values1=list(map(lambda x: aux(x[0]),values1 ))
         cursor.execute("select EM_FIG,MG_ID from EDU_METER97_REP where CO_CODE={} and emc_id={} and emco_year={}".format(self.country_code,emc_id2,self.emco_year+year2))
         values2=cursor.fetchall() #list(map(lambda x: x[0],cursor.fetchall() ))
+        #values2=list(map(lambda x: aux(x[0]),values2 ))
         column_operation_result=list(map(operation,values1,values2))
         cursor.close()
         return column_operation_result
