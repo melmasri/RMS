@@ -403,3 +403,26 @@ CREATE TABLE METER_AUDIT_TEMP(
 -- 	EF_FTN_RU nvarchar(500) ,
 -- 	EF_FTN_AR nvarchar(500) ,
 --     PRIMARY KEY (EF_ID ASC))
+
+
+
+--------------------------------------------------
+--------------------------------------------------
+--- Indicatros
+--------------------------------------------------
+----------- Indicator table
+--  EDU_INDICATOR_EST
+DROP TABLE IF EXISTS EDU_INDICATOR_EST;
+-- Creating table
+CREATE TABLE EDU_INDICATOR_EST(
+       IND_ID varchar(50) NOT NULL,
+       CO_CODE int NOT NULL,
+       IND_YEAR smallint NOT NULL,
+       FRM_ID smallint NOT NULL,
+       FIG float NULL,
+       QUAL smallint NULL,
+       MAGN smallint NULL,
+       CALC_DATE datetime NULL,
+       PRIMARY KEY ( IND_ID ASC,  CO_CODE ASC, IND_YEAR ASC,   FRM_ID ASC));
+       
+
