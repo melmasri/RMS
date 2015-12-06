@@ -36,16 +36,17 @@ class StdoutRedirector(object):
 class RM():
     """ A class the generated the regional module GUI."""
     series = {'Reported':'REP', 'Observed': 'OBS', 'Estimated':'EST'}
-    def __init__(self, master, database, log_folder='Log', output_folder_var='Export'):
+    def __init__(self, master, database, log_folder='Log', output_folder_default='Export'):
         """ Main initialization"""
         self.master = master
         self.database = database
         if not os.path.exists(log_folder): os.makedirs(log_folder)
-        if not os.path.exists(output_folder_var): os.makedirs(output_folder_var)
+        if not os.path.exists(output_folder_default): os.makedirs(output_folder_default)
         self.backup_folder = 'Import'
         self.log_folder = log_folder
         self.main_dir = os.getcwd()
-        self.output_folder_var = output_folder_var
+        self.output_folder_default = output_folder_default
+        self.output_folder_var = ''
         self.master.title('Regional module Survey: main dir ' + self.main_dir)
         # width x height + x_offset + y_offset:
         self.master.geometry("730x730+50+50")
@@ -75,7 +76,7 @@ class RM():
         ttk.Label(settingframe, text = "Log folder ").grid(row=0, column=2, sticky = 'W')
         ttk.Label(settingframe, text = self.log_folder, padding=2, style="BW.TLabel").grid(row=0, column=3, sticky = 'W')
         ttk.Label(settingframe, text = "Output folder ").grid(row=1, column=2, sticky = 'W')
-        ttk.Label(settingframe, text = self.output_folder_var, padding=2, style="BW.TLabel").grid(row=1, column=3, sticky = 'W')
+        ttk.Label(settingframe, text = self.output_folder_default, padding=2, style="BW.TLabel").grid(row=1, column=3, sticky = 'W')
         ttk.Label(settingframe, text = "Import backup folder ").grid(row=2, column=2, sticky = 'W')
         ttk.Label(settingframe, text = self.backup_folder, padding=2, style="BW.TLabel").grid(row=2, column=3, sticky = 'W')
         # ####### Import frame
@@ -216,7 +217,7 @@ class RM():
         print('Main working directory is {0}.'.format(self.main_dir))
         print('Connection with database at {1} is established for User {0}.'.format(RM.username, self.database))
         print('All work logs by default are save to subfolder {0}.'.format(self.log_folder))
-        print('Import backups are stored in subfolder {0}, default output subfolder is {1}.'.format(self.backup_folder, self.output_folder_var))
+        print('Import backups are stored in subfolder {0}, default output subfolder is {1}.'.format(self.backup_folder, self.output_folder_default))
         print('-----------------------------------')
         
     def export(self,x):
@@ -246,7 +247,7 @@ class RM():
                 if self.output_folder_var:
                     filename = "{0}/{1}".format(self.output_folder_var,filename)
                 else:
-                    filename = "{0}/{1}".format(self.main_dir,filename)
+                    filename = "{0}/{1}/{2}".format(self.main_dir, self.output_folder_default,filename)
                 wb = xlsxwriter.Workbook(filename)
                 print('File {0} is created..'.format(filename))
                 if x=='sheet' and var == 'All':
@@ -307,9 +308,9 @@ class RM():
         if not file1:
             print('No file is selected.')
             return
-        if re.search(".xlsx", i):
-            print('Writing data report for \n {0}'.format(i))
-            x=questionnaire(i,self.database,self.log_folder,RM.username)
+        if re.search(".xlsx", file1):
+            print('Writing data report for \n {0}'.format(file1))
+            x=questionnaire(file1,self.database,self.log_folder,RM.username)
             x.check_region_totals()
             x.check_less()
             x.check_column_sums()

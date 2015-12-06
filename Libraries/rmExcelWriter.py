@@ -65,6 +65,10 @@ def getCell_comment(var, co_code, year,serie):
                 "AC = 'somAC'" ( i.e. "AC =' T.1'") 
                 "RM_TABLE = 'someTableName' 
     """
+    ntable_adm_divi_offset = ''
+    if var != "RM_TABLE='Table i'":
+        ntable_adm_divi_offset = "AND c.NTABLE<>-1"
+        
     data = []
     # The bellow offset is to accord for the data in the questionnaire from the previous year.
     for offset in [0,-1]:
@@ -73,7 +77,7 @@ def getCell_comment(var, co_code, year,serie):
                    "JOIN EDU_FTN97_{4} AS c ON b.EMC_ID = c.EMC_ID "
                    "WHERE a.{0} AND a.CUR_YEAR = {3} "
                    "AND c.CO_CODE = {1} "
-                   "AND c.EMCO_YEAR = {2};".format(var,co_code, year+ offset, offset,serie))
+                   "AND c.EMCO_YEAR = {2} {5};".format(var,co_code, year+ offset, offset,serie, ntable_adm_divi_offset))
         data = data + sql_query(sql_str)
     if data:
         return(data)
