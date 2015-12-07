@@ -417,6 +417,7 @@ DROP TABLE IF EXISTS EDU_INDICATOR_EST;
 CREATE TABLE EDU_INDICATOR_EST(
        IND_ID varchar(50) NOT NULL,
        CO_CODE int NOT NULL,
+       ADM_CODE INT NOT NULL, -- Administrative Division code.
        IND_YEAR smallint NOT NULL,
        FRM_ID smallint NOT NULL,
        FIG float NULL,
