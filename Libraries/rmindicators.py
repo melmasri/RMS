@@ -2,13 +2,24 @@ import sqlite3,re
 
 def inverse_mg_id(x):
     if type(x) in [int,float]:
-        return(x)
+        return('')
     elif x==3:
         return('X')
     elif x==6:
         return('A')
     elif x=="D":
         return("m")
+
+def none_emptytr(x):
+    if x==None:
+       return('')
+    else:
+        return(x)
+
+def fix_ac_code_symbol(x):
+    y=x
+    y[1]=none_emptytr(y[1])
+    return (y)
 
 class indicators():
     def get_nadm1(self):
@@ -67,10 +78,12 @@ class indicators():
         #cursor.execute("select EM_FIG,MG_ID from EDU_METER97_REP where CO_CODE={} and emc_id={} and emco_year={}".format(self.country_code,emc_id1,self.emco_year+year1))
         cursor.execute("select a.EM_FIG,b.SYMBOL from EDU_METER97_REP AS a LEFT JOIN MAGNITUDE AS b ON ( a.mg_id = b.mg_id) WHERE a.CO_CODE={} and a.emc_id={} AND a.emco_year={}".format(self.country_code,emc_id1,self.emco_year+year1));
         values1=cursor.fetchall()  #list(map(lambda x: x[0],cursor.fetchall() ))
+        values1= list(map( lambda x: [x[0],none_emptytr(x[1])],values1 ))
         #values1=list(map(lambda x: aux(x[0]),values1 ))
         #cursor.execute("select EM_FIG,MG_ID from EDU_METER97_REP where CO_CODE={} and emc_id={} and emco_year={}".format(self.country_code,emc_id2,self.emco_year+year2))
         cursor.execute("select a.EM_FIG,b.SYMBOL from EDU_METER97_REP AS a LEFT JOIN MAGNITUDE AS b ON ( a.mg_id = b.mg_id) WHERE a.CO_CODE={} and a.emc_id={} AND a.emco_year={}".format(self.country_code,emc_id2,self.emco_year+year2));
         values2=cursor.fetchall() #list(map(lambda x: x[0],cursor.fetchall() ))
+        values2= list(map( lambda x: [x[0],none_emptytr(x[1])],values2 ))
         #values2=list(map(lambda x: aux(x[0]),values2 ))
         column_operation_result=list(map(operation,values1,values2))
         cursor.close()
