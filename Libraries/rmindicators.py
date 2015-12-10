@@ -196,12 +196,12 @@ class indicators():
         cursor.execute("SELECT EMC_ID FROM RM_Mapping WHERE AC='{0}' AND CUR_YEAR={1} LIMIT 1".format(AC2,year2))
         emc_id2=cursor.fetchone()[0]
         #cursor.execute("select EM_FIG,MG_ID from EDU_METER97_REP where CO_CODE={} and emc_id={} and emco_year={}".format(self.country_code,emc_id1,self.emco_year+year1))
-        cursor.execute("select a.EM_FIG,b.SYMBOL from EDU_METER97_REP AS a LEFT JOIN MAGNITUDE AS b ON ( a.mg_id = b.mg_id) WHERE a.CO_CODE={} and a.emc_id={} AND a.emco_year={}".format(self.country_code,emc_id1,self.emco_year+year1));
+        cursor.execute("select a.EM_FIG,b.SYMBOL from EDU_METER97_REP AS a LEFT JOIN MAGNITUDE AS b ON ( a.mg_id = b.mg_id) WHERE a.CO_CODE={} and a.emc_id={} AND a.emco_year={} ORDER BY ADM_CODE ASC".format(self.country_code,emc_id1,self.emco_year+year1));
         values1=cursor.fetchall()  #list(map(lambda x: x[0],cursor.fetchall() ))
         values1= list(map( lambda x: [x[0],none_emptytr(x[1])],values1 ))
         #values1=list(map(lambda x: aux(x[0]),values1 ))
         #cursor.execute("select EM_FIG,MG_ID from EDU_METER97_REP where CO_CODE={} and emc_id={} and emco_year={}".format(self.country_code,emc_id2,self.emco_year+year2))
-        cursor.execute("select a.EM_FIG,b.SYMBOL from EDU_METER97_REP AS a LEFT JOIN MAGNITUDE AS b ON ( a.mg_id = b.mg_id) WHERE a.CO_CODE={} and a.emc_id={} AND a.emco_year={}".format(self.country_code,emc_id2,self.emco_year+year2));
+        cursor.execute("select a.EM_FIG,b.SYMBOL from EDU_METER97_REP AS a LEFT JOIN MAGNITUDE AS b ON ( a.mg_id = b.mg_id) WHERE a.CO_CODE={} and a.emc_id={} AND a.emco_year={} ORDER BY ADM_CODE ASC".format(self.country_code,emc_id2,self.emco_year+year2));
         values2=cursor.fetchall() #list(map(lambda x: x[0],cursor.fetchall() ))
         values2= list(map( lambda x: [x[0],none_emptytr(x[1])],values2 ))
         #values2=list(map(lambda x: aux(x[0]),values2 ))
