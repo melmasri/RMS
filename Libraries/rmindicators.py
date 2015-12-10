@@ -111,11 +111,11 @@ def div(x,y):
 ## Reads new algebra tables
 read_algebra()
 
-def mean_age(codes):
+def mean_age(indic, codes):
     """ Calculates the mean age for a given list of codes"""
     midpoint = [[20,''], [24,''], [34,''], [44,''],[54,''], [65,'']]
     ac_pop = 'Pop.Ag0t99'
-    temp = list(map(lambda z,v: a.column_operation([z,0], [ac_pop, 0], lambda x,y:      prod(div(x,y), v)),primaryCodes, midpoint))
+    temp = list(map(lambda z,v: indic.column_operation([z,0], [ac_pop, 0], lambda x,y:      prod(div(x,y), v)),codes, midpoint))
     temp = list(map(sum_list, temp))
     return(temp)
 
