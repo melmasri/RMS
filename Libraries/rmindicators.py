@@ -1,4 +1,124 @@
 import sqlite3,re
+import sys, getpass, os, csv
+import csv
+## Default algebra tables
+algebra_sum = {'a': {'a': 'a', 'm': 'm', 'n': 'n','x':'x', '':''},
+               'm': {'a': 'm', 'm': 'm', 'n': 'm','x':'m', '':'m'},
+               'n': {'a': 'n', 'm': 'm', 'n': 'n','x':'x', '':''},
+               'x': {'a': 'x', 'm': 'm', 'n': 'x','x':'x', '': 'x' }, 
+               '': {'a': '', 'm': 'm', 'n' :'','x':'x', '':''}}
+algebra_prod = algebra_sum
+algebra_div  = algebra_sum
+
+def read_algebra():
+    """  Read an algebra table from a csv file and convert to a dictionary
+    """
+    # Reading sum algebra
+    algfiles = ['sum.csv', 'prod.csv','div.csv']
+    algop = ['Sum', 'Prod', 'Div']
+    if os.path.isfile(algfiles[0]):
+        data = csv.DictReader(open(algfiles[0]))
+        global algebra_sum
+        algebra_sum  = arrange_algebra_dist(data,algop[0])
+    if os.path.isfile(algfiles[1]):
+        data = csv.DictReader(open(algfiles[1]))
+        global algebra_prod
+        algebra_sum  = arrange_algebra_dist(data,algop[1])
+    if os.path.isfile(algfiles[2]):
+        data = csv.DictReader(open(algfiles[2]))
+        global algebra_div
+        algebra_sum  = arrange_algebra_dist(data,algop[2])
+
+
+def arrange_algebra_dist(data, op= 'Sum'):
+    """ Arranging algebra from a csv file read in data based os an operation (op) in a dictionary as seen in the global variables.
+        The left corner of the talbe in the csv file should be the op, case sensitive
+    """
+    result = {}
+    for row in data:
+        key = row.pop(op)
+        if key in result:
+            # implement your duplicate row handling here
+            pass
+        result[key] = row
+    return(result)
+
+def sum_list(x):
+    """ Sums a single list recursively """
+    if len(x)==2:
+        return(sum(x[0], x[1]))
+    else:
+       return(sum_list(x[2:]+[sum(x[0],x[1])]))
+        
+        
+def sum(x,y):
+    """ 
+    Sums two tuppels x = (fig, mg_symbol), y = (fig, mg_symbol). 
+    Returns a tupple (fig, symbol), where symbol is the result of the multiplication tables, fig is '' is symbol is n, m ,a or x.
+
+    Algebra Table 
+    Sum,a, m,n,x, value
+    a,a, m,n,x, value
+    m,m, m,m,m,m
+    n,n, m,n,x, value
+    x,x, m, x,x, x
+    value, value, m, value,x, value
+    """
+    global algebra_sum
+    algeb = algebra_sum[x[1]][y[1]]
+    if algeb =='':
+        return([x[0] + y[0],''])
+    return(['',algeb])
+
+def prod(x,y):
+    """ 
+    Product of two tuppels x = (fig, mg_symbol), y = (fig, mg_symbol). 
+    Returns a tupple (fig, symbol), where symbol is the result of the multiplication tables, fig is '' is symbol is n, m ,a or x.
+
+    Algebra Table 
+    Prod,a, m,n,x, value
+    a,a, m,n,x, value
+    m,m, m,m,m,m
+    n,n, m,n,x, value
+    x,x, m, x,x, x
+    value, value, m, value,x, value
+    """
+    global algebra_prod
+    algeb = algebra_prod[x[1]][y[1]]
+    if algeb =='':
+        return([x[0]*y[0],''])
+    return(['',algeb])
+
+def div(x,y):
+    """ 
+    Division of two tuppels x = (fig, mg_symbol), y = (fig, mg_symbol). 
+    Returns a tupple (fig, symbol), where symbol is the result of the multiplication tables, fig is '' is symbol is n, m ,a or x.
+    
+    Algebra Table 
+    Div,a, m,n,x, value
+    a,a, m,n,x, value
+    m,m, m,m,m,m
+    n,n, m,n,x, value
+    x,x, m, x,x, x
+    value, value, m, value,x, value
+    """
+    global algebra_div
+    algeb = algebra_div[x[1]][y[1]]
+    if algeb =='':
+        return([x[0]/y[0],''])
+    return(['',algeb])
+
+## Reads new algebra tables
+read_algebra()
+
+def mean_age(codes):
+    """ Calculates the mean age for a given list of codes"""
+    midpoint = [[20,''], [24,''], [34,''], [44,''],[54,''], [65,'']]
+    ac_pop = 'Pop.Ag0t99'
+    temp = list(map(lambda z,v: a.column_operation([z,0], [ac_pop, 0], lambda x,y:      prod(div(x,y), v)),primaryCodes, midpoint))
+    temp = list(map(sum_list, temp))
+    return(temp)
+
 
 def inverse_mg_id(x):
     if type(x) in [int,float]:
