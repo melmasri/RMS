@@ -1,6 +1,8 @@
 import sqlite3,re
 import sys, getpass, os, csv
 import csv
+from functools import reduce
+
 ## Default algebra tables
 algebra_sum = {'a': {'a': 'a', 'm': 'm', 'n': 'n','x':'x', '':''},
                'm': {'a': 'm', 'm': 'm', 'n': 'm','x':'m', '':'m'},
@@ -118,6 +120,38 @@ def mean_age(indic, codes):
     temp = list(map(lambda z,v: indic.column_operation([z,0], [ac_pop, 0], lambda x,y:      prod(div(x,y), v)),codes, midpoint))
     temp = list(map(sum_list, temp))
     return(temp)
+
+def min_sp(lala):
+    """Used to find the minimum value for the lowest female percentage
+    calculation.
+
+    """
+    def auxf(x,y):
+        if ( (type(x[0]) in [int,float]) and (type(y[0]) in [int,float]) ):
+            return ( [min(x[0],y[0]),''] )
+        elif (type(x) in [int,float]):
+            return (y)
+        else:
+            return(x)
+    return(reduce(auxf,lala[1:])) # lala[1:] because the first element
+                                  # corresponds to the country value
+                                  # and we only want it for the
+                                  # regions.
+
+def max_sp(lala):
+    """Used to find the maximum value for the highest female percentage
+    calculation.
+
+    """
+    def auxf(x,y):
+        if ( (type(x[0]) in [int,float]) and (type(y[0]) in [int,float]) ):
+            return ( [max(x[0],y[0]),''] )
+        elif (type(x) in [int,float]):
+            return (y)
+        else:
+            return(x)
+
+    return(reduce(auxf,lala[1:]))
 
 
 def inverse_mg_id(x):
