@@ -197,7 +197,7 @@ def mean_age(indic, codes):
     midpoint = [[20,''], [24,''], [34,''], [44,''],[54,''], [65,'']]
     ac_pop = 'Pop.Ag0t99'
     temp = list(map(lambda z,v: indic.column_operation([z,0], [ac_pop, 0], lambda x,y:   prod(div(x,y), v)),codes, midpoint))
-    temp = list(map(sum_list, temp))
+    temp = reduce(lambda x,y: sum(x,y), temp)
     return(temp)
 
 
