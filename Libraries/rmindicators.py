@@ -58,15 +58,7 @@ read_algebra()
 
 ##################################################
 ##### Generic mathematical operators
-##################################################
-
-def sum_list(x):
-    """ Sums a single list recursively """
-    if len(x)==2:
-        return(sum(x[0], x[1]))
-    else:
-       return(sum_list(x[2:]+[sum(x[0],x[1])]))
-        
+##################################################      
         
 def sum(x,y):
     """ 
@@ -172,8 +164,6 @@ def highestEA(schoolLevel,  indic, offset=0):
             EA_dic.update({name:highestEA_list(level_list, indic, offset)})
     return EA_dic
 
-##################################################
-##################################################
 
 def EA_all(indic, offset=0):
     """
@@ -196,13 +186,71 @@ def EA_all(indic, offset=0):
     return(ea)    
 
 
-def mean_age(indic, codes):
-    """ Calculates the mean age for a given list of codes"""
-    midpoint = [[20,''], [24,''], [34,''], [44,''],[54,''], [65,'']]
-    ac_pop = 'Pop.Ag0t99'
-    temp = list(map(lambda z,v: indic.column_operation([z,0], [ac_pop, 0], lambda x,y:   prod(div(x,y), v)),codes, midpoint))
-    temp = reduce(lambda x,y: sum(x,y), temp)
+##################################################
+### Mean functions
+##################################################
+def mean_category(indic, codes, midpoints, ac_pop = 'Pop.Ag0t99'):
+    """ Calculates a generic mean by category given the category and a list of indicators
+    returns the mean category by ADM
+    """
+    if len(midpoints)!=len(codes):
+        print("Length of midpoints doesn't equal length of codes!")
+        return
+    temp = list(map(lambda z,v: indic.column_operation([z,0], [ac_pop, 0], lambda x,y:   prod(div(x,y), v)),codes, midpoints))
+    temp = list(map(lambda l: reduce(lambda x,y: sum(x,y), l), temp))
     return(temp)
+
+def mean_age_level(indic,level):
+    """ 
+    Given a level of the format ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV'] 
+    and an instance of class indicator (indic), 
+    the function returns the average mean age of the given level for total, public and private in a dictionary format, with indicator names as key of the dictionary.
+    
+    The average is calculated by using the midpoint ages defined in the midpoint variable below in a ascending order. 
+
+"""
+    if level not in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']:
+        print("The only levels allowed are ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']")
+        return
+    midpoint = [[20,''], [24,''], [34,''], [44,''],[54,''], [65,'']]
+    levelsExt = ['x.Ag20m','x.Ag20t29','x.Ag30t39','x.Ag40t49','x.Ag50t59','x.Ag60p']
+    typeSchool  = ['', '.Pu', '.Pr']
+    MAge = {}
+    for t in typeSchool:
+        name = 'MAge' + level + t
+        codes = list(map(lambda x: x.replace('x', level+t), levelsExt))
+        MAge.update({name:mean_category(indic,codes,midpoint)})
+    return MAge
+    
+def mean_exp_level(indic, level):
+    if level not in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']:
+        print("The only levels allowed are ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']")
+        return
+    midpoint = [[1.5,''], [4,''], [8,''], [13,''],[15,'']] ## midpoint years of experience for each level.
+    levelsExt = ['z.Exp1t2', 'z.Exp3t5','z.Exp6t10', 'z.Exp11t15', 'z.Exp15p']
+    typeSchool  = ['', '.Pu', '.Pr']
+    MExp = {}
+    for t in typeSchool:
+        name = 'MExp' + level + t
+        codes = list(map(lambda x: x.replace('z', level+t), levelsExt))
+        print(codes)
+        MExp.update({name:mean_category(indic,codes,midpoint)})
+    return MExp
+
+def mean_level(indic, levelFun):
+    """
+    Calculates the mean of age/exp/... for the following levels ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']. 
+    It requires a levelFun(indic, level) as in mean_age_level or mean_exp_level. 
+
+    Returns a dictionary for each level in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV'], with the key as the level and the result is the return of levelFun.
+    """
+    M = {}
+    for s in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']:
+        M.update({s: levelFun(indic, s)})
+    return M
+
+##################################################
+##################################################
 
 def min_sp(lala):
     """Used to find the minimum value for the lowest female percentage
