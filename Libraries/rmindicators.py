@@ -8,8 +8,6 @@ from functools import reduce
 ##################################################
 #### table Algebra for sum/div/prod operations
 ##################################################
-
-
 ## Default algebra tables
 algebra_sum = {'a': {'a': 'a', 'm': 'm', 'n': 'n','x':'x', '':''},
                'm': {'a': 'm', 'm': 'm', 'n': 'm','x':'m', '':'m'},
@@ -30,22 +28,16 @@ def read_algebra():
         data = csv.DictReader(open('Libraries/'+ algfiles[0]))
         global algebra_sum
         algebra_sum  = arrange_algebra_dist(data,algop[0])
-        print('New {0} algebra is:'.format(algop[0]))
-        print(algebra_sum)
     if os.path.isfile('Libraries/'+algfiles[1]):
         print('File {0} found, reading algebra..'.format(algfiles[1]))
         data = csv.DictReader(open('Libraries/'+algfiles[1]))
         global algebra_prod
         algebra_prod  = arrange_algebra_dist(data,algop[1])
-        print('New {0} algebra is:'.format(algop[1]))
-        print(algebra_prod)
     if os.path.isfile('Libraries/'+ algfiles[2]):
         print('File {0} found, reading algebra..'.format(algfiles[2]))
         data = csv.DictReader(open('Libraries/'+algfiles[2]))
         global algebra_div
         algebra_div  = arrange_algebra_dist(data,algop[2])
-        print('New {0} algebra is:'.format(algop[2]))
-        print(algebra_div)
 
 def arrange_algebra_dist(data, op= 'Sum'):
     """ Arranging algebra from a csv file read in data based os an operation (op) in a dictionary as seen in the global variables.
@@ -66,8 +58,7 @@ read_algebra()
 
 ##################################################
 ##### Generic mathematical operators
-##################################################      
-        
+##################################################           
 def sum(x,y):
     """ 
     Sums two tuppels x = (fig, mg_symbol), y = (fig, mg_symbol). 

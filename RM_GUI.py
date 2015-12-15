@@ -165,13 +165,23 @@ class RM():
 
         pane.add(self.lf_exOptions,weight=50)
         pane.add(self.lf_migrate,weight=50)
-        pane.grid(row=3, columnspan=5,padx=5, pady=5, ipadx=5, ipady=5)
-        # Output folder
-        ttk.Label(self.writeframe, text='Select output folder ').grid(row=4, column=0, sticky='W')    
-        self.output_folder = ttk.Entry(self.writeframe, textvariable= self.output_folder_var)
-        self.output_folder.grid(row=4, column=1, columnspan =3, sticky='WE')
-        ttk.Button(self.writeframe, text= 'Browse..', command = lambda x='out_folder': self.select_file(x)).grid(row=4, column=5, sticky='W')
+        pane.grid(row=5, columnspan=5,padx=5, pady=5, ipadx=5, ipady=5)
 
+        # # Indicators options
+        self.lf_IndicOptions = ttk.LabelFrame(self.writeframe , text="Extract by:")
+        self.lf_IndicOptions.grid(row=6, columnspan = 3, sticky='W', padx=5, pady=5, ipadx=5, ipady=5)
+        ttk.Label(self.lf_IndicOptions, text='Indicator ').grid(row=0, column=0, sticky='W')
+        
+        self.cbox_indic = ttk.Combobox(self.lf_IndicOptions, postcommand= self.getIndic, width=20)
+        self.cbox_indic.grid(row=0, column=1, sticky='W')
+        ttk.Button(self.lf_IndicOptions, text ='Extract').grid(row=0, column=2, sticky='W',padx=5,pady=5)
+        # ttk.Button(self.lf_IndicOptions, text ='Calculate', command= lambda x = 'REP', y = 'OBS': self.migrate_serie(x,y)).grid(row=0, column=3, sticky='W',padx=5,pady=5)
+              
+        # # Output folder
+        ttk.Label(self.writeframe, text='Select output folder ').grid(row=7, column=0, sticky='W')    
+        self.output_folder = ttk.Entry(self.writeframe, textvariable= self.output_folder_var)
+        self.output_folder.grid(row=7, column=1, columnspan =3, sticky='WE')
+        ttk.Button(self.writeframe, text= 'Browse..', command = lambda x='out_folder': self.select_file(x)).grid(row=7, column=5, sticky='W')
 
         ### Status frame
         self.StatusLabelFrame = ttk.LabelFrame(self.master, text="Status:")
@@ -391,6 +401,11 @@ class RM():
         else:
             print('Error: missing country name or year.')
 
+    def getIndic(self):
+        """ Returns a list of indicators from EDU_INDICATOR_EST"""
+        l = "SELECT DISTINCT IND_ID FROM EDU_INDICATOR_EST"
+        self.cbox_indic['values'] =  ['All'] + list(chain.from_iterable(sql_query(l)))
+        
     def MsgBox(self, header = 'Default header' , msg='Generic.'):
         """ A pop-up message box to confirm an action"""
         result = tk.messagebox.askquestion(header, msg, icon='warning')
