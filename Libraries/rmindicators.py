@@ -299,13 +299,8 @@ def none_emptytr(x):
     if x==None:
        return('')
     else:
-        return(x)
-
-def fix_ac_code_symbol(x):
-    y=x
-    y[1]=none_emptytr(y[1])
-    return (y)
-
+    return(x)
+    
 class indicators():
     def get_nadm1(self):
         """Gets the number of regions"""
