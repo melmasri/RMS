@@ -9,11 +9,11 @@ from functools import reduce
 #### table Algebra for sum/div/prod operations
 ##################################################
 ## Default algebra tables
-algebra_sum = {'a': {'a': 'a', 'm': 'm', 'n': 'n','x':'x', '':''},
-               'm': {'a': 'm', 'm': 'm', 'n': 'm','x':'m', '':'m'},
-               'n': {'a': 'n', 'm': 'm', 'n': 'n','x':'x', '':''},
-               'x': {'a': 'x', 'm': 'm', 'n': 'x','x':'x', '': 'x' }, 
-               '': {'a': '', 'm': 'm', 'n' :'','x':'x', '':''}}
+algebra_sum = {'a': {'a': 'a', 'm': 'm', 'n': 'n','x':'x', 'value':'value'},
+               'm': {'a': 'm', 'm': 'm', 'n': 'm','x':'m', 'value':'m'},
+               'n': {'a': 'n', 'm': 'm', 'n': 'n','x':'x', 'value':'value'},
+               'x': {'a': 'x', 'm': 'm', 'n': 'x','x':'x', 'value': 'x' }, 
+               'value': {'a': 'value', 'm': 'm', 'n' :'value','x':'x', 'value':'value'}}
 algebra_prod = algebra_sum
 algebra_div  = algebra_sum
 
@@ -74,8 +74,8 @@ def sum(x,y):
     """
     global algebra_sum
     algeb = algebra_sum[x[1]][y[1]]
-    if algeb =='':
-        return([(x[0] or 0 ) + (y[0] or 0),''])
+    if algeb =='value':
+        return([(x[0] or 0 ) + (y[0] or 0),'value'])
     return(['',algeb])
 
 def prod(x,y):
@@ -93,8 +93,8 @@ def prod(x,y):
     """
     global algebra_prod
     algeb = algebra_prod[x[1]][y[1]]
-    if algeb =='':
-        return([(x[0] or 0)*(y[0] or 0),''])
+    if algeb =='value':
+        return([(x[0] or 0)*(y[0] or 0),'value'])
     return(['',algeb])
 
 def div(x,y):
@@ -112,8 +112,8 @@ def div(x,y):
     """
     global algebra_div
     algeb = algebra_div[x[1]][y[1]]
-    if algeb =='':
-        return([(x[0] or 0)/(y[0] or 0),''])
+    if algeb == 'value':
+        return([(x[0] or 0)/(y[0] or 0),'value'])
     return(['',algeb])
 
 def op2col(col1, col2, op):
@@ -297,7 +297,7 @@ def inverse_mg_id(x):
 
 def none_emptytr(x):
     if x==None:
-       return('')
+       return('value')
     else:
         return(x)
 
