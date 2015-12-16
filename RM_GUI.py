@@ -229,6 +229,20 @@ class RM():
         print('All work logs by default are save to subfolder {0}.'.format(self.log_folder))
         print('Import backups are stored in subfolder {0}, default output subfolder is {1}.'.format(self.backup_folder, self.output_folder_default))
         print('-----------------------------------')
+
+    # def export_indic(self, x):
+    #     """ Exporting an indicator"""
+    #     var = str(self.cbox_indic.get())
+    #     if var not in self.cbox_indic['values']:
+    #         print('Selection should be from the given list.')
+    #         return None
+    #     if var:
+    #         co_name = str(self.cbox_co.get())
+    #         year = self.cbox_year.get()
+    #         if co_name and year:
+                
+                
+                
         
     def export(self,x):
         """ Exports a whole questionnaire, sheet or AC"""
