@@ -502,7 +502,14 @@ class indicators():
         
         self.compute_percentages(variables_dict_public,False)
         self.compute_percentages(variables_dict_private,False)
-    
+
+    def compute_all_indicators(self):
+        self.pupils_teachers_ratio()
+        self.newly_recruited_teachers()
+        self.teachers_percentage_female()
+        self.percentage_trained_teachers()
+        self.percentage_private_teachers()
+        self.percentage_non_permanent_teachers()
     
         
     def __init__ (self,database_file,emco_year,country_name):
