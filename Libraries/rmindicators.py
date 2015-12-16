@@ -299,7 +299,7 @@ def none_emptytr(x):
     if x==None:
        return('')
     else:
-    return(x)
+        return(x)
     
 class indicators():
     def get_nadm1(self):
