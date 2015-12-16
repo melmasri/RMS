@@ -447,10 +447,14 @@ class indicators():
         cursor.close()
 
     def pupils_teachers_ratio(self):
+        ## Total number of pupils: E.1, E.2.GPV, E.3.GPV
+        ## Total number of teachers: T.1, T.2.GPV, T.3.GPV
+        ## We must sum 2 and 3 to get 23 because it does not exist for the pupils.
         variables_dict={ "PTRHC.1" : [["E.1",0],["T.1",0]]  , "PTRHC.2": [["E.2.GPV",0],["T.2.GPV",0]] , "PTRHC.3": [["E.3.GPV",0],["T.3.GPV",0]] , "PTRHC.2t3" : '' }
         self.compute_percentages(variables_dict)
 
     def newly_recruited_teachers(self):
+        ## NTP.2t3 was not in the list, so we invented it.
         variables_dict={"NTP.1" : [["NT.1",0],["T.1",-1]]  , "NTP.2" : [["NT.2.GPV",0],["T.2.GPV",-1]] , "NTP.3" : [["NT.3.GPV",0],["T.3.GPV",-1]] , "NTP.2t3" : '' }
         self.compute_percentages(variables_dict)
 
