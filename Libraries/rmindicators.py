@@ -1,5 +1,6 @@
 import sqlite3,re
 import sys, getpass, os, csv
+import datetime
 import csv
 
 from functools import reduce
@@ -368,11 +369,141 @@ class indicators():
         column_operation_result=list(map(operation,values1,values2))
         cursor.close()
         return column_operation_result
+
+    def compute_percentages(self,indexes_dict ,highest_and_lowest=True):
+        """Generic function for computing percentages of columns and computing
+        the maximum and minimum if necessary
+
+        the keys of indexes dict has to be the AC code of the
+        indicator to compute, the value should be a list with two
+        pairs that go in the column operation function.
         
-        
-    def indicator_number_of_teachers():
+        The functions that calculate the percentages for isced2 and
+        isced3 (isced23) do not need to include a value, it can be
+        just an empty string, they are calculated based on the other
+        two.
+        """
         cursor=self.conn.cursor()
-        cursor.execute("SELECT EMC_ID FROM RM_Mapping WHERE AC='T.1' AND CUR_YEAR=0")
+        values_dict={}
+        maximum_dict={}
+        minimum_dict={}
+        isced2_ind_name=''
+        isced3_ind_name=''
+        isced23_ind_name=''
+        for indicator_AC in indexes_dict.keys():
+            match2=re.search('2[^t]|2$',indicator_AC)
+            match3=re.search('[^t]3',indicator_AC)
+            match23=re.search('2t3',indicator_AC)
+            if (match2!=None):
+                isced2_ind_name=indicator_AC
+            if (match3!=None):
+                isced3_ind_name=indicator_AC
+            if (match23 != None):
+                isced23_ind_name=indicator_AC
+            else:
+                lista1=indexes_dict[indicator_AC][0]
+                lista2=indexes_dict[indicator_AC][1]
+                values_dict[indicator_AC]=self.column_operation(lista1,lista2,div)
+                if highest_and_lowest:
+                    maximum_dict[indicator_AC]=max_sp(values_dict[indicator_AC])
+                    minimum_dict[indicator_AC]=min_sp(values_dict[indicator_AC])
+                    ## The following lines can be erased when the mg_ids are figured out
+                    maximum_dict[indicator_AC][1]=0
+                    minimum_dict[indicator_AC][1]=0
+                    
+        if isced23_ind_name:
+            numerator_23=self.column_operation(indexes_dict[isced2_ind_name][0],indexes_dict[isced3_ind_name][0],sum   )
+            denominator_23=self.column_operation(indexes_dict[isced2_ind_name][1],indexes_dict[isced3_ind_name][1],sum   )
+            
+            # print(numerator_23)
+            # print(denominator_23)
+            # print(values_dict)
+            values_dict[isced23_ind_name]=list(map(div,numerator_23,denominator_23))
+            if highest_and_lowest:
+                maximum_dict[isced23_ind_name]=max_sp(values_dict[isced23_ind_name])
+                minimum_dict[isced23_ind_name]=min_sp(values_dict[isced23_ind_name])
+                ## The following lines can be erased when the mg_ids are figured out
+                maximum_dict[isced23_ind_name][1]=0
+                minimum_dict[isced23_ind_name][1]=0
+
+        ##We introduce everything in sql
+        for indicator_AC in indexes_dict.keys():
+            sql_tupple=()
+            for i in range(len(values_dict[indicator_AC]  )):
+                sql_tupple = sql_tupple + ((indicator_AC ,self.country_code,i,self.emco_year,1,values_dict[indicator_AC][i][0],1,values_dict[indicator_AC][i][1],datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")),)
+            cursor.executemany("INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,FIG,QUAL,MAGN,CALC_DATE) VALUES (?,?,?,?,?,?,?,?,?)", sql_tupple  )
+            # Now we insert the information for the biggest and smallest
+            if highest_and_lowest:
+                cursor.execute( "INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,FIG,QUAL,MAGN,CALC_DATE) VALUES (\"{}\",{},{},{},{},{},{},{},'{}')".format("H." + indicator_AC  ,self.country_code,0,self.emco_year,1,maximum_dict[indicator_AC][0] ,1, maximum_dict[indicator_AC][1], datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) )
+                cursor.execute( "INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,FIG,QUAL,MAGN,CALC_DATE) VALUES (\"{}\",{},{},{},{},{},{},{},'{}')".format("L." + indicator_AC  ,self.country_code,0,self.emco_year,1,minimum_dict[indicator_AC][0] ,1, minimum_dict[indicator_AC][1], datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) )
+            
+        # print(isced2_ind_name)
+        # print(isced3_ind_name)
+        # print(isced23_ind_name)
+        # print(values_dict)
+        # print(maximum_dict)
+        # print(minimum_dict)
+        self.conn.commit()
+        cursor.close()
+
+    def pupils_teachers_ratio(self):
+        variables_dict={ "PTRHC.1" : [["E.1",0],["T.1",0]]  , "PTRHC.2": [["E.2.GPV",0],["T.2.GPV",0]] , "PTRHC.3": [["E.3.GPV",0],["T.3.GPV",0]] , "PTRHC.2t3" : '' }
+        self.compute_percentages(variables_dict)
+
+    def newly_recruited_teachers(self):
+        variables_dict={"NTP.1" : [["NT.1",0],["T.1",-1]]  , "NTP.2" : [["NT.2.GPV",0],["T.2.GPV",-1]] , "NTP.3" : [["NT.3.GPV",0],["T.3.GPV",-1]] , "NTP.2t3" : '' }
+        self.compute_percentages(variables_dict)
+
+    def teachers_percentage_female(self):
+        variables_dict={ "FTP.1": [["T.1.F",0],["T.1",0]]  , "FTP.2": [["T.2.GPV.F",0],["T.2.GPV",0]]  , "FTP.3" : [["T.3.GPV.F",0],["T.3.GPV",0]]  , "FTP.2t3" : '' }
+        self.compute_percentages(variables_dict)
+
+    def percentage_trained_teachers(self):
+        # number of trained teachers isced1: T.1.trained, T.2.GPV.trained, T.3.GPV.trained
+        # number of teachers : T.1, T.2.GPV T.3.GPV
+        # New recruited teachers: NT.1,NT.2.GPV,NT.3.GPV
+        # New recruited and trained: NT.1.trained, NT.2.GPV.trained, NT.3.GPV.trained
+
+        # Percentage of trained teachers: TRTP.1, TRTP.2, TRTP.3, TRTP.2t3
+        # Percentage of newly recruited teachers: TrNTP.1,  TrNTP.2, TrNTP.3, TrNTP.2t3
+        variables_dict1={"TRTP.1": [["T.1.trained",0 ],["T.1",0] ], "TRTP.2": [["T.2.GPV.trained",0 ],["T.2.GPV",0]], "TRTP.3" : [["T.3.GPV.trained",0],["T.3.GPV",0]],  "TRTP.2t3": ''  }
+        variables_dict2={"TrNTP.1": [["NT.1.trained",0],["NT.1",0]],"TrNTP.2":[["NT.2.GPV.trained",0],["NT.2.GPV",0]],"TrNTP.3":[["NT.3.GPV.trained",0],["NT.3.GPV",0]],"TrNTP.2t3":''}
+        self.compute_percentages(variables_dict1)
+        self.compute_percentages(variables_dict2)
+
+    def percentage_private_teachers(self):
+        ## Percentage of private teachers: T.1.Pr, T.2.GPV.Pr, T.3.GPV.Pr, T.23.GPV.Pr
+        ## number of teachers : T.1, T.2.GPV T.3.GPV
+        ## indicators(invented, not foun in table):  TP.1.Pr, TP.2.Pr, TP.3.Pr, TP.2t3.Pr
+        variables_dict={"TP.1.Pr":[["T.1.Pr",0],["T.2.GPV.Pr",0]],
+                        "TP.2.Pr":[["T.2.GPV.Pr",0],["T.2.GPV",0]],
+                        "TP.3.Pr":[["T.3.GPV.Pr",0],["T.3.GPV",0]],
+                        "TP.2t3.Pr":''}
+        self.compute_percentages(variables_dict)
+
+    def percentage_non_permanent_teachers(self):
+        ## Number of non-permanent teachers: T.1.Pr.Fix, T.2.GPV.Pr.Fix, T.3.GPV.Pr.Fix,T.23.GPV.Pr.Fix
+        ## Number of permanent teachers: T.1.Pr.Perm, T.2.GPV.Pr.Perm, T.3.GPV.Pr.Perm,T.23.GPV.Pr.Fix
+        ## indicators (invented):
+        ## Percentage of non permanent teachers among public teachers isced 1: TP.1.Pr.Fix
+        ## Percentage of non permanent teachers among public teachers isced 2: TP.2.GPV.Pr.Fix
+        ## Percentage of non permanent teachers among public teachers isced 3: TP.3.GPV.Pr.Fix
+        ## Percentage of non permanent teachers among public teachers isced 3: TP.2t3.GPV.Pr.Fix
+        variables_dict_private={"TP.1.Pr.Fix":[["T.1.Pr.Fix",0],["T.1.Pr",0]],
+                                "TP.2.GPV.Pr.Fix": [["T.2.GPV.Pr.Fix",0],["T.2.GPV.Pr",0]],
+                                "TP.3.GPV.Pr.Fix": [["T.3.GPV.Pr.Fix",0],["T.3.GPV.Pr",0]],
+                                "TP.2t3.GPV.Pr.Fix" : ''
+                            }
+        variables_dict_public={"TP.1.Pu.Fix":[["T.1.Pu.Fix",0],["T.1.Pu",0]],
+                               "TP.2.GPV.Pu.Fix": [["T.2.GPV.Pu.Fix",0],["T.2.GPV.Pu",0]],
+                               "TP.3.GPV.Pu.Fix": [["T.3.GPV.Pu.Fix",0],["T.3.GPV.Pu",0]],
+                               "TP.2t3.GPV.Pu.Fix" : ''
+                           }
+        
+        self.compute_percentages(variables_dict_public,False)
+        self.compute_percentages(variables_dict_private,False)
+    
+    
         
     def __init__ (self,database_file,emco_year,country_name):
         self.set_database_connection(database_file)

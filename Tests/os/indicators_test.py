@@ -36,9 +36,9 @@ class indicators_test(indicators):
         isced3_ind_name=''
         isced23_ind_name=''
         for indicator_AC in indexes_dict.keys():
-            match2=re.search('2$',indicator_AC)
-            match3=re.search('3$',indicator_AC)
-            match23=re.search('2t3$',indicator_AC)
+            match2=re.search('2[^t]',indicator_AC)
+            match3=re.search('[^t]3',indicator_AC)
+            match23=re.search('2t3',indicator_AC)
             if (match2!=None):
                 isced2_ind_name=indicator_AC
             if (match3!=None):
@@ -48,10 +48,7 @@ class indicators_test(indicators):
             else:
                 lista1=indexes_dict[indicator_AC][0]
                 lista2=indexes_dict[indicator_AC][1]
-                print(lista1)
-                print(lista2)
                 values_dict[indicator_AC]=self.column_operation(lista1,lista2,div)
-                print(values_dict[indicator_AC])
                 if highest_and_lowest:
                     maximum_dict[indicator_AC]=max_sp(values_dict[indicator_AC])
                     minimum_dict[indicator_AC]=min_sp(values_dict[indicator_AC])
@@ -60,9 +57,10 @@ class indicators_test(indicators):
                     minimum_dict[indicator_AC][1]=0
                     
         if isced23_ind_name:
+            print(indexes_dict)
             numerator_23=self.column_operation(indexes_dict[isced2_ind_name][0],indexes_dict[isced3_ind_name][0],sum   )
             denominator_23=self.column_operation(indexes_dict[isced2_ind_name][1],indexes_dict[isced3_ind_name][1],sum   )
-            # print(indexes_dict)
+            
             # print(numerator_23)
             # print(denominator_23)
             # print(values_dict)
@@ -85,12 +83,12 @@ class indicators_test(indicators):
                 cursor.execute( "INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,FIG,QUAL,MAGN,CALC_DATE) VALUES (\"{}\",{},{},{},{},{},{},{},'{}')".format("H." + indicator_AC  ,self.country_code,0,self.emco_year,1,maximum_dict[indicator_AC][0] ,1, maximum_dict[indicator_AC][1], datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) )
                 cursor.execute( "INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,FIG,QUAL,MAGN,CALC_DATE) VALUES (\"{}\",{},{},{},{},{},{},{},'{}')".format("L." + indicator_AC  ,self.country_code,0,self.emco_year,1,minimum_dict[indicator_AC][0] ,1, minimum_dict[indicator_AC][1], datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) )
             
-        print(isced2_ind_name)
-        print(isced3_ind_name)
-        print(isced23_ind_name)
-        print(values_dict)
-        print(maximum_dict)
-        print(minimum_dict)
+        # print(isced2_ind_name)
+        # print(isced3_ind_name)
+        # print(isced23_ind_name)
+        # print(values_dict)
+        # print(maximum_dict)
+        # print(minimum_dict)
         self.conn.commit()
         cursor.close()
 
@@ -370,5 +368,5 @@ class indicators_test(indicators):
 
         
 
-a=indicators_test("/home/oscar/RMS/Database/Prod.db",2015,"Lao People's Democratic Republic")
+a=indicators("/home/oscar/RMS/Database/Prod.db",2015,"Lao People's Democratic Republic")
 female_percentage={"FTP.1": [ ["T.1.F",0],["T.1",0] ]   , "FTP.2":[["T.2.GPV.F",0],["T.2.GPV",0] ] , "FTP.3":[["T.23.GPV.F",0],["T.23.GPV",0] ] , "FTP.2t3": [] }
