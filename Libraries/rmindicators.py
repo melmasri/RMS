@@ -120,138 +120,6 @@ def div(x,y):
 def op2col(col1, col2, op):
     """ Returns the op(sum/div/prod) of two columns"""
     return  list(map(lambda x,y: op(x, y), col1, col2))
-##################################################
-
-##################################################
-#### Highest level of EdAttain
-##################################################
-def highestEA_list(level, indic, offset=0):
-    """ Returns the ratio of the highest level of EdAttain given the level
-        offset is the year, 0 for current year assigned by indic, -1 is N-1 year
-        indic an instance of indicator class"""
-    ac_pop = 'Pop.Ag0t99'
-    if len(level) ==1:
-        a = indic.column_operation([level[0], offset], [ac_pop,offset], lambda x,y: div(x,y)) 
-    else:    
-        b = list(map(lambda x: indic.column_operation([x, offset], [ac_pop,offset], lambda x,y: div(x,y)), level))
-        a = reduce(lambda x,y: op2col(x, y, sum), b)
-    return(a)
-
-def highestEA(schoolLevel,  indic, offset=0):
-    """ 
-    Returns a dictionary of the indicator EA(x)PT.(y).(z), where
-    x is 2m, 3, 4, or 5p as the attainment levels
-    y is the parameter schoolLevel defined by ['1', '2.GPV', '3.GPV', '23.GPV']
-    z is ['', '.Pu', '.Pr']
-    
-    The key of the dictionary is the indicator name EA(x)PT.(y).(z) and the value is
-    a list of calculated figures for each region. 
-    
-    indic is an instance of indicator class,
-    offset is the year offset, 0 as current year defined in indicator class indic, and -1, is the N-1 year.
-    """
-    if schoolLevel not in ['1', '2.GPV', '3.GPV', '23.GPV']:
-        print("The only schoolLevel allowed is ['1', '2.GPV', '3.GPV', '23.GPV'] ")
-        return
-    
-    dic_level = {'2m':['T.x.EA.2m'] , '3':['T.x.EA.3'], '4': ['T.x.EA.4'], '5p':['T.x.EA.5', 'T.x.EA.6','T.x.EA.7','T.x.EA.8'], 'uk':['T.x.EA.uk'] }
-    typeSchool  = ['', '.Pu', '.Pr']
-    EA_dic = {}
-    for key, value in dic_level.items():
-        for t in typeSchool:
-            name = 'EA' + key + 'PT.' + s + t
-            level_list = list(map(lambda x: x.replace('x', s+t), dic_level[key]))
-            EA_dic.update({name:highestEA_list(level_list, indic, offset)})
-    return EA_dic
-
-
-def EA_all(indic, offset=0):
-    """
-    Calculates the highest EdAttain for for levels  ['1', '2.GPV', '3.GPV', '23.GPV']
-    returns a dictionary of dictionaries. The first level is of size 4, as for each level
-    and the second levels is a dictionary creates by highestEA_list  as:
-    
-    A dictionary of the indicator EA(x)PT.(y).(z), where
-    x is 2m, 3, 4, or 5p as the attainment levels
-    y is the parameter schoolLevel defined by ['1', '2.GPV', '3.GPV', '23.GPV']
-    z is ['', '.Pu', '.Pr']
-    
-    The key of the dictionary is the indicator name EA(x)PT.(y).(z) and the value is
-    a list of calculated figures for each region. 
-    """
-    ea = {} 
-    isced = ['1', '2.GPV', '3.GPV', '23.GPV']
-    for s in isced:
-        ea.update({s : highestEA(s,  indic, offset) })
-    return(ea)    
-
-
-##################################################
-### Mean functions
-##################################################
-def mean_category(indic, codes, midpoints, ac_pop = 'Pop.Ag0t99'):
-    """ Calculates a generic mean by category given the category and a list of indicators
-    returns the mean category by ADM
-    """
-    if len(midpoints)!=len(codes):
-        print("Length of midpoints doesn't equal length of codes!")
-        return
-    temp = list(map(lambda z,v: indic.column_operation([z,0], [ac_pop, 0], lambda x,y:   prod(div(x,y), v)),codes, midpoints))
-    temp = list(map(lambda l: reduce(lambda x,y: sum(x,y), l), temp))
-    return(temp)
-
-def mean_age_level(indic,level):
-    """ 
-    Given a level of the format ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV'] 
-    and an instance of class indicator (indic), 
-    the function returns the average mean age of the given level for total, public and private in a dictionary format, with indicator names as key of the dictionary.
-    
-    The average is calculated by using the midpoint ages defined in the midpoint variable below in a ascending order. 
-
-"""
-    if level not in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']:
-        print("The only levels allowed are ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']")
-        return
-    midpoint = [[20,''], [24,''], [34,''], [44,''],[54,''], [65,'']]
-    levelsExt = ['x.Ag20m','x.Ag20t29','x.Ag30t39','x.Ag40t49','x.Ag50t59','x.Ag60p']
-    typeSchool  = ['', '.Pu', '.Pr']
-    MAge = {}
-    for t in typeSchool:
-        name = 'MAge' + level + t
-        codes = list(map(lambda x: x.replace('x', level+t), levelsExt))
-        MAge.update({name:mean_category(indic,codes,midpoint)})
-    return MAge
-    
-def mean_exp_level(indic, level):
-    if level not in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']:
-        print("The only levels allowed are ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']")
-        return
-    midpoint = [[1.5,''], [4,''], [8,''], [13,''],[15,'']] ## midpoint years of experience for each level.
-    levelsExt = ['z.Exp1t2', 'z.Exp3t5','z.Exp6t10', 'z.Exp11t15', 'z.Exp15p']
-    typeSchool  = ['', '.Pu', '.Pr']
-    MExp = {}
-    for t in typeSchool:
-        name = 'MExp' + level + t
-        codes = list(map(lambda x: x.replace('z', level+t), levelsExt))
-        print(codes)
-        MExp.update({name:mean_category(indic,codes,midpoint)})
-    return MExp
-
-def mean_level(indic, levelFun):
-    """
-    Calculates the mean of age/exp/... for the following levels ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']. 
-    It requires a levelFun(indic, level) as in mean_age_level or mean_exp_level. 
-
-    Returns a dictionary for each level in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV'], with the key as the level and the result is the return of levelFun.
-    """
-    M = {}
-    for s in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']:
-        M.update({s: levelFun(indic, s)})
-    return M
-
-
-##################################################
-##################################################
 
 def min_sp(lala):
     """Used to find the minimum value for the lowest female percentage
@@ -506,6 +374,136 @@ class indicators():
         
         self.compute_percentages(variables_dict_public,False)
         self.compute_percentages(variables_dict_private,False)
+    ##################################################
+    ### Mean functions
+    ##################################################
+    def mean_category(self, codes, midpoints, ac_pop = 'Pop.Ag0t99'):
+        """ Calculates a generic mean by category given the category and a list of indicators
+        returns the mean category by ADM
+        """
+        if len(midpoints)!=len(codes):
+            print("Length of midpoints doesn't equal length of codes!")
+            return
+        temp = list(map(lambda z,v: self.column_operation([z,0], [ac_pop, 0], lambda x,y:   prod(div(x,y), v)),codes, midpoints))
+        temp = list(map(lambda l: reduce(lambda x,y: sum(x,y), l), temp))
+        return(temp)
+
+    def mean_age_level(self,level):
+        """ 
+        Given a level of the format ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV'] 
+        the function returns the average age of the given level for total, 
+        public and private in a dictionary format, with indicator names as key of the dictionary.
+        
+        The average is calculated by using the midpoint ages defined in the midpoint variable below in a ascending order. 
+        """
+        if level not in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']:
+            print("The only levels allowed are ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']")
+            return
+        midpoint = [[20,''], [24,''], [34,''], [44,''],[54,''], [65,'']]
+        levelsExt = ['x.Ag20m','x.Ag20t29','x.Ag30t39','x.Ag40t49','x.Ag50t59','x.Ag60p']
+        typeSchool  = ['', '.Pu', '.Pr']
+        MAge = {}
+        for t in typeSchool:
+            name = 'MAge' + level + t
+            codes = list(map(lambda x: x.replace('x', level+t), levelsExt))
+            MAge.update({name:mean_category(codes,midpoint)})
+        return MAge
+        
+    def mean_exp_level(self, level):
+        """ 
+        Given a level of the format ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV'] 
+        the function returns the average years of experience of the given level for total, 
+        public and private in a dictionary format, with indicator names as key of the dictionary.
+        
+        The average is calculated by using the midpoint years of experience ages defined in the midpoint variable below in a ascending order. 
+        """
+        if level not in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']:
+            print("The only levels allowed are ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']")
+            return
+        midpoint = [[1.5,''], [4,''], [8,''], [13,''],[15,'']] ## midpoint years of experience for each level.
+        levelsExt = ['z.Exp1t2', 'z.Exp3t5','z.Exp6t10', 'z.Exp11t15', 'z.Exp15p']
+        typeSchool  = ['', '.Pu', '.Pr']
+        MExp = {}
+        for t in typeSchool:
+            name = 'MExp' + level + t
+            codes = list(map(lambda x: x.replace('z', level+t), levelsExt))
+            print(codes)
+            MExp.update({name:mean_category(scodes,midpoint)})
+        return MExp
+
+    def mean_level(self, levelFun):
+        """
+        Calculates the mean of age/exp/... for the following levels ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']. 
+        It requires a levelFun(indic, level) as in mean_age_level or mean_exp_level. 
+        
+        Returns a dictionary for each level in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV'], with the key as the level and the result is the return of levelFun.
+        """
+        M = {}
+        for s in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']:
+            M.update({s: levelFun(s)})
+        return M
+        ##################################################
+        ##################################################
+        #### Highest level of EdAttain
+        ##################################################
+    def highestEA_list(self, level, offset=0):
+        """ 
+        Returns the ratio of the highest level of EdAttain given the level
+        offset is the year, 0 for current year assigned by indic, -1 is N-1 year
+        """
+        ac_pop = 'Pop.Ag0t99'
+        if len(level) ==1:
+            a = self.column_operation([level[0], offset], [ac_pop,offset], lambda x,y: div(x,y)) 
+        else:           
+            b = list(map(lambda x: self.column_operation([x, offset], [ac_pop,offset], lambda x,y: div(x,y)), level))
+            a = reduce(lambda x,y: op2col(x, y, sum), b)
+        return(a)
+
+    def highestEA(self, schoolLevel, offset=0):
+        """ 
+        Returns a dictionary of the indicator EA(x)PT.(y).(z), where
+        x is 2m, 3, 4, or 5p as the attainment levels
+        y is the parameter schoolLevel defined by ['1', '2.GPV', '3.GPV', '23.GPV']
+        z is ['', '.Pu', '.Pr']
+    
+        The key of the dictionary is the indicator name EA(x)PT.(y).(z) and the value is
+        a list of calculated figures for each region. 
+    
+        offset is the year offset, 0 as current year defined in indicator class indic, and -1, is the N-1 year.
+    """
+        if schoolLevel not in ['1', '2.GPV', '3.GPV', '23.GPV']:
+            print("The only schoolLevel allowed is ['1', '2.GPV', '3.GPV', '23.GPV'] ")
+            return
+        dic_level = {'2m':['T.x.EA.2m'] , '3':['T.x.EA.3'], '4': ['T.x.EA.4'], '5p':['T.x.EA.5', 'T.x.EA.6','T.x.EA.7','T.x.EA.8'], 'uk':['T.x.EA.uk'] }
+        typeSchool  = ['', '.Pu', '.Pr']
+        EA_dic = {}
+        for key, value in dic_level.items():
+            for t in typeSchool:
+                name = 'EA' + key + 'PT.' + s + t
+                level_list = list(map(lambda x: x.replace('x', s+t), dic_level[key]))
+                EA_dic.update({name:highestEA_list(level_list, offset)})
+        return EA_dic
+
+    def EA_all(self, offset=0):
+        """
+        Calculates the highest EdAttain for for levels  ['1', '2.GPV', '3.GPV', '23.GPV']
+        returns a dictionary of dictionaries. The first level is of size 4, as for each level
+        and the second levels is a dictionary creates by highestEA_list  as:
+    
+        A dictionary of the indicator EA(x)PT.(y).(z), where
+        x is 2m, 3, 4, or 5p as the attainment levels
+        y is the parameter schoolLevel defined by ['1', '2.GPV', '3.GPV', '23.GPV']
+        z is ['', '.Pu', '.Pr']
+    
+        The key of the dictionary is the indicator name EA(x)PT.(y).(z) and the value is
+        a list of calculated figures for each region. 
+        """
+        ea = {} 
+        isced = ['1', '2.GPV', '3.GPV', '23.GPV']
+        for s in isced:
+            ea.update({s : highestEA(s,  indic, offset) })
+        return(ea)    
+
 
     def compute_all_indicators(self):
         self.pupils_teachers_ratio()

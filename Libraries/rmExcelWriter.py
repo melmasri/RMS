@@ -103,6 +103,48 @@ def getTable_comment(var, co_code, year, view_type,serie):
         data = {indexes_inverse(ind): data[1], indexes_inverse([ind[0]-3, ind[1]]): data[0], indexes_inverse([ind[0]-1, ind[1]]): 'Table comments:'}
         return(data)
 
+def getIndic(co_code, year, ind):
+    """ A function that returns indicator data and labels for a specific CO_CODE and year.
+        ind is either:
+                'All' for all indicators 
+                indicator name as 'NTP.1'
+        The function returns the a list of tuples, where each tuple is an SQL record. 
+        The tuple is organized as (ADM_CODE, DATA, CELL.NO , EXL_REF)
+    """
+    if ind!='All':
+        sql_data = ("select ADM_CODE, FIG, 3 as Col, 'D18' as EXL_REF from EDU_INDICATOR_EST as a "
+                    "where a.CO_CODE = {0} and a.IND_YEAR = {1} "
+                    "and IND_ID = '{2}'".format(co_code, year, ind))
+        data = sql_query(sql_data)
+        ## Adding ADM column
+        label_adm = ("select a.ADM_CODE, a.ADM_NAME as cell, "
+                     "2 as Cell, 'C18' as EXL_REF from REGIONS as a "
+                     "where co_code ={0};".format(co_code))
+        data = data + sql_query(label_adm)
+        ## Adding column and indic label
+        data = data + [(-1, 2, 2, 'C18'),(-2, ind, 2, 'D18'),(-2, 'ADM_NAME', 2, 'C18'), (-1, 3, 3, 'D18')]
+
+    if ind=='All':
+        sql_data = ("select ADM_CODE, FIG, a.IND_ID from EDU_INDICATOR_EST as a "
+                    "where a.CO_CODE = {0} and a.IND_YEAR = {1} "
+                    "group by a.IND_ID, a.ADM_CODE".format(co_code, year, ind))
+        data = sql_query(sql_data)
+        ## Adding indexes to where to write the data
+        indic_ids = list(map(lambda x: x[2], data))
+        indic_ids = sorted(set(indic_ids))
+        d = {indic_ids[i]: [i+3,indexes_inverse([17, i+3])]  for i in range(len(indic_ids))}
+        data = list(map(lambda x: x[:2] + tuple(d[x[2]]),data ))
+        ## Creating IND labels and column numbers 
+        col_num = list(map(lambda x:(-1, d[x][0], d[x][0], d[x][1]), indic_ids))
+        indic_labels =  list(map(lambda x:(-2, x)+ tuple(d[x]) , indic_ids))
+        ## Creating ADM column
+        label_adm = ("select a.ADM_CODE, a.ADM_NAME as cell, "
+                     "2 as Cell, 'C18' as EXL_REF from REGIONS as a "
+                     "where co_code ={0};".format(co_code))
+        data = data + sql_query(label_adm) +  [(-2, 'ADM_NAME', 2, 'C18'),(-1, 2, 2, 'C18')]
+        ## Adding everything
+        data = data + col_num + indic_labels 
+    return(data)
 
 def export_var(var, wb, co_code, year, var_type, serie= 'REP'):
     """ A function that exports to an Excel workbook a data defined in var.
@@ -151,8 +193,35 @@ def export_var(var, wb, co_code, year, var_type, serie= 'REP'):
             table_comment  =  getTable_comment(ext, co_code, year, view_type, serie)
             write_data(worksheet,table_comment) if table_comment  else None
 
-           
+            
+def export_indc(ind, wb, co_code, year, serie = 'EST'):
+    """ A function that exports to an Excel workbook a indicator data defined in ind,
+        ind is either 'All' for all indicators  or and indicator AC as 'NTP.1'
+        wb is the workbook object from xlsxwriter.
+        serie is always set to EST since there is only EDU_INDICATOR_EST table.
+    """
+    co_name = getCO_NAME(co_code)
+    no_ADM = getADM_DISTINCT(co_code) -1
+    view_type = 'ReadOnly'
+    # Header to write to each worksheet
+    header_dict= {'A1': 'Country','B1': co_name,'A2': 'CO_CODE',
+                  'B2': co_code,'A3': 'Year','B3': year,
+                  'A4': 'Data','B4': ind, 'A5': 'No.ADM', 'B5': no_ADM,
+                  'A6': 'Series', 'B6': serie,
+                  'A7': 'Mode', 'B7': view_type}
+    # header format
+    format_header = wb.add_format({'bold' : True, 'align' : 'left'})
+    format_data  = wb.add_format({'align' : 'right'})
+    ## Extract data
+    data = getIndic(co_code, year, ind)
+    ## Adding formating
+    data = [l + (format_data,) if l[0]>=0 else l + (format_header,) for l in data]
+    ## Writing
+    worksheet = wb.add_worksheet()
+    write_data(worksheet, data, view_type, fmt=True)
+    write_data(worksheet, header_dict)
 
+  
 def write_data(worksheet, data, view_type = 'ReadOnly', **op):
     """ A function that writes data and labels to a given worksheet.
         There are two ways to write the data. 

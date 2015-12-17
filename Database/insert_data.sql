@@ -145,3 +145,12 @@ delete FROM REGIONS WHERE CO_CODE = 'CO_CODE';
 
 --removing the headers (a bit of a hack but sqlite has no direct way)
 delete FROM RM_Mapping_NonNumeric WHERE Tab = 'Tab';
+
+
+-- inserting EDU_INDICATOR_AID
+-- cvs mode to set the separators before inserting data
+.mode csv                       
+.import "Inserted data/EDU_INDICATOR_AID.csv" EDU_INDICATOR_AID
+
+--removing the headers (a bit of a hack but sqlite has no direct way)
+delete FROM EDU_INDICATOR_AID WHERE IND_ID = 'IND_ID';

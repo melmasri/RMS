@@ -174,8 +174,8 @@ class RM():
         
         self.cbox_indic = ttk.Combobox(self.lf_IndicOptions, postcommand= self.getIndic, width=20)
         self.cbox_indic.grid(row=0, column=1, sticky='W')
-        ttk.Button(self.lf_IndicOptions, text ='Extract').grid(row=0, column=2, sticky='W',padx=5,pady=5)
-        # ttk.Button(self.lf_IndicOptions, text ='Calculate', command= lambda x = 'REP', y = 'OBS': self.migrate_serie(x,y)).grid(row=0, column=3, sticky='W',padx=5,pady=5)
+        ttk.Button(self.lf_IndicOptions, text ='Extract', command = self.export_indic).grid(row=0, column=2, sticky='W',padx=5,pady=5)
+        ttk.Button(self.lf_IndicOptions, text ='Calculate').grid(row=0, column=3, sticky='W',padx=5,pady=5)
               
         # # Output folder
         ttk.Label(self.writeframe, text='Select output folder ').grid(row=7, column=0, sticky='W')    
@@ -230,19 +230,33 @@ class RM():
         print('Import backups are stored in subfolder {0}, default output subfolder is {1}.'.format(self.backup_folder, self.output_folder_default))
         print('-----------------------------------')
 
-    # def export_indic(self, x):
-    #     """ Exporting an indicator"""
-    #     var = str(self.cbox_indic.get())
-    #     if var not in self.cbox_indic['values']:
-    #         print('Selection should be from the given list.')
-    #         return None
-    #     if var:
-    #         co_name = str(self.cbox_co.get())
-    #         year = self.cbox_year.get()
-    #         if co_name and year:
-                
-                
-                
+    def export_indic(self):
+        """ Exporting an indicator"""
+        var = str(self.cbox_indic.get())
+        if var not in self.cbox_indic['values']:
+            print('Selection should be from the given list.')
+            return None
+        if var:
+            co_name = str(self.cbox_co.get())
+            year = self.cbox_year.get()
+            if co_name and year:
+                co_code = getCO_CODE(co_name)
+                print('Extracting {0} for {1}-{2}....'.format(var,co_name, year))
+                filename = "{0}_{1}_INDIC_{2}.xlsx".format(co_name, year,var)
+                if self.output_folder_var:
+                    filename = "{0}/{1}".format(self.output_folder_var,filename)
+                else:
+                    filename = "{0}/{1}/{2}".format(self.main_dir, self.output_folder_default,filename)
+                wb = xlsxwriter.Workbook(filename)
+                print('File {0} is created..'.format(filename))
+                export_indc(var, wb, co_code, year)
+                wb.close()
+                open_file_local(filename)
+                print('Done.')
+            else:
+                print('Error: missing country name, year.')
+        else:
+            print("Error: no indicator is specified")
         
     def export(self,x):
         """ Exports a whole questionnaire, sheet or AC"""
