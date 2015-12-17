@@ -479,7 +479,7 @@ class indicators():
         ## Percentage of private teachers: T.1.Pr, T.2.GPV.Pr, T.3.GPV.Pr, T.23.GPV.Pr
         ## number of teachers : T.1, T.2.GPV T.3.GPV
         ## indicators(invented, not foun in table):  TP.1.Pr, TP.2.Pr, TP.3.Pr, TP.2t3.Pr
-        variables_dict={"TP.1.Pr":[["T.1.Pr",0],["T.2.GPV.Pr",0]],
+        variables_dict={"TP.1.Pr":[["T.1.Pr",0],["T.1",0]],
                         "TP.2.Pr":[["T.2.GPV.Pr",0],["T.2.GPV",0]],
                         "TP.3.Pr":[["T.3.GPV.Pr",0],["T.3.GPV",0]],
                         "TP.2t3.Pr":''}
