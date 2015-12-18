@@ -77,7 +77,7 @@ class indicators_test(indicators):
             sql_tupple=()
             for i in range(len(values_dict[indicator_AC]  )):
                 sql_tupple = sql_tupple + ((indicator_AC ,self.country_code,i,self.emco_year,1,values_dict[indicator_AC][i][0],1,values_dict[indicator_AC][i][1],datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")),)
-            cursor.executemany("INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,FIG,QUAL,MAGN,CALC_DATE) VALUES (?,?,?,?,?,?,?,?,?)", sql_tupple  )
+                cursor.executemany("INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,FIG,QUAL,MAGN,CALC_DATE) VALUES (?,?,?,?,?,?,?,?,?)", sql_tupple  )
             # Now we insert the information for the biggest and smallest
             if highest_and_lowest:
                 cursor.execute( "INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,FIG,QUAL,MAGN,CALC_DATE) VALUES (\"{}\",{},{},{},{},{},{},{},'{}')".format("H." + indicator_AC  ,self.country_code,0,self.emco_year,1,maximum_dict[indicator_AC][0] ,1, maximum_dict[indicator_AC][1], datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) )
@@ -127,7 +127,7 @@ class indicators_test(indicators):
                         "TP.2t3.Pr":''}
         self.compute_percentages(variables_dict)
 
-    def percentage_non_permanent_teachers(self):
+    def percentage_npt(self):
         ## Number of non-permanent teachers: T.1.Pr.Fix, T.2.GPV.Pr.Fix, T.3.GPV.Pr.Fix,T.23.GPV.Pr.Fix
         ## Number of permanent teachers: T.1.Pr.Perm, T.2.GPV.Pr.Perm, T.3.GPV.Pr.Perm,T.23.GPV.Pr.Fix
         ## indicators (invented):
@@ -138,17 +138,35 @@ class indicators_test(indicators):
         variables_dict_private={"TP.1.Pr.Fix":[["T.1.Pr.Fix",0],["T.1.Pr",0]],
                                 "TP.2.GPV.Pr.Fix": [["T.2.GPV.Pr.Fix",0],["T.2.GPV.Pr",0]],
                                 "TP.3.GPV.Pr.Fix": [["T.3.GPV.Pr.Fix",0],["T.3.GPV.Pr",0]],
-                                "TP.2t3.GPV.Pr.Fix" : ''
+                                "TP.2t3.GPV.Pr.Fix" : [ ["T.23.GPV.Pr.Fix",0],["T.23.GPV.Pr",0] ]
                             }
         variables_dict_public={"TP.1.Pu.Fix":[["T.1.Pu.Fix",0],["T.1.Pu",0]],
                                "TP.2.GPV.Pu.Fix": [["T.2.GPV.Pu.Fix",0],["T.2.GPV.Pu",0]],
                                "TP.3.GPV.Pu.Fix": [["T.3.GPV.Pu.Fix",0],["T.3.GPV.Pu",0]],
-                               "TP.2t3.GPV.Pu.Fix" : ''
+                               "TP.2t3.GPV.Pu.Fix" : [ ["T.23.GPV.Pu.Fix",0],["T.23.GPV.Pu",0] ]
                            }
         
-        self.compute_percentages(variables_dict_public,False)
-        self.compute_percentages(variables_dict_private,False)
-    
+#        self.compute_percentages(variables_dict_public,False)
+#        self.compute_percentages(variables_dict_private,False)
+
+        ## Now we compute the one that includes both private and public
+        cursor=self.conn.cursor()
+        for keys in [["TP.1.Pr.Fix","TP.1.Pu.Fix" ],["TP.2.GPV.Pr.Fix","TP.2.GPV.Pu.Fix"],["TP.3.GPV.Pr.Fix","TP.3.GPV.Pu.Fix"],["TP.2t3.GPV.Pr.Fix","TP.2t3.GPV.Pu.Fix"]]:
+            numerator=self.column_operation(variables_dict_private[keys[0]][0],variables_dict_public[keys[1]][0],sum  )
+            denominator=self.column_operation(variables_dict_private[keys[0]][1],variables_dict_public[keys[1]][1],sum  )
+            values=list(map(div,numerator,denominator))
+            indicator=keys[0]
+            indicator=indicator.replace(".Pr",'')
+            # print("numerator:")
+            # print(numerator)
+            # print("denominator:")
+            # print(denominator)
+            sql_tupple=()
+            for i in range(len(values)):
+                sql_tupple = sql_tupple + ((indicator ,self.country_code,i,self.emco_year,1,values[i][0],1,values[i][1],datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")),)
+            cursor.executemany("INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,FIG,QUAL,MAGN,CALC_DATE) VALUES (?,?,?,?,?,?,?,?,?)", sql_tupple  )
+        self.conn.commit()
+        cursor.close()
     # def pupils_teachers_ratio(self):
     #     """Computes PTRHC's, so head count.
     #     """

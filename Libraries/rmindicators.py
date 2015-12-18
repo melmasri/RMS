@@ -128,7 +128,7 @@ def min_sp(lala):
     """
     def auxf(x,y):
         if ( (type(x[0]) in [int,float]) and (type(y[0]) in [int,float]) ):
-            return ( [min(x[0],y[0]),''] )
+            return ( [min(x[0],y[0]),x[1]] )
         elif (type(x) in [int,float]):
             return (y)
         else:
@@ -145,7 +145,7 @@ def max_sp(lala):
     """
     def auxf(x,y):
         if ( (type(x[0]) in [int,float]) and (type(y[0]) in [int,float]) ):
-            return ( [max(x[0],y[0]),''] )
+            return ( [max(x[0],y[0]),x[1]] )
         elif (type(x) in [int,float]):
             return (y)
         else:
@@ -225,12 +225,12 @@ class indicators():
         cursor.execute("SELECT EMC_ID FROM RM_Mapping WHERE AC='{0}' AND CUR_YEAR={1} LIMIT 1".format(AC2,year2))
         emc_id2=cursor.fetchone()[0]
         #cursor.execute("select EM_FIG,MG_ID from EDU_METER97_REP where CO_CODE={} and emc_id={} and emco_year={}".format(self.country_code,emc_id1,self.emco_year+year1))
-        cursor.execute("select a.EM_FIG,b.SYMBOL from EDU_METER97_REP AS a LEFT JOIN MAGNITUDE AS b ON ( a.mg_id = b.mg_id) WHERE a.CO_CODE={} and a.emc_id={} AND a.emco_year={} ORDER BY ADM_CODE ASC".format(self.country_code,emc_id1,self.emco_year+year1));
+        cursor.execute("select a.EM_FIG,b.SYMBOL from EDU_METER97_EST AS a LEFT JOIN MAGNITUDE AS b ON ( a.mg_id = b.mg_id) WHERE a.CO_CODE={} and a.emc_id={} AND a.emco_year={} ORDER BY ADM_CODE ASC".format(self.country_code,emc_id1,self.emco_year+year1));
         values1=cursor.fetchall()  #list(map(lambda x: x[0],cursor.fetchall() ))
         values1= list(map( lambda x: [x[0],none_emptytr(x[1])],values1 ))
         #values1=list(map(lambda x: aux(x[0]),values1 ))
         #cursor.execute("select EM_FIG,MG_ID from EDU_METER97_REP where CO_CODE={} and emc_id={} and emco_year={}".format(self.country_code,emc_id2,self.emco_year+year2))
-        cursor.execute("select a.EM_FIG,b.SYMBOL from EDU_METER97_REP AS a LEFT JOIN MAGNITUDE AS b ON ( a.mg_id = b.mg_id) WHERE a.CO_CODE={} and a.emc_id={} AND a.emco_year={} ORDER BY ADM_CODE ASC".format(self.country_code,emc_id2,self.emco_year+year2));
+        cursor.execute("select a.EM_FIG,b.SYMBOL from EDU_METER97_EST AS a LEFT JOIN MAGNITUDE AS b ON ( a.mg_id = b.mg_id) WHERE a.CO_CODE={} and a.emc_id={} AND a.emco_year={} ORDER BY ADM_CODE ASC".format(self.country_code,emc_id2,self.emco_year+year2));
         values2=cursor.fetchall() #list(map(lambda x: x[0],cursor.fetchall() ))
         values2= list(map( lambda x: [x[0],none_emptytr(x[1])],values2 ))
         #values2=list(map(lambda x: aux(x[0]),values2 ))
@@ -276,8 +276,8 @@ class indicators():
                     maximum_dict[indicator_AC]=max_sp(values_dict[indicator_AC])
                     minimum_dict[indicator_AC]=min_sp(values_dict[indicator_AC])
                     ## The following lines can be erased when the mg_ids are figured out
-                    maximum_dict[indicator_AC][1]=0
-                    minimum_dict[indicator_AC][1]=0
+                    #maximum_dict[indicator_AC][1]=0
+                    #minimum_dict[indicator_AC][1]=0
                     
         if isced23_ind_name:
             numerator_23=self.column_operation(indexes_dict[isced2_ind_name][0],indexes_dict[isced3_ind_name][0],sum   )
@@ -291,26 +291,18 @@ class indicators():
                 maximum_dict[isced23_ind_name]=max_sp(values_dict[isced23_ind_name])
                 minimum_dict[isced23_ind_name]=min_sp(values_dict[isced23_ind_name])
                 ## The following lines can be erased when the mg_ids are figured out
-                maximum_dict[isced23_ind_name][1]=0
-                minimum_dict[isced23_ind_name][1]=0
-
+                #maximum_dict[isced23_ind_name][1]=0
+                #minimum_dict[isced23_ind_name][1]=0
         ##We introduce everything in sql
         for indicator_AC in indexes_dict.keys():
             sql_tupple=()
             for i in range(len(values_dict[indicator_AC]  )):
-                sql_tupple = sql_tupple + ((indicator_AC ,self.country_code,i,self.emco_year,1,values_dict[indicator_AC][i][0],1,values_dict[indicator_AC][i][1],datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")),)
-            cursor.executemany("INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,FIG,QUAL,MAGN,CALC_DATE) VALUES (?,?,?,?,?,?,?,?,?)", sql_tupple  )
+                sql_tupple = sql_tupple + ((indicator_AC ,self.country_code,i,self.emco_year,1,values_dict[indicator_AC][i][0],1,values_dict[indicator_AC][i][1]),)
+            cursor.executemany("INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,FIG,QUAL,MAGN) VALUES (?,?,?,?,?,?,?,?)", sql_tupple  )
             # Now we insert the information for the biggest and smallest
             if highest_and_lowest:
-                cursor.execute( "INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,FIG,QUAL,MAGN,CALC_DATE) VALUES (\"{}\",{},{},{},{},{},{},{},'{}')".format("H." + indicator_AC  ,self.country_code,0,self.emco_year,1,maximum_dict[indicator_AC][0] ,1, maximum_dict[indicator_AC][1], datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) )
-                cursor.execute( "INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,FIG,QUAL,MAGN,CALC_DATE) VALUES (\"{}\",{},{},{},{},{},{},{},'{}')".format("L." + indicator_AC  ,self.country_code,0,self.emco_year,1,minimum_dict[indicator_AC][0] ,1, minimum_dict[indicator_AC][1], datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) )
-            
-        # print(isced2_ind_name)
-        # print(isced3_ind_name)
-        # print(isced23_ind_name)
-        # print(values_dict)
-        # print(maximum_dict)
-        # print(minimum_dict)
+                cursor.executemany( "INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,FIG,QUAL,MAGN) VALUES (?,?,?,?,?,?,?,?)",( ("H." + indicator_AC  ,self.country_code,0,self.emco_year,1,maximum_dict[indicator_AC][0] ,1, maximum_dict[indicator_AC][1] ), ) )
+                cursor.executemany( "INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,FIG,QUAL,MAGN) VALUES (?,?,?,?,?,?,?,?)", ( ("L." + indicator_AC  ,self.country_code,0,self.emco_year,1,minimum_dict[indicator_AC][0] ,1, minimum_dict[indicator_AC][1]),) )
         self.conn.commit()
         cursor.close()
 
@@ -364,16 +356,35 @@ class indicators():
         variables_dict_private={"TP.1.Pr.Fix":[["T.1.Pr.Fix",0],["T.1.Pr",0]],
                                 "TP.2.GPV.Pr.Fix": [["T.2.GPV.Pr.Fix",0],["T.2.GPV.Pr",0]],
                                 "TP.3.GPV.Pr.Fix": [["T.3.GPV.Pr.Fix",0],["T.3.GPV.Pr",0]],
-                                "TP.2t3.GPV.Pr.Fix" : ''
+                                "TP.2t3.GPV.Pr.Fix" : [ ["T.23.GPV.Pr.Fix",0],["T.23.GPV.Pr",0] ]
                             }
         variables_dict_public={"TP.1.Pu.Fix":[["T.1.Pu.Fix",0],["T.1.Pu",0]],
                                "TP.2.GPV.Pu.Fix": [["T.2.GPV.Pu.Fix",0],["T.2.GPV.Pu",0]],
                                "TP.3.GPV.Pu.Fix": [["T.3.GPV.Pu.Fix",0],["T.3.GPV.Pu",0]],
-                               "TP.2t3.GPV.Pu.Fix" : ''
+                               "TP.2t3.GPV.Pu.Fix" : [ ["T.23.GPV.Pu.Fix",0],["T.23.GPV.Pu",0] ]
                            }
         
         self.compute_percentages(variables_dict_public,False)
         self.compute_percentages(variables_dict_private,False)
+                ## Now we compute the one that includes both private and public
+        cursor=self.conn.cursor()
+        for keys in [["TP.1.Pr.Fix","TP.1.Pu.Fix" ],["TP.2.GPV.Pr.Fix","TP.2.GPV.Pu.Fix"],["TP.3.GPV.Pr.Fix","TP.3.GPV.Pu.Fix"],["TP.2t3.GPV.Pr.Fix","TP.2t3.GPV.Pu.Fix"]]:
+            numerator=self.column_operation(variables_dict_private[keys[0]][0],variables_dict_public[keys[1]][0],sum  )
+            denominator=self.column_operation(variables_dict_private[keys[0]][1],variables_dict_public[keys[1]][1],sum  )
+            values=list(map(div,numerator,denominator))
+            indicator=keys[0]
+            indicator=indicator.replace(".Pr",'')
+            # print("numerator:")
+            # print(numerator)
+            # print("denominator:")
+            # print(denominator)
+            sql_tupple=()
+            for i in range(len(values)):
+                sql_tupple = sql_tupple + ((indicator ,self.country_code,i,self.emco_year,1,values[i][0],1,values[i][1]),)
+            cursor.executemany("INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,FIG,QUAL,MAGN) VALUES (?,?,?,?,?,?,?,?)", sql_tupple  )
+        self.conn.commit()
+        cursor.close()
+
     ##################################################
     ### Mean functions
     ##################################################
