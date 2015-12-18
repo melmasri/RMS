@@ -1,6 +1,6 @@
 Div,a,m,n,x,value
-a,a,m,n,x,value
-m,m,m,m,m,m
-n,n,m,n,x,value
-x,x,m,x,x,x
-value,value,m,value,x,value
+a,a,a,a,a,a
+m,a,m,m,m,m
+n,a,m,m,m,n
+x,a,m,m,m,m
+value,a,m,m,m,value
