@@ -410,7 +410,7 @@ class indicators():
         if level not in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']:
             print("The only levels allowed are ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']")
             return
-        midpoint = [[20,''], [24,''], [34,''], [44,''],[54,''], [65,'']]
+        midpoint = [[20,'value'], [24,'value'], [34,'value'], [44,'value'],[54,'value'], [65,'value']]
         levelsExt = ['x.Ag20m','x.Ag20t29','x.Ag30t39','x.Ag40t49','x.Ag50t59','x.Ag60p']
         typeSchool  = ['', '.Pu', '.Pr']
         MAge = {}
@@ -431,28 +431,32 @@ class indicators():
         if level not in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']:
             print("The only levels allowed are ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']")
             return
-        midpoint = [[1.5,''], [4,''], [8,''], [13,''],[15,'']] ## midpoint years of experience for each level.
+        midpoint = [[1.5,'value'], [4,'value'], [8,'value'], [13,'value'],[15,'value']] ## midpoint years of experience for each level.
         levelsExt = ['z.Exp1t2', 'z.Exp3t5','z.Exp6t10', 'z.Exp11t15', 'z.Exp15p']
         typeSchool  = ['', '.Pu', '.Pr']
         MExp = {}
         for t in typeSchool:
             name = 'MExp' + level + t
             codes = list(map(lambda x: x.replace('z', level+t), levelsExt))
-            print(codes)
-            MExp.update({name:self.mean_category(scodes,midpoint)})
+            MExp.update({name:self.mean_category(codes,midpoint)})
         return MExp
 
-    def mean_level(self, levelFun):
+    def mean_level(self, levelFun,ret= False):
         """
         Calculates the mean of age/exp/... for the following levels ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']. 
         It requires a levelFun(indic, level) as in mean_age_level or mean_exp_level. 
         
         Returns a dictionary for each level in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV'], with the key as the level and the result is the return of levelFun.
         """
-        M = {}
-        for s in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']:
-            M.update({s: levelFun(s)})
-        return M
+        isced = ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']
+        if ret:
+            M = {}
+            for s in isced:
+                M.update({s: levelFun(s)})
+            return M
+        else:
+            for s in isced:
+                self.write_indic_sql(levelFun(s))
         ##################################################
         ##################################################
         #### Highest level of EdAttain
@@ -495,7 +499,7 @@ class indicators():
                 EA_dic.update({name:self.highestEA_list(level_list, offset)})
         return EA_dic
 
-    def EA_all(self, offset=0):
+    def EA_all(self, offset=0,ret = False):
         """
         Calculates the highest EdAttain for for levels  ['1', '2.GPV', '3.GPV', '23.GPV']
         returns a dictionary of dictionaries. The first level is of size 4, as for each level
@@ -509,12 +513,36 @@ class indicators():
         The key of the dictionary is the indicator name EA(x)PT.(y).(z) and the value is
         a list of calculated figures for each region. 
         """
-        ea = {} 
         isced = ['1', '2.GPV', '3.GPV', '23.GPV']
-        for s in isced:
-            ea.update({s : self.highestEA(s, offset) })
-        return(ea)    
-
+        if ret:
+            ea = {} 
+            for s in isced:
+                ea.update({s : self.highestEA(s, offset) })
+            return(ea)
+        else:
+            for s in isced:
+                self.write_indic_sql(self.highestEA(s, offset))
+                
+    def write_indic_sql(self,dic):
+        """ 
+        Inserts the a tuple or dictionary of indicators in SQL EDU_INDICATOR_EST
+        Dictionary: must have the keys as the indicator name and the value as a list of lists with each sublist for a regoin.
+        
+        """
+        if(type(dic)==dict):
+            sql_tupple = ()
+            ##"IND_ID,CO_CODE,IND_YEAR,FRM_ID,QUAL,FIG, MAGN,ADM_CODE"
+            year = self.emco_year
+            co_code = self.country_code
+            for key, value in dic.items():
+                sql_tupple  = sql_tupple + tuple(map(lambda x,y:(key, co_code,y, year,1,1)+tuple(x), value, range(len(value))))
+                ## Write to SQL
+                if sql_tupple:
+                    cursor=self.conn.cursor()
+                    cursor.executemany("INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,QUAL,FIG,MAGN) VALUES (?,?,?,?,?,?,?,?)", sql_tupple )
+                    self.conn.commit()
+                    cursor.close()      
+    
 
     def compute_all_indicators(self):
         self.pupils_teachers_ratio()
@@ -523,7 +551,9 @@ class indicators():
         self.percentage_trained_teachers()
         self.percentage_private_teachers()
         self.percentage_non_permanent_teachers()
-    
+        self.EA_all()
+        self.mean_level(self.mean_exp_level)
+        self.mean_level(self.mean_age_level)
         
     def __init__ (self,database_file,emco_year,country_name):
         self.set_database_connection(database_file)

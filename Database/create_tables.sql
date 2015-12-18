@@ -293,7 +293,7 @@ CREATE TABLE EDU_FTN97_REP(
 	NTABLE decimal(2, 0) NOT NULL, -- Table numbe is 1.1, 1.2, ...
 	QUESTNAME char(1) NOT NULL,
 	USERNAME varchar(255),
-	DATE_ADDED DATETIME DEFAULT CURRENT_TIMESTAMP,
+	DATE_ADDED DATETIME DEFAULT (datetime('now','localtime')),
 PRIMARY KEY (CO_CODE ASC, ADM_CODE ASC,  EMCO_YEAR ASC, EMC_ID ASC ));
 
 
@@ -311,7 +311,7 @@ CREATE TABLE EDU_FTN97_OBS(
 	NTABLE decimal(2, 0) NOT NULL, -- Table numbe is 1.1, 1.2, ...
 	QUESTNAME char(1) NOT NULL,
 	USERNAME varchar(255),
-	DATE_ADDED datetime DEFAULT CURRENT_TIMESTAMP,
+	DATE_ADDED datetime DEFAULT (datetime('now','localtime')),
 PRIMARY KEY (CO_CODE ASC, ADM_CODE ASC,  EMCO_YEAR ASC, EMC_ID ASC ));
 
 ---- EDU_FTN_ASSO97_EST TABLE
@@ -328,7 +328,7 @@ CREATE TABLE EDU_FTN97_EST(
 	NTABLE decimal(2, 0) NOT NULL, -- Table numbe is 1.1, 1.2, ...
 	QUESTNAME char(1) NOT NULL,
 	USERNAME varchar(255),
-	DATE_ADDED datetime DEFAULT CURRENT_TIMESTAMP,
+	DATE_ADDED datetime DEFAULT (datetime('now','localtime')),
 PRIMARY KEY (CO_CODE ASC, ADM_CODE ASC,  EMCO_YEAR ASC, EMC_ID ASC ));
 
 
@@ -350,7 +350,7 @@ CREATE TABLE METER_AUDIT_TRAIL(
 	MG_ID_OLD char(1) NULL,
 	TYPE_MOD char(1) NULL, --- I don't know what is this
 	USER_NAME varchar(20) NOT NULL,
-	SYS_DATE datetime DEFAULT CURRENT_TIMESTAMP,
+	SYS_DATE datetime DEFAULT (datetime('now','localtime')),
 	SERIES varchar(10) NOT NULL,
 	SURVEY_ID char(2) NULL, --- Regional model default is set to 'RM'
     PRIMARY KEY (Audit_ID ASC));
@@ -423,7 +423,7 @@ CREATE TABLE EDU_INDICATOR_EST(
        FIG float NULL,
        QUAL smallint NULL,
        MAGN smallint NULL,
-       CALC_DATE datetime DEFAULT CURRENT_TIMESTAMP,
+       CALC_DATE datetime DEFAULT (datetime('now','localtime')),
        PRIMARY KEY ( IND_ID ASC,  CO_CODE ASC, ADM_CODE ASC , IND_YEAR ASC,   FRM_ID ASC));
        
 --  EDU_INDICATOR_AID
