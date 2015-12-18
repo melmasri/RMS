@@ -406,7 +406,7 @@ class indicators():
         for t in typeSchool:
             name = 'MAge' + level + t
             codes = list(map(lambda x: x.replace('x', level+t), levelsExt))
-            MAge.update({name:mean_category(codes,midpoint)})
+            MAge.update({name:self.mean_category(codes,midpoint)})
         return MAge
         
     def mean_exp_level(self, level):
@@ -428,7 +428,7 @@ class indicators():
             name = 'MExp' + level + t
             codes = list(map(lambda x: x.replace('z', level+t), levelsExt))
             print(codes)
-            MExp.update({name:mean_category(scodes,midpoint)})
+            MExp.update({name:self.mean_category(scodes,midpoint)})
         return MExp
 
     def mean_level(self, levelFun):
@@ -479,9 +479,9 @@ class indicators():
         EA_dic = {}
         for key, value in dic_level.items():
             for t in typeSchool:
-                name = 'EA' + key + 'PT.' + s + t
-                level_list = list(map(lambda x: x.replace('x', s+t), dic_level[key]))
-                EA_dic.update({name:highestEA_list(level_list, offset)})
+                name = 'EA' + key + 'PT.' + schoolLevel + t
+                level_list = list(map(lambda x: x.replace('x', schoolLevel+t), dic_level[key]))
+                EA_dic.update({name:self.highestEA_list(level_list, offset)})
         return EA_dic
 
     def EA_all(self, offset=0):
@@ -501,7 +501,7 @@ class indicators():
         ea = {} 
         isced = ['1', '2.GPV', '3.GPV', '23.GPV']
         for s in isced:
-            ea.update({s : highestEA(s,  indic, offset) })
+            ea.update({s : self.highestEA(s, offset) })
         return(ea)    
 
 

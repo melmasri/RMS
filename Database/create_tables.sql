@@ -423,7 +423,7 @@ CREATE TABLE EDU_INDICATOR_EST(
        FIG float NULL,
        QUAL smallint NULL,
        MAGN smallint NULL,
-       CALC_DATE datetime NULL,
+       CALC_DATE datetime DEFAULT CURRENT_TIMESTAMP,
        PRIMARY KEY ( IND_ID ASC,  CO_CODE ASC, ADM_CODE ASC , IND_YEAR ASC,   FRM_ID ASC));
        
 --  EDU_INDICATOR_AID
