@@ -175,7 +175,7 @@ class RM():
         self.cbox_indic = ttk.Combobox(self.lf_IndicOptions, postcommand= self.getIndic, width=20)
         self.cbox_indic.grid(row=0, column=1, sticky='W')
         ttk.Button(self.lf_IndicOptions, text ='Extract', command = self.export_indic).grid(row=0, column=2, sticky='W',padx=5,pady=5)
-        ttk.Button(self.lf_IndicOptions, text ='Calculate').grid(row=0, column=3, sticky='W',padx=5,pady=5)
+        ttk.Button(self.lf_IndicOptions, text ='Calculate', command = self.indic_calc).grid(row=0, column=3, sticky='W',padx=5,pady=5)
               
         # # Output folder
         ttk.Label(self.writeframe, text='Select output folder ').grid(row=7, column=0, sticky='W')    
@@ -441,8 +441,18 @@ class RM():
             return(True)
         else:
             return (False)
-      
-   
+    def indic_calc(self):
+        """ Calculates all indicatros in class Indicators"""
+        co_name = str(self.cbox_co.get())
+        year = self.cbox_year.get()
+        if co_name and year:
+            a=indicators(self.database, int(year),co_name)
+            a.compute_all_indicators()
+            print('Successful..all indicators are calculated.')
+        else:
+            print('Error: missing country name, year or series.')       
+
+
 def main():
     database="Database/Prod.db"
     set_database_file(database)
