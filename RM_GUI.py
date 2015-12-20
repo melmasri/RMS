@@ -442,7 +442,7 @@ class RM():
         else:
             return (False)
     def indic_calc(self):
-        """ Calculates all indicatros in class Indicators"""
+        """ Calculates all indicators in class Indicators"""
         co_name = str(self.cbox_co.get())
         year = self.cbox_year.get()
         if co_name and year:
