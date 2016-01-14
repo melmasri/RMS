@@ -10,11 +10,11 @@ from functools import reduce
 #### table Algebra for sum/div/prod operations
 ##################################################
 ## Default algebra tables
-algebra_sum = {'a': {'a': 'a', 'm': 'm', 'n': 'n','x':'x', 'value':'value'},
-               'm': {'a': 'm', 'm': 'm', 'n': 'm','x':'m', 'value':'m'},
-               'n': {'a': 'n', 'm': 'm', 'n': 'n','x':'x', 'value':'value'},
-               'x': {'a': 'x', 'm': 'm', 'n': 'x','x':'x', 'value': 'x' }, 
-               'value': {'a': 'value', 'm': 'm', 'n' :'value','x':'x', 'value':'value'}}
+algebra_sum = {'a': {'a': 'a', 'm': 'a', 'n': 'a','x':'a', 'value':'a'},
+               'm': {'a': 'a', 'm': 'm', 'n': 'm','x':'m', 'value':'m'},
+               'n': {'a': 'a', 'm': 'm', 'n': 'n','x':'m', 'value':'value'},
+               'x': {'a': 'a', 'm': 'm', 'n': 'm','x':'m', 'value': 'm' }, 
+               'value': {'a': 'a', 'm': 'm', 'n' :'value','x':'m', 'value':'value'}}
 algebra_prod = algebra_sum
 algebra_div  = algebra_sum
 
