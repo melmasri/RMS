@@ -238,7 +238,7 @@ class indicators():
         cursor.close()
         return column_operation_result
 
-    def compute_percentages(self,indexes_dict ,highest_and_lowest=True):
+    def compute_percentages(self,indexes_dict,highest_and_lowest=True, compute23=False):
         """Generic function for computing percentages of columns and computing
         the maximum and minimum if necessary
 
@@ -246,10 +246,9 @@ class indicators():
         indicator to compute, the value should be a list with two
         pairs that go in the column operation function.
         
-        The functions that calculate the percentages for isced2 and
-        isced3 (isced23) do not need to include a value, it can be
-        just an empty string, they are calculated based on the other
-        two.
+        If compute23 is True, instead of getting the estimated for
+        ISCED23, the value for ISCED2 and ISCED3 are added to get the
+        value. This is useful for pupils, where there is no ISCED23 table.
         """
         cursor=self.conn.cursor()
         values_dict={}
@@ -268,7 +267,7 @@ class indicators():
                 isced3_ind_name=indicator_AC
             if (match23 != None):
                 isced23_ind_name=indicator_AC
-            else:
+            if (match23 == None or (not compute23) ):
                 lista1=indexes_dict[indicator_AC][0]
                 lista2=indexes_dict[indicator_AC][1]
                 values_dict[indicator_AC]=self.column_operation(lista1,lista2,div)
@@ -279,10 +278,9 @@ class indicators():
                     #maximum_dict[indicator_AC][1]=0
                     #minimum_dict[indicator_AC][1]=0
                     
-        if isced23_ind_name:
+        if isced23_ind_name and compute23:
             numerator_23=self.column_operation(indexes_dict[isced2_ind_name][0],indexes_dict[isced3_ind_name][0],sum   )
-            denominator_23=self.column_operation(indexes_dict[isced2_ind_name][1],indexes_dict[isced3_ind_name][1],sum   )
-            
+            denominator_23=self.column_operation(indexes_dict[isced2_ind_name][1],indexes_dict[isced3_ind_name][1],sum   )            
             # print(numerator_23)
             # print(denominator_23)
             # print(values_dict)
@@ -311,15 +309,15 @@ class indicators():
         ## Total number of teachers: T.1, T.2.GPV, T.3.GPV
         ## We must sum 2 and 3 to get 23 because it does not exist for the pupils.
         variables_dict={ "PTRHC.1" : [["E.1",0],["T.1",0]]  , "PTRHC.2": [["E.2.GPV",0],["T.2.GPV",0]] , "PTRHC.3": [["E.3.GPV",0],["T.3.GPV",0]] , "PTRHC.2t3" : '' }
-        self.compute_percentages(variables_dict)
+        self.compute_percentages(variables_dict,True,True)
 
     def newly_recruited_teachers(self):
         ## NTP.2t3 was not in the list, so we invented it.
-        variables_dict={"NTP.1" : [["NT.1",0],["T.1",-1]]  , "NTP.2" : [["NT.2.GPV",0],["T.2.GPV",-1]] , "NTP.3" : [["NT.3.GPV",0],["T.3.GPV",-1]] , "NTP.2t3" : '' }
+        variables_dict={"NTP.1" : [["NT.1",0],["T.1",-1]]  , "NTP.2" : [["NT.2.GPV",0],["T.2.GPV",-1]] , "NTP.3" : [["NT.3.GPV",0],["T.3.GPV",-1]] , "NTP.2t3" : [["NT.23.GPV",0],["T.23.GPV",-1]]  }
         self.compute_percentages(variables_dict)
 
     def teachers_percentage_female(self):
-        variables_dict={ "FTP.1": [["T.1.F",0],["T.1",0]]  , "FTP.2": [["T.2.GPV.F",0],["T.2.GPV",0]]  , "FTP.3" : [["T.3.GPV.F",0],["T.3.GPV",0]]  , "FTP.2t3" : '' }
+        variables_dict={ "FTP.1": [["T.1.F",0],["T.1",0]]  , "FTP.2": [["T.2.GPV.F",0],["T.2.GPV",0]]  , "FTP.3" : [["T.3.GPV.F",0],["T.3.GPV",0]]  , "FTP.2t3" : [["T.23.GPV.F",0],["T.23.GPV",0]]  }
         self.compute_percentages(variables_dict)
 
     def percentage_trained_teachers(self):
@@ -330,8 +328,8 @@ class indicators():
 
         # Percentage of trained teachers: TRTP.1, TRTP.2, TRTP.3, TRTP.2t3
         # Percentage of newly recruited teachers: TrNTP.1,  TrNTP.2, TrNTP.3, TrNTP.2t3
-        variables_dict1={"TRTP.1": [["T.1.trained",0 ],["T.1",0] ], "TRTP.2": [["T.2.GPV.trained",0 ],["T.2.GPV",0]], "TRTP.3" : [["T.3.GPV.trained",0],["T.3.GPV",0]],  "TRTP.2t3": ''  }
-        variables_dict2={"TrNTP.1": [["NT.1.trained",0],["NT.1",0]],"TrNTP.2":[["NT.2.GPV.trained",0],["NT.2.GPV",0]],"TrNTP.3":[["NT.3.GPV.trained",0],["NT.3.GPV",0]],"TrNTP.2t3":''}
+        variables_dict1={"TRTP.1": [["T.1.trained",0 ],["T.1",0] ], "TRTP.2": [["T.2.GPV.trained",0 ],["T.2.GPV",0]], "TRTP.3" : [["T.3.GPV.trained",0],["T.3.GPV",0]],  "TRTP.2t3": [["T.23.GPV.trained",0 ],["T.23.GPV",0] ]  }
+        variables_dict2={"TrNTP.1": [["NT.1.trained",0],["NT.1",0]],"TrNTP.2":[["NT.2.GPV.trained",0],["NT.2.GPV",0]],"TrNTP.3":[["NT.3.GPV.trained",0],["NT.3.GPV",0]],"TrNTP.2t3": [["NT.23.GPV.trained",0],["NT.23.GPV",0]]}
         self.compute_percentages(variables_dict1)
         self.compute_percentages(variables_dict2)
 
@@ -342,7 +340,7 @@ class indicators():
         variables_dict={"TP.1.Pr":[["T.1.Pr",0],["T.1",0]],
                         "TP.2.Pr":[["T.2.GPV.Pr",0],["T.2.GPV",0]],
                         "TP.3.Pr":[["T.3.GPV.Pr",0],["T.3.GPV",0]],
-                        "TP.2t3.Pr":''}
+                        "TP.2t3.Pr": [["T.23.GPV.Pr",0],["T.23.GPV",0]], }
         self.compute_percentages(variables_dict)
 
     def percentage_non_permanent_teachers(self):
