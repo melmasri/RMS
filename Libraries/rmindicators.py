@@ -408,7 +408,7 @@ class indicators():
         if level not in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']:
             print("The only levels allowed are ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']")
             return
-        midpoint = [[20,'value'], [24,'value'], [34,'value'], [44,'value'],[54,'value'], [65,'value']]
+        midpoint = [[20,'value'], [24.5,'value'], [34.5,'value'], [44.5,'value'],[54.5,'value'], [60,'value']]
         levelsExt = ['x.Ag20m','x.Ag20t29','x.Ag30t39','x.Ag40t49','x.Ag50t59','x.Ag60p']
         typeSchool  = ['', '.Pu', '.Pr']
         MAge = {}
@@ -429,7 +429,7 @@ class indicators():
         if level not in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']:
             print("The only levels allowed are ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']")
             return
-        midpoint = [[1.5,'value'], [4,'value'], [8,'value'], [13,'value'],[15,'value']] ## midpoint years of experience for each level.
+        midpoint = [[1.5,'value'], [4,'value'], [8,'value'], [13,'value'],[17,'value']] ## midpoint years of experience for each level.
         levelsExt = ['z.Exp1t2', 'z.Exp3t5','z.Exp6t10', 'z.Exp11t15', 'z.Exp15p']
         typeSchool  = ['', '.Pu', '.Pr']
         MExp = {}

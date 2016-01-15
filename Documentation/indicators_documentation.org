@@ -7,6 +7,7 @@
 #+OPTIONS: e:t email:nil f:t inline:t num:t p:nil pri:nil stat:t
 #+OPTIONS: tags:t tasks:t tex:t timestamp:t toc:t todo:t |:t
 #+CREATOR: Emacs 24.4.1 (Org mode 8.2.10)
+#+STARTUP: showall
 #+DESCRIPTION:
 #+EXCLUDE_TAGS: noexport
 #+KEYWORDS:
@@ -150,3 +151,56 @@
 
    
 #  LocalWords:  emco
+** Mean age 
+   + Python method :: mean_age_level(level in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV'])
+   + AC_CODES information :: 
+        |          | AC_CODE       | FORMULA                                                           | H & L |
+        |----------+---------------+-------------------------------------------------------------------+-------|
+        | ISCED 1  | MAge.T.1      | $\sum_{\text{ y in cat}} T.1.y \times MidDur(y) / Pop.Ag0t99$     | No    |
+        | ISCED 2  | MAge.T.2.GPV  | $\sum_{\text{ y in cat}} T.2.GPV.y\times MidDur(y) / Pop.Ag0t99$  | No    |
+        | ISCED 3  | MAge.T.3.GPV  | $\sum_{\text{ y in cat}} T.3.GPV.y\times MidDur(y) / Pop.Ag0t99$  | No    |
+        | ISCED 23 | MAge.T.23.GPV | $\sum_{\text{ y in cat}} T.23.GPV.y\times MidDur(y) / Pop.Ag0t99$ | No    |
+        |----------+---------------+-------------------------------------------------------------------+-------|
+        where ~Cat~ is ~Ag20m~, ~Ag20t29~, ~Ag30t39~, ~Ag40t49~, ~Ag50t59~ and ~Ag60p~. Midpoints are based on the following:
+        | Age in years | <20 | 20-29 | 30-39 | 40-49 | 50-59 | 60+ |
+        |--------------+-----+-------+-------+-------+-------+-----|
+        | Midpoint     |  20 |  24.5 |  34.5 |  44.5 |  54.5 |  60 |
+        |--------------+-----+-------+-------+-------+-------+-----|
+        Note all indicators are calculated for Total, Public and Private levels.
+          
+** Mean years of experience 
+   + Python method :: mean_exp_level(level in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV'])
+   + AC_CODES information :: 
+        |          | AC_CODE       | FORMULA                                                           | H & L |
+        |----------+---------------+-------------------------------------------------------------------+-------|
+        | ISCED 1  | MExp.T.1      | $\sum_{\text{ y in cat}} T.1.y \times MidDur(y) / Pop.Ag0t99$     | No    |
+        | ISCED 2  | MExp.T.2.GPV  | $\sum_{\text{ y in cat}} T.2.GPV.y\times MidDur(y) / Pop.Ag0t99$  | No    |
+        | ISCED 3  | MExp.T.3.GPV  | $\sum_{\text{ y in cat}} T.3.GPV.y\times MidDur(y) / Pop.Ag0t99$  | No    |
+        | ISCED 23 | MExp.T.23.GPV | $\sum_{\text{ y in cat}} T.23.GPV.y\times MidDur(y) / Pop.Ag0t99$ | No    |
+        |----------+---------------+-------------------------------------------------------------------+-------|
+        where ~cat~ is  ~Exp1t2~,  ~Exp3t5~, ~Exp6t10~,  ~Exp11t15~ and  ~Exp15p~. 
+       ~MidDur~ is ~[Exp1t2 = 1.5, Exp3t5 = 4, Exp6t10 = 8, Exp11t15 = 13, Exp15p = 15]~. Mid durations are based on the following:  
+        | experience in years | New | 1-2 | 3-5 | 6-10 | 11-15 | 15+ |
+        |---------------------+-----+-----+-----+------+-------+-----|
+        | Mid duration        | 0.5 | 1.5 |   4 |    8 |    13 |  17 |
+        |---------------------+-----+-----+-----+------+-------+-----|     
+        Note all indicators are calculated for Total, Public and Private levels.
+
+** Highest level of educational attainment
+   + Python method ::  EA_all
+   + AC_CODES information :: 
+                       
+     | Highest educational attainment | AC_CODE        | FORMULA                                                          | H & L |
+     |--------------------------------+----------------+------------------------------------------------------------------+-------|
+     | Lower secondary or Less        | EA.2m.PT.ISCED | T.ISCED.EA.2m / Pop.Ag0t99                                       | No    |
+     | Upper secondary                | EA.3.PT.ISCED  | T.ISCED.EA.3 / Pop.Ag0t99                                        | No    |
+     | Post secondary                 | EA.4.PT.ISCED  | T.ISCED.EA.4 / Pop.Ag0t99                                        | No    |
+     | At least tertiary              | EA.5p.PT.ISCED | T.ISCED.EA.5 + T.ISCED.EA.6+T.ISCED.EA.7+T.ISCED.EA.8/Pop.Ag0t99 | No    |
+     | Unknown                        | EA.uk.PT.ISCED | T.ISCED.EA.uk / Pop.Ag0t99                                       | No    |
+     |--------------------------------+----------------+------------------------------------------------------------------+-------|
+        Note  all indicators are calculated for Total, Public and Private levels.
+        ~ISCED~ is ~['  1', '2.GPV', '3.GPV', '23.GPV']~
+
+#  LocalWords:  emco    
+
+
