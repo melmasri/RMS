@@ -1,0 +1,152 @@
+#+TITLE: Indicators documentation
+#+DATE: December 17th, 2015
+#+AUTHOR: Oscar Alberto Quijano Xacur
+#+EMAIL: oscar.quijano@use.startmail.com
+#+OPTIONS: ':nil *:t -:t ::t <:t H:3 \n:nil ^:{} arch:headline
+#+OPTIONS: author:t c:nil creator:comment d:(not "LOGBOOK") date:t
+#+OPTIONS: e:t email:nil f:t inline:t num:t p:nil pri:nil stat:t
+#+OPTIONS: tags:t tasks:t tex:t timestamp:t toc:t todo:t |:t
+#+CREATOR: Emacs 24.4.1 (Org mode 8.2.10)
+#+DESCRIPTION:
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS:
+#+LANGUAGE: en
+#+SELECT_TAGS: export
+
+#+SETUPFILE: /home/oscar/org-html-themes/setup/theme-readtheorg.setup
+
+* Indicators
+  We describe here how the indicators are computed and what are the AC
+  codes involved in their computation.  For each indicator, we give a
+  table with four columns. The first column has the ISCED level. The
+  second one has the alphanumeric code used for the indicator. The
+  third column has the formula used to compute this indicator. The
+  fourth column contains yes or no depending on whether the AC code
+  has a highest and lowest indicator among all the regions.
+
+  The superscript L, means that the value from the previous year is
+  being taken. For example, if the emco year is 2015 T.1^{L} means
+  that the 2014 value of T.1.
+
+  There are some alphanumeric codes that do not appear in the file
+  =Indic_IDs.xlsx= in Dropbox. For these ones we created new AC
+  codes. The super script n will be used in the table when this is the
+  case.
+
+  There are some AC codes in the file =Indic_IDs.xlsx= that we believe
+  are wrong. The most common case is for the AC code to have the .Pu
+  dimension to denote a total instead of only the private
+  schools. When this is the case the superscript * is used in the
+  table. In this cases there is an explanation under the table
+  explaining the reason for the modification.
+
+  Some indicators correspond to the highest and lowest value among all
+  the regions of some indicator. No AC codes appear in
+  =Indic_IDs.xlsx= for these indicators. Thus, we have convened that
+  if A is some alphanumeric code. H.A and L.A correspond to the
+  highest and lowest value, respectively, among all the regions for
+  the AC code A. The fourth column of each indicators says if there is
+  also a highest and lowest indicator .
+
+** Percentage of female teachers
+
+   + Python method :: teachers_percentage_female
+   + AC_CODES information ::
+        |          | AC_CODE | FORMULA            | H & L |
+        |----------+---------+--------------------+-------|
+        | ISCED 1  | FTP.1   | NT.1.F/T.1         | yes   |
+        | ISCED 2  | FTP.2   | NT.2.GPV/T.2.GPV   | yes   |
+        | ISCED 3  | FTP.3   | NT.3.GPV/T.3.GPV   | yes   |
+        | ISCED 23 | FTP.2t3 | NT.23.GPV/T.23.GPV | yes   |
+        |----------+---------+--------------------+-------|
+	
+** Percentage of newly recruited teachers
+
+   + Python method :: newly_recruited_teachers
+   + AC_CODES information :: 
+        |          | AC_CODE     | FORMULA                | H & L |
+        |----------+-------------+------------------------+-------|
+        | ISCED 1  | NTP.1       | NT.1/T.1               | no    |
+        | ISCED 2  | NTP.2       | NT.2.GPV/T.2.GPV       | no    |
+        | ISCED 3  | NTP.3       | NT.3.GPV/T.3.GPV       | no    |
+        | ISCED 23 | NTP.2t3^{n} | NT.23.GPV/T.23.GPV     | no    |
+        |----------+-------------+------------------------+-------|
+	
+** Pupils teachers ratio
+
+   + Python method ::  pupils_teachers_ratio
+   + AC_CODES information :: 
+        |          | AC_CODE   | FORMULA           | H & L |
+        |----------+-----------+-------------------+-------|
+        | ISCED 1  | PTRHC.1   | E.1/T.1           | yes   |
+        | ISCED 2  | PTRHC.2   | E.2.GPV/T.2.GPV   | yes   |
+        | ISCED 3  | PTRHC.3   | E.3.GPV/T.3.GPV   | yes   |
+        | ISCED 23 | PTRHC.2t3 | E.23.GPV/T.23.GPV | yes   |
+        |----------+-----------+-------------------+-------|
+
+** Percentage of trained teachers
+
+   + Python method ::  percentage_trained_teachers
+   + AC_CODES information :: 
+        |          | AC_CODE  | FORMULA                   | H & L |
+        |----------+----------+---------------------------+-------|
+        | ISCED 1  | TRTP.1   | T.1.trained/T.1           | yes   |
+        | ISCED 2  | TRTP.2   | T.2.GPV.trained/T.2.GPV   | yes   |
+        | ISCED 3  | TRTP.3   | T.3.GPV.trained/T.3.GPV   | yes   |
+        | ISCED 23 | TRTP.2t3 | T.23.GPV.trained/T.23.GPV | yes   |
+        |----------+----------+---------------------------+-------|
+   In this same method, there is the computation of the percentage of
+   trained newly recruited teachers, which has the following table
+   
+   |          | AC_CODE   | FORMULA                     | H & L |
+   |----------+-----------+-----------------------------+-------|
+   | ISCED 1  | TrNTP.1   | NT.1.trained/NT.1           | yes   |
+   | ISCED 2  | TrNTP.2   | NT.2.GPV.trained/NT.2.GPV   | yes   |
+   | ISCED 3  | TrNTP.3   | NT.3.GPV.trained/NT.3.GPV   | yes   |
+   | ISCED 23 | TrNTP.2t3 | NT.23.GPV.trained/NT.23.GPV | yes   |
+   |----------+-----------+-----------------------------+-------|
+
+** Percentage of private teachers
+   + Python method ::  percentage_private_teachers
+   + AC_CODES information :: 
+        |          | AC_CODE       | FORMULA              | H & L |
+        |----------+---------------+----------------------+-------|
+        | ISCED 1  | TP.1.Pr^{n}   | T.1.Pr/T.1           | yes   |
+        | ISCED 2  | TP.2.Pr^{n}   | T.2.GPV.Pr/T.2.GPV   | yes   |
+        | ISCED 3  | TP.3.Pr^{n}   | T.3.GPV.Pr/T.3.GPV   | yes   |
+        | ISCED 23 | TP.2t3.Pr^{n} | T.23.GPV.Pr/T.23.GPV | yes   |
+        |----------+---------------+----------------------+-------|
+
+** Percentage of non-permanent teachers
+   This has three sets of symbols. One for the private sector, one
+   for the public sector and one combined.
+   + Python method ::  percentage_non_permanent_teachers
+   + AC_CODES information Private :: 
+        |          | AC_CODE               | FORMULA                     | H & L |
+        |----------+-----------------------+-----------------------------+-------|
+        | ISCED 1  | TP.1.Pr.Fix^{n}       | T.1.Pr.Fix/T.1.Pr           | no    |
+        | ISCED 2  | TP.2.GPV.Pr.Fix^{n}   | T.2.GPV.Pr.Fix/T.2.GPV.Pr   | no    |
+        | ISCED 3  | TP.3.GPV.Pr.Fix^{n}   | T.3.GPV.Pr.Fix/T.3.GPV.Pr   | no    |
+        | ISCED 23 | TP.2t3.GPV.Pr.Fix^{n} | T.23.GPV.Pr.Fix/T.23.GPV.Pr | no    |
+        |----------+-----------------------+-----------------------------+-------|
+
+   + AC_CODES information Public :: 
+        |          | AC_CODE               | FORMULA                     | H & L |
+        |----------+-----------------------+-----------------------------+-------|
+        | ISCED 1  | TP.1.Pu.Fix^{n}       | T.1.Pu.Fix/T.1.Pu           | no    |
+        | ISCED 2  | TP.2.GPV.Pu.Fix^{n}   | T.2.GPV.Pu.Fix/T.2.GPV.Pu   | no    |
+        | ISCED 3  | TP.3.GPV.Pu.Fix^{n}   | T.3.GPV.Pu.Fix/T.3.GPV.Pu   | no    |
+        | ISCED 23 | TP.2t3.GPV.Pu.Fix^{n} | T.23.GPV.Pu.Fix/T.23.GPV.Pu | no    |
+        |----------+-----------------------+-----------------------------+-------|
+   + AC_CODES information Combined :: 
+        |          | AC_CODE               | FORMULA                                                     | H & L |
+        |----------+-----------------------+-------------------------------------------------------------+-------|
+        | ISCED 1  | TP.1.Pr.Fix^{n}       | (T.1.Pr.Fix+T.1.Pu.Fix)/(T.1.Pr+T.1.Pu)                     | no    |
+        | ISCED 2  | TP.2.GPV.Pr.Fix^{n}   | (T.2.GPV.Pr.Fix+T.2.GPV.Pu.Fix)/(T.2.GPV.Pr+T.2.GPV.Pu)     | no    |
+        | ISCED 3  | TP.3.GPV.Pr.Fix^{n}   | (T.3.GPV.Pu.Fix+T.3.GPV.Pr.Fix)/(T.3.GPV.Pr+T.3.GPV.Pu)     | no    |
+        | ISCED 23 | TP.2t3.GPV.Pr.Fix^{n} | (T.23.GPV.Pu.Fix+T.23.GPV.Pr.Fix)/(T.23.GPV.Pr+T.23.GPV.Pu) | no    |
+        |----------+-----------------------+-------------------------------------------------------------+-------|
+	
+
+   
+#  LocalWords:  emco

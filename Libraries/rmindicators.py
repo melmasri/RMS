@@ -313,7 +313,7 @@ class indicators():
 
     def newly_recruited_teachers(self):
         ## NTP.2t3 was not in the list, so we invented it.
-        variables_dict={"NTP.1" : [["NT.1",0],["T.1",-1]]  , "NTP.2" : [["NT.2.GPV",0],["T.2.GPV",-1]] , "NTP.3" : [["NT.3.GPV",0],["T.3.GPV",-1]] , "NTP.2t3" : [["NT.23.GPV",0],["T.23.GPV",-1]]  }
+        variables_dict={"NTP.1" : [["NT.1",0],["T.1",0]]  , "NTP.2" : [["NT.2.GPV",0],["T.2.GPV",0]] , "NTP.3" : [["NT.3.GPV",0],["T.3.GPV",0]] , "NTP.2t3" : [["NT.23.GPV",0],["T.23.GPV",0]]  }
         self.compute_percentages(variables_dict)
 
     def teachers_percentage_female(self):
