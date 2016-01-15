@@ -194,6 +194,7 @@ def is_reference(cell_value):
     This functions receives a string, and checks if it has the form
     X[a:b]. If yes, it returns [a,b], else it returns None. 
     If it has the form X[:b] it returns [None,b].
+    If it is only X, it returns the string "empty_reference"
     """
     if type(cell_value) in [int,float]:
         return(None)
@@ -229,16 +230,36 @@ def mg_id(cell_value):
     an empty string.
 
     """
-    if type(cell_value) in [int,float]:
-        return("")
+    if((type(cell_value) == int or type(cell_value) == float) ):
+        if cell_value>0:
+            return("")
+        else:
+            return(1)
     elif is_reference(cell_value):
         return(3)
-    elif cell_value in ["Z","z","A","a"]:
-        return(6)
-    elif cell_value in ["M","m"]:
-        return("D")
     else:
-        return("\"\"")
+        match_old_nil=re.search('[Nn]$',cell_value)
+        match_not_applicable=re.search('[Aa]$|^[Zz]$',cell_value)
+        match_missing=re.search('^ *$|^[Mm] *',cell_value)
+        if (not (match_old_nil == None)):
+            return(1)
+        elif (not (match_not_applicable == None) ):
+            return(6)
+        elif (not (match_missing == None)):
+            return("D")
+            
+        
+    
+    # if type(cell_value) in [int,float]:
+    #     return("")
+    # elif is_reference(cell_value):
+    #     return(3)
+    # elif cell_value in ["Z","z","A","a"]:
+    #     return(6)
+    # elif cell_value in ["M","m"]:
+    #     return("D")
+    # else:
+    #     return("\"\"")
 
     
 
@@ -519,7 +540,7 @@ class questionnaire:
             return_value=1
         elif(type(value) == str):
             #Accept regexp
-            match1=re.search('[Xx]\[[0-9]*:[0-9]+\]|^ +$|^[Zz]$',value)
+            match1=re.search('[Xx]\[[0-9]*:[0-9]+\]|^[Zz]$',value)
             # Accept with error regexp
             match2=re.search('[Aa]$|^[Nn]$',value)
             # Undefined reference
