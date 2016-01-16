@@ -446,6 +446,10 @@ class RM():
         co_name = str(self.cbox_co.get())
         year = self.cbox_year.get()
         if co_name and year:
+            serie = str(self.cbox_series.get())
+            if serie !='Estimated':
+                print('Indicators are only calculated for Estimated series!')
+                return
             a=indicators(self.database, int(year),co_name)
             a.compute_all_indicators()
             print('Successful..all indicators are calculated.')

@@ -386,7 +386,7 @@ class indicators():
     ##################################################
     ### Mean functions
     ##################################################
-    def mean_category(self, codes, midpoints, ac_pop = 'Pop.Ag0t99'):
+    def mean_category(self, codes, midpoints, ac_pop):
         """ Calculates a generic mean by category given the category and a list of indicators
         returns the mean category by ADM
         """
@@ -394,6 +394,7 @@ class indicators():
             print("Length of midpoints doesn't equal length of codes!")
             return
         temp = list(map(lambda z,v: self.column_operation([z,0], [ac_pop, 0], lambda x,y:   prod(div(x,y), v)),codes, midpoints))
+        temp =  list(map(list, zip(*temp)))
         temp = list(map(lambda l: reduce(lambda x,y: sum(x,y), l), temp))
         return(temp)
 
@@ -414,8 +415,9 @@ class indicators():
         MAge = {}
         for t in typeSchool:
             name = 'MAge' + level + t
+            ac = level + t
             codes = list(map(lambda x: x.replace('x', level+t), levelsExt))
-            MAge.update({name:self.mean_category(codes,midpoint)})
+            MAge.update({name:self.mean_category(codes,midpoint, ac)})
         return MAge
         
     def mean_exp_level(self, level):
@@ -435,8 +437,9 @@ class indicators():
         MExp = {}
         for t in typeSchool:
             name = 'MExp' + level + t
+            ac = level + t      
             codes = list(map(lambda x: x.replace('z', level+t), levelsExt))
-            MExp.update({name:self.mean_category(codes,midpoint)})
+            MExp.update({name:self.mean_category(codes,midpoint, ac)})
         return MExp
 
     def mean_level(self, levelFun,ret= False):
