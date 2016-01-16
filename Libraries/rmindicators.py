@@ -386,16 +386,20 @@ class indicators():
     ##################################################
     ### Mean functions
     ##################################################
-    def mean_category(self, codes, midpoints, ac_pop):
+    def mean_category(self, codes, midpoints, ac_pop, DivBySum = False):
         """ Calculates a generic mean by category given the category and a list of indicators
         returns the mean category by ADM
         """
         if len(midpoints)!=len(codes):
             print("Length of midpoints doesn't equal length of codes!")
             return
-        temp = list(map(lambda z,v: self.column_operation([z,0], [ac_pop, 0], lambda x,y:   prod(div(x,y), v)),codes, midpoints))
-        temp =  list(map(list, zip(*temp)))
-        temp = list(map(lambda l: reduce(lambda x,y: sum(x,y), l), temp))
+        if DivBySum:
+            None
+        else:   
+            temp = list(map(lambda z,v: self.column_operation([z,0], [ac_pop, 0], lambda x,y: prod(div(x,y), v)),codes, midpoints))
+            temp =  list(map(list, zip(*temp)))
+            temp = list(map(lambda l: reduce(lambda x,y: sum(x,y), l), temp))
+            
         return(temp)
 
     def mean_age_level(self,level):
