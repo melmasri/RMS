@@ -238,12 +238,32 @@ class indicators():
         cursor.close()
         return column_operation_result
 
+    def write_indic_sql(self,dic):
+        """ 
+        Inserts the a tuple or dictionary of indicators in SQL EDU_INDICATOR_EST
+        Dictionary: must have the keys as the indicator name and the value as a list of
+        lists with each sub-list for a region, must be ordered ascendingly.
+        """
+        if(type(dic)==dict):
+            sql_tupple = ()
+            ##"IND_ID,CO_CODE,IND_YEAR,FRM_ID,QUAL,FIG, MAGN,ADM_CODE"
+            year = self.emco_year
+            co_code = self.country_code
+            for key, value in dic.items():
+                sql_tupple  = sql_tupple + tuple(map(lambda x,y:(key, co_code,y, year,1,1)+tuple(x), value, range(len(value))))
+                ## Write to SQL
+                if sql_tupple:
+                    cursor=self.conn.cursor()
+                    cursor.executemany("INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,QUAL,FIG,MAGN) VALUES (?,?,?,?,?,?,?,?)", sql_tupple )
+                    self.conn.commit()
+                    cursor.close()      
+ 
     def compute_percentages(self,indexes_dict,highest_and_lowest=True, compute23=False):
         """Generic function for computing percentages of columns and computing
         the maximum and minimum if necessary
 
-        the keys of indexes dict has to be the AC code of the
-        indicator to compute, the value should be a list with two
+        the keys of indexes_dict has to be the AC code of the
+        indicator to compute, the value should be a list of two
         pairs that go in the column operation function.
         
         If compute23 is True, instead of getting the estimated for
@@ -394,12 +414,14 @@ class indicators():
             print("Length of midpoints doesn't equal length of codes!")
             return
         if DivBySum:
-            None
+            denom = list(map(lambda u: self.column_operation([u,0], [u,0], lambda x,y:x),codes))
+            denom = reduce(lambda x,y: op2col(x,y,sum), denom)
+            temp = list(map(lambda x,z: self.column_operation([x,0], [x, 0], lambda u,v: prod(u, z)),codes, midpoints))        
         else:   
             temp = list(map(lambda z,v: self.column_operation([z,0], [ac_pop, 0], lambda x,y: prod(div(x,y), v)),codes, midpoints))
-            temp =  list(map(list, zip(*temp)))
-            temp = list(map(lambda l: reduce(lambda x,y: sum(x,y), l), temp))
-            
+        temp =  list(map(list, zip(*temp)))
+        temp = list(map(lambda l: reduce(lambda x,y: sum(x,y), l), temp))
+        if DivBySum: temp = op2col(temp, denom, div)
         return(temp)
 
     def mean_age_level(self,level):
@@ -413,15 +435,15 @@ class indicators():
         if level not in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']:
             print("The only levels allowed are ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']")
             return
-        midpoint = [[20,'value'], [24.5,'value'], [34.5,'value'], [44.5,'value'],[54.5,'value'], [60,'value']]
+        midpoints = [[20,'value'], [24.5,'value'], [34.5,'value'], [44.5,'value'],[54.5,'value'], [60,'value']]
         levelsExt = ['x.Ag20m','x.Ag20t29','x.Ag30t39','x.Ag40t49','x.Ag50t59','x.Ag60p']
         typeSchool  = ['', '.Pu', '.Pr']
         MAge = {}
         for t in typeSchool:
             name = 'MAge' + level + t
             ac = level + t
-            codes = list(map(lambda x: x.replace('x', level+t), levelsExt))
-            MAge.update({name:self.mean_category(codes,midpoint, ac)})
+            codes = list(map(lambda x: x.replace('x', ac), levelsExt))
+            MAge.update({name:self.mean_category(codes,midpoints, ac, DivBySum=True)})
         return MAge
         
     def mean_exp_level(self, level):
@@ -435,15 +457,16 @@ class indicators():
         if level not in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']:
             print("The only levels allowed are ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']")
             return
-        midpoint = [[1.5,'value'], [4,'value'], [8,'value'], [13,'value'],[17,'value']] ## midpoint years of experience for each level.
-        levelsExt = ['z.Exp1t2', 'z.Exp3t5','z.Exp6t10', 'z.Exp11t15', 'z.Exp15p']
+
+        midpoints = [[0.5,'value'],[1.5,'value'], [4,'value'], [8,'value'], [13,'value'],[17,'value']] ## midpoint years of experience for each level.
+        levelsExt = ['Nz','z.Exp1t2', 'z.Exp3t5','z.Exp6t10', 'z.Exp11t15', 'z.Exp15p']
         typeSchool  = ['', '.Pu', '.Pr']
         MExp = {}
         for t in typeSchool:
             name = 'MExp' + level + t
             ac = level + t      
             codes = list(map(lambda x: x.replace('z', level+t), levelsExt))
-            MExp.update({name:self.mean_category(codes,midpoint, ac)})
+            MExp.update({name:self.mean_category(codes,midpoints, ac, DivBySum=True)})
         return MExp
 
     def mean_level(self, levelFun,ret= False):
@@ -453,7 +476,7 @@ class indicators():
         
         Returns a dictionary for each level in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV'], with the key as the level and the result is the return of levelFun.
         """
-        isced = ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']
+        isced = ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']       
         if ret:
             M = {}
             for s in isced:
@@ -466,20 +489,19 @@ class indicators():
         ##################################################
         #### Highest level of EdAttain
         ##################################################
-    def highestEA_list(self, level, offset=0):
+    def highestEA_list(self, level):
         """ 
         Returns the ratio of the highest level of EdAttain given the level
-        offset is the year, 0 for current year assigned by indic, -1 is N-1 year
         """
         ac_pop = 'Pop.Ag0t99'
         if len(level) ==1:
-            a = self.column_operation([level[0], offset], [ac_pop,offset], lambda x,y: div(x,y)) 
+            a = self.column_operation([level[0], 0], [ac_pop,0], lambda x,y: div(x,y)) 
         else:           
-            b = list(map(lambda x: self.column_operation([x, offset], [ac_pop,offset], lambda x,y: div(x,y)), level))
-            a = reduce(lambda x,y: op2col(x, y, sum), b)
+            b = list(map(lambda x: self.column_operation([x, 0], [ac_pop,0], lambda x,y: div(x,y)), level))
+            a = reduce(lambda x,y: op2col(x, y, sum), b) ## have to change
         return(a)
 
-    def highestEA(self, schoolLevel, offset=0):
+    def highestEA(self, schoolLevel):
         """ 
         Returns a dictionary of the indicator EA(x)PT.(y).(z), where
         x is 2m, 3, 4, or 5p as the attainment levels
@@ -488,23 +510,21 @@ class indicators():
     
         The key of the dictionary is the indicator name EA(x)PT.(y).(z) and the value is
         a list of calculated figures for each region. 
-    
-        offset is the year offset, 0 as current year defined in indicator class indic, and -1, is the N-1 year.
-    """
-        if schoolLevel not in ['1', '2.GPV', '3.GPV', '23.GPV']:
-            print("The only schoolLevel allowed is ['1', '2.GPV', '3.GPV', '23.GPV'] ")
+        """
+        if schoolLevel not in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']:
+            print("The only schoolLevel allowed is ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']!")
             return
-        dic_level = {'2m':['T.x.EA.2m'] , '3':['T.x.EA.3'], '4': ['T.x.EA.4'], '5p':['T.x.EA.5', 'T.x.EA.6','T.x.EA.7','T.x.EA.8'], 'uk':['T.x.EA.uk'] }
+        dic_level = {'2m':['x.EA.2m'] , '3':['x.EA.3'], '4': ['x.EA.4'], '5p':['x.EA.5', 'x.EA.6','x.EA.7','x.EA.8']}
         typeSchool  = ['', '.Pu', '.Pr']
         EA_dic = {}
         for key, value in dic_level.items():
             for t in typeSchool:
-                name = 'EA' + key + 'PT.' + schoolLevel + t
+                name = 'EA' + key + 'P.' + schoolLevel + t
                 level_list = list(map(lambda x: x.replace('x', schoolLevel+t), dic_level[key]))
-                EA_dic.update({name:self.highestEA_list(level_list, offset)})
+                EA_dic.update({name:self.highestEA_list(level_list)})
         return EA_dic
 
-    def EA_all(self, offset=0,ret = False):
+    def EA_all(self,ret = False):
         """
         Calculates the highest EdAttain for for levels  ['1', '2.GPV', '3.GPV', '23.GPV']
         returns a dictionary of dictionaries. The first level is of size 4, as for each level
@@ -518,37 +538,66 @@ class indicators():
         The key of the dictionary is the indicator name EA(x)PT.(y).(z) and the value is
         a list of calculated figures for each region. 
         """
-        isced = ['1', '2.GPV', '3.GPV', '23.GPV']
+       isced = ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV'] 
         if ret:
             ea = {} 
             for s in isced:
-                ea.update({s : self.highestEA(s, offset) })
+                ea.update({s : self.highestEA(s) })
             return(ea)
         else:
             for s in isced:
-                self.write_indic_sql(self.highestEA(s, offset))
-                
-    def write_indic_sql(self,dic):
-        """ 
-        Inserts the a tuple or dictionary of indicators in SQL EDU_INDICATOR_EST
-        Dictionary: must have the keys as the indicator name and the value as a list of lists with each sublist for a regoin.
-        
-        """
-        if(type(dic)==dict):
-            sql_tupple = ()
-            ##"IND_ID,CO_CODE,IND_YEAR,FRM_ID,QUAL,FIG, MAGN,ADM_CODE"
-            year = self.emco_year
-            co_code = self.country_code
-            for key, value in dic.items():
-                sql_tupple  = sql_tupple + tuple(map(lambda x,y:(key, co_code,y, year,1,1)+tuple(x), value, range(len(value))))
-                ## Write to SQL
-                if sql_tupple:
-                    cursor=self.conn.cursor()
-                    cursor.executemany("INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,QUAL,FIG,MAGN) VALUES (?,?,?,?,?,?,?,?)", sql_tupple )
-                    self.conn.commit()
-                    cursor.close()      
-    
+                self.write_indic_sql(self.highestEA(s))
 
+
+    def percentage_teachers_attainment(self):
+        """ EA2mPT, EA3PT, EA4PT, EA5pPT, EAukPT """
+        isced = ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']
+        suffix1 = ['', '.Pu', '.Pr']
+
+        temp = {"EA2mPX": ['X.EA.2m'], "EA3PX": ['X.EA.3'],"EA4PX": ['X.EA.4'],"EAukPX": ['X.EA.uk']}
+        for s in suffix1:   
+            for i in isced:
+                dict_i = {}
+                l = i+s
+                for key, value in temp.items():
+                    key1 = key.replace('X', l)
+                    dict_i.update({key1:[[value[0].replace('X', l),0 ],[l,0]]})
+                    self.compute_percentages(dict_i, False, False)
+                    ## Writing 5p indicator
+                l5p = op2col(self.column_operation([l + '.EA.5', 0], [l + '.EA.6',0], lambda x, y: sum(x, y)), self.column_operation([l + '.EA.7', 0], [l + '.EA.8',0], lambda x, y: sum(x, y)), sum)
+                denom = self.column_operation([l,0],[l,0], lambda x,y:x)
+                self.write_indic_sql({'EA5pP'+ l :op2col(l5p,denom, div )})
+
+    def percentage_teachers_exp(self):
+        """ Exp1t2, Exp3t5, Exp6t10, Exp11t15, Exp15p, Expuk """
+        isced = ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']
+        suffix1 = ['', '.Pu', '.Pr']
+        temp = {"Exp1t2PY": ['Y.Exp1t2'], "Exp3t5PY": ['Y.Exp3t5'],"Exp6t10PY": ['Y.Exp6t10'],
+                "Exp11t15PY": ['Y.Exp11t15'], "Exp15pPY":['Y.Exp15p'], "ExpukPY":['Y.Expuk']}
+        for s in suffix1:   
+            for i in isced:
+                dict_i = {}
+                l = i+s
+                for key, value in temp.items():
+                    key1 = key.replace('Y', l)
+                    dict_i.update({key1:[[value[0].replace('Y', l),0 ],[l,0]]})
+                self.compute_percentages(dict_i, False, False)
+
+    def percentage_teachers_age(self):
+        """Ag20mPT, Ag20t29PT, Ag30t39PT, Ag40t49PT, Ag50t59PT, Ag60pPT, AgukPT"""
+        isced = ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']
+        suffix1 = ['', '.Pu', '.Pr']
+        temp = {"Ag20mPY":['Y.Ag20m'],"Ag20t29PY":['Y.Ag20t29'],"Ag30t39PY":['Y.Ag30t39'],
+                "Ag40t49PY":['Y.Ag40t49'] , "Ag50t59PY":['Y.Ag50t59'],"Ag60pPY":['Y.Ag60p'], "AgukPY":['Y.Aguk']}
+        for s in suffix1:   
+            for i in isced:
+                dict_i = {}
+                l = i+s
+                for key, value in temp.items():
+                    key1 = key.replace('Y', l)
+                    dict_i.update({key1:[[value[0].replace('Y', l),0 ],[l,0]]})
+                self.compute_percentages(dict_i, False, False)
+            
     def compute_all_indicators(self):
         self.pupils_teachers_ratio()
         self.newly_recruited_teachers()
@@ -556,7 +605,10 @@ class indicators():
         self.percentage_trained_teachers()
         self.percentage_private_teachers()
         self.percentage_non_permanent_teachers()
-        self.EA_all()
+        self.percentage_teachers_attainment()
+        self.percentage_teachers_exp()
+        self.percentage_teachers_age()
+        # self.EA_all()
         self.mean_level(self.mean_exp_level)
         self.mean_level(self.mean_age_level)
         
