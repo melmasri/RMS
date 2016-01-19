@@ -489,72 +489,12 @@ class indicators():
         ##################################################
         #### Highest level of EdAttain
         ##################################################
-    def highestEA_list(self, level):
-        """ 
-        Returns the ratio of the highest level of EdAttain given the level
-        """
-        ac_pop = 'Pop.Ag0t99'
-        if len(level) ==1:
-            a = self.column_operation([level[0], 0], [ac_pop,0], lambda x,y: div(x,y)) 
-        else:           
-            b = list(map(lambda x: self.column_operation([x, 0], [ac_pop,0], lambda x,y: div(x,y)), level))
-            a = reduce(lambda x,y: op2col(x, y, sum), b) ## have to change
-        return(a)
-
-    def highestEA(self, schoolLevel):
-        """ 
-        Returns a dictionary of the indicator EA(x)PT.(y).(z), where
-        x is 2m, 3, 4, or 5p as the attainment levels
-        y is the parameter schoolLevel defined by ['1', '2.GPV', '3.GPV', '23.GPV']
-        z is ['', '.Pu', '.Pr']
-    
-        The key of the dictionary is the indicator name EA(x)PT.(y).(z) and the value is
-        a list of calculated figures for each region. 
-        """
-        if schoolLevel not in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']:
-            print("The only schoolLevel allowed is ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']!")
-            return
-        dic_level = {'2m':['x.EA.2m'] , '3':['x.EA.3'], '4': ['x.EA.4'], '5p':['x.EA.5', 'x.EA.6','x.EA.7','x.EA.8']}
-        typeSchool  = ['', '.Pu', '.Pr']
-        EA_dic = {}
-        for key, value in dic_level.items():
-            for t in typeSchool:
-                name = 'EA' + key + 'P.' + schoolLevel + t
-                level_list = list(map(lambda x: x.replace('x', schoolLevel+t), dic_level[key]))
-                EA_dic.update({name:self.highestEA_list(level_list)})
-        return EA_dic
-
-    def EA_all(self,ret = False):
-        """
-        Calculates the highest EdAttain for for levels  ['1', '2.GPV', '3.GPV', '23.GPV']
-        returns a dictionary of dictionaries. The first level is of size 4, as for each level
-        and the second levels is a dictionary creates by highestEA_list  as:
-    
-        A dictionary of the indicator EA(x)PT.(y).(z), where
-        x is 2m, 3, 4, or 5p as the attainment levels
-        y is the parameter schoolLevel defined by ['1', '2.GPV', '3.GPV', '23.GPV']
-        z is ['', '.Pu', '.Pr']
-    
-        The key of the dictionary is the indicator name EA(x)PT.(y).(z) and the value is
-        a list of calculated figures for each region. 
-        """
-       isced = ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV'] 
-        if ret:
-            ea = {} 
-            for s in isced:
-                ea.update({s : self.highestEA(s) })
-            return(ea)
-        else:
-            for s in isced:
-                self.write_indic_sql(self.highestEA(s))
-
-
     def percentage_teachers_attainment(self):
         """ EA2mPT, EA3PT, EA4PT, EA5pPT, EAukPT """
         isced = ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']
         suffix1 = ['', '.Pu', '.Pr']
-
-        temp = {"EA2mPX": ['X.EA.2m'], "EA3PX": ['X.EA.3'],"EA4PX": ['X.EA.4'],"EAukPX": ['X.EA.uk']}
+        temp = {"EA2mPX": ['X.EA.2m'], "EA3PX": ['X.EA.3'],
+                "EA4PX": ['X.EA.4'],"EAukPX": ['X.EA.uk']}
         for s in suffix1:   
             for i in isced:
                 dict_i = {}
@@ -572,8 +512,9 @@ class indicators():
         """ Exp1t2, Exp3t5, Exp6t10, Exp11t15, Exp15p, Expuk """
         isced = ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']
         suffix1 = ['', '.Pu', '.Pr']
-        temp = {"Exp1t2PY": ['Y.Exp1t2'], "Exp3t5PY": ['Y.Exp3t5'],"Exp6t10PY": ['Y.Exp6t10'],
-                "Exp11t15PY": ['Y.Exp11t15'], "Exp15pPY":['Y.Exp15p'], "ExpukPY":['Y.Expuk']}
+        temp = {"Exp1t2PY": ['Y.Exp1t2'], "Exp3t5PY": ['Y.Exp3t5'],
+                "Exp6t10PY": ['Y.Exp6t10'],"Exp11t15PY": ['Y.Exp11t15'],
+                "Exp15pPY":['Y.Exp15p'], "ExpukPY":['Y.Expuk']}
         for s in suffix1:   
             for i in isced:
                 dict_i = {}
@@ -587,8 +528,9 @@ class indicators():
         """Ag20mPT, Ag20t29PT, Ag30t39PT, Ag40t49PT, Ag50t59PT, Ag60pPT, AgukPT"""
         isced = ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']
         suffix1 = ['', '.Pu', '.Pr']
-        temp = {"Ag20mPY":['Y.Ag20m'],"Ag20t29PY":['Y.Ag20t29'],"Ag30t39PY":['Y.Ag30t39'],
-                "Ag40t49PY":['Y.Ag40t49'] , "Ag50t59PY":['Y.Ag50t59'],"Ag60pPY":['Y.Ag60p'], "AgukPY":['Y.Aguk']}
+        temp ={"Ag20mPY":['Y.Ag20m'],"Ag20t29PY":['Y.Ag20t29'],
+               "Ag30t39PY":['Y.Ag30t39'],"Ag40t49PY":['Y.Ag40t49'],
+               "Ag50t59PY":['Y.Ag50t59'],"Ag60pPY":['Y.Ag60p'], "AgukPY":['Y.Aguk']}
         for s in suffix1:   
             for i in isced:
                 dict_i = {}
@@ -608,7 +550,6 @@ class indicators():
         self.percentage_teachers_attainment()
         self.percentage_teachers_exp()
         self.percentage_teachers_age()
-        # self.EA_all()
         self.mean_level(self.mean_exp_level)
         self.mean_level(self.mean_age_level)
         
