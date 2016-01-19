@@ -447,12 +447,11 @@ class RM():
             if serie !='Estimated':
                 print('Indicators are only calculated for Estimated series!')
                 return
-            a=indicators(self.database, int(year),co_name)
+            a=indicators(self.database, int(year),co_name, RM.username)
             a.compute_all_indicators()
             print('Successful..all indicators are calculated.')
         else:
             print('Error: missing country name, year or series.')       
-
 
 def main():
     database="Database/Prod.db"

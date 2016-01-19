@@ -4,7 +4,7 @@ import datetime
 import csv
 
 from functools import reduce
-
+from rmsqlfunctions import *
 
 ##################################################
 #### table Algebra for sum/div/prod operations
@@ -538,6 +538,16 @@ class indicators():
                 self.compute_percentages(dict_i, False, False)
             
     def compute_all_indicators(self):
+        ### Moving data to Audit Temp
+        sql_query("DELETE FROM METER_AUDIT_TEMP", readonly = False)
+        sql_str = ("INSERT INTO METER_AUDIT_TEMP "
+                   "(MC_ID, CO_CODE, ADM_CODE, MC_YEAR, EM_FIG_OLD, MQ_ID_OLD, MG_ID_OLD, USER_NAME, SERIES) "
+                   "SELECT IND_ID, CO_CODE, ADM_CODE, IND_YEAR, FIG, QUAL, MAGN, '{2}', 'EST' "
+                   "from EDU_INDICATOR_EST "
+                   "WHERE CO_CODE = {0} and IND_YEAR = {1}".format(self.country_code, self.emco_year, self.username))
+        sql_query(sql_str, readonly = False)
+        
+        ##### Calculating indicators
         self.pupils_teachers_ratio()
         self.newly_recruited_teachers()
         self.teachers_percentage_female()
@@ -549,9 +559,24 @@ class indicators():
         self.percentage_teachers_age()
         self.mean_level(self.mean_exp_level)
         self.mean_level(self.mean_age_level)
+
+        ## Moving changed valued to Audut trail
+        sql_query(("INSERT INTO METER_AUDIT_TRAIL " 
+                   "(MC_ID, CO_CODE, ADM_CODE, MC_YEAR, EM_FIG_OLD, MQ_ID_OLD, "
+                   "MG_ID_OLD, USER_NAME, SERIES, SURVEY_ID, EM_FIG_NEW, MQ_ID_NEW, MG_ID_NEW) " 
+                   "SELECT a.MC_ID, a.CO_CODE, a.ADM_CODE, a.MC_YEAR, " 
+                   "a.EM_FIG_OLD, a.MQ_ID_OLD, a.MG_ID_OLD, " 
+                   "a.USER_NAME, a.SERIES, a.SURVEY_ID, " 
+                   "b.FIG, b.QUAL, b.MAGN from  METER_AUDIT_TEMP as a "
+                   "join EDU_INDICATOR_EST as b on a.MC_ID = b.IND_ID "
+                   "and a.CO_CODE = b.CO_CODE and a.ADM_CODE = b.ADM_CODE "
+                   "and a.MC_YEAR = b.IND_YEAR AND "
+                   "(a.EM_FIG_OLD !=b.FIG OR a.MQ_ID_OLD != b.QUAL OR a.MG_ID_OLD != b.MAGN)"), readonly = False)
+        sql_query("DELETE FROM METER_AUDIT_TEMP", readonly = False)
         
-    def __init__ (self,database_file,emco_year,country_name):
+    def __init__ (self,database_file,emco_year,country_name, username):
         self.set_database_connection(database_file)
         self.emco_year=emco_year
         self.country_name=country_name
         self.get_country_code()
+        self.username = username

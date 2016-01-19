@@ -113,7 +113,8 @@ def getIndic(co_code, year, ind):
         The tuple is organized as (ADM_CODE, DATA, CELL.NO , EXL_REF)
     """
     ind = ' ' if ind =='All' else " and a.IND_ID like '{0}'".format(ind)
-    sql_data = ("select ADM_CODE, FIG, a.IND_ID, b.LABEL_ENG from EDU_INDICATOR_EST as a "
+    #coalesce(a.FIG,a.MAGN)  ## Try this in the future.
+    sql_data = ("select a.ADM_CODE, case when a.MAGN = 'value' then a.FIG else a.MAGN end as FIG, a.IND_ID, b.LABEL_ENG from EDU_INDICATOR_EST as a "
                 "left join EDU_INDICATOR_AID as b on a.IND_ID = b.IND_ID "
                 "where a.CO_CODE = {0} and a.IND_YEAR = {1}{2}"
                 "group by a.IND_ID, a.ADM_CODE".format(co_code, year, ind))
