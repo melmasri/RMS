@@ -1,7 +1,6 @@
 import sqlite3 #sql connection
 
 
-
 def set_database_file(database_file):
     """Sets the database file.
 

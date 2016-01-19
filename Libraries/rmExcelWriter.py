@@ -108,42 +108,30 @@ def getIndic(co_code, year, ind):
         ind is either:
                 'All' for all indicators 
                 indicator name as 'NTP.1'
+                or a regular expression as '%T.1%' all indicators for ISCED 1
         The function returns the a list of tuples, where each tuple is an SQL record. 
         The tuple is organized as (ADM_CODE, DATA, CELL.NO , EXL_REF)
     """
-    if ind!='All':
-        sql_data = ("select ADM_CODE, FIG, 3 as Col, 'D18' as EXL_REF from EDU_INDICATOR_EST as a "
-                    "where a.CO_CODE = {0} and a.IND_YEAR = {1} "
-                    "and IND_ID = '{2}'".format(co_code, year, ind))
-        data = sql_query(sql_data)
-        ## Adding ADM column
-        label_adm = ("select a.ADM_CODE, a.ADM_NAME as cell, "
-                     "2 as Cell, 'C18' as EXL_REF from REGIONS as a "
-                     "where co_code ={0};".format(co_code))
-        data = data + sql_query(label_adm)
-        ## Adding column and indic label
-        data = data + [(-1, 2, 2, 'C18'),(-2, ind, 2, 'D18'),(-2, 'ADM_NAME', 2, 'C18'), (-1, 3, 3, 'D18')]
-
-    if ind=='All':
-        sql_data = ("select ADM_CODE, FIG, a.IND_ID from EDU_INDICATOR_EST as a "
-                    "where a.CO_CODE = {0} and a.IND_YEAR = {1} "
-                    "group by a.IND_ID, a.ADM_CODE".format(co_code, year, ind))
-        data = sql_query(sql_data)
-        ## Adding indexes to where to write the data
-        indic_ids = list(map(lambda x: x[2], data))
-        indic_ids = sorted(set(indic_ids))
-        d = {indic_ids[i]: [i+3,indexes_inverse([17, i+3])]  for i in range(len(indic_ids))}
-        data = list(map(lambda x: x[:2] + tuple(d[x[2]]),data ))
-        ## Creating IND labels and column numbers 
-        col_num = list(map(lambda x:(-1, d[x][0], d[x][0], d[x][1]), indic_ids))
-        indic_labels =  list(map(lambda x:(-2, x)+ tuple(d[x]) , indic_ids))
-        ## Creating ADM column
-        label_adm = ("select a.ADM_CODE, a.ADM_NAME as cell, "
-                     "2 as Cell, 'C18' as EXL_REF from REGIONS as a "
-                     "where co_code ={0};".format(co_code))
-        data = data + sql_query(label_adm) +  [(-2, 'ADM_NAME', 2, 'C18'),(-1, 2, 2, 'C18')]
-        ## Adding everything
-        data = data + col_num + indic_labels 
+    ind = None if ind =='All' else " and a.IND_ID like '{0}'".format(ind)
+    sql_data = ("select ADM_CODE, FIG, a.IND_ID from EDU_INDICATOR_EST as a "
+                "where a.CO_CODE = {0} and a.IND_YEAR = {1}{2}"
+                "group by a.IND_ID, a.ADM_CODE".format(co_code, year, ind))
+    data = sql_query(sql_data)
+    ## Adding indexes to where to write the data
+    indic_ids = list(map(lambda x: x[2], data))
+    indic_ids = sorted(set(indic_ids))
+    d = {indic_ids[i]: [i+3,indexes_inverse([17, i+3])]  for i in range(len(indic_ids))}
+    data = list(map(lambda x: x[:2] + tuple(d[x[2]]),data ))
+    ## Creating IND labels and column numbers 
+    col_num = list(map(lambda x:(-1, d[x][0], d[x][0], d[x][1]), indic_ids))
+    indic_labels =  list(map(lambda x:(-2, x)+ tuple(d[x]) , indic_ids))
+    ## Creating ADM column
+    label_adm = ("select a.ADM_CODE, a.ADM_NAME as cell, "
+                 "2 as Cell, 'C18' as EXL_REF from REGIONS as a "
+                 "where co_code ={0};".format(co_code))
+    data = data + sql_query(label_adm) +  [(-2, 'ADM_NAME', 2, 'C18'),(-1, 2, 2, 'C18')]
+    ## Adding everything
+    data = data + col_num + indic_labels 
     return(data)
 
 def export_var(var, wb, co_code, year, var_type, serie= 'REP'):
