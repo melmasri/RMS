@@ -239,7 +239,7 @@ class RM():
             if co_name and year:
                 co_code = getCO_CODE(co_name)
                 print('Extracting {0} for {1}-{2}....'.format(var,co_name, year))
-                filename = "{0}_{1}_INDIC_{2}.xlsx".format(co_name, year,var.replace('%','$'))
+                filename = "{0}_{1}_INDIC_{2}.xlsx".format(co_name, year,var.replace('%','xx'))
                 if self.output_folder_var:
                     filename = "{0}/{1}".format(self.output_folder_var,filename)
                 else:
