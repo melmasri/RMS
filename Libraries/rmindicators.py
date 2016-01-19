@@ -485,10 +485,7 @@ class indicators():
         else:
             for s in isced:
                 self.write_indic_sql(levelFun(s))
-        ##################################################
-        ##################################################
-        #### Highest level of EdAttain
-        ##################################################
+
     def percentage_teachers_attainment(self):
         """ EA2mPT, EA3PT, EA4PT, EA5pPT, EAukPT """
         isced = ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']
