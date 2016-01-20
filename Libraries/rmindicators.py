@@ -256,7 +256,20 @@ class indicators():
                     cursor=self.conn.cursor()
                     cursor.executemany("INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,QUAL,FIG,MAGN) VALUES (?,?,?,?,?,?,?,?)", sql_tupple )
                     self.conn.commit()
-                    cursor.close()      
+                    cursor.close()
+                    
+    def write_indic_sql_no_regions(self,indicator_name, value_pair):
+        """It is similar to write_indic_sql, but it only inserts an indicator
+        for the country level instead of doing it for all the regions.
+
+        """
+        cursor=self.conn.cursor()
+        sql_tupple=( (indicator_name  ,self.country_code,0,self.emco_year,1,value_pair[0] ,1, value_pair[1] ), )
+        cursor.executemany( "INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,FIG,QUAL,MAGN) VALUES (?,?,?,?,?,?,?,?)",sql_tupple )
+        
+        self.conn.commit()
+        cursor.close()
+        
  
     def compute_percentages(self,indexes_dict,highest_and_lowest=True):
         """Generic function for computing percentages of columns and computing
@@ -293,11 +306,12 @@ class indicators():
         cursor=self.conn.cursor()
         if highest_and_lowest:
             for indicator_AC in indexes_dict.keys():
-                cursor.executemany( "INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,FIG,QUAL,MAGN) VALUES (?,?,?,?,?,?,?,?)",( (indicator_AC + ".Max"  ,self.country_code,0,self.emco_year,1,maximum_dict[indicator_AC][0] ,1, maximum_dict[indicator_AC][1] ), ) )
-                cursor.executemany( "INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,FIG,QUAL,MAGN) VALUES (?,?,?,?,?,?,?,?)", ( (  indicator_AC + ".Min"  ,self.country_code,0,self.emco_year,1,minimum_dict[indicator_AC][0] ,1, minimum_dict[indicator_AC][1]),))
+                self.write_indic_sql_no_regions(indicator_AC + ".Max",maximum_dict[indicator_AC])
+                self.write_indic_sql_no_regions(indicator_AC + ".Min",minimum_dict[indicator_AC])
+                #cursor.executemany( "INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,FIG,QUAL,MAGN) VALUES (?,?,?,?,?,?,?,?)",( (indicator_AC + ".Max"  ,self.country_code,0,self.emco_year,1,maximum_dict[indicator_AC][0] ,1, maximum_dict[indicator_AC][1] ), ) )
+                #cursor.executemany( "INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,FIG,QUAL,MAGN) VALUES (?,?,?,?,?,?,?,?)", ( (  indicator_AC + ".Min"  ,self.country_code,0,self.emco_year,1,minimum_dict[indicator_AC][0] ,1, minimum_dict[indicator_AC][1]),))
                                     
-        self.conn.commit()
-        cursor.close()
+        
 
     def pupils_teachers_ratio(self):
         ## Total number of pupils: E.1, E.2.GPV, E.3.GPV
@@ -477,7 +491,7 @@ class indicators():
                 for key, value in temp.items():
                     key1 = key.replace('X', l)
                     dict_i.update({key1:[[value[0].replace('X', l),0 ],[l,0]]})
-                    self.compute_percentages(dict_i, False, False)
+                    self.compute_percentages(dict_i, False)
                     ## Writing 5p indicator
                 l5p = op2col(self.column_operation([l + '.EA.5', 0], [l + '.EA.6',0], lambda x, y: sum(x, y)), self.column_operation([l + '.EA.7', 0], [l + '.EA.8',0], lambda x, y: sum(x, y)), sum)
                 denom = self.column_operation([l,0],[l,0], lambda x,y:x)
@@ -497,7 +511,7 @@ class indicators():
                 for key, value in temp.items():
                     key1 = key.replace('Y', l)
                     dict_i.update({key1:[[value[0].replace('Y', l),0 ],[l,0]]})
-                self.compute_percentages(dict_i, False, False)
+                self.compute_percentages(dict_i, False)
 
     def percentage_teachers_age(self):
         """Ag20mPT, Ag20t29PT, Ag30t39PT, Ag40t49PT, Ag50t59PT, Ag60pPT, AgukPT"""
@@ -513,7 +527,7 @@ class indicators():
                 for key, value in temp.items():
                     key1 = key.replace('Y', l)
                     dict_i.update({key1:[[value[0].replace('Y', l),0 ],[l,0]]})
-                self.compute_percentages(dict_i, False, False)
+                self.compute_percentages(dict_i, False)
     def audit_trail(temp_table = True):
         if(temp_table):
                 sql_query("DELETE FROM METER_AUDIT_TEMP", readonly = False)
@@ -538,7 +552,7 @@ class indicators():
             
     def compute_all_indicators(self):
         ### Moving data to Audit Temp
-        self.audit_trail(True)
+        #self.audit_trail(True)
         
         ##### Calculating indicators
         self.pupils_teachers_ratio()
@@ -554,7 +568,16 @@ class indicators():
         self.mean_level(self.mean_age_level)
 
         ## Moving changed valued to Audut trail
-        self.audit_trail(False)
+        #self.audit_trail(False)
+    def check_est_values(self):
+        cursor=self.conn.cursor()
+        cursor.execute("SELECT * FROM EDU_METER97_EST WHERE CO_CODE={} AND EMCO_YEAR={} ".format(self.country_code,self.emco_year))
+        values=cursor.fetchall()
+        if values:
+            return(True)
+        else:
+            return(False)
+        cursor.close()
         
     def __init__ (self,database_file,emco_year,country_name, username):
         self.set_database_connection(database_file)
