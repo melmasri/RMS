@@ -238,19 +238,14 @@ class indicators():
         cursor.close()
         return column_operation_result
 
-    def compute_percentages(self,indexes_dict,highest_and_lowest=True, compute23=False):
+    def compute_percentages(self,indexes_dict,highest_and_lowest=True):
         """Generic function for computing percentages of columns and computing
-        the maximum and minimum if necessary
+        the maximum and minimum if necessary.
 
-        the keys of indexes dict has to be the AC code of the
+        The keys of indexes dict has to be the AC code of the
         indicator to compute, the value should be a list with two
-        pairs that go in the column operation function.
-        
-        If compute23 is True, instead of getting the estimated for
-        ISCED23, the value for ISCED2 and ISCED3 are added to get the
-        value. This is useful for pupils, where there is no ISCED23 table.
+        pairs that go in the column operation function.        
         """
-        cursor=self.conn.cursor()
         values_dict={}
         maximum_dict={}
         minimum_dict={}
@@ -267,49 +262,28 @@ class indicators():
                 isced3_ind_name=indicator_AC
             if (match23 != None):
                 isced23_ind_name=indicator_AC
-            if (match23 == None or (not compute23) ):
-                lista1=indexes_dict[indicator_AC][0]
-                lista2=indexes_dict[indicator_AC][1]
-                values_dict[indicator_AC]=self.column_operation(lista1,lista2,div)
-                if highest_and_lowest:
-                    maximum_dict[indicator_AC]=max_sp(values_dict[indicator_AC])
-                    minimum_dict[indicator_AC]=min_sp(values_dict[indicator_AC])
-                    ## The following lines can be erased when the mg_ids are figured out
-                    #maximum_dict[indicator_AC][1]=0
-                    #minimum_dict[indicator_AC][1]=0
-                    
-        if isced23_ind_name and compute23:
-            numerator_23=self.column_operation(indexes_dict[isced2_ind_name][0],indexes_dict[isced3_ind_name][0],sum   )
-            denominator_23=self.column_operation(indexes_dict[isced2_ind_name][1],indexes_dict[isced3_ind_name][1],sum   )            
-            # print(numerator_23)
-            # print(denominator_23)
-            # print(values_dict)
-            values_dict[isced23_ind_name]=list(map(div,numerator_23,denominator_23))
+            lista1=indexes_dict[indicator_AC][0]
+            lista2=indexes_dict[indicator_AC][1]
+            values_dict[indicator_AC]=self.column_operation(lista1,lista2,div)
             if highest_and_lowest:
-                maximum_dict[isced23_ind_name]=max_sp(values_dict[isced23_ind_name])
-                minimum_dict[isced23_ind_name]=min_sp(values_dict[isced23_ind_name])
-                ## The following lines can be erased when the mg_ids are figured out
-                #maximum_dict[isced23_ind_name][1]=0
-                #minimum_dict[isced23_ind_name][1]=0
-        ##We introduce everything in sql
-        for indicator_AC in indexes_dict.keys():
-            sql_tupple=()
-            for i in range(len(values_dict[indicator_AC]  )):
-                sql_tupple = sql_tupple + ((indicator_AC ,self.country_code,i,self.emco_year,1,values_dict[indicator_AC][i][0],1,values_dict[indicator_AC][i][1]),)
-            cursor.executemany("INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,FIG,QUAL,MAGN) VALUES (?,?,?,?,?,?,?,?)", sql_tupple  )
-            # Now we insert the information for the biggest and smallest
-            if highest_and_lowest:
-                cursor.executemany( "INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,FIG,QUAL,MAGN) VALUES (?,?,?,?,?,?,?,?)",( ("H." + indicator_AC  ,self.country_code,0,self.emco_year,1,maximum_dict[indicator_AC][0] ,1, maximum_dict[indicator_AC][1] ), ) )
-                cursor.executemany( "INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,FIG,QUAL,MAGN) VALUES (?,?,?,?,?,?,?,?)", ( ("L." + indicator_AC  ,self.country_code,0,self.emco_year,1,minimum_dict[indicator_AC][0] ,1, minimum_dict[indicator_AC][1]),) )
+                maximum_dict[indicator_AC]=max_sp(values_dict[indicator_AC])
+                minimum_dict[indicator_AC]=min_sp(values_dict[indicator_AC])
+                
+        self.write_indic_sql(values_dict)
+        cursor=self.conn.cursor()
+        if highest_and_lowest:
+            for indicator_AC in indexes_dict.keys():
+                cursor.executemany( "INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,FIG,QUAL,MAGN) VALUES (?,?,?,?,?,?,?,?)",( (indicator_AC + ".Max"  ,self.country_code,0,self.emco_year,1,maximum_dict[indicator_AC][0] ,1, maximum_dict[indicator_AC][1] ), ) )
+                cursor.executemany( "INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,FIG,QUAL,MAGN) VALUES (?,?,?,?,?,?,?,?)", ( (  indicator_AC + ".Min"  ,self.country_code,0,self.emco_year,1,minimum_dict[indicator_AC][0] ,1, minimum_dict[indicator_AC][1]),))
+                                    
         self.conn.commit()
         cursor.close()
 
     def pupils_teachers_ratio(self):
         ## Total number of pupils: E.1, E.2.GPV, E.3.GPV
         ## Total number of teachers: T.1, T.2.GPV, T.3.GPV
-        ## We must sum 2 and 3 to get 23 because it does not exist for the pupils.
-        variables_dict={ "PTRHC.1" : [["E.1",0],["T.1",0]]  , "PTRHC.2": [["E.2.GPV",0],["T.2.GPV",0]] , "PTRHC.3": [["E.3.GPV",0],["T.3.GPV",0]] , "PTRHC.2t3" : '' }
-        self.compute_percentages(variables_dict,True,True)
+        variables_dict={ "PTRHC.1" : [["E.1",0],["T.1",0]]  , "PTRHC.2": [["E.2.GPV",0],["T.2.GPV",0]] , "PTRHC.3": [["E.3.GPV",0],["T.3.GPV",0]]}
+        self.compute_percentages(variables_dict,True)
 
     def newly_recruited_teachers(self):
         ## NTP.2t3 was not in the list, so we invented it.
@@ -337,10 +311,10 @@ class indicators():
         ## Percentage of private teachers: T.1.Pr, T.2.GPV.Pr, T.3.GPV.Pr, T.23.GPV.Pr
         ## number of teachers : T.1, T.2.GPV T.3.GPV
         ## indicators(invented, not foun in table):  TP.1.Pr, TP.2.Pr, TP.3.Pr, TP.2t3.Pr
-        variables_dict={"TP.1.Pr":[["T.1.Pr",0],["T.1",0]],
-                        "TP.2.Pr":[["T.2.GPV.Pr",0],["T.2.GPV",0]],
-                        "TP.3.Pr":[["T.3.GPV.Pr",0],["T.3.GPV",0]],
-                        "TP.2t3.Pr": [["T.23.GPV.Pr",0],["T.23.GPV",0]], }
+        variables_dict={"PrTP.1":[["T.1.Pr",0],["T.1",0]],
+                        "PrTP.2":[["T.2.GPV.Pr",0],["T.2.GPV",0]],
+                        "PrTP.3":[["T.3.GPV.Pr",0],["T.3.GPV",0]],
+                        "PrTP.2t3": [["T.23.GPV.Pr",0],["T.23.GPV",0]], }
         self.compute_percentages(variables_dict)
 
     def percentage_non_permanent_teachers(self):
@@ -351,37 +325,41 @@ class indicators():
         ## Percentage of non permanent teachers among public teachers isced 2: TP.2.GPV.Pr.Fix
         ## Percentage of non permanent teachers among public teachers isced 3: TP.3.GPV.Pr.Fix
         ## Percentage of non permanent teachers among public teachers isced 3: TP.2t3.GPV.Pr.Fix
-        variables_dict_private={"TP.1.Pr.Fix":[["T.1.Pr.Fix",0],["T.1.Pr",0]],
-                                "TP.2.GPV.Pr.Fix": [["T.2.GPV.Pr.Fix",0],["T.2.GPV.Pr",0]],
-                                "TP.3.GPV.Pr.Fix": [["T.3.GPV.Pr.Fix",0],["T.3.GPV.Pr",0]],
-                                "TP.2t3.GPV.Pr.Fix" : [ ["T.23.GPV.Pr.Fix",0],["T.23.GPV.Pr",0] ]
+        variables_dict_private={"FixTP.1.Pr":[["T.1.Pr.Fix",0],["T.1.Pr",0]],
+                                "FixTP.2.GPV.Pr": [["T.2.GPV.Pr.Fix",0],["T.2.GPV.Pr",0]],
+                                "FixTP.3.GPV.Pr": [["T.3.GPV.Pr.Fix",0],["T.3.GPV.Pr",0]],
+                                "FixTP.2t3.GPV.Pr" : [ ["T.23.GPV.Pr.Fix",0],["T.23.GPV.Pr",0] ]
                             }
-        variables_dict_public={"TP.1.Pu.Fix":[["T.1.Pu.Fix",0],["T.1.Pu",0]],
-                               "TP.2.GPV.Pu.Fix": [["T.2.GPV.Pu.Fix",0],["T.2.GPV.Pu",0]],
-                               "TP.3.GPV.Pu.Fix": [["T.3.GPV.Pu.Fix",0],["T.3.GPV.Pu",0]],
-                               "TP.2t3.GPV.Pu.Fix" : [ ["T.23.GPV.Pu.Fix",0],["T.23.GPV.Pu",0] ]
+                                    
+        variables_dict_public={"FixTP.1.Pu":[["T.1.Pu.Fix",0],["T.1.Pu",0]],
+                               "FixTP.2.GPV.Pu": [["T.2.GPV.Pu.Fix",0],["T.2.GPV.Pu",0]],
+                               "FixTP.3.GPV.Pu": [["T.3.GPV.Pu.Fix",0],["T.3.GPV.Pu",0]],
+                               "FixTP.2t3.GPV.Pu" : [ ["T.23.GPV.Pu.Fix",0],["T.23.GPV.Pu",0] ]
                            }
         
         self.compute_percentages(variables_dict_public,False)
         self.compute_percentages(variables_dict_private,False)
-                ## Now we compute the one that includes both private and public
-        cursor=self.conn.cursor()
-        for keys in [["TP.1.Pr.Fix","TP.1.Pu.Fix" ],["TP.2.GPV.Pr.Fix","TP.2.GPV.Pu.Fix"],["TP.3.GPV.Pr.Fix","TP.3.GPV.Pu.Fix"],["TP.2t3.GPV.Pr.Fix","TP.2t3.GPV.Pu.Fix"]]:
+                                    
+        ## Now we compute the one that includes both private and public
+        priv_and_pu_dict={}
+        for keys in [["FixTP.1.Pr","FixTP.1.Pu" ],["FixTP.2.GPV.Pr","FixTP.2.GPV.Pu"],["FixTP.3.GPV.Pr","FixTP.3.GPV.Pu"],["FixTP.2t3.GPV.Pr","FixTP.2t3.GPV.Pu"]]:
             numerator=self.column_operation(variables_dict_private[keys[0]][0],variables_dict_public[keys[1]][0],sum  )
             denominator=self.column_operation(variables_dict_private[keys[0]][1],variables_dict_public[keys[1]][1],sum  )
             values=list(map(div,numerator,denominator))
             indicator=keys[0]
             indicator=indicator.replace(".Pr",'')
+            priv_and_pu_dict[indicator]=values
+        self.write_indic_sql(priv_and_pu_dict)                                    
             # print("numerator:")
             # print(numerator)
             # print("denominator:")
             # print(denominator)
-            sql_tupple=()
-            for i in range(len(values)):
-                sql_tupple = sql_tupple + ((indicator ,self.country_code,i,self.emco_year,1,values[i][0],1,values[i][1]),)
-            cursor.executemany("INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,FIG,QUAL,MAGN) VALUES (?,?,?,?,?,?,?,?)", sql_tupple  )
-        self.conn.commit()
-        cursor.close()
+            # sql_tupple=()
+            # for i in range(len(values)):
+            #     sql_tupple = sql_tupple + ((indicator ,self.country_code,i,self.emco_year,1,values[i][0],1,values[i][1]),)
+            # cursor.executemany("INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,FIG,QUAL,MAGN) VALUES (?,?,?,?,?,?,?,?)", sql_tupple  )
+#        self.conn.commit()
+#        cursor.close()
 
     ##################################################
     ### Mean functions
