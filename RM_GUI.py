@@ -233,16 +233,13 @@ class RM():
     def export_indic(self):
         """ Exporting an indicator"""
         var = str(self.cbox_indic.get())
-        if var not in self.cbox_indic['values']:
-            print('Selection should be from the given list.')
-            return None
         if var:
             co_name = str(self.cbox_co.get())
             year = self.cbox_year.get()
             if co_name and year:
                 co_code = getCO_CODE(co_name)
                 print('Extracting {0} for {1}-{2}....'.format(var,co_name, year))
-                filename = "{0}_{1}_INDIC_{2}.xlsx".format(co_name, year,var)
+                filename = "{0}_{1}_INDIC_{2}.xlsx".format(co_name, year,var.replace('%','xx'))
                 if self.output_folder_var:
                     filename = "{0}/{1}".format(self.output_folder_var,filename)
                 else:
@@ -263,13 +260,13 @@ class RM():
         err1 = ''
         if x=='sheet':
             var = str(self.cbox_sheet.get())
-            if var not in self.cbox_sheet['values']:     err1 = 'Selection should be from the given list.'
+            if var not in self.cbox_sheet['values']: err1 = 'Selection should be from the given list.'
         elif x=='table':
             var = str(self.cbox_table.get())
-            if var not in self.cbox_table['values']:     err1 = 'Selection should be from the given list.' 
+            if var not in self.cbox_table['values']: err1 = 'Selection should be from the given list.' 
         elif x=='AC':
             var = str(self.cbox_AC.get())
-            if var not in self.cbox_AC['values']:     err1 = 'Selection should be from the given list.' 
+            if var not in self.cbox_AC['values']: err1 = 'Selection should be from the given list.' 
         if err1:
             print(err1)
             return (None)
@@ -446,12 +443,15 @@ class RM():
         co_name = str(self.cbox_co.get())
         year = self.cbox_year.get()
         if co_name and year:
-            a=indicators(self.database, int(year),co_name)
+            serie = str(self.cbox_series.get())
+            if serie !='Estimated':
+                print('Indicators are only calculated for Estimated series!')
+                return
+            a=indicators(self.database, int(year),co_name, RM.username)
             a.compute_all_indicators()
             print('Successful..all indicators are calculated.')
         else:
             print('Error: missing country name, year or series.')       
-
 
 def main():
     database="Database/Prod.db"

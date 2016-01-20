@@ -1,0 +1,97 @@
+#+TITLE: Indicators documentation
+#+DATE: December 17th, 2015
+#+AUTHOR: Oscar Alberto Quijano Xacur
+#+EMAIL: oscar.quijano@use.startmail.com
+#+OPTIONS: ':nil *:t -:t ::t <:t H:3 \n:nil ^:{} arch:headline
+#+OPTIONS: author:t c:nil creator:comment d:(not "LOGBOOK") date:t
+#+OPTIONS: e:t email:nil f:t inline:t num:t p:nil pri:nil stat:t
+#+OPTIONS: tags:t tasks:t tex:t timestamp:t toc:t todo:t |:t
+#+CREATOR: Emacs 24.4.1 (Org mode 8.2.10)
+#+DESCRIPTION:
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS:
+#+LANGUAGE: en
+#+SELECT_TAGS: export
+
+#+SETUPFILE: /home/oscar/org-html-themes/setup/theme-readtheorg.setup
+
+* Adding  Indicators
+
+** The indicators class
+   The indicators class has three types of methods: auxiliary
+   methods, indicators methods and action methods.
+
+   The auxiliary methods are an aid either for the computation of
+   indicators or for sqlite interaction. Examples of these methods
+   are: =get_nadm1=, =set_database_connection=, =get_country_code=,
+   =column_operation=, =compute_percentages=.
+
+   The indicator methods, are methods that compute the value of an
+   indicator and adds their values to the sqlite database. Examples of
+   these functions are: =pupils_teachers_ratio=, =newly_recruited_teachers=,
+   =teachers_percentage_female=, =percentage_trained_teachers=,
+   =percentage_private_teachers=, =percentage_non_permanent_teachers=.
+
+   There are only two action methods: =compute_all_indicators= and
+   =__init__=. The first one is a method that calls all the indicator
+   methods. The second one, as for all classes is called when a class
+   is instantiated.
+   
+** COMMENT New indicators   
+   
+   If it is needed to add a new indicator, two things need to be
+   done. First a method that computes the values of the indicator and
+   adds them to the database should be added. After this, a call to
+   this method should be added to =compute_all_indicators=. After this
+   is done, the GUI will also compute this method when the calculate
+   button is pressed.
+
+   Before adding a method as explained in the paragraph before, one
+   usually wants to test a new indicator in a different file without
+   modifying the main code. Now we give an example of how to do this.
+
+   The first thing that needs to be done is to add the =rmquestionnaire=
+   library to our script. Since it is not installed in a folder where
+   python can find it, we need to do this by hand. This can be achieved
+   with the following code
+
+   #+BEGIN_SRC python :session example1 :export code
+     import sys, os
+
+     os.chdir('/home/oscar/RMS')
+     sys.path.append('Libraries')
+
+     from rmquestionnaire import *
+   #+END_SRC
+
+   #+RESULTS:
+
+   The only thing that needs to be adapted form the code above is the
+   ='/home/oscar/RMS'=, instead the path to the main folder of the
+   program in your computer should be used. After doing this, we can
+   create a class testing class for the new indicators. Let us say
+   that we want to compute the proportion of teachers in public
+   schools in ISCED1 that have one or two years of experience. Let us
+   call this indicator "PT.1.Pu.Exp1t2". This would correspond to
+   dividing "T.1.Pu.Exp1t2" by "T.1.Pu". The method =column_operation=
+   is very handy in this case. This indicator can be coded in the
+   following way:
+
+
+   #+BEGIN_SRC python :session example1 :export code
+     class tests_indicators(indicators):
+         def proportion_public_teachers_1t2exp_isced1(self):
+             # The following is for interacting with sqlite
+             cursor=self.conn.cursor()
+             indicator_name="PT.1.Pu.Exp1t2"
+             indicator_values=self.column_operation(["T.1.Pu.Exp1t2",0],["T.1.Pu",0],div)
+             # We prepare a tupple of tupples to use with cursor.executemany
+             sql_tupple=()
+             for i in range(len( indicator_values )):
+                 sql_tupple = sql_tupple + ((indicator_name,self.country_code,i,self.emco_year,1,indicator_values[0],1,indicator_values[1]), )
+             # Now we introduce the computed values
+             cursor.executemany("INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,FIG,QUAL,MAGN) VALUES (?,?,?,?,?,?,?,?)", sql_tupple  )
+   #+END_SRC
+
+   #+RESULTS:
+
