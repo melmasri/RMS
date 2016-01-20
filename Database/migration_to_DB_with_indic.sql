@@ -211,6 +211,27 @@ CREATE TABLE EDU_INDICATOR_AID(
        LABEL_ENG  varchar(2048),
        PRIMARY KEY ( IND_ID ASC));
 
+----------- Audit trial tables
+--  METER_AUDIT_TRAIL TABLE
+DROP TABLE IF EXISTS INDICATOR_AUDIT_TRAIL;
+-- Creating table
+CREATE TABLE INDICATOR_AUDIT_TRAIL(
+	Audit_ID Integer , -- Based on ROWID definition in SQLite, this should do the same job as autoincrement
+	IND_ID varchar(50) NOT NULL,
+    CO_CODE decimal(6, 0) NOT NULL,
+    ADM_CODE INT NOT NULL, -- Administrative Division code.
+	IND_YEAR decimal(4, 0) NOT NULL,
+	FIG_NEW varchar(4000) NULL,
+	FIG_OLD varchar(4000) NULL,
+	QUAL_NEW char(1) NULL,
+	QUAL_OLD char(1) NULL,
+	MAGN_NEW char(1) NULL,
+	MAGN_OLD char(1) NULL,
+	USER_NAME varchar(20) NOT NULL,
+	SYS_DATE datetime DEFAULT (datetime('now','localtime')),
+	SERIES varchar(10) NOT NULL,
+    PRIMARY KEY (Audit_ID ASC));
+
 
 -- inserting EDU_INDICATOR_AID
 -- cvs mode to set the separators before inserting data

@@ -76,7 +76,7 @@ def sum(x,y):
     global algebra_sum
     algeb = algebra_sum[x[1]][y[1]]
     if algeb =='value':
-        return([(x[0] or 0 ) + (y[0] or 0),'value'])
+        return([round((x[0] or 0 ) + (y[0] or 0),4),'value'])
     return(['',algeb])
 
 def prod(x,y):
@@ -95,7 +95,7 @@ def prod(x,y):
     global algebra_prod
     algeb = algebra_prod[x[1]][y[1]]
     if algeb =='value':
-        return([(x[0] or 0)*(y[0] or 0),'value'])
+        return([round((x[0] or 0)*(y[0] or 0),4),'value'])
     return(['',algeb])
 
 def div(x,y):
@@ -114,7 +114,7 @@ def div(x,y):
     global algebra_div
     algeb = algebra_div[x[1]][y[1]]
     if algeb == 'value':
-        return([(x[0] or 0)/(y[0] or 0),'value'])
+        return([round((x[0] or 0)/(y[0] or 0),4),'value'])
     return(['',algeb])
 
 def op2col(col1, col2, op):
@@ -303,7 +303,6 @@ class indicators():
                 minimum_dict[indicator_AC]=min_sp(values_dict[indicator_AC])
                 
         self.write_indic_sql(values_dict)
-        cursor=self.conn.cursor()
         if highest_and_lowest:
             for indicator_AC in indexes_dict.keys():
                 self.write_indic_sql_no_regions(indicator_AC + ".Max",maximum_dict[indicator_AC])
@@ -311,21 +310,23 @@ class indicators():
                 #cursor.executemany( "INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,FIG,QUAL,MAGN) VALUES (?,?,?,?,?,?,?,?)",( (indicator_AC + ".Max"  ,self.country_code,0,self.emco_year,1,maximum_dict[indicator_AC][0] ,1, maximum_dict[indicator_AC][1] ), ) )
                 #cursor.executemany( "INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,FIG,QUAL,MAGN) VALUES (?,?,?,?,?,?,?,?)", ( (  indicator_AC + ".Min"  ,self.country_code,0,self.emco_year,1,minimum_dict[indicator_AC][0] ,1, minimum_dict[indicator_AC][1]),))
                                     
-        
-
     def pupils_teachers_ratio(self):
         ## Total number of pupils: E.1, E.2.GPV, E.3.GPV
         ## Total number of teachers: T.1, T.2.GPV, T.3.GPV
-        variables_dict={ "PTRHC.1" : [["E.1",0],["T.1",0]]  , "PTRHC.2": [["E.2.GPV",0],["T.2.GPV",0]] , "PTRHC.3": [["E.3.GPV",0],["T.3.GPV",0]]}
+        variables_dict={ "PTRHC.1" : [["E.1",0],["T.1",0]], "PTRHC.2": [["E.2.GPV",0],["T.2.GPV",0]],
+                         "PTRHC.3": [["E.3.GPV",0],["T.3.GPV",0]]}
         self.compute_percentages(variables_dict,True)
 
     def newly_recruited_teachers(self):
         ## NTP.2t3 was not in the list, so we invented it.
-        variables_dict={"NTP.1" : [["NT.1",0],["T.1",0]]  , "NTP.2" : [["NT.2.GPV",0],["T.2.GPV",0]] , "NTP.3" : [["NT.3.GPV",0],["T.3.GPV",0]] , "NTP.2t3" : [["NT.23.GPV",0],["T.23.GPV",0]]  }
+        variables_dict={"NTP.1" : [["NT.1",0],["T.1",0]],"NTP.2":[["NT.2.GPV",0],["T.2.GPV",0]],
+                        "NTP.3" : [["NT.3.GPV",0],["T.3.GPV",0]],"NTP.2t3" : [["NT.23.GPV",0],["T.23.GPV",0]]  }
         self.compute_percentages(variables_dict)
 
     def teachers_percentage_female(self):
-        variables_dict={ "FTP.1": [["T.1.F",0],["T.1",0]]  , "FTP.2": [["T.2.GPV.F",0],["T.2.GPV",0]]  , "FTP.3" : [["T.3.GPV.F",0],["T.3.GPV",0]]  , "FTP.2t3" : [["T.23.GPV.F",0],["T.23.GPV",0]]  }
+        variables_dict={ "FTP.1":[["T.1.F",0],["T.1",0]],"FTP.2":[["T.2.GPV.F",0],["T.2.GPV",0]]
+                         , "FTP.3" : [["T.3.GPV.F",0],["T.3.GPV",0]],
+                         "FTP.2t3" : [["T.23.GPV.F",0],["T.23.GPV",0]]}
         self.compute_percentages(variables_dict)
 
     def percentage_trained_teachers(self):
@@ -336,8 +337,11 @@ class indicators():
 
         # Percentage of trained teachers: TRTP.1, TRTP.2, TRTP.3, TRTP.2t3
         # Percentage of newly recruited teachers: TrNTP.1,  TrNTP.2, TrNTP.3, TrNTP.2t3
-        variables_dict1={"TRTP.1": [["T.1.trained",0 ],["T.1",0] ], "TRTP.2": [["T.2.GPV.trained",0 ],["T.2.GPV",0]], "TRTP.3" : [["T.3.GPV.trained",0],["T.3.GPV",0]],  "TRTP.2t3": [["T.23.GPV.trained",0 ],["T.23.GPV",0] ]  }
-        variables_dict2={"TrNTP.1": [["NT.1.trained",0],["NT.1",0]],"TrNTP.2":[["NT.2.GPV.trained",0],["NT.2.GPV",0]],"TrNTP.3":[["NT.3.GPV.trained",0],["NT.3.GPV",0]],"TrNTP.2t3": [["NT.23.GPV.trained",0],["NT.23.GPV",0]]}
+        variables_dict1={"TRTP.1": [["T.1.trained",0 ],["T.1",0] ], "TRTP.2": [["T.2.GPV.trained",0 ],["T.2.GPV",0]],
+                         "TRTP.3" : [["T.3.GPV.trained",0],["T.3.GPV",0]],
+                         "TRTP.2t3": [["T.23.GPV.trained",0 ],["T.23.GPV",0] ]  }
+        variables_dict2={"TrNTP.1": [["NT.1.trained",0],["NT.1",0]],"TrNTP.2":[["NT.2.GPV.trained",0],["NT.2.GPV",0]],
+                         "TrNTP.3":[["NT.3.GPV.trained",0],["NT.3.GPV",0]],"TrNTP.2t3": [["NT.23.GPV.trained",0],["NT.23.GPV",0]]}
         self.compute_percentages(variables_dict1)
         self.compute_percentages(variables_dict2)
 
@@ -484,18 +488,18 @@ class indicators():
         suffix1 = ['', '.Pu', '.Pr']
         temp = {"EA2mPX": ['X.EA.2m'], "EA3PX": ['X.EA.3'],
                 "EA4PX": ['X.EA.4'],"EAukPX": ['X.EA.uk']}
+        dict_i = {}
         for s in suffix1:   
             for i in isced:
-                dict_i = {}
                 l = i+s
                 for key, value in temp.items():
                     key1 = key.replace('X', l)
                     dict_i.update({key1:[[value[0].replace('X', l),0 ],[l,0]]})
-                    self.compute_percentages(dict_i, False)
-                    ## Writing 5p indicator
+                ## Writing 5p indicator
                 l5p = op2col(self.column_operation([l + '.EA.5', 0], [l + '.EA.6',0], lambda x, y: sum(x, y)), self.column_operation([l + '.EA.7', 0], [l + '.EA.8',0], lambda x, y: sum(x, y)), sum)
                 denom = self.column_operation([l,0],[l,0], lambda x,y:x)
                 self.write_indic_sql({'EA5pP'+ l :op2col(l5p,denom, div )})
+        self.compute_percentages(dict_i, False)
 
     def percentage_teachers_exp(self):
         """ Exp1t2, Exp3t5, Exp6t10, Exp11t15, Exp15p, Expuk """
@@ -504,14 +508,14 @@ class indicators():
         temp = {"Exp1t2PY": ['Y.Exp1t2'], "Exp3t5PY": ['Y.Exp3t5'],
                 "Exp6t10PY": ['Y.Exp6t10'],"Exp11t15PY": ['Y.Exp11t15'],
                 "Exp15pPY":['Y.Exp15p'], "ExpukPY":['Y.Expuk']}
+        dict_i = {}
         for s in suffix1:   
             for i in isced:
-                dict_i = {}
                 l = i+s
                 for key, value in temp.items():
                     key1 = key.replace('Y', l)
                     dict_i.update({key1:[[value[0].replace('Y', l),0 ],[l,0]]})
-                self.compute_percentages(dict_i, False)
+        self.compute_percentages(dict_i, False)
 
     def percentage_teachers_age(self):
         """Ag20mPT, Ag20t29PT, Ag30t39PT, Ag40t49PT, Ag50t59PT, Ag60pPT, AgukPT"""
@@ -520,22 +524,24 @@ class indicators():
         temp ={"Ag20mPY":['Y.Ag20m'],"Ag20t29PY":['Y.Ag20t29'],
                "Ag30t39PY":['Y.Ag30t39'],"Ag40t49PY":['Y.Ag40t49'],
                "Ag50t59PY":['Y.Ag50t59'],"Ag60pPY":['Y.Ag60p'], "AgukPY":['Y.Aguk']}
+        dict_i = {}
         for s in suffix1:   
             for i in isced:
-                dict_i = {}
                 l = i+s
                 for key, value in temp.items():
                     key1 = key.replace('Y', l)
                     dict_i.update({key1:[[value[0].replace('Y', l),0 ],[l,0]]})
-                self.compute_percentages(dict_i, False)
-    def audit_trail(temp_table = True):
+        self.compute_percentages(dict_i, False)
+
+    def audit_trail(self,temp_table = True):
+        """ Records the changes of indicators in the INDICATORS_AUDIT_TRAIL SQL table"""
         if(temp_table):
                 sql_query("DELETE FROM METER_AUDIT_TEMP", readonly = False)
                 sql_query(("INSERT INTO METER_AUDIT_TEMP "
                            "(MC_ID, CO_CODE, ADM_CODE, MC_YEAR, EM_FIG_OLD, MQ_ID_OLD, MG_ID_OLD, USER_NAME, SERIES) "
                            "SELECT IND_ID, CO_CODE, ADM_CODE, IND_YEAR, FIG, QUAL, MAGN, '{2}', 'EST' "
                            "from EDU_INDICATOR_EST "
-                           "WHERE CO_CODE = {0} and IND_YEAR = {1}".format(self.country_code, self.emco_year, self.username)), readonly = False)
+                           "WHERE CO_CODE = {0} and IND_YEAR = {1}".format(self.country_code,self.emco_year, self.username)), readonly = False)
         else:
             sql_query(("INSERT INTO INDICATOR_AUDIT_TRAIL " 
                        "(IND_ID, CO_CODE, ADM_CODE, IND_YEAR, FIG_OLD, QUAL_OLD, "
@@ -549,10 +555,16 @@ class indicators():
                        "and a.MC_YEAR = b.IND_YEAR AND "
                        "(a.EM_FIG_OLD !=b.FIG OR a.MQ_ID_OLD != b.QUAL OR a.MG_ID_OLD != b.MAGN)"), readonly = False)
             sql_query("DELETE FROM METER_AUDIT_TEMP", readonly = False)     
-            
+
+    def check_est_values(self):
+        """ Checks if any values exist in the Est series before computing indicators."""
+        values = sql_query(("SELECT * FROM EDU_METER97_EST WHERE CO_CODE={} "
+                   "AND EMCO_YEAR={}".format(self.country_code,self.emco_year)))
+        return(True if values else False)
+
     def compute_all_indicators(self):
         ### Moving data to Audit Temp
-        #self.audit_trail(True)
+        self.audit_trail()
         
         ##### Calculating indicators
         self.pupils_teachers_ratio()
@@ -567,18 +579,9 @@ class indicators():
         self.mean_level(self.mean_exp_level)
         self.mean_level(self.mean_age_level)
 
-        ## Moving changed valued to Audut trail
-        #self.audit_trail(False)
-    def check_est_values(self):
-        cursor=self.conn.cursor()
-        cursor.execute("SELECT * FROM EDU_METER97_EST WHERE CO_CODE={} AND EMCO_YEAR={} ".format(self.country_code,self.emco_year))
-        values=cursor.fetchall()
-        if values:
-            return(True)
-        else:
-            return(False)
-        cursor.close()
-        
+        ## Moving changed values to Audut trail
+        self.audit_trail(False)
+   
     def __init__ (self,database_file,emco_year,country_name, username):
         self.set_database_connection(database_file)
         self.emco_year=emco_year
