@@ -1,7 +1,7 @@
 import sqlite3,re
 import sys, getpass, os, csv
 import datetime
-import csv
+import csv, time
 
 from functools import reduce
 from rmsqlfunctions import *
@@ -78,6 +78,15 @@ def sum(x,y):
     if algeb =='value':
         return([round((x[0] or 0 ) + (y[0] or 0),4),'value'])
     return(['',algeb])
+
+def neg(x,y):
+    """ 
+    Negation of two tuppels x = (fig, mg_symbol), y = (fig, mg_symbol). 
+    Returns a tupple (fig, symbol), where symbol is the result of the multiplication    tables, fig is '' is symbol is n, m ,a or x.
+    """
+    if y[1]=='value':
+        y[0] = -y[0]
+    return(sum(x,y))
 
 def prod(x,y):
     """ 
@@ -202,7 +211,6 @@ class indicators():
         else:
             self.country_code=country_code[0]
         cursor.close()
-
         
     def column_operation(self,info1,info2,operation):
         """Perform column operations given ACs and year.
@@ -215,27 +223,35 @@ class indicators():
         that is going to be applied element by element to both colums.
         The years should be zero or -1.
         """
-        AC1=info1[0]
-        year1=info1[1]
-        AC2=info2[0]
-        year2=info2[1]
-        cursor=self.conn.cursor()
-        cursor.execute("SELECT EMC_ID FROM RM_Mapping WHERE AC='{0}' AND CUR_YEAR={1} LIMIT 1".format(AC1,year1))
-        emc_id1=cursor.fetchone()[0]
-        cursor.execute("SELECT EMC_ID FROM RM_Mapping WHERE AC='{0}' AND CUR_YEAR={1} LIMIT 1".format(AC2,year2))
-        emc_id2=cursor.fetchone()[0]
-        #cursor.execute("select EM_FIG,MG_ID from EDU_METER97_REP where CO_CODE={} and emc_id={} and emco_year={}".format(self.country_code,emc_id1,self.emco_year+year1))
-        cursor.execute("select a.EM_FIG,b.SYMBOL from EDU_METER97_EST AS a LEFT JOIN MAGNITUDE AS b ON ( a.mg_id = b.mg_id) WHERE a.CO_CODE={} and a.emc_id={} AND a.emco_year={} ORDER BY ADM_CODE ASC".format(self.country_code,emc_id1,self.emco_year+year1));
-        values1=cursor.fetchall()  #list(map(lambda x: x[0],cursor.fetchall() ))
-        values1= list(map( lambda x: [x[0],none_emptytr(x[1])],values1 ))
-        #values1=list(map(lambda x: aux(x[0]),values1 ))
-        #cursor.execute("select EM_FIG,MG_ID from EDU_METER97_REP where CO_CODE={} and emc_id={} and emco_year={}".format(self.country_code,emc_id2,self.emco_year+year2))
-        cursor.execute("select a.EM_FIG,b.SYMBOL from EDU_METER97_EST AS a LEFT JOIN MAGNITUDE AS b ON ( a.mg_id = b.mg_id) WHERE a.CO_CODE={} and a.emc_id={} AND a.emco_year={} ORDER BY ADM_CODE ASC".format(self.country_code,emc_id2,self.emco_year+year2));
-        values2=cursor.fetchall() #list(map(lambda x: x[0],cursor.fetchall() ))
-        values2= list(map( lambda x: [x[0],none_emptytr(x[1])],values2 ))
-        #values2=list(map(lambda x: aux(x[0]),values2 ))
+        if(type(info1[0])!=list):
+            AC1=info1[0]
+            year1=info1[1]
+            emc_id1 = sql_query("SELECT EMC_ID FROM RM_Mapping WHERE AC='{0}' AND CUR_YEAR={1} LIMIT 1".format(AC1,year1))
+            emc_id1= emc_id1[0][0]
+            values1= sql_query(("select a.EM_FIG,b.SYMBOL from EDU_METER97_EST AS a "
+                                "LEFT JOIN MAGNITUDE AS b ON ( a.mg_id = b.mg_id) "
+                                "WHERE a.CO_CODE={0} and a.emc_id={1} AND a.emco_year={2} "
+                                "ORDER BY ADM_CODE ASC".format(self.country_code,emc_id1,self.emco_year+year1)))
+            
+            values1= list(map( lambda x: [x[0],none_emptytr(x[1])],values1 ))
+        else:
+            values1 = info1
+
+        if(type(info2[0])!=list):
+            AC2=info2[0]
+            year2=info2[1]
+            emc_id2 = sql_query("SELECT EMC_ID FROM RM_Mapping WHERE AC='{0}' AND CUR_YEAR={1} LIMIT 1".format(AC2,year2))
+            emc_id2 = emc_id2[0][0]
+            values2= sql_query(("select a.EM_FIG,b.SYMBOL from EDU_METER97_EST AS a "
+                                "LEFT JOIN MAGNITUDE AS b ON ( a.mg_id = b.mg_id) "
+                                "WHERE a.CO_CODE={0} and a.emc_id={1} "
+                                "AND a.emco_year={2} ORDER BY ADM_CODE "
+                                "ASC".format(self.country_code,emc_id2,self.emco_year+year2)))
+            values2= list(map( lambda x: [x[0],none_emptytr(x[1])],values2 ))
+        else:
+            values2=info2
+                
         column_operation_result=list(map(operation,values1,values2))
-        cursor.close()
         return column_operation_result
 
     def write_indic_sql(self,dic):
@@ -282,34 +298,22 @@ class indicators():
         values_dict={}
         maximum_dict={}
         minimum_dict={}
-        isced2_ind_name=''
-        isced3_ind_name=''
-        isced23_ind_name=''
         for indicator_AC in indexes_dict.keys():
-            match2=re.search('2[^t]|2$',indicator_AC)
-            match3=re.search('[^t]3',indicator_AC)
-            match23=re.search('2t3',indicator_AC)
-            if (match2!=None):
-                isced2_ind_name=indicator_AC
-            if (match3!=None):
-                isced3_ind_name=indicator_AC
-            if (match23 != None):
-                isced23_ind_name=indicator_AC
             lista1=indexes_dict[indicator_AC][0]
             lista2=indexes_dict[indicator_AC][1]
             values_dict[indicator_AC]=self.column_operation(lista1,lista2,div)
-            if highest_and_lowest:
-                maximum_dict[indicator_AC]=max_sp(values_dict[indicator_AC])
-                minimum_dict[indicator_AC]=min_sp(values_dict[indicator_AC])
-                
+            
         self.write_indic_sql(values_dict)
+        
         if highest_and_lowest:
             for indicator_AC in indexes_dict.keys():
+                maximum_dict[indicator_AC]=max_sp(values_dict[indicator_AC])
+                minimum_dict[indicator_AC]=min_sp(values_dict[indicator_AC])
                 self.write_indic_sql_no_regions(indicator_AC + ".Max",maximum_dict[indicator_AC])
                 self.write_indic_sql_no_regions(indicator_AC + ".Min",minimum_dict[indicator_AC])
-                #cursor.executemany( "INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,FIG,QUAL,MAGN) VALUES (?,?,?,?,?,?,?,?)",( (indicator_AC + ".Max"  ,self.country_code,0,self.emco_year,1,maximum_dict[indicator_AC][0] ,1, maximum_dict[indicator_AC][1] ), ) )
-                #cursor.executemany( "INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,FIG,QUAL,MAGN) VALUES (?,?,?,?,?,?,?,?)", ( (  indicator_AC + ".Min"  ,self.country_code,0,self.emco_year,1,minimum_dict[indicator_AC][0] ,1, minimum_dict[indicator_AC][1]),))
-                                    
+           
+
+                
     def pupils_teachers_ratio(self):
         ## Total number of pupils: E.1, E.2.GPV, E.3.GPV
         ## Total number of teachers: T.1, T.2.GPV, T.3.GPV
@@ -497,8 +501,8 @@ class indicators():
                     dict_i.update({key1:[[value[0].replace('X', l),0 ],[l,0]]})
                 ## Writing 5p indicator
                 l5p = op2col(self.column_operation([l + '.EA.5', 0], [l + '.EA.6',0], lambda x, y: sum(x, y)), self.column_operation([l + '.EA.7', 0], [l + '.EA.8',0], lambda x, y: sum(x, y)), sum)
-                denom = self.column_operation([l,0],[l,0], lambda x,y:x)
-                self.write_indic_sql({'EA5pP'+ l :op2col(l5p,denom, div )})
+                denom = self.column_operation(l5p, [l,0],div )
+                self.write_indic_sql({'EA5pP'+ l :denom})
         self.compute_percentages(dict_i, False)
 
     def percentage_teachers_exp(self):
@@ -509,6 +513,7 @@ class indicators():
                 "Exp6t10PY": ['Y.Exp6t10'],"Exp11t15PY": ['Y.Exp11t15'],
                 "Exp15pPY":['Y.Exp15p'], "ExpukPY":['Y.Expuk']}
         dict_i = {}
+        
         for s in suffix1:   
             for i in isced:
                 l = i+s
@@ -532,6 +537,51 @@ class indicators():
                     key1 = key.replace('Y', l)
                     dict_i.update({key1:[[value[0].replace('Y', l),0 ],[l,0]]})
         self.compute_percentages(dict_i, False)
+
+    def dissimilarity_index_single(self,AC , AC_year=0, benchAC='Pop.Ag0t99', bench_year=0):
+        """ 
+        Calculates the dissimilarity index between AC and a benchmark AC
+        using the formula 0.5*SUM_reg|AC_reg/AC_national - benchAC_reg/bench_national|, 
+        where reg = region
+        """
+        if(type(AC)==dict):
+            for key, value in AC.items():
+                IndicName = key
+                AC1 = list(map(lambda x: [x,AC_year],value))
+                value1= reduce(lambda x,y: self.column_operation(x, y, sum), AC1)
+                value = self.column_operation([benchAC,bench_year],value1,lambda x,y:[x,y])
+        else:
+            value = self.column_operation([benchAC,bench_year],[AC,AC_year],lambda x,y:[x,y])
+            IndicName = 'Dis' + AC
+        national = value[0]
+        value = value[1:]
+        disInd = list(map(lambda x: neg(div(x[0],national[0]),div(x[1],national[1])),value))
+        disInd = list(map(lambda x: [abs(x[0]),x[1]] if x[1]=='value' else x, disInd))
+        disInd = prod(reduce(sum, disInd), [0.5, 'value'])
+    
+        self.write_indic_sql_no_regions(IndicName, disInd)
+
+    def dissimilarity_index(self):
+        """ list all to be computed dissimilarity_index"""
+        Acs1 =['T.1', 'T.1.F', {'T.1.Ag50p':['T.1.Ag50t59','T.1.Ag60p']},'NT.1',
+              'T.2.GPV', 'T.2.GPV.F',
+               {'T.2.GPV.Ag50p':['T.2.GPV.Ag50t59', 'T.2.GPV.Ag60p']},'NT.2.GPV',
+              'T.3.GPV', 'T.3.GPV.F',
+               {'T.3.GPV.Ag50p':['T.3.GPV.Ag50t59', 'T.3.GPV.Ag60p']},'NT.3.GPV',
+              'T.23.GPV', 'T.23.GPV.F',
+               {'T.23.GPV.Ag50p':['T.23.GPV.Ag50t59', 'T.23.GPV.Ag60p']},
+               'NT.23.GPV','T.23.GPV.Math', 'T.23.GPV.Read']
+        
+        Acs2 = ['T.1.trained', 'NT.1.trained', 'T.1.EA.2m',
+                {'T.1.EA.3p':['T.1.EA.3', 'T.1.EA.4', 'T.1.EA.4','T.1.EA.6', 'T.1.EA.7', 'T.1.EA.8']},
+                'T.1.Exp1t2', {'T.1.Exp10p':['T.1.Exp11t15', 'T.1.Exp15p']}]
+        
+        Acs3 = ['T.1.Pr', {'T.1.Fix' : ['T.1.Pr.Fix', 'T.1.Pu.Fix']},  
+                'T.2.GPV.Pr',{'T.2.GPV.Fix':['T.2.GPV.Pr.Fix', 'T.2.GPV.Pu.Fix']},
+                'T.3.GPV.Pr',{'T.3.GPV.Fix':['T.3.GPV.Pr.Fix', 'T.3.GPV.Pu.Fix']},
+                'T.23.GPV.Pr',{'T.23.GPV.Fix':['T.23.GPV.Pr.Fix', 'T.23.GPV.Pu.Fix']}]
+        Acs = Acs1 + Acs2 + Acs3
+        list(map(lambda x: self.dissimilarity_index_single(x), Acs))
 
     def audit_trail(self,temp_table = True):
         """ Records the changes of indicators in the INDICATORS_AUDIT_TRAIL SQL table"""
@@ -578,7 +628,7 @@ class indicators():
         self.percentage_teachers_age()
         self.mean_level(self.mean_exp_level)
         self.mean_level(self.mean_age_level)
-
+        self. dissimilarity_index()
         ## Moving changed values to Audut trail
         self.audit_trail(False)
    
