@@ -1,7 +1,7 @@
 import sqlite3,re
 import sys, getpass, os, csv
 import datetime
-import csv, time
+import csv
 
 from functools import reduce
 from rmsqlfunctions import *
