@@ -18,6 +18,15 @@
 -- Turning loggin on
 .log migrate.log
 
+--------------------------------------------------
+--------------------------------------------------
+---- Updating some bugs in previous database, basically, some EM_FIG ='' and MG_ID ='' as well
+---- rather than MG_ID = 'D' for missing.
+
+UPDATE EDU_METER97_EST SET mg_id = 'D' where em_fig like "" and mg_id = '""';
+UPDATE EDU_METER97_OBS SET mg_id = 'D' where em_fig like "" and mg_id = '""';
+UPDATE EDU_METER97_REP SET mg_id = 'D' where em_fig like "" and mg_id = '""';
+
 --- Modfying FTN table for date
 --------------------------------------------------
 --------------------------------------------------
