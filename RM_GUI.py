@@ -176,7 +176,7 @@ class RM():
         self.cbox_indic.grid(row=0, column=1, sticky='W')
         ttk.Button(self.lf_IndicOptions, text ='Extract', command = self.export_indic).grid(row=0, column=2, sticky='W',padx=5,pady=5)
         ttk.Button(self.lf_IndicOptions, text ='Calculate', command = self.indic_calc).grid(row=0, column=3, sticky='W',padx=5,pady=5)
-              
+        ttk.Label(self.lf_IndicOptions, text="Wildcards: % sub for zero or more characters, _ for a single character.").grid(row=1, column=0, sticky='W', columnspan = 5)              
         # # Output folder
         ttk.Label(self.writeframe, text='Select output folder ').grid(row=7, column=0, sticky='W')    
         self.output_folder = ttk.Entry(self.writeframe, textvariable= self.output_folder_var)
@@ -448,8 +448,11 @@ class RM():
                 print('Indicators are only calculated for Estimated series!')
                 return
             a=indicators(self.database, int(year),co_name, RM.username)
-            a.compute_all_indicators()
-            print('Successful..all indicators are calculated.')
+            if a.check_est_values():
+                a.compute_all_indicators()
+                print('Successful..all indicators are calculated.')
+            else:
+                print('No data in Estimated series!')
         else:
             print('Error: missing country name, year or series.')       
 

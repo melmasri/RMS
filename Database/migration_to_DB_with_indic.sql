@@ -1,3 +1,32 @@
+-- This script creates all the needed tables in create_tables.sql
+-- Also it inserts all the data from insert_data.sql
+--------------------------------------------------
+--------------------------------------------------
+
+-- Settings
+--------------------------------------------------
+-- show values of current settings
+.show
+-- Setting certain variables.
+.headers on
+-- Turn command echo on or off
+.echo on
+-- Enable or disable automatic EXPLAIN QUERY PLAN
+.eqp on
+-- Stop after hitting an error.  Default OFF
+.bail on
+-- Turning loggin on
+.log migrate.log
+
+--------------------------------------------------
+--------------------------------------------------
+---- Updating some bugs in previous database, basically, some EM_FIG ='' and MG_ID ='' as well
+---- rather than MG_ID = 'D' for missing.
+
+UPDATE EDU_METER97_EST SET mg_id = 'D' where em_fig like "" and mg_id = '""';
+UPDATE EDU_METER97_OBS SET mg_id = 'D' where em_fig like "" and mg_id = '""';
+UPDATE EDU_METER97_REP SET mg_id = 'D' where em_fig like "" and mg_id = '""';
+
 --- Modfying FTN table for date
 --------------------------------------------------
 --------------------------------------------------
@@ -211,6 +240,27 @@ CREATE TABLE EDU_INDICATOR_AID(
        LABEL_ENG  varchar(2048),
        PRIMARY KEY ( IND_ID ASC));
 
+----------- Audit trial tables
+--  METER_AUDIT_TRAIL TABLE
+DROP TABLE IF EXISTS INDICATOR_AUDIT_TRAIL;
+-- Creating table
+CREATE TABLE INDICATOR_AUDIT_TRAIL(
+	Audit_ID Integer , -- Based on ROWID definition in SQLite, this should do the same job as autoincrement
+	IND_ID varchar(50) NOT NULL,
+    CO_CODE decimal(6, 0) NOT NULL,
+    ADM_CODE INT NOT NULL, -- Administrative Division code.
+	IND_YEAR decimal(4, 0) NOT NULL,
+	FIG_NEW varchar(4000) NULL,
+	FIG_OLD varchar(4000) NULL,
+	QUAL_NEW char(1) NULL,
+	QUAL_OLD char(1) NULL,
+	MAGN_NEW char(1) NULL,
+	MAGN_OLD char(1) NULL,
+	USER_NAME varchar(20) NOT NULL,
+	SYS_DATE datetime DEFAULT (datetime('now','localtime')),
+	SERIES varchar(10) NOT NULL,
+    PRIMARY KEY (Audit_ID ASC));
+
 
 -- inserting EDU_INDICATOR_AID
 -- cvs mode to set the separators before inserting data
@@ -219,3 +269,12 @@ CREATE TABLE EDU_INDICATOR_AID(
 
 --removing the headers (a bit of a hack but sqlite has no direct way)
 delete FROM EDU_INDICATOR_AID WHERE IND_ID = 'IND_ID';
+
+
+-- Logging off
+--------------------------------------------------
+-- Turn logging off
+.log off
+
+-- Exist this program
+.quit
