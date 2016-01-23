@@ -1091,7 +1091,7 @@ class questionnaire:
         cursor.close()
         
     def get_regions(self):
-        """Returns a dictionary with region name and code as key and value respectively.
+        """Returns a tupple with the names of the regions in order taken from the database.
 
         The regions are read from the database. If no regions are
         found in the database, this function returns False.
@@ -1243,40 +1243,42 @@ class questionnaire:
         # RM_TABLE is necessary for finding the xlrd coordinates
         cursor.execute("SELECT TAB, EXL_REF, EMC_ID,RM_TABLE,Col FROM RM_MAPPING;") 
         mapping_table = cursor.fetchall()
+        
+        names_test=self.compare_region_names()
+        if (not names_test):
+            file=open(self.data_report_file,'a')
+            self.validation_log_file=open(self.validation_full_path ,'a')
+            print("\nError: Unmatching region names between sheet and database.",end='')
+            file.write("General errors,\n")
+            file.write("\nError: Unmatching region names between sheet and database.,")
+            database_regions=self.get_regions()
+            ## number of regions in database:
+            dnr=len(database_regions)
+            ## number of regions in sheet
+            snr=len(self.regions_from_sheet)
+            nregions=max(dnr,snr)
+            print("\nDatabase region names:       Sheet region names:\n",end='')
+            file.write("\nDatabase region names:,       Sheet region names:\n")
+            for i in range(0,nregions):
+                if (i<dnr):                        
+                    print("  {}".format(database_regions[i]),end='')
+                    file.write("{}".format(database_regions[i]))
+                file.write(",")
+                if (i<snr):
+                   nspaces=30-len(database_regions[i])
+                   print(" "*nspaces + "{}".format( self.regions_from_sheet[i]),end='')
+                   file.write( "{}".format( self.regions_from_sheet[i]))
+                print("\n",end='')
+                file.write("\n")
+            file.close()
+            self.validation_log_file.close()
+            return()
+            
         if self.edit_mode:
             edit_sheets_names=self.wb.sheet_names()
-        else:
-            names_test=self.compare_region_names()
-            ## names_test==False if the names do not match.
-            if ( names_test==1 ):
-                self.insert_region_codes()
-            else:
-                file=open(self.data_report_file,'a')
-                self.validation_log_file=open(self.validation_full_path ,'a')
-                print("\nError: Unmatching region names between sheet and database.",end='')
-                file.write("General errors,\n")
-                file.write("\nError: Unmatching region names between sheet and database.,")
-                database_regions=self.get_regions()
-                ## number of regions in database:
-                dnr=len(database_regions)
-                ## number of regions in sheet
-                snr=len(self.regions_from_sheet)
-                nregions=max(dnr,snr)
-                print("\nDatabase region names:       Sheet region names:\n",end='')
-                file.write("\nDatabase region names:,       Sheet region names:\n")
-                for i in range(0,nregions):
-                    if (i<dnr):                        
-                        print("  {}".format(database_regions[i]),end='')
-                        file.write("{}".format(database_regions[i]))
-                    file.write(",")
-                    if (i<snr):
-                       nspaces=30-len(database_regions[i])
-                       print(" "*nspaces + "{}".format( self.regions_from_sheet[i]),end='')
-                       file.write( "{}".format( self.regions_from_sheet[i]))
-                    print("\n",end='')
-                    file.write("\n")
-                file.close()
-                self.validation_log_file.close()
+        elif names_test:
+            self.insert_region_codes()
+            
                 
                 
         for variables in mapping_table:

@@ -15,11 +15,15 @@
 
 #+SETUPFILE: /home/oscar/org-html-themes/setup/theme-readtheorg.setup
 
+#+startup: nofold
+
+
 * Adding  Indicators
 
 ** The indicators class
-   The indicators class has three types of methods: auxiliary
-   methods, indicators methods and action methods.
+   The indicators class has three types of methods that we have
+   decided to call with the following names: auxiliary methods,
+   indicators methods and action methods.
 
    The auxiliary methods are an aid either for the computation of
    indicators or for sqlite interaction. Examples of these methods
@@ -58,7 +62,8 @@
    #+BEGIN_SRC python :session example1 :export code :tangle ind_test1.py
      import sys, os
 
-     os.chdir(path_to_main_RMS_folder)
+     os.chdir('/home/oscar/RMS')
+     #os.chdir(path_to_main_RMS_folder)
      sys.path.append('Libraries')
 
      from rmquestionnaire import *
@@ -110,8 +115,8 @@
    indicator with the following code
 
    #+BEGIN_SRC python :session example1 :export code :tangle ind_test1.py
-     test_object=tests_indicators(path_to_database,2014,country_name,'test_user')
-     #test_object=tests_indicators(path_to_database,year,country_name)
+     test_object=tests_indicators("/home/oscar/RMS/Database/Prod.db",2015,"Lao People's Democratic Republic",'test_user')
+     #test_object=tests_indicators(path_to_database,year,country_name,'test_user')
      test_object.proportion_public_teachers_1t2exp_isced1()
    #+END_SRC
 
@@ -125,8 +130,20 @@
    database. To do this, open the database with sqlite and run the
    following command:
 
-
    #+BEGIN_SRC sqlite
      select IND_ID ,ADM_CODE, FIG from  EDU_INDICATOR_EST AS A JOIN COUNTRY AS B ON A.CO_CODE = B.CO_CODE WHERE B.CO_LONG_NAME= country_name ;
    #+END_SRC
 
+   Notice that =country_name= above has to be changed for the actual
+   name of the country you are using for the test. At this part you
+   can check if you are getting the correct values (compared for
+   example to computing them by hand). If they are not, you can modify
+   the function that computes the indicator, until it gives the right
+   values.
+
+   Let us say that now you feel confident with your indicator function
+   and that you want it to be included in the indicators computed by
+   the GUI. What you need to do is to copy your method that computes
+   the indicator into the indicators class in the
+   =/RMS/Libraries/rmindicators.py= file. After doing this you need to
+   add a call to this method in the =compute_all_indicators=.
