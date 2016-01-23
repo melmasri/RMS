@@ -631,6 +631,7 @@ hr{
 #table-of-contents li{
     list-style:none;
     margin-left: 0px;
+    text-align:left
 }
 
 #table-of-contents header{
@@ -646,7 +647,8 @@ hr{
     white-space:nowrap}
 
 #table-of-contents ul{
-    margin-bottom:0}
+    margin-bottom:0;
+    text-align:left}
 
 #table-of-contents li.divide-top{
     border-top:solid 1px #404040}

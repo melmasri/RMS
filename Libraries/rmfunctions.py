@@ -494,7 +494,8 @@ class questionnaire:
                 return(False)
             
     def check_edited_configuration_part(self):
-        """This functions checks that the table in the top left corner of
+        """
+        This functions checks that the table in the top left corner of
         the sheet exists in an edited questionnaire and it is in Edit mode.
         """
         if (self.edit_mode):
