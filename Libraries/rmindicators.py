@@ -634,6 +634,7 @@ class indicators():
    
     def __init__ (self,database_file,emco_year,country_name, username):
         self.set_database_connection(database_file)
+        set_database_file(database_file)
         self.emco_year=emco_year
         self.country_name=country_name
         self.get_country_code()

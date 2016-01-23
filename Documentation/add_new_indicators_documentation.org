@@ -15,11 +15,15 @@
 
 #+SETUPFILE: /home/oscar/org-html-themes/setup/theme-readtheorg.setup
 
+#+startup: nofold
+
+
 * Adding  Indicators
 
 ** The indicators class
-   The indicators class has three types of methods: auxiliary
-   methods, indicators methods and action methods.
+   The indicators class has three types of methods that we have
+   decided to call with the following names: auxiliary methods,
+   indicators methods and action methods.
 
    The auxiliary methods are an aid either for the computation of
    indicators or for sqlite interaction. Examples of these methods
@@ -37,7 +41,7 @@
    methods. The second one, as for all classes is called when a class
    is instantiated.
    
-** COMMENT New indicators   
+** New indicators   
    
    If it is needed to add a new indicator, two things need to be
    done. First a method that computes the values of the indicator and
@@ -55,10 +59,11 @@
    python can find it, we need to do this by hand. This can be achieved
    with the following code
 
-   #+BEGIN_SRC python :session example1 :export code
+   #+BEGIN_SRC python :session example1 :export code :tangle ind_test1.py
      import sys, os
 
      os.chdir('/home/oscar/RMS')
+     #os.chdir(path_to_main_RMS_folder)
      sys.path.append('Libraries')
 
      from rmquestionnaire import *
@@ -67,31 +72,78 @@
    #+RESULTS:
 
    The only thing that needs to be adapted form the code above is the
-   ='/home/oscar/RMS'=, instead the path to the main folder of the
-   program in your computer should be used. After doing this, we can
-   create a class testing class for the new indicators. Let us say
-   that we want to compute the proportion of teachers in public
-   schools in ISCED1 that have one or two years of experience. Let us
-   call this indicator "PT.1.Pu.Exp1t2". This would correspond to
-   dividing "T.1.Pu.Exp1t2" by "T.1.Pu". The method =column_operation=
-   is very handy in this case. This indicator can be coded in the
-   following way:
+   instead the path to the main folder of the program in your computer
+   should be used. After doing this, we can create a class testing
+   class for the new indicators. Let us say that we want to compute
+   the proportion of teachers in public schools in ISCED1 that have
+   one or two years of experience. Let us call this indicator
+   "PT.1.Pu.Exp1t2". This would correspond to dividing "T.1.Pu.Exp1t2"
+   by "T.1.Pu". The method =column_operation= is very handy in this
+   case. This indicator can be coded in the following way:
 
 
-   #+BEGIN_SRC python :session example1 :export code
+   #+BEGIN_SRC python :session example1 :export code :tangle ind_test1.py
      class tests_indicators(indicators):
          def proportion_public_teachers_1t2exp_isced1(self):
-             # The following is for interacting with sqlite
-             cursor=self.conn.cursor()
+             # The following is a dictionary used for inserting the value in the database
+             ind_dict={}
              indicator_name="PT.1.Pu.Exp1t2"
              indicator_values=self.column_operation(["T.1.Pu.Exp1t2",0],["T.1.Pu",0],div)
-             # We prepare a tupple of tupples to use with cursor.executemany
-             sql_tupple=()
-             for i in range(len( indicator_values )):
-                 sql_tupple = sql_tupple + ((indicator_name,self.country_code,i,self.emco_year,1,indicator_values[0],1,indicator_values[1]), )
-             # Now we introduce the computed values
-             cursor.executemany("INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,FIG,QUAL,MAGN) VALUES (?,?,?,?,?,?,?,?)", sql_tupple  )
+             # We prepare a dictionary for the function write_indic_sql
+             ind_dict[indicator_name]=indicator_values
+             self.write_indic_sql(ind_dict)
    #+END_SRC
 
-   #+RESULTS:
+   =column operation= applies a function to two alphanumeric codes for
+   all the regions and also at the country level. The first two
+   arguments have the form =[AC,year]=, where AC is an alphanumeric
+   code and year is either 0 or 1. 0 stands for the value of the
+   current year and -1 for the previous year. The third argument is a
+   function, in the example above =div=. This function has to take two
+   arguments of the form =[fig, symbol]= (it can be a list or a
+   tupple). =symbol= has to be one of the following: 'a', 'm', 'n',
+   'x' or 'value' depending if the data is not applicable, missing,
+   null, a reference or a number respectively. =fig= is the value to
+   which the operation if going to be applied. The function has also
+   to return a pair =[value, symbol]=, where value is the result of
+   the function applied to the values received and symbol is as
+   before. There library has already the functions =sum=, =prod= and
+   =div=, that compute the sum, multiplication and division according
+   to the algebra. 
 
+   After the definition of the test class. We can test the new
+   indicator with the following code
+
+   #+BEGIN_SRC python :session example1 :export code :tangle ind_test1.py
+     test_object=tests_indicators("/home/oscar/RMS/Database/Prod.db",2015,"Lao People's Democratic Republic",'test_user')
+     #test_object=tests_indicators(path_to_database,year,country_name,'test_user')
+     test_object.proportion_public_teachers_1t2exp_isced1()
+   #+END_SRC
+
+   where =path_to_database= is a string with the full path to the
+   database file, =year= the emco year for which the indicator is
+   being computed and country_name the name of the country for which
+   it is being calculated. In order for this to work, a questionnaire
+   for the corresponding country and year should have been already
+   imported to the database. After running the command above, it is
+   possible to check the computed indicator directly in the
+   database. To do this, open the database with sqlite and run the
+   following command:
+
+   #+BEGIN_SRC sqlite
+     select IND_ID ,ADM_CODE, FIG from  EDU_INDICATOR_EST AS A JOIN COUNTRY AS B ON A.CO_CODE = B.CO_CODE WHERE B.CO_LONG_NAME= country_name ;
+   #+END_SRC
+
+   Notice that =country_name= above has to be changed for the actual
+   name of the country you are using for the test. At this part you
+   can check if you are getting the correct values (compared for
+   example to computing them by hand). If they are not, you can modify
+   the function that computes the indicator, until it gives the right
+   values.
+
+   Let us say that now you feel confident with your indicator function
+   and that you want it to be included in the indicators computed by
+   the GUI. What you need to do is to copy your method that computes
+   the indicator into the indicators class in the
+   =/RMS/Libraries/rmindicators.py= file. After doing this you need to
+   add a call to this method in the =compute_all_indicators=.
