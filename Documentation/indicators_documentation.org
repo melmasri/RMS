@@ -14,7 +14,7 @@
 #+LANGUAGE: en
 #+SELECT_TAGS: export
 
-#+SETUPFILE: /home/oscar/org-html-themes/setup/theme-readtheorg.setup
+#+SETUPFILE: css/theme-readtheorg-local.setup
 
 * Indicators
   We describe here how the indicators are computed and what are the AC

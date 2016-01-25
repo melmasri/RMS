@@ -13,13 +13,12 @@
 #+LANGUAGE: en
 #+SELECT_TAGS: export
 
-#+SETUPFILE: /home/oscar/org-html-themes/setup/theme-readtheorg.setup
-
+#+SETUPFILE: css/theme-readtheorg-local.setup
 #+startup: nofold
 
 
 * Adding  Indicators
-
+  
 ** The indicators class
    The indicators class has three types of methods that we have
    decided to call with the following names: auxiliary methods,
