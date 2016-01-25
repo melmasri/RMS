@@ -530,15 +530,13 @@ Done.
 
 The file should also automatically open up and in this example, looks like this.
 
-
-
-
-
+#+CAPTION: Screen shot of EA5pPT indicator
+[[./img/export_indicator.png]]
 
 
 * TODO 
   + [ ] Add the complete list of indicatore add the refereceh here [[refInd]]
   + [ ] complete Data report section, mainly what happens for less
     than check and region total when data has m ,n ,a,z, or x.
-  + [ ] Compelete Calculating indicators section, by adding indicator look.
+
 

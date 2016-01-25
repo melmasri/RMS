@@ -7,7 +7,7 @@
 #+OPTIONS: e:t email:nil f:t inline:t num:t p:nil pri:nil stat:t
 #+OPTIONS: tags:t tasks:t tex:t timestamp:t toc:t todo:t |:t
 #+CREATOR: Emacs 24.4.1 (Org mode 8.2.10)
-#+STARTUP: showall
+#+STARTUP: content
 #+DESCRIPTION:
 #+EXCLUDE_TAGS: noexport
 #+KEYWORDS:
@@ -187,20 +187,57 @@
         Note all indicators are calculated for Total, Public and Private levels.
 
 ** Highest level of educational attainment
-   + Python method ::  EA_all
+   + Python method :: percentage_teachers_attainment
    + AC_CODES information :: 
                        
-     | Highest educational attainment | AC_CODE        | FORMULA                                                          | H & L |
-     |--------------------------------+----------------+------------------------------------------------------------------+-------|
-     | Lower secondary or Less        | EA.2m.PT.ISCED | T.ISCED.EA.2m / Pop.Ag0t99                                       | No    |
-     | Upper secondary                | EA.3.PT.ISCED  | T.ISCED.EA.3 / Pop.Ag0t99                                        | No    |
-     | Post secondary                 | EA.4.PT.ISCED  | T.ISCED.EA.4 / Pop.Ag0t99                                        | No    |
-     | At least tertiary              | EA.5p.PT.ISCED | T.ISCED.EA.5 + T.ISCED.EA.6+T.ISCED.EA.7+T.ISCED.EA.8/Pop.Ag0t99 | No    |
-     | Unknown                        | EA.uk.PT.ISCED | T.ISCED.EA.uk / Pop.Ag0t99                                       | No    |
-     |--------------------------------+----------------+------------------------------------------------------------------+-------|
-        Note  all indicators are calculated for Total, Public and Private levels.
-        ~ISCED~ is ~['  1', '2.GPV', '3.GPV', '23.GPV']~
+     | Highest educational attainment | AC_CODE       | FORMULA                                                       | H & L |
+     |--------------------------------+---------------+---------------------------------------------------------------+-------|
+     | Lower secondary or Less        | EA.2mPT.ISCED | T.ISCED.EA.2m / T.ISCED                                       | No    |
+     | Upper secondary                | EA.3PT.ISCED  | T.ISCED.EA.3 / T.ISCED                                        | No    |
+     | Post secondary                 | EA.4PT.ISCED  | T.ISCED.EA.4 / T.ISCED                                        | No    |
+     | At least tertiary              | EA.5pPT.ISCED | T.ISCED.EA.5 + T.ISCED.EA.6+T.ISCED.EA.7+T.ISCED.EA.8/T.ISCED | No    |
+     | Unknown                        | EA.ukPT.ISCED | T.ISCED.EA.uk / T.ISCED                                       | No    |
+     |--------------------------------+---------------+---------------------------------------------------------------+-------|
+        ~ISCED~ is ~['  1', '2.GPV', '3.GPV', '23.GPV']~, combined with suffixes ~['.Pu', '.Pr']~ for public and private sub-category.
+        
+   Note  all indicators are calculated for Total, Public and Private levels.    
+
+** Percentage of teachers by years of expierence
+   + Python method :: percentage_teachers_exp
+   + AC_CODES information :: 
+       | Expierence         | IND_CODE         | FORMULA                  | H & L |
+       |--------------------+------------------+--------------------------+-------|
+       | 1 to 2 years       | Exp1t2mPT.ISCED  | T.ISCED.Exp1t2/T.ISCED   | No    |
+       | 3 to 5 years       | Exp3t5PT.ISCED   | T.ISCED.Exp3t5/T.ISCED   | No    |
+       | 5 to 10 years      | Exp6t10PT.ISCED  | T.ISCED.Exp6t10/T.ISCED  | No    |
+       | 11 to 15 years     | Exp11t15PT.ISCED | T.ISCED.Exp11t15/T.ISCED | No    |
+       | more 15 than years | Exp15pPT.ISCED   | T.ISCED.Exp15p/T.ISCED   | No    |
+       | Unknown            | ExpukPT.ISCED    | T.ISCED.Expuk/T.ISCED    | No    |
+       |--------------------+------------------+--------------------------+-------|
+        ~ISCED~ is ~['  1', '2.GPV', '3.GPV', '23.GPV']~, combined with suffixes ~['.Pu', '.Pr']~ for public and private sub-category.
+        
+   Note  all indicators are calculated for Total, Public and Private levels.    
+
+** Percentage of teachers by age
+   + Python method :: percentage_teachers_age
+   + AC_CODES information :: 
+        | Age                | IND_CODE        | FORMULA                 | H & L |
+        |--------------------+-----------------+-------------------------+-------|
+        | Less than 20 years | Ag20mPT.ISCED   | T.ISCED.Ag20m/T.ISCED   | No    |
+        | 20 to 29 years     | Ag20t29PT.ISCED | T.ISCED.Ag29t29/T.ISCED | No    |
+        | 30 to 39 years     | Ag30t39PT.ISCED | T.ISCED.Ag39t39/T.ISCED | No    |
+        | 40 to 49 years     | Ag40t49PT.ISCED | T.ISCED.Ag49t49/T.ISCED | No    |
+        | 50 to 59 years     | Ag50t59PT.ISCED | T.ISCED.Ag59t59/T.ISCED | No    |
+        | 60 years or more   | Ag60pPT.ISCED   | T.ISCED.Ag60P/T.ISCED   | No    |
+        | Unknown            | AgukPT.ISCED    | T.ISCED.Aguk/T.ISCED    | No    |
+        |--------------------+-----------------+-------------------------+-------|
+        ~ISCED~ is ~['  1', '2.GPV', '3.GPV', '23.GPV']~, combined with suffixes ~['.Pu', '.Pr']~ for public and private sub-category.
+        
+   Note  all indicators are calculated for Total, Public and Private levels.    
+
+** Dissimilarity 
+   + Python method :: dissimilarity_index
+   + AC_CODES information :: 
+
 
 #  LocalWords:  emco    
-
-

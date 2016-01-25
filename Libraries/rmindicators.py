@@ -628,7 +628,7 @@ class indicators():
         self.percentage_teachers_age()
         self.mean_level(self.mean_exp_level)
         self.mean_level(self.mean_age_level)
-        self. dissimilarity_index()
+        self.dissimilarity_index()
         ## Moving changed values to Audut trail
         self.audit_trail(False)
    
