@@ -383,19 +383,8 @@ class questionnaire:
     def check_nadm1(self):
         """Checks that number of administrative divisions is filled with a positive integer. 
         """
-        if self.edit_mode:
-            sheet=self.wb.sheets()[0]
-            nadm1= sheet.cell(4,1).value
-            #print("nadm1: {0}\n".format(nadm1))
-        else:
-            administrative_divisions_variables = pre_vars['fixed_sheets']['Administrative divisions']
-            sheet = self.wb.sheet_by_name('Administrative divisions')
-            try:
-                nadm1 = sheet.cell( *indexes( administrative_divisions_variables['adm1_number'][0]  )   ).value
-            except(IndexError):
-                nadm1 = False
-        if( (type(nadm1) == int or type(nadm1) == float) and int(nadm1)==nadm1 and nadm1 > 0 ):
-            self.print_log("Number of administrative divisions: {0}\n".format(nadm1))
+        if( (type(self.nadm1) == int or type(self.nadm1) == float) and int(self.nadm1)==self.nadm1 and self.nadm1 > 0 ):
+            self.print_log("Number of administrative divisions: {0}\n".format(self.nadm1))
             return(True)
         else:
             self.print_log("Error: Wrong value for number of administrative divisions.\n")
