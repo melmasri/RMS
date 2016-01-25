@@ -1,7 +1,16 @@
 #+TITLE: Regional Module Graphical User Interface (GUI) User Guide
 #+AUTHOR:   Mohamad Elmasri
-#+OPTIONS:   H:4 num:t toc:3 p:t ^:nil
-#+STARTUP: nofold
+#+OPTIONS: ':nil *:t -:t ::t <:t H:4 \n:nil ^:nil arch:headline
+#+OPTIONS: author:t c:nil creator:comment d:(not "LOGBOOK") date:t
+#+OPTIONS: e:t email:nil f:t inline:t num:t p:t pri:nil stat:t
+#+OPTIONS: tags:t tasks:t tex:t timestamp:t toc:3 todo:t |:t
+#+CREATOR: Emacs 24.4.1 (Org mode 8.2.10)
+#+DESCRIPTION:
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS:
+#+LANGUAGE: en
+#+SELECT_TAGS: export
+#+startup: content
 
 #+SETUPFILE: css/theme-readtheorg-local.setup
 
@@ -234,7 +243,7 @@ extract them using one of the following methods
          less qualification in all ISCED levels, type ~EA2m%~, since
          all of the start with the pattern ~EA2m~. If the interes is
          in the public sector only, type ~EA2m%.Pu~.
-       * To percentage of female teachers in ISCED levels 1, 2, and 3,
+       * to extract the percentage of female teachers in ISCED levels 1, 2, and 3,
          but not 2 and 3, type ~FT._~, since all have the pattern
          ~FT.~ in their name. 
 Note that wildcards are only applicable to indicator extraction, not
@@ -258,6 +267,7 @@ raw data.
       resulting magnitude code. If the cell is empty, either the
       indicator is a national level indicator or the /Estimated/
       series is empty.
+    * Indicators are always sorted alphebatically.
 #+end_note  
 
 For a complete list of indicator refer to <<refInd>>
@@ -276,45 +286,28 @@ questionnaire is then allowed to be inserted.
 
 The validation check the below conditions, all failed
 conditions are saved and also printed to the [[Status frame and Log subfolder][Status]] frame:
-    1) If the import is in the original questionnaire format
+    1) If the insert is in the original questionnaire format
        * ADM label, i.e., Province, district etc, is filled.
-       * Number of ADM is a positive integer.
-       * The ADM names are filled.
-       * The correct number of sheets are available with correct
+       * number of ADM is a positive integer.
+       * the ADM names are filled.
+       * the correct number of sheets are available with correct
          original names.
-       * If ADM names exists in database they must equal to the one in
-         the questionnaire, otherwise prints an error. This mean you
-         can only change ADM names after they have been created by
-         accessing the database directly. *(/Note I didn't see this in
-         the code in adm1_names_test(), can you check/)*.
-       * All checks in the ~Checking sheet~ are copied to the
-          validation report, and ignored in this step. */(I didn't see
-         this step)/*
-       * Reference year is filled and an integer, from cell ~M14~ in
+       * reference year is filled and an integer, from cell ~M14~ in
          Policy information sheet.
-       * Correct number of sheets. *(/didn't see this step/)*
-    2) If the import is *not* in the original questionnaire format
-       * worksheet must be in ~Edit~ mode
-       * Configuration panel is properly filled.
-         * No missing information.
-         * Country code is proper.
-         * Numeric year value.
-         * Mode defined as "Edit".
-         * Series defined as REP, OBS or EST,
-         * */Do you check country names and co_code/ ?*
-       * *Not sure about the following*          
-         * all columns must sum to the national level total
-         * all sub-category must sum to the total. For example, public
-           and private data must sum to the total of public and private
-         * all partial category data must be less than or equal to
-           totals. For example, female data must be less than or equal
-           to total of male and female
-         * tables and column numbers must be in the correct place
-    3) General checks: /*Not sure about this either*/
-       * Check that all data values are either a number, inclusion (X), Z, a, n, or m. Otherwise software gives error.
-       * Check that country name exists
-       * values_test: Not very clear function I tried to read it.??
-  
+       * correct number of sheets.
+    2) If the insert is *not* in the original questionnaire format, ~Edit mode~
+       * worksheet must be in ~Edit~ mode.
+       * configuration panel is properly filled.
+         * no missing information.
+         * labels of configuration are in the proper order of ~[Country, CO_CODE, Year, Data, No.ADM, Series,Mode]~.
+         * mode defined as "Edit".
+         * year is an interger bigger than zero.
+         * series is one of the following ~[OBS,REP,EST]~.
+         * country code is taken from the database using the provided country name.
+         * number of ADM is a positive integer. Note this variable is taken from the configuration panel, thus DO NOT change it.
+    3) General checks: 
+       * check that all data values are either a number, inclusion (X), Z, a, n, or m. Otherwise software gives error.
+       
 * Data report
   At this step if the validation checks have passed, once the user
   clicks on the ~Insert~ button, a data report is created and saved in
@@ -324,16 +317,21 @@ conditions are saved and also printed to the [[Status frame and Log subfolder][S
   clicking on the ~Check only~ button. 
 
   The data report check the following and lists any issues: 
-    * all columns must sum to the national level total
-    * all sub-category must sum to the total. For example, public
-      and private data must sum to the total of public and
-      private. 
-    * all partial category data must be less than or equal to
-      totals. For example, female data must be less than or equal
-      to total of male and female.
-    * tables and column numbers must be in the correct place
+  1) If the isertion is in the original questionnaire format
+     * if ADM names exists in database they must equal to the one in
+      the questionnaire, otherwise prints an error. This mean you
+      can only change ADM names after they have been created by
+      accessing the database directly, and if you try to re-insert the original questionnaire with reordered of changed region names, it will fail.
+  3) General
+     * all columns must sum to the national level total
+     * all sub-category must sum to the total. For example, public
+       and private data must sum to the total of public and
+       private. 
+     * all partial category data must be less than or equal to
+       totals. For example, female data must be less than or equal
+       to total of male and female.
 
-    * 
+       
 * A complete example 
 ** Importing the original questionnaire
 To give an example consider importing a made-up questionnaire say for Laos for year 2015 that
@@ -516,32 +514,31 @@ able to see the changes and comments made earlier.
 ** Calculating indicators
 
 
+To calculate indicators, first select the country name and year, then select the estimated series. If the data is not yet in the ~EST~ series, please move it by clicking on the button ~OBS to EST~, maybe also ~REP to OBS~ if you haven't moved it yet to ~OBS~ series. Then click on the button ~Calculate~.  In around 30 seconds to a minutes, the Status frame should indicated that the process is successfull.
+
+#+begin_src
+Successful..all indicators are calculated.
+#+end_src
+
+Now using the wildcards lets extract the percentage of teachers with attainment of ISCED 5 and higher for all public institutions, that is we type ~EA5pPT.%Pu~ and click on ~Extract~. The file is now saved under the name ~Lao People's Democratic Republic_2015_INDIC_EA5pPT.xxPu.xlsx~ in the ~Export~ folder if no other folder is specified. This is indicated in the Status as seen below. 
+
+#+begin_src
+Extracting EA5pPT.%Pu for Lao People's Democratic Republic-2015....
+File /home/mo/Desktop/Lao People's Democratic Republic_2015_INDIC_EA5pPT.xxPu.xlsx is created..
+Done.
+#+end_src
+
+The file should also automatically open up and in this example, looks like this.
+
+
+
+
+
+
+
 * TODO 
   + [ ] Add the complete list of indicatore add the refereceh here [[refInd]]
-  + [ ] check all validation steps are correct.
   + [ ] complete Data report section, mainly what happens for less
     than check and region total when data has m ,n ,a,z, or x.
-  + [ ] Compelete Calculating indicators section.
+  + [ ] Compelete Calculating indicators section, by adding indicator look.
 
-
-Check from file
-    + nadm1_test: no. of is filled with a positive integer.
-    + adm1_label_test: Check if the type of ADM is provided ( new ques only)
-    + adm1_names_test: check if ADM names are filled (new ques only)
-    + reference_year_test: check that referece year is filled (new
-      ques only) cell M14 in Policy infomation.
-    + country_name_test: Check that country name exit
-    + number_of_sheets_test: correct no of sheets are submitions (new
-      ques only)
-    + edited_configuration_part_test: configuration panel exists and
-      edit mode and all values are properly filled. 
-    + values_test: Not very clear
-
-Date report 
-    x.check_region_totals():
-    x.check_less()
-    x.check_column_sums()
-    x.write_data_report() 
-    x.extract_data()
-    x.extract_comments()
-    x.extract_table_comments()

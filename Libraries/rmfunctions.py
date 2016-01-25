@@ -404,8 +404,6 @@ class questionnaire:
     def check_adm1_label(self):
         """Checks that the name of administrative divisions is given. """
         if self.edit_mode:
-            sheet=self.wb.sheets()[0]
-            nadm1= sheet.cell(4,1).value
             return(True)
         else:
             administrative_divisions_variables = pre_vars['fixed_sheets']['Administrative divisions']
