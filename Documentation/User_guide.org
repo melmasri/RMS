@@ -272,7 +272,6 @@ raw data.
 
 For a complete list of indicator refer to <<refInd>>
 
-
 * Validation report
 A validation or log report is created and saved in the ~Log~ subfolder
 every time the user attempts to import a questionnaire by clicking on
@@ -294,7 +293,7 @@ conditions are saved and also printed to the [[Status frame and Log subfolder][S
          original names.
        * reference year is filled and an integer, from cell ~M14~ in
          Policy information sheet.
-       * correct number of sheets.
+       * Any "No" in the "checking sheet" is copied to the validation report.
     2) If the insert is *not* in the original questionnaire format, ~Edit mode~
        * worksheet must be in ~Edit~ mode.
        * configuration panel is properly filled.
@@ -307,7 +306,7 @@ conditions are saved and also printed to the [[Status frame and Log subfolder][S
          * number of ADM is a positive integer. Note this variable is taken from the configuration panel, thus DO NOT change it.
     3) General checks: 
        * check that all data values are either a number, inclusion (X), Z, a, n, or m. Otherwise software gives error.
-       
+
 * Data report
   At this step if the validation checks have passed, once the user
   clicks on the ~Insert~ button, a data report is created and saved in
@@ -322,7 +321,7 @@ conditions are saved and also printed to the [[Status frame and Log subfolder][S
       the questionnaire, otherwise prints an error. This mean you
       can only change ADM names after they have been created by
       accessing the database directly, and if you try to re-insert the original questionnaire with reordered of changed region names, it will fail.
-  3) General
+  2) General
      * all columns must sum to the national level total
      * all sub-category must sum to the total. For example, public
        and private data must sum to the total of public and
@@ -331,7 +330,8 @@ conditions are saved and also printed to the [[Status frame and Log subfolder][S
        totals. For example, female data must be less than or equal
        to total of male and female.
 
-       
+Note, for all the cells that have missing data (m), inclusion (x), or inapplicable (z), the inequality or summs tests are ignored.
+     
 * A complete example 
 ** Importing the original questionnaire
 To give an example consider importing a made-up questionnaire say for Laos for year 2015 that
