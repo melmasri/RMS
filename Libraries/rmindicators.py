@@ -244,9 +244,6 @@ class indicators():
         
     def get_nadm1(self):
         """Gets the number of regions"""
-        # cursor=self.conn.cursor()
-        # cursor.execute("select count(ADM_CODE) from regions where co_code={} and ADM_CODE>0".format(self.country_code))
-        # nadm1=cursor.fetchone()
         nadm1= self.read_sql(("select count(ADM_CODE) from regions "
                               "where co_code={} and ADM_CODE>0".format(self.country_code)))
        
@@ -264,15 +261,13 @@ class indicators():
         ##cursor=self.conn.cursor()
         #The following is not working so I am using .format, but this is not secure
 #        cursor.execute(u'SELECT CO_CODE FROM COUNTRY  WHERE UPPER(CO_LONG_NAME) IS ?', (name,) )
-        #cursor.execute( "SELECT CO_CODE FROM COUNTRY  WHERE UPPER(CO_LONG_NAME) IS {0};".format(name) )
         country_code = self.read_sql(("SELECT CO_CODE FROM COUNTRY "
                                       "WHERE UPPER(CO_LONG_NAME) IS {0} limit 1;".format(name)))
-       # country_code=cursor.fetchone()
         if(country_code==None):
             self.country_code=0
         else:
             self.country_code=country_code[0][0]
-        #cursor.close()
+
         
     def column_operation(self,info1,info2,operation):
         """Perform column operations given ACs and year.
