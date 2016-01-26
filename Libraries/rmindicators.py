@@ -180,16 +180,76 @@ def none_emptytr(x):
         return(x)
     
 class indicators():
-    def get_nadm1(self):
-        """Gets the number of regions"""
-        cursor=self.conn.cursor()
-        cursor.execute("select count(ADM_CODE) from regions where co_code={} and ADM_CODE>0".format(self.country_code))
-        nadm1=cursor.fetchone()
-        
     def set_database_connection(self,database_file):
         """Sets the connection to the database"""
         self.conn=sqlite3.connect(database_file)
+
+    def read_sql(self,sql_str):
+        """ Reads from sql"""
+        database_cursor = self.conn.cursor()
+        try:
+            aux = database_cursor.execute(sql_str)    
+            aux = database_cursor.fetchall()
+            database_cursor.close()
+            return aux
+        except sqlite3.Error as e:
+            print(sql_str)
+            print ("An SQL error occurred:", e.args[0])
+
+
+    def write_many_sql(self, sql_str, value_tupple):
+        """ Write a tupple to SQL"""
+        cursor=self.conn.cursor()
+        cursor.executemany(sql_str, value_tupple)
+        self.conn.commit()
+        cursor.close()
         
+    def write_sql(self, sql_str):
+        """ Excute a single SQL query"""
+        cursor=self.conn.cursor()
+        cursor.execute(sql_str)
+        self.conn.commit()
+        cursor.close()
+        
+    def write_indic_sql(self,dic):
+        """ 
+        Inserts the a tuple or dictionary of indicators in SQL EDU_INDICATOR_EST
+        Dictionary: must have the keys as the indicator name and the value as a list of
+        lists with each sub-list for a region, must be ordered ascendingly.
+        """
+        if(type(dic)==dict):
+            sql_tupple = ()
+            ##"IND_ID,CO_CODE,IND_YEAR,FRM_ID,QUAL,FIG, MAGN,ADM_CODE"
+            year = self.emco_year
+            co_code = self.country_code
+            for key, value in dic.items():
+                sql_tupple  = sql_tupple + tuple(map(lambda x,y:(key, co_code,y, year,1,1)+tuple(x), value, range(len(value))))
+                ## Write to SQL
+                if sql_tupple:
+                   self.write_many_sql(("INSERT OR REPLACE INTO EDU_INDICATOR_EST "
+                                        "(IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,QUAL,FIG,MAGN) "
+                                        "VALUES (?,?,?,?,?,?,?,?)"), sql_tupple )
+
+                    
+    def write_indic_sql_no_regions(self,indicator_name, value_pair):
+        """It is similar to write_indic_sql, but it only inserts an indicator
+        for the country level instead of doing it for all the regions.
+
+        """
+        sql_tupple=( (indicator_name  ,self.country_code,0,self.emco_year,1,value_pair[0] ,1, value_pair[1] ), )
+        self.write_many_sql(("INSERT OR REPLACE INTO EDU_INDICATOR_EST "
+                             "(IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,FIG,QUAL,MAGN) "
+                             "VALUES (?,?,?,?,?,?,?,?)"),sql_tupple)
+
+        
+    def get_nadm1(self):
+        """Gets the number of regions"""
+        # cursor=self.conn.cursor()
+        # cursor.execute("select count(ADM_CODE) from regions where co_code={} and ADM_CODE>0".format(self.country_code))
+        # nadm1=cursor.fetchone()
+        nadm1= self.read_sql(("select count(ADM_CODE) from regions "
+                              "where co_code={} and ADM_CODE>0".format(self.country_code)))
+       
     def get_country_code(self):
         """Sets the country code by looking in the COUNTRY table.
 
@@ -201,16 +261,18 @@ class indicators():
         name=self.country_name.upper()
         # The following is necessary for compatibility with sql syntax
         name="'"+re.sub("'","''",name)+"'"
-        cursor=self.conn.cursor()
+        ##cursor=self.conn.cursor()
         #The following is not working so I am using .format, but this is not secure
 #        cursor.execute(u'SELECT CO_CODE FROM COUNTRY  WHERE UPPER(CO_LONG_NAME) IS ?', (name,) )
-        cursor.execute("SELECT CO_CODE FROM COUNTRY  WHERE UPPER(CO_LONG_NAME) IS {0};".format(name) )
-        country_code=cursor.fetchone()
+        #cursor.execute( "SELECT CO_CODE FROM COUNTRY  WHERE UPPER(CO_LONG_NAME) IS {0};".format(name) )
+        country_code = self.read_sql(("SELECT CO_CODE FROM COUNTRY "
+                                      "WHERE UPPER(CO_LONG_NAME) IS {0} limit 1;".format(name)))
+       # country_code=cursor.fetchone()
         if(country_code==None):
             self.country_code=0
         else:
-            self.country_code=country_code[0]
-        cursor.close()
+            self.country_code=country_code[0][0]
+        #cursor.close()
         
     def column_operation(self,info1,info2,operation):
         """Perform column operations given ACs and year.
@@ -228,11 +290,10 @@ class indicators():
             year1=info1[1]
             emc_id1 = sql_query("SELECT EMC_ID FROM RM_Mapping WHERE AC='{0}' AND CUR_YEAR={1} LIMIT 1".format(AC1,year1))
             emc_id1= emc_id1[0][0]
-            values1= sql_query(("select a.EM_FIG,b.SYMBOL from EDU_METER97_EST AS a "
-                                "LEFT JOIN MAGNITUDE AS b ON ( a.mg_id = b.mg_id) "
-                                "WHERE a.CO_CODE={0} and a.emc_id={1} AND a.emco_year={2} "
-                                "ORDER BY ADM_CODE ASC".format(self.country_code,emc_id1,self.emco_year+year1)))
-            
+            values1= self.read_sql(("select a.EM_FIG,b.SYMBOL from EDU_METER97_EST AS a "
+                                    "LEFT JOIN MAGNITUDE AS b ON ( a.mg_id = b.mg_id) "
+                                    "WHERE a.CO_CODE={0} and a.emc_id={1} AND a.emco_year={2} "
+                                    "ORDER BY ADM_CODE ASC".format(self.country_code,emc_id1,self.emco_year+year1)))
             values1= list(map( lambda x: [x[0],none_emptytr(x[1])],values1 ))
         else:
             values1 = info1
@@ -240,13 +301,13 @@ class indicators():
         if(type(info2[0])!=list):
             AC2=info2[0]
             year2=info2[1]
-            emc_id2 = sql_query("SELECT EMC_ID FROM RM_Mapping WHERE AC='{0}' AND CUR_YEAR={1} LIMIT 1".format(AC2,year2))
+            emc_id2 = self.read_sql("SELECT EMC_ID FROM RM_Mapping WHERE AC='{0}' AND CUR_YEAR={1} LIMIT 1".format(AC2,year2))
             emc_id2 = emc_id2[0][0]
-            values2= sql_query(("select a.EM_FIG,b.SYMBOL from EDU_METER97_EST AS a "
-                                "LEFT JOIN MAGNITUDE AS b ON ( a.mg_id = b.mg_id) "
-                                "WHERE a.CO_CODE={0} and a.emc_id={1} "
-                                "AND a.emco_year={2} ORDER BY ADM_CODE "
-                                "ASC".format(self.country_code,emc_id2,self.emco_year+year2)))
+            values2= self.read_sql(("select a.EM_FIG,b.SYMBOL from EDU_METER97_EST AS a "
+                                    "LEFT JOIN MAGNITUDE AS b ON ( a.mg_id = b.mg_id) "
+                                    "WHERE a.CO_CODE={0} and a.emc_id={1} "
+                                    "AND a.emco_year={2} ORDER BY ADM_CODE "
+                                    "ASC".format(self.country_code,emc_id2,self.emco_year+year2)))
             values2= list(map( lambda x: [x[0],none_emptytr(x[1])],values2 ))
         else:
             values2=info2
@@ -254,37 +315,7 @@ class indicators():
         column_operation_result=list(map(operation,values1,values2))
         return column_operation_result
 
-    def write_indic_sql(self,dic):
-        """ 
-        Inserts the a tuple or dictionary of indicators in SQL EDU_INDICATOR_EST
-        Dictionary: must have the keys as the indicator name and the value as a list of
-        lists with each sub-list for a region, must be ordered ascendingly.
-        """
-        if(type(dic)==dict):
-            sql_tupple = ()
-            ##"IND_ID,CO_CODE,IND_YEAR,FRM_ID,QUAL,FIG, MAGN,ADM_CODE"
-            year = self.emco_year
-            co_code = self.country_code
-            for key, value in dic.items():
-                sql_tupple  = sql_tupple + tuple(map(lambda x,y:(key, co_code,y, year,1,1)+tuple(x), value, range(len(value))))
-                ## Write to SQL
-                if sql_tupple:
-                    cursor=self.conn.cursor()
-                    cursor.executemany("INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,QUAL,FIG,MAGN) VALUES (?,?,?,?,?,?,?,?)", sql_tupple )
-                    self.conn.commit()
-                    cursor.close()
-                    
-    def write_indic_sql_no_regions(self,indicator_name, value_pair):
-        """It is similar to write_indic_sql, but it only inserts an indicator
-        for the country level instead of doing it for all the regions.
-
-        """
-        cursor=self.conn.cursor()
-        sql_tupple=( (indicator_name  ,self.country_code,0,self.emco_year,1,value_pair[0] ,1, value_pair[1] ), )
-        cursor.executemany( "INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,FIG,QUAL,MAGN) VALUES (?,?,?,?,?,?,?,?)",sql_tupple )
-        
-        self.conn.commit()
-        cursor.close()
+    
         
  
     def compute_percentages(self,indexes_dict,highest_and_lowest=True):
@@ -500,7 +531,8 @@ class indicators():
                     key1 = key.replace('X', l)
                     dict_i.update({key1:[[value[0].replace('X', l),0 ],[l,0]]})
                 ## Writing 5p indicator
-                l5p = op2col(self.column_operation([l + '.EA.5', 0], [l + '.EA.6',0], lambda x, y: sum(x, y)), self.column_operation([l + '.EA.7', 0], [l + '.EA.8',0], lambda x, y: sum(x, y)), sum)
+                l5p = op2col(self.column_operation([l + '.EA.5', 0], [l + '.EA.6',0], lambda x, y: sum(x, y)),
+                             self.column_operation([l + '.EA.7', 0], [l + '.EA.8',0], lambda x, y: sum(x, y)), sum)
                 denom = self.column_operation(l5p, [l,0],div )
                 self.write_indic_sql({'EA5pP'+ l :denom})
         self.compute_percentages(dict_i, False)
@@ -586,36 +618,36 @@ class indicators():
     def audit_trail(self,temp_table = True):
         """ Records the changes of indicators in the INDICATORS_AUDIT_TRAIL SQL table"""
         if(temp_table):
-                sql_query("DELETE FROM METER_AUDIT_TEMP", readonly = False)
-                sql_query(("INSERT INTO METER_AUDIT_TEMP "
-                           "(MC_ID, CO_CODE, ADM_CODE, MC_YEAR, EM_FIG_OLD, MQ_ID_OLD, MG_ID_OLD, USER_NAME, SERIES) "
-                           "SELECT IND_ID, CO_CODE, ADM_CODE, IND_YEAR, FIG, QUAL, MAGN, '{2}', 'EST' "
-                           "from EDU_INDICATOR_EST "
-                           "WHERE CO_CODE = {0} and IND_YEAR = {1}".format(self.country_code,self.emco_year, self.username)), readonly = False)
+            self.write_sql("DELETE FROM METER_AUDIT_TEMP")
+            self.write_sql(("INSERT INTO METER_AUDIT_TEMP "
+                            "(MC_ID, CO_CODE, ADM_CODE, MC_YEAR, EM_FIG_OLD, MQ_ID_OLD, MG_ID_OLD, USER_NAME, SERIES) "
+                            "SELECT IND_ID, CO_CODE, ADM_CODE, IND_YEAR, FIG, QUAL, MAGN, '{2}', 'EST' "
+                            "from EDU_INDICATOR_EST "
+                            "WHERE CO_CODE = {0} and IND_YEAR = {1}".format(self.country_code,self.emco_year, self.username)))
         else:
-            sql_query(("INSERT INTO INDICATOR_AUDIT_TRAIL " 
-                       "(IND_ID, CO_CODE, ADM_CODE, IND_YEAR, FIG_OLD, QUAL_OLD, "
-                       "MAGN_OLD, USER_NAME, SERIES,FIG_NEW, QUAL_NEW, MAGN_NEW) " 
-                       "SELECT a.MC_ID, a.CO_CODE, a.ADM_CODE, a.MC_YEAR, " 
-                       "a.EM_FIG_OLD, a.MQ_ID_OLD, a.MG_ID_OLD, " 
-                       "a.USER_NAME, a.SERIES, b.FIG, b.QUAL, b.MAGN "
-                       "from  METER_AUDIT_TEMP as a "
-                       "join EDU_INDICATOR_EST as b on a.MC_ID = b.IND_ID "
-                       "and a.CO_CODE = b.CO_CODE and a.ADM_CODE = b.ADM_CODE "
-                       "and a.MC_YEAR = b.IND_YEAR AND "
-                       "(a.EM_FIG_OLD !=b.FIG OR a.MQ_ID_OLD != b.QUAL OR a.MG_ID_OLD != b.MAGN)"), readonly = False)
-            sql_query("DELETE FROM METER_AUDIT_TEMP", readonly = False)     
+            self.write_sql(("INSERT INTO INDICATOR_AUDIT_TRAIL " 
+                            "(IND_ID, CO_CODE, ADM_CODE, IND_YEAR, FIG_OLD, QUAL_OLD, "
+                            "MAGN_OLD, USER_NAME, SERIES,FIG_NEW, QUAL_NEW, MAGN_NEW) " 
+                            "SELECT a.MC_ID, a.CO_CODE, a.ADM_CODE, a.MC_YEAR, " 
+                            "a.EM_FIG_OLD, a.MQ_ID_OLD, a.MG_ID_OLD, " 
+                            "a.USER_NAME, a.SERIES, b.FIG, b.QUAL, b.MAGN "
+                            "from  METER_AUDIT_TEMP as a "
+                            "join EDU_INDICATOR_EST as b on a.MC_ID = b.IND_ID "
+                            "and a.CO_CODE = b.CO_CODE and a.ADM_CODE = b.ADM_CODE "
+                            "and a.MC_YEAR = b.IND_YEAR AND "
+                            "(a.EM_FIG_OLD !=b.FIG OR a.MQ_ID_OLD != b.QUAL OR a.MG_ID_OLD != b.MAGN)"))
+            self.write_sql("DELETE FROM METER_AUDIT_TEMP")
 
     def check_est_values(self):
         """ Checks if any values exist in the Est series before computing indicators."""
-        values = sql_query(("SELECT * FROM EDU_METER97_EST WHERE CO_CODE={} "
-                   "AND EMCO_YEAR={}".format(self.country_code,self.emco_year)))
+        values = self.read_sql(("SELECT * FROM EDU_METER97_EST WHERE CO_CODE={} "
+                                "AND EMCO_YEAR={}".format(self.country_code,self.emco_year)))
         return(True if values else False)
 
     def compute_all_indicators(self):
         ### Moving data to Audit Temp
-        self.audit_trail()
         
+        self.audit_trail()
         ##### Calculating indicators
         self.pupils_teachers_ratio()
         self.newly_recruited_teachers()
@@ -634,8 +666,9 @@ class indicators():
    
     def __init__ (self,database_file,emco_year,country_name, username):
         self.set_database_connection(database_file)
-        set_database_file(database_file)
+        #set_database_file(database_file)
         self.emco_year=emco_year
         self.country_name=country_name
         self.get_country_code()
         self.username = username
+
