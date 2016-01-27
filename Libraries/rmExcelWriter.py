@@ -171,6 +171,7 @@ def export_var(var, wb, co_code, year, var_type, serie= 'REP'):
     # header format
     format_header = wb.add_format({'bold' : True, 'align' : 'left'})
     format_data  = wb.add_format({'align' : 'right'})
+    worksheet.set_column('D:DV', 12)
     # A loop over all tables all tables
     for ext in var_list:
         data = getTable(ext, co_code, year, var_type, serie)
@@ -210,6 +211,7 @@ def export_indc(ind, wb, co_code, year, serie = 'EST'):
     data = [l + (format_data,) if l[0]>=0 else l + (format_header,) for l in data]
     ## Writing
     worksheet = wb.add_worksheet()
+    worksheet.set_column('D:DV', 12)
     write_data(worksheet, data, view_type, fmt=True)
     write_data(worksheet, header_dict)
 

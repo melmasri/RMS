@@ -1,15 +1,23 @@
 
-
-
-Things left to do in the UIS project
-    * Waiting for an email from Patrick on Diss Index.
-    * Calculate attrition rate.
-    * Add attrition rate and Diss Index to documentation.
-    * Document Audit trail method for Meter and Indic.
-    * Edit all the python comment for creating the help files, and create the help file.
-    * Edit the user User guid, indicator calculation and add new indicator files, and probably combined them.
-    * Update the github website with all the new documentation.
-    * Try to create a nice PDF file or plain text for them to print from all the documentation, since org-mode export default export needs some tweeks.
-    * We have created a file called 'user_guide-technical.org' earlier in the project, where can we integrate it, and what needs to be update it sine our last submission.
-    * Add file naming for indicator extractions.
-
+Things left to do:
+    * [X] Waiting for an email from Patrick on Diss Index.
+    * [X] Calculate attrition rate.
+    * [X] Add attrition rate and Diss Index to documentation.
+    * [-] Finish documentation, including editing.
+      * [X] indicators
+      * [ ] user guide
+      * [ ] technical user guide
+      * [ ] add new indicator
+      * [-] python help files.
+        * [ ] rmindicators :mo:done:
+        * [ ] rmExcelWriter
+        * [ ] rmfunctions
+        * [ ] rmquestionnaire
+        * [X] rmsqlfunctions
+      * [ ] Folder tress, and explanation of files and scripts.
+    * [ ] Document Audit trail method for Meter and Indic.
+    * [ ] Edit all the python comment for creating the help files, and create the help file.
+    * [ ] Update the github website with all the new documentation.
+    * [ ] Try to create a nice PDF file or plain text for them to print from all the documentation, since org-mode export default export needs some tweeks.
+    * [ ] We have created a file called 'user_guide-technical.org' earlier in the project, where can we integrate it, and what needs to be update it sine our last submission.
+    * [ ] Add file naming for indicator extractions.

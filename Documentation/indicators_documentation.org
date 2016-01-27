@@ -1,7 +1,6 @@
 #+TITLE: Indicators documentation
-#+DATE: December 17th, 2015
-#+AUTHOR: Oscar Alberto Quijano Xacur
-#+EMAIL: oscar.quijano@use.startmail.com
+#+DATE: January 27th, 2016
+#+AUTHOR: Mohamad Elmasri
 #+OPTIONS: ':nil *:t -:t ::t <:t H:3 \n:nil ^:{} arch:headline
 #+OPTIONS: author:t c:nil creator:comment d:(not "LOGBOOK") date:t
 #+OPTIONS: e:t email:nil f:t inline:t num:t p:nil pri:nil stat:t
@@ -13,48 +12,30 @@
 #+KEYWORDS:
 #+LANGUAGE: en
 #+SELECT_TAGS: export
-#+STARTUP: nofold
+#+STARTUP: content
 
 #+SETUPFILE: css/theme-readtheorg-local.setup
 
 * Indicators
-  We describe here how the indicators are computed and what are the AC
+  This section describs how the indicators are computed and what are the AC
   codes involved in their computation.  For each indicator, we give a
   table with four columns. The first column has the ISCED level. The
-  second one has the alphanumeric code used for the indicator. The
+  second one has the indicator alphanumeric code (IND_ID) used for the indicator. The
   third column has the formula used to compute this indicator. The
-  fourth column contains yes or no depending on whether the AC code
-  has a highest and lowest indicator among all the regions.
+  fourth column contains yes or no depending on whether the indicator for the highest and lowest among administrative divisions is also calculated.
+  
+  Technical notations used across the document: 
+  * The =Python method= lists the name of function in the =Libraries/rmindicators.py= script that calculates that indicator.
+  * The superscript =L=, means that the value from the previous year is being taken. For example, if the emco year is 2015 T.1^{L} means that the 2014 value of T.1.
+  * Some indicators correspond to the highest and lowest value among all the regions of some indicator. No AC codes appear in =Indic_IDs.xlsx= for these indicators. Thus, we have convened that if A is some alphanumeric code, A.Max and A.Min correspond to the  highest and lowest value, respectively, among all the regions for the AC code A. The fourth column of each indicators says if there is also a highest and lowest indicator.
 
-  The superscript L, means that the value from the previous year is
-  being taken. For example, if the emco year is 2015 T.1^{L} means
-  that the 2014 value of T.1.
-
-  There are some alphanumeric codes that do not appear in the file
-  =Indic_IDs.xlsx= in Dropbox. For these ones we created new AC
-  codes. The super script n will be used in the table when this is the
-  case.
-
-  There are some AC codes in the file =Indic_IDs.xlsx= that we believe
-  are wrong. The most common case is for the AC code to have the .Pu
-  dimension to denote a total instead of only the private
-  schools. When this is the case the superscript * is used in the
-  table. In this cases there is an explanation under the table
-  explaining the reason for the modification.
-
-  Some indicators correspond to the highest and lowest value among all
-  the regions of some indicator. No AC codes appear in
-  =Indic_IDs.xlsx= for these indicators. Thus, we have convened that
-  if A is some alphanumeric code. A,Max and A.Min correspond to the
-  highest and lowest value, respectively, among all the regions for
-  the AC code A. The fourth column of each indicators says if there is
-  also a highest and lowest indicator .
+Some more specific technical notation exists some of the subsections.
 
 ** Percentage of female teachers
 
    + Python method :: teachers_percentage_female
-   + AC_CODES information ::
-        |          | AC_CODE | FORMULA            | H & L |
+   + IND_IDS information ::
+        |          | IND_ID | FORMULA            | H & L |
         |----------+---------+--------------------+-------|
         | ISCED 1  | FTP.1   | NT.1.F/T.1         | yes   |
         | ISCED 2  | FTP.2   | NT.2.GPV/T.2.GPV   | yes   |
@@ -65,8 +46,8 @@
 ** Percentage of newly recruited teachers
 
    + Python method :: newly_recruited_teachers
-   + AC_CODES information :: 
-        |          | AC_CODE     | FORMULA                | H & L |
+   + IND_IDS information :: 
+        |          | IND_ID     | FORMULA                | H & L |
         |----------+-------------+------------------------+-------|
         | ISCED 1  | NTP.1       | NT.1/T.1               | no    |
         | ISCED 2  | NTP.2       | NT.2.GPV/T.2.GPV       | no    |
@@ -77,8 +58,8 @@
 ** Pupils teachers ratio
 
    + Python method ::  pupils_teachers_ratio
-   + AC_CODES information :: 
-        |          | AC_CODE   | FORMULA           | H & L |
+   + IND_IDS information :: 
+        |          | IND_ID   | FORMULA           | H & L |
         |----------+-----------+-------------------+-------|
         | ISCED 1  | PTRHC.1   | E.1/T.1           | yes   |
         | ISCED 2  | PTRHC.2   | E.2.GPV/T.2.GPV   | yes   |
@@ -89,8 +70,8 @@
 ** Percentage of trained teachers
 
    + Python method ::  percentage_trained_teachers
-   + AC_CODES information :: 
-        |          | AC_CODE  | FORMULA                   | H & L |
+   + IND_IDS information :: 
+        |          | IND_ID  | FORMULA                   | H & L |
         |----------+----------+---------------------------+-------|
         | ISCED 1  | TRTP.1   | T.1.trained/T.1           | yes   |
         | ISCED 2  | TRTP.2   | T.2.GPV.trained/T.2.GPV   | yes   |
@@ -100,7 +81,7 @@
    In this same method, there is the computation of the percentage of
    trained newly recruited teachers, which has the following table
    
-   |          | AC_CODE   | FORMULA                     | H & L |
+   |          | IND_ID   | FORMULA                     | H & L |
    |----------+-----------+-----------------------------+-------|
    | ISCED 1  | TrNTP.1   | NT.1.trained/NT.1           | yes   |
    | ISCED 2  | TrNTP.2   | NT.2.GPV.trained/NT.2.GPV   | yes   |
@@ -110,8 +91,8 @@
 
 ** Percentage of private teachers
    + Python method ::  percentage_private_teachers
-   + AC_CODES information :: 
-        |          | AC_CODE  | FORMULA              | H & L |
+   + IND_IDS information :: 
+        |          | IND_ID  | FORMULA              | H & L |
         |----------+----------+----------------------+-------|
         | ISCED 1  | PrTP.1   | T.1.Pr/T.1           | yes   |
         | ISCED 2  | PrTP.2   | T.2.GPV.Pr/T.2.GPV   | yes   |
@@ -123,8 +104,8 @@
    This has three sets of symbols. One for the private sector, one
    for the public sector and one combined.
    + Python method ::  percentage_non_permanent_teachers
-   + AC_CODES information Private :: 
-        |          | AC_CODE          | FORMULA                     | H & L |
+   + IND_IDS information Private :: 
+        |          | IND_ID          | FORMULA                     | H & L |
         |----------+------------------+-----------------------------+-------|
         | ISCED 1  | FixTP.1.Pr       | T.1.Pr.Fix/T.1.Pr           | no    |
         | ISCED 2  | FixTP.2.GPV.Pr   | T.2.GPV.Pr.Fix/T.2.GPV.Pr   | no    |
@@ -132,16 +113,16 @@
         | ISCED 23 | FixTP.2t3.GPV.Pr | T.23.GPV.Pr.Fix/T.23.GPV.Pr | no    |
         |----------+------------------+-----------------------------+-------|
 
-   + AC_CODES information Public :: 
-        |          | AC_CODE          | FORMULA                     | H & L |
+   + IND_IDS information Public :: 
+        |          | IND_ID          | FORMULA                     | H & L |
         |----------+------------------+-----------------------------+-------|
         | ISCED 1  | FixTP.1.Pu       | T.1.Pu.Fix/T.1.Pu           | no    |
         | ISCED 2  | FixTP.2.GPV.Pu   | T.2.GPV.Pu.Fix/T.2.GPV.Pu   | no    |
         | ISCED 3  | FixTP.3.GPV.Pu   | T.3.GPV.Pu.Fix/T.3.GPV.Pu   | no    |
         | ISCED 23 | FixTP.2t3.GPV.Pu | T.23.GPV.Pu.Fix/T.23.GPV.Pu | no    |
         |----------+------------------+-----------------------------+-------|
-   + AC_CODES information Combined :: 
-        |          | AC_CODE       | FORMULA                                                     | H & L |
+   + IND_IDS information Combined :: 
+        |          | IND_ID       | FORMULA                                                     | H & L |
         |----------+---------------+-------------------------------------------------------------+-------|
         | ISCED 1  | FixTP.1       | (T.1.Pr.Fix+T.1.Pu.Fix)/(T.1.Pr+T.1.Pu)                     | no    |
         | ISCED 2  | FixTP.2.GPV   | (T.2.GPV.Pr.Fix+T.2.GPV.Pu.Fix)/(T.2.GPV.Pr+T.2.GPV.Pu)     | no    |
@@ -150,9 +131,10 @@
         |----------+---------------+-------------------------------------------------------------+-------|
 	
 ** Attrition rate
+
    + Python method ::  percentage_non_permanent_teachers
-   + AC_CODES information Private :: 
-        |          | AC_CODE        | FORMULA                                                | H & L |
+   + IND_IDS information Private :: 
+        |          | IND_ID        | FORMULA                                                | H & L |
         |----------+----------------+--------------------------------------------------------+-------|
         | ISCED 1  | TAttrR.1       | 100*(T.1^{L} + NT.1 - T.1)/T.1^{L}                     | no    |
         | ISCED 2  | TAttrR.2.GPV   | 100*(T.2.GPV^{L} + NT.2.GPV - T.2.GPV)/T.2.GPV^{L}     | no    |
@@ -163,15 +145,16 @@
    
 #  LocalWords:  emco
 ** Mean age 
+
    + Python method :: mean_age_level(level in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV'])
-   + AC_CODES information :: 
-        |          | AC_CODE       | FORMULA                                                           | H & L |
-        |----------+---------------+-------------------------------------------------------------------+-------|
-        | ISCED 1  | MAge.T.1      | $\sum_{\text{ y in cat}} T.1.y \times MidDur(y) / Pop.Ag0t99$     | No    |
-        | ISCED 2  | MAge.T.2.GPV  | $\sum_{\text{ y in cat}} T.2.GPV.y\times MidDur(y) / Pop.Ag0t99$  | No    |
-        | ISCED 3  | MAge.T.3.GPV  | $\sum_{\text{ y in cat}} T.3.GPV.y\times MidDur(y) / Pop.Ag0t99$  | No    |
-        | ISCED 23 | MAge.T.23.GPV | $\sum_{\text{ y in cat}} T.23.GPV.y\times MidDur(y) / Pop.Ag0t99$ | No    |
-        |----------+---------------+-------------------------------------------------------------------+-------|
+   + IND_IDS information :: 
+        |          | IND_ID       | FORMULA                                                                   | H & L |
+        |----------+---------------+---------------------------------------------------------------------------+-------|
+        | ISCED 1  | MAge.T.1      | $\sum_{\text{ y in cat}} \frac{T.1.y \times MidDur(y) }{ Pop.Ag0t99}$     | No    |
+        | ISCED 2  | MAge.T.2.GPV  | $\sum_{\text{ y in cat}} \frac{T.2.GPV.y\times MidDur(y) }{ Pop.Ag0t99}$  | No    |
+        | ISCED 3  | MAge.T.3.GPV  | $\sum_{\text{ y in cat}} \frac{T.3.GPV.y\times MidDur(y) }{ Pop.Ag0t99}$  | No    |
+        | ISCED 23 | MAge.T.23.GPV | $\sum_{\text{ y in cat}} \frac{T.23.GPV.y\times MidDur(y) }{ Pop.Ag0t99}$ | No    |
+        |----------+---------------+---------------------------------------------------------------------------+-------|
         where ~Cat~ is ~Ag20m~, ~Ag20t29~, ~Ag30t39~, ~Ag40t49~, ~Ag50t59~ and ~Ag60p~. Midpoints are based on the following:
         | Age in years | <20 | 20-29 | 30-39 | 40-49 | 50-59 | 60+ |
         |--------------+-----+-------+-------+-------+-------+-----|
@@ -180,17 +163,18 @@
         Note all indicators are calculated for Total, Public and Private levels.
           
 ** Mean years of experience 
+
    + Python method :: mean_exp_level(level in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV'])
-   + AC_CODES information :: 
-        |          | AC_CODE       | FORMULA                                                           | H & L |
-        |----------+---------------+-------------------------------------------------------------------+-------|
-        | ISCED 1  | MExp.T.1      | $\sum_{\text{ y in cat}} T.1.y \times MidDur(y) / Pop.Ag0t99$     | No    |
-        | ISCED 2  | MExp.T.2.GPV  | $\sum_{\text{ y in cat}} T.2.GPV.y\times MidDur(y) / Pop.Ag0t99$  | No    |
-        | ISCED 3  | MExp.T.3.GPV  | $\sum_{\text{ y in cat}} T.3.GPV.y\times MidDur(y) / Pop.Ag0t99$  | No    |
-        | ISCED 23 | MExp.T.23.GPV | $\sum_{\text{ y in cat}} T.23.GPV.y\times MidDur(y) / Pop.Ag0t99$ | No    |
-        |----------+---------------+-------------------------------------------------------------------+-------|
+   + IND_IDS information :: 
+        |          | IND_ID       | FORMULA                                                                     | H & L |
+        |----------+---------------+-----------------------------------------------------------------------------+-------|
+        | ISCED 1  | MExp.T.1      | $\sum_{\text{ y in cat}} \frac{T.1.y \times \times MidDur(y)}{ Pop.Ag0t99}$ | No    |
+        | ISCED 2  | MExp.T.2.GPV  | $\sum_{\text{ y in cat}} \frac{T.2.GPV.y\times MidDur(y) }{ Pop.Ag0t99}$    | No    |
+        | ISCED 3  | MExp.T.3.GPV  | $\sum_{\text{ y in cat}} \frac{T.3.GPV.y\times MidDur(y) }{ Pop.Ag0t99}$    | No    |
+        | ISCED 23 | MExp.T.23.GPV | $\sum_{\text{ y in cat}} \frac{T.23.GPV.y\times MidDur(y) }{ Pop.Ag0t99}$   | No    |
+        |----------+---------------+-----------------------------------------------------------------------------+-------|
         where ~cat~ is  ~Exp1t2~,  ~Exp3t5~, ~Exp6t10~,  ~Exp11t15~ and  ~Exp15p~. 
-       ~MidDur~ is ~[Exp1t2 = 1.5, Exp3t5 = 4, Exp6t10 = 8, Exp11t15 = 13, Exp15p = 15]~. Mid durations are based on the following:  
+       ~MidDur~ is ~[Exp1t2 = 1.5, Exp3t5 = 4, Exp6t10 = 8, Exp11t15 = 13, Exp15p = 15]~. Mid duration's are based on the following:  
         | experience in years | New | 1-2 | 3-5 | 6-10 | 11-15 | 15+ |
         |---------------------+-----+-----+-----+------+-------+-----|
         | Mid duration        | 0.5 | 1.5 |   4 |    8 |    13 |  17 |
@@ -198,10 +182,11 @@
         Note all indicators are calculated for Total, Public and Private levels.
 
 ** Highest level of educational attainment
+
    + Python method :: percentage_teachers_attainment
-   + AC_CODES information :: 
+   + IND_IDS information :: 
                        
-     | Highest educational attainment | AC_CODE       | FORMULA                                                       | H & L |
+     | Highest educational attainment | IND_ID        | FORMULA                                                       | H & L |
      |--------------------------------+---------------+---------------------------------------------------------------+-------|
      | Lower secondary or Less        | EA.2mPT.ISCED | T.ISCED.EA.2m / T.ISCED                                       | No    |
      | Upper secondary                | EA.3PT.ISCED  | T.ISCED.EA.3 / T.ISCED                                        | No    |
@@ -213,10 +198,11 @@
         
    Note  all indicators are calculated for Total, Public and Private levels.    
 
-** Percentage of teachers by years of expierence
+** Percentage of teachers by years of experience
+
    + Python method :: percentage_teachers_exp
-   + AC_CODES information :: 
-       | Expierence         | IND_CODE         | FORMULA                  | H & L |
+   + IND_IDS information :: 
+       | Experience         | IND_ID           | FORMULA                  | H & L |
        |--------------------+------------------+--------------------------+-------|
        | 1 to 2 years       | Exp1t2mPT.ISCED  | T.ISCED.Exp1t2/T.ISCED   | No    |
        | 3 to 5 years       | Exp3t5PT.ISCED   | T.ISCED.Exp3t5/T.ISCED   | No    |
@@ -230,9 +216,10 @@
    Note  all indicators are calculated for Total, Public and Private levels.    
 
 ** Percentage of teachers by age
+
    + Python method :: percentage_teachers_age
-   + AC_CODES information :: 
-        | Age                | IND_CODE        | FORMULA                 | H & L |
+   + IND_IDS information :: 
+        | Age                | IND_ID          | FORMULA                 | H & L |
         |--------------------+-----------------+-------------------------+-------|
         | Less than 20 years | Ag20mPT.ISCED   | T.ISCED.Ag20m/T.ISCED   | No    |
         | 20 to 29 years     | Ag20t29PT.ISCED | T.ISCED.Ag29t29/T.ISCED | No    |
@@ -247,8 +234,36 @@
    Note  all indicators are calculated for Total, Public and Private levels.    
 
 ** Dissimilarity 
+
    + Python method :: dissimilarity_index
-   + AC_CODES information :: 
+   + IND_IDS information :: 
+        | Measures of inequality in the           | IND_ID           | FORMULA                                                                                     |
+        |-----------------------------------------+------------------+---------------------------------------------------------------------------------------------|
+        | All                                     | DisT.IS          | \(\frac{1}{2} \sum_a\mid \frac{T.IS_a}{T.IS} - \frac{E.IS_a}{E.IS} \mid\)                   |
+        | Female                                  | DisT.IS.F        | \(\frac{1}{2} \sum_a\mid \frac{T.IS.F_a}{T.IS.F} - \frac{E.IS_a}{E.IS} \mid\)               |
+        | Teachers aged 50 and above              | DisT.IS.Ag50p    | \(\frac{1}{2} \sum_a\mid \frac{T.IS.Ag50p_a}{T.IS.Ag50p} - \frac{E.IS_a}{E.IS} \mid\)       |
+        | Newly recruited                         | DisNT.IS         | \(\frac{1}{2} \sum_a\mid \frac{NT.IS_a}{NT.IS} - \frac{E.IS_a}{E.IS} \mid\)                 |
+        | Math                                    | DisT.IS.Math     | \(\frac{1}{2} \sum_a\mid \frac{T.IS.Math_a}{T.IS.Math} - \frac{E.IS_a}{E.IS} \mid\)         |
+        | Reading and writing                     | DisT.IS.Read     | \(\frac{1}{2} \sum_a\mid \frac{T.IS.Read_a}{T.IS.Read} - \frac{E.IS_a}{E.IS} \mid\)         |
+        | Trained teachers                        | DisT.IS.trained  | \(\frac{1}{2} \sum_a\mid \frac{T.IS.trained_a}{T.IS.trained} - \frac{E.IS_a}{E.IS} \mid\)   |
+        | Newly recruited and trained teachers    | DisNT.IS.trained | \(\frac{1}{2} \sum_a\mid \frac{NT.IS.trained_a}{NT.IS.trained} - \frac{E.IS_a}{E.IS} \mid\) |
+        | Teachers with ISCED level+1 or less     | DisT.IS.EA.ISp1m | \(\frac{1}{2} \sum_a\mid \frac{T.IS.EA.ISp1m_a}{T.IS.EA.ISp1m} - \frac{E.IS_a}{E.IS} \mid\) |
+        | Teachers with ISCED level+2 or more     | DisT.IS.EA.ISp2p | \(\frac{1}{2} \sum_a\mid \frac{T.IS.EA.ISp2p_a}{T.IS.EA.ISp2p} - \frac{E.IS_a}{E.IS} \mid\) |
+        | Teachers with less than 2 years of exp  | DisT.IS.Exp2m    | \(\frac{1}{2} \sum_a\mid \frac{T.IS.Exp2m_a}{T.IS.Exp2m} - \frac{E.IS_a}{E.IS} \mid\)       |
+        | Teachers with more than 10 years of exp | DisT.IS.Exp10p   | \(\frac{1}{2} \sum_a\mid \frac{T.IS.Exp10p_a}{T.IS.Exp10p} - \frac{E.IS_a}{E.IS} \mid\)     |
+        | Private teachers                        | DisT.IS.Pr       | \(\frac{1}{2} \sum_a\mid \frac{T.IS.Pr_a}{T.IS.Pr} - \frac{E.IS_a}{E.IS} \mid\)             |
+        | Non-permanent teachers, total           | DisT.IS.Fix      | \(\frac{1}{2} \sum_a\mid \frac{T.IS.Fix_a}{T.IS.Fix} - \frac{E.IS_a}{E.IS} \mid\)           |
+        | Non-permanent teachers, private         | DisT.IS.Pr.Fix   | \(\frac{1}{2} \sum_a\mid \frac{T.IS.Pr.Fix_a}{T.IS.Pr.Fix} - \frac{E.IS_a}{E.IS} \mid\)     |
+        | Non-permanent teachers, public          | DisT.IS.Pu.Fix   | \(\frac{1}{2} \sum_a\mid \frac{T.IS.Pu.Fix_a}{T.IS.Pu.Fix} - \frac{E.IS_a}{E.IS} \mid\)     |
+        |-----------------------------------------+------------------+---------------------------------------------------------------------------------------------|
+   Much notations are omitted for clearer presentation.
+           * ~IS~ stands for ISCED level which are ~[1, 2.GPV, 3.GPV, 23.GPV]~.
+           * ~a~ stands for administrative division, on the denominators the ~a~ is omitted for national level data.
+           * ~E.23.GPV~ is not collected in the questionnaire, so it ~E.2.GPV + E.3.GPV~.
+           * To compute age 50 plus, data in ages 50 o 59 and 60 plus are added. This notation is omitted in the formula for brevity.
+           * Only calculated for ISCED level 2t3, total.
+           * ~ISp1m~ reads as ISCED level which is 1 level above or less than the actual level, that is for ISCED 2 ~ISp1m = 3m~, and for ISCED 2t3 ~ISp1m =3m~. The levels are summed.
+           * ~ISp2p~ reads as ISCED level which is 2 level above or more than the actual level, that is for ISCED 2 ~ISp2p = 4pm~, and for ISCED 2t3 ~ISp2p =5p~. The levels are summed.
 
+#  LocalWords:  emco
 
-#  LocalWords:  emco    

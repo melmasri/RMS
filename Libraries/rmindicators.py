@@ -19,11 +19,18 @@ algebra_prod = algebra_sum
 algebra_div  = algebra_sum
 
 def read_algebra():
-    """  Read an algebra table from a csv file and convert to a dictionary
+    """  Rewrites global operations (sum/div/prod) algebra tables from csv files.
+
+    The files are:
+    RMS/Libraries/algebra-div.csv
+    RMS/Libraries/algebra-prod.csv
+    RMS/Libraries/algebra-sum.csv
     """
-    # Reading sum algebra
+
     algfiles = ['algebra-sum.csv', 'algebra-prod.csv','algebra-div.csv']
     algop = ['Sum', 'Prod', 'Div']
+
+    
     if os.path.isfile('Libraries/'+algfiles[0]):
         print('File {0} found, reading algebra..'.format(algfiles[0]))
         data = csv.DictReader(open('Libraries/'+ algfiles[0]))
@@ -41,8 +48,9 @@ def read_algebra():
         algebra_div  = arrange_algebra_dist(data,algop[2])
 
 def arrange_algebra_dist(data, op= 'Sum'):
-    """ Arranging algebra from a csv file read in data based os an operation (op) in a dictionary as seen in the global variables.
-        The left corner of the table in the csv file should be the op, case sensitive
+    """ Re-orderd from a read csv file to dictionary as seen in the global variables.
+
+        The left corner of the table in the csv file should be the op, case sensitive.
     """
     result = {}
     for row in data:
@@ -61,9 +69,8 @@ read_algebra()
 ##### Generic mathematical operators
 ##################################################           
 def sum(x,y):
-    """ 
-    Sums two tuppels x = (fig, mg_symbol), y = (fig, mg_symbol). 
-    Returns a tupple (fig, symbol), where symbol is the result of the multiplication tables, fig is '' is symbol is n, m ,a or x.
+    """
+    Sums two tupels x = (fig, mg_symbol), y = (fig, mg_symbol), returns a tupple (fig, symbol), where symbol is the result of the algebra tables and fig is '' is symbol is n, m ,a or x.
 
     Algebra Table 
     Sum,a, m,n,x, value
@@ -81,17 +88,15 @@ def sum(x,y):
 
 def neg(x,y):
     """ 
-    Negation of two tuppels x = (fig, mg_symbol), y = (fig, mg_symbol). 
-    Returns a tupple (fig, symbol), where symbol is the result of the multiplication    tables, fig is '' is symbol is n, m ,a or x.
+    Negation of two tuppels x = (fig, mg_symbol), y = (fig, mg_symbol) and returns a tupple (fig, symbol), where symbol is the result of the algebra tables, fig is '' is symbol is n, m ,a or x.
     """
     if y[1]=='value':
         y[0] = -y[0]
     return(sum(x,y))
 
 def prod(x,y):
-    """ 
-    Product of two tuppels x = (fig, mg_symbol), y = (fig, mg_symbol). 
-    Returns a tupple (fig, symbol), where symbol is the result of the multiplication tables, fig is '' is symbol is n, m ,a or x.
+    """
+    Product of two tuppels x = (fig, mg_symbol), y = (fig, mg_symbol), returns a tupple (fig, symbol), where symbol is the result of the algebra tables, fig is '' is symbol is n, m ,a or x.
 
     Algebra Table 
     Prod,a, m,n,x, value
@@ -108,9 +113,8 @@ def prod(x,y):
     return(['',algeb])
 
 def div(x,y):
-    """ 
-    Division of two tuppels x = (fig, mg_symbol), y = (fig, mg_symbol). 
-    Returns a tupple (fig, symbol), where symbol is the result of the multiplication tables, fig is '' is symbol is n, m ,a or x.
+    """
+    Division of two tuppels x = (fig, mg_symbol), y = (fig, mg_symbol), returns a tupple (fig, symbol), where symbol is the result of the algebra tables, fig is '' is symbol is n, m ,a or x.
     
     Algebra Table 
     Div,a, m,n,x, value
@@ -127,7 +131,7 @@ def div(x,y):
     return(['',algeb])
 
 def op2col(col1, col2, op):
-    """ Returns the op(sum/div/prod) of two columns"""
+    """Operation (sum/div/prod) of two columns"""
     return  list(map(lambda x,y: op(x, y), col1, col2))
 
 def min_sp(lala):
@@ -286,7 +290,7 @@ class indicators():
         if(type(info1[0])!=list):
             AC1=info1[0]
             year1=info1[1]
-            emc_id1 = sql_query("SELECT EMC_ID FROM RM_Mapping WHERE AC='{0}' AND CUR_YEAR={1} LIMIT 1".format(AC1,year1))
+            emc_id1 = self.read_sql("SELECT EMC_ID FROM RM_Mapping WHERE AC='{0}' AND CUR_YEAR={1} LIMIT 1".format(AC1,year1))
             emc_id1= emc_id1[0][0]
             values1= self.read_sql(("select a.EM_FIG,b.SYMBOL from EDU_METER97_EST AS a "
                                     "LEFT JOIN MAGNITUDE AS b ON ( a.mg_id = b.mg_id) "
@@ -438,9 +442,7 @@ class indicators():
         self.write_indic_sql(ind_dict)
 
 
-    ##################################################
-    ### Mean functions
-    ##################################################
+
     def mean_category(self, codes, midpoints, ac_pop, DivBySum = False):
         """ Calculates a generic mean by category given the category and a list of indicators
         returns the mean category by ADM
@@ -461,11 +463,9 @@ class indicators():
 
     def mean_age_level(self,level):
         """ 
-        Given a level of the format ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV'] 
-        the function returns the average age of the given level for total, 
-        public and private in a dictionary format, with indicator names as key of the dictionary.
-        
-        The average is calculated by using the midpoint ages defined in the midpoint variable below in a ascending order. 
+        Given a level in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV'], returns mean age (MAge) for total, public and private.
+
+        Return is a dictionary format, with indicator names as key of the dictionary. The average is calculated by using the midpoint ages defined in the midpoint variable below in a ascending order. 
         """
         if level not in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']:
             print("The only levels allowed are ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']")
@@ -483,11 +483,10 @@ class indicators():
         
     def mean_exp_level(self, level):
         """ 
-        Given a level of the format ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV'] 
-        the function returns the average years of experience of the given level for total, 
-        public and private in a dictionary format, with indicator names as key of the dictionary.
-        
-        The average is calculated by using the midpoint years of experience ages defined in the midpoint variable below in a ascending order. 
+        Given a level in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV'], returns mean expireince (MExp) for total, public and private.
+
+        Return is a dictionary format, with indicator names as key of the dictionary. 
+        The average is calculated by using the midpoint ages defined in the midpoint variable below in a ascending order. 
         """
         if level not in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']:
             print("The only levels allowed are ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']")
@@ -506,10 +505,8 @@ class indicators():
 
     def mean_level(self, levelFun,ret= False):
         """
-        Calculates the mean of age/exp/... for the following levels ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']. 
-        It requires a levelFun(indic, level) as in mean_age_level or mean_exp_level. 
+        Calculates the mean of age/exp/... for the following levels ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV'],by passing levelFun(indic, level) as in mean_age_level or mean_exp_level. 
         
-        Returns a dictionary for each level in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV'], with the key as the level and the result is the return of levelFun.
         """
         isced = ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']       
         if ret:
@@ -522,7 +519,7 @@ class indicators():
                 self.write_indic_sql(levelFun(s))
 
     def percentage_teachers_attainment(self):
-        """ EA2mPT, EA3PT, EA4PT, EA5pPT, EAukPT """
+        """ Calculates EA2mPT, EA3PT, EA4PT, EA5pPT, EAukPT """
         isced = ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']
         suffix1 = ['', '.Pu', '.Pr']
         temp = {"EA2mPX": ['X.EA.2m'], "EA3PX": ['X.EA.3'],
@@ -542,7 +539,7 @@ class indicators():
         self.compute_percentages(dict_i, False)
 
     def percentage_teachers_exp(self):
-        """ Exp1t2, Exp3t5, Exp6t10, Exp11t15, Exp15p, Expuk """
+        """ Calculates Exp1t2, Exp3t5, Exp6t10, Exp11t15, Exp15p, Expuk """
         isced = ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']
         suffix1 = ['', '.Pu', '.Pr']
         temp = {"Exp1t2PY": ['Y.Exp1t2'], "Exp3t5PY": ['Y.Exp3t5'],
@@ -559,7 +556,7 @@ class indicators():
         self.compute_percentages(dict_i, False)
 
     def percentage_teachers_age(self):
-        """Ag20mPT, Ag20t29PT, Ag30t39PT, Ag40t49PT, Ag50t59PT, Ag60pPT, AgukPT"""
+        """Calculates Ag20mPT, Ag20t29PT, Ag30t39PT, Ag40t49PT, Ag50t59PT, Ag60pPT, AgukPT"""
         isced = ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']
         suffix1 = ['', '.Pu', '.Pr']
         temp ={"Ag20mPY":['Y.Ag20m'],"Ag20t29PY":['Y.Ag20t29'],
@@ -575,19 +572,24 @@ class indicators():
         self.compute_percentages(dict_i, False)
 
     def dissimilarity_index_single(self,AC , AC_year=0, benchAC='Pop.Ag0t99', bench_year=0):
-        """ 
-        Calculates the dissimilarity index between AC and a benchmark AC
-        using the formula 0.5*SUM_reg|AC_reg/AC_national - benchAC_reg/bench_national|, 
-        where reg = region
+        """ Calculates the dissimilarity index between AC and a benchmark AC.
+
+        Using the formula 0.5*SUM_adm|AC_adm/AC_national - benchAC_adm/bench_national|, 
+        where adm = administrative divisions.
         """
+        if(type(benchAC)==list):
+            benchSum = reduce(lambda x,y: self.column_operation(x, y, sum),list(map(lambda x: [x,bench_year],benchAC)))
+        else:
+            benchSum = [benchAC, bench_year]
+                    
         if(type(AC)==dict):
             for key, value in AC.items():
                 IndicName = key
                 AC1 = list(map(lambda x: [x,AC_year],value))
                 value1= reduce(lambda x,y: self.column_operation(x, y, sum), AC1)
-                value = self.column_operation([benchAC,bench_year],value1,lambda x,y:[x,y])
+                value = self.column_operation(benchSum,value1,lambda x,y:[x,y])
         else:
-            value = self.column_operation([benchAC,bench_year],[AC,AC_year],lambda x,y:[x,y])
+            value = self.column_operation(benchSum,[AC,AC_year],lambda x,y:[x,y])
             IndicName = 'Dis' + AC
         national = value[0]
         value = value[1:]
@@ -598,26 +600,52 @@ class indicators():
         self.write_indic_sql_no_regions(IndicName, disInd)
 
     def dissimilarity_index(self):
-        """ list all to be computed dissimilarity_index"""
-        Acs1 =['T.1', 'T.1.F', {'T.1.Ag50p':['T.1.Ag50t59','T.1.Ag60p']},'NT.1',
-              'T.2.GPV', 'T.2.GPV.F',
+        """ Lists all to be computed dissimilarity_indces by ISCED level, and computes them."""
+        
+        tb1 = ['T.1', 'T.1.F', {'T.1.Ag50p':['T.1.Ag50t59','T.1.Ag60p']},'NT.1',
+               'T.1.trained', 'NT.1.trained', 'T.1.EA.2m',
+               {'T.1.EA.3p':['T.1.EA.3','T.1.EA.4','T.1.EA.5','T.1.EA.6','T.1.EA.7','T.1.EA.8' ]},
+               {'T.1.Exp2m':['NT.1','T.1.Exp1t2']},
+               {'T.1.Exp10p':['T.1.Exp11t15', 'T.1.Exp15p']},
+               'T.1.Pr', {'T.1.Fix' : ['T.1.Pr.Fix', 'T.1.Pu.Fix']},
+               'T.1.Pr.Fix', 'T.1.Pu.Fix']
+        list(map(lambda x: self.dissimilarity_index_single(x, benchAC = 'E.1'), tb1))
+
+        tb2 = ['T.2.GPV', 'T.2.GPV.F',
                {'T.2.GPV.Ag50p':['T.2.GPV.Ag50t59', 'T.2.GPV.Ag60p']},'NT.2.GPV',
-              'T.3.GPV', 'T.3.GPV.F',
-               {'T.3.GPV.Ag50p':['T.3.GPV.Ag50t59', 'T.3.GPV.Ag60p']},'NT.3.GPV',
-              'T.23.GPV', 'T.23.GPV.F',
-               {'T.23.GPV.Ag50p':['T.23.GPV.Ag50t59', 'T.23.GPV.Ag60p']},
-               'NT.23.GPV','T.23.GPV.Math', 'T.23.GPV.Read']
+               'T.2.GPV.trained', 'NT.2.GPV.trained',
+               {'T.2.GPV.EA.3m':['T.2.GPV.EA.2m', 'T.2.GPV.EA.3']},
+               {'T.2.GPV.EA.4p':['T.2.GPV.EA.4','T.2.GPV.EA.5','T.2.GPV.EA.6','T.2.GPV.EA.7','T.2.GPV.EA.8' ]},
+               {'T.2.GPV.Exp2m':['NT.2.GPV','T.2.GPV.Exp1t2']},
+               {'T.2.GPV.Exp10p':['T.2.GPV.Exp11t15', 'T.2.GPV.Exp15p']},
+               'T.2.GPV.Pr',{'T.2.GPV.Fix':['T.2.GPV.Pr.Fix', 'T.2.GPV.Pu.Fix']},
+               'T.2.GPV.Pr.Fix', 'T.2.GPV.Pu.Fix']
+        list(map(lambda x: self.dissimilarity_index_single(x, benchAC = 'E.2.GPV'), tb2))
+               
+        tb3 = ['T.3.GPV', 'T.3.GPV.F',
+              {'T.3.GPV.Ag50p':['T.3.GPV.Ag50t59', 'T.3.GPV.Ag60p']},'NT.3.GPV',
+               'T.3.GPV.trained', 'NT.3.GPV.trained',
+               {'T.3.GPV.EA.4m':['T.3.GPV.EA.2m', 'T.3.GPV.EA.3', 'T.3.GPV.EA.4']},
+               {'T.3.GPV.EA.5p':['T.3.GPV.EA.5','T.3.GPV.EA.6','T.3.GPV.EA.7','T.3.GPV.EA.8' ]},
+               {'T.3.GPV.Exp2m':['NT.3.GPV','T.3.GPV.Exp1t2']},
+               {'T.3.GPV.Exp10p':['T.3.GPV.Exp11t15', 'T.3.GPV.Exp15p']},
+               'T.3.GPV.Pr',{'T.3.GPV.Fix':['T.3.GPV.Pr.Fix', 'T.3.GPV.Pu.Fix']},
+               'T.3.GPV.Pr.Fix', 'T.3.GPV.Pu.Fix']
+
+        list(map(lambda x: self.dissimilarity_index_single(x, benchAC = 'E.3.GPV'), tb3))
+
+        tb23 = ['T.23.GPV', 'T.23.GPV.F',
+                {'T.23.GPV.Ag50p':['T.23.GPV.Ag50t59', 'T.23.GPV.Ag60p']},
+                'NT.23.GPV','T.23.GPV.Math', 'T.23.GPV.Read',
+                'T.23.GPV.trained', 'NT.23.GPV.trained',
+                {'T.23.GPV.EA.4m':['T.23.GPV.EA.2m', 'T.23.GPV.EA.3', 'T.23.GPV.EA.4']},
+                {'T.23.GPV.EA.5p':['T.23.GPV.EA.5','T.23.GPV.EA.6','T.23.GPV.EA.7','T.23.GPV.EA.8' ]},
+                {'T.23.GPV.Exp2m':['NT.23.GPV','T.23.GPV.Exp1t2']},
+                {'T.23.GPV.Exp10p':['T.23.GPV.Exp11t15', 'T.23.GPV.Exp15p']},
+                'T.23.GPV.Pr',{'T.23.GPV.Fix':['T.23.GPV.Pr.Fix', 'T.23.GPV.Pu.Fix']},
+                'T.23.GPV.Pr.Fix', 'T.23.GPV.Pu.Fix']
+        list(map(lambda x: self.dissimilarity_index_single(x, benchAC = ['E.3.GPV','E.3.GPV']), tb3))
         
-        Acs2 = ['T.1.trained', 'NT.1.trained', 'T.1.EA.2m',
-                {'T.1.EA.3p':['T.1.EA.3', 'T.1.EA.4', 'T.1.EA.4','T.1.EA.6', 'T.1.EA.7', 'T.1.EA.8']},
-                'T.1.Exp1t2', {'T.1.Exp10p':['T.1.Exp11t15', 'T.1.Exp15p']}]
-        
-        Acs3 = ['T.1.Pr', {'T.1.Fix' : ['T.1.Pr.Fix', 'T.1.Pu.Fix']},  
-                'T.2.GPV.Pr',{'T.2.GPV.Fix':['T.2.GPV.Pr.Fix', 'T.2.GPV.Pu.Fix']},
-                'T.3.GPV.Pr',{'T.3.GPV.Fix':['T.3.GPV.Pr.Fix', 'T.3.GPV.Pu.Fix']},
-                'T.23.GPV.Pr',{'T.23.GPV.Fix':['T.23.GPV.Pr.Fix', 'T.23.GPV.Pu.Fix']}]
-        Acs = Acs1 + Acs2 + Acs3
-        list(map(lambda x: self.dissimilarity_index_single(x), Acs))
 
     def audit_trail(self,temp_table = True):
         """ Records the changes of indicators in the INDICATORS_AUDIT_TRAIL SQL table"""
@@ -649,6 +677,7 @@ class indicators():
         return(True if values else False)
 
     def compute_all_indicators(self):
+        """ Excute functions to calculate indicators."""
         ### Moving data to Audit Temp
         
         self.audit_trail()
@@ -671,7 +700,6 @@ class indicators():
    
     def __init__ (self,database_file,emco_year,country_name, username):
         self.set_database_connection(database_file)
-        set_database_file(database_file)
         self.emco_year=emco_year
         self.country_name=country_name
         self.get_country_code()
