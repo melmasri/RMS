@@ -13,6 +13,7 @@
 #+KEYWORDS:
 #+LANGUAGE: en
 #+SELECT_TAGS: export
+#+STARTUP: nofold
 
 #+SETUPFILE: css/theme-readtheorg-local.setup
 
@@ -44,7 +45,7 @@
   Some indicators correspond to the highest and lowest value among all
   the regions of some indicator. No AC codes appear in
   =Indic_IDs.xlsx= for these indicators. Thus, we have convened that
-  if A is some alphanumeric code. H.A and L.A correspond to the
+  if A is some alphanumeric code. A,Max and A.Min correspond to the
   highest and lowest value, respectively, among all the regions for
   the AC code A. The fourth column of each indicators says if there is
   also a highest and lowest indicator .
@@ -70,7 +71,7 @@
         | ISCED 1  | NTP.1       | NT.1/T.1               | no    |
         | ISCED 2  | NTP.2       | NT.2.GPV/T.2.GPV       | no    |
         | ISCED 3  | NTP.3       | NT.3.GPV/T.3.GPV       | no    |
-        | ISCED 23 | NTP.2t3^{n} | NT.23.GPV/T.23.GPV     | no    |
+        | ISCED 23 | NTP.2t3     | NT.23.GPV/T.23.GPV     | no    |
         |----------+-------------+------------------------+-------|
 	
 ** Pupils teachers ratio
@@ -110,44 +111,54 @@
 ** Percentage of private teachers
    + Python method ::  percentage_private_teachers
    + AC_CODES information :: 
-        |          | AC_CODE       | FORMULA              | H & L |
-        |----------+---------------+----------------------+-------|
-        | ISCED 1  | TP.1.Pr^{n}   | T.1.Pr/T.1           | yes   |
-        | ISCED 2  | TP.2.Pr^{n}   | T.2.GPV.Pr/T.2.GPV   | yes   |
-        | ISCED 3  | TP.3.Pr^{n}   | T.3.GPV.Pr/T.3.GPV   | yes   |
-        | ISCED 23 | TP.2t3.Pr^{n} | T.23.GPV.Pr/T.23.GPV | yes   |
-        |----------+---------------+----------------------+-------|
+        |          | AC_CODE  | FORMULA              | H & L |
+        |----------+----------+----------------------+-------|
+        | ISCED 1  | PrTP.1   | T.1.Pr/T.1           | yes   |
+        | ISCED 2  | PrTP.2   | T.2.GPV.Pr/T.2.GPV   | yes   |
+        | ISCED 3  | PrTP.3   | T.3.GPV.Pr/T.3.GPV   | yes   |
+        | ISCED 23 | PrTP.2t3 | T.23.GPV.Pr/T.23.GPV | yes   |
+        |----------+----------+----------------------+-------|
 
 ** Percentage of non-permanent teachers
    This has three sets of symbols. One for the private sector, one
    for the public sector and one combined.
    + Python method ::  percentage_non_permanent_teachers
    + AC_CODES information Private :: 
-        |          | AC_CODE               | FORMULA                     | H & L |
-        |----------+-----------------------+-----------------------------+-------|
-        | ISCED 1  | TP.1.Pr.Fix^{n}       | T.1.Pr.Fix/T.1.Pr           | no    |
-        | ISCED 2  | TP.2.GPV.Pr.Fix^{n}   | T.2.GPV.Pr.Fix/T.2.GPV.Pr   | no    |
-        | ISCED 3  | TP.3.GPV.Pr.Fix^{n}   | T.3.GPV.Pr.Fix/T.3.GPV.Pr   | no    |
-        | ISCED 23 | TP.2t3.GPV.Pr.Fix^{n} | T.23.GPV.Pr.Fix/T.23.GPV.Pr | no    |
-        |----------+-----------------------+-----------------------------+-------|
+        |          | AC_CODE          | FORMULA                     | H & L |
+        |----------+------------------+-----------------------------+-------|
+        | ISCED 1  | FixTP.1.Pr       | T.1.Pr.Fix/T.1.Pr           | no    |
+        | ISCED 2  | FixTP.2.GPV.Pr   | T.2.GPV.Pr.Fix/T.2.GPV.Pr   | no    |
+        | ISCED 3  | FixTP.3.GPV.Pr   | T.3.GPV.Pr.Fix/T.3.GPV.Pr   | no    |
+        | ISCED 23 | FixTP.2t3.GPV.Pr | T.23.GPV.Pr.Fix/T.23.GPV.Pr | no    |
+        |----------+------------------+-----------------------------+-------|
 
    + AC_CODES information Public :: 
-        |          | AC_CODE               | FORMULA                     | H & L |
-        |----------+-----------------------+-----------------------------+-------|
-        | ISCED 1  | TP.1.Pu.Fix^{n}       | T.1.Pu.Fix/T.1.Pu           | no    |
-        | ISCED 2  | TP.2.GPV.Pu.Fix^{n}   | T.2.GPV.Pu.Fix/T.2.GPV.Pu   | no    |
-        | ISCED 3  | TP.3.GPV.Pu.Fix^{n}   | T.3.GPV.Pu.Fix/T.3.GPV.Pu   | no    |
-        | ISCED 23 | TP.2t3.GPV.Pu.Fix^{n} | T.23.GPV.Pu.Fix/T.23.GPV.Pu | no    |
-        |----------+-----------------------+-----------------------------+-------|
+        |          | AC_CODE          | FORMULA                     | H & L |
+        |----------+------------------+-----------------------------+-------|
+        | ISCED 1  | FixTP.1.Pu       | T.1.Pu.Fix/T.1.Pu           | no    |
+        | ISCED 2  | FixTP.2.GPV.Pu   | T.2.GPV.Pu.Fix/T.2.GPV.Pu   | no    |
+        | ISCED 3  | FixTP.3.GPV.Pu   | T.3.GPV.Pu.Fix/T.3.GPV.Pu   | no    |
+        | ISCED 23 | FixTP.2t3.GPV.Pu | T.23.GPV.Pu.Fix/T.23.GPV.Pu | no    |
+        |----------+------------------+-----------------------------+-------|
    + AC_CODES information Combined :: 
-        |          | AC_CODE               | FORMULA                                                     | H & L |
-        |----------+-----------------------+-------------------------------------------------------------+-------|
-        | ISCED 1  | TP.1.Pr.Fix^{n}       | (T.1.Pr.Fix+T.1.Pu.Fix)/(T.1.Pr+T.1.Pu)                     | no    |
-        | ISCED 2  | TP.2.GPV.Pr.Fix^{n}   | (T.2.GPV.Pr.Fix+T.2.GPV.Pu.Fix)/(T.2.GPV.Pr+T.2.GPV.Pu)     | no    |
-        | ISCED 3  | TP.3.GPV.Pr.Fix^{n}   | (T.3.GPV.Pu.Fix+T.3.GPV.Pr.Fix)/(T.3.GPV.Pr+T.3.GPV.Pu)     | no    |
-        | ISCED 23 | TP.2t3.GPV.Pr.Fix^{n} | (T.23.GPV.Pu.Fix+T.23.GPV.Pr.Fix)/(T.23.GPV.Pr+T.23.GPV.Pu) | no    |
-        |----------+-----------------------+-------------------------------------------------------------+-------|
+        |          | AC_CODE       | FORMULA                                                     | H & L |
+        |----------+---------------+-------------------------------------------------------------+-------|
+        | ISCED 1  | FixTP.1       | (T.1.Pr.Fix+T.1.Pu.Fix)/(T.1.Pr+T.1.Pu)                     | no    |
+        | ISCED 2  | FixTP.2.GPV   | (T.2.GPV.Pr.Fix+T.2.GPV.Pu.Fix)/(T.2.GPV.Pr+T.2.GPV.Pu)     | no    |
+        | ISCED 3  | FixTP.3.GPV   | (T.3.GPV.Pu.Fix+T.3.GPV.Pr.Fix)/(T.3.GPV.Pr+T.3.GPV.Pu)     | no    |
+        | ISCED 23 | FixTP.2t3.GPV | (T.23.GPV.Pu.Fix+T.23.GPV.Pr.Fix)/(T.23.GPV.Pr+T.23.GPV.Pu) | no    |
+        |----------+---------------+-------------------------------------------------------------+-------|
 	
+** Attrition rate
+   + Python method ::  percentage_non_permanent_teachers
+   + AC_CODES information Private :: 
+        |          | AC_CODE        | FORMULA                                                | H & L |
+        |----------+----------------+--------------------------------------------------------+-------|
+        | ISCED 1  | TAttrR.1       | 100*(T.1^{L} + NT.1 - T.1)/T.1^{L}                     | no    |
+        | ISCED 2  | TAttrR.2.GPV   | 100*(T.2.GPV^{L} + NT.2.GPV - T.2.GPV)/T.2.GPV^{L}     | no    |
+        | ISCED 3  | TAttrR.3.GPV   | 100*(T.3.GPV^{L} + NT.3.GPV - T.3.GPV)/T.3.GPV^{L}     | no    |
+        | ISCED 23 | TAttrR.2t3.GPV | 100*(T.23.GPV^{L} + NT.23.GPV - T.23.GPV)/T.23.GPV^{L} | no    |
+        |----------+----------------+--------------------------------------------------------+-------|
 
    
 #  LocalWords:  emco

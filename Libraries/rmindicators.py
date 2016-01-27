@@ -269,7 +269,7 @@ class indicators():
             self.country_code=country_code[0][0]
 
         
-    def column_operation(self,info1,info2,operation):
+    def column_operation(self,info1,info2=[],operation=lambda x,y: x ):
         """Perform column operations given ACs and year.
         
         This function returns a vector with an operation applied to
@@ -278,7 +278,10 @@ class indicators():
         alphanumeric code is going to be computed. operation is a
         function that receives two arguments. This is the operation
         that is going to be applied element by element to both colums.
-        The years should be zero or -1.
+        The years should be zero or -1. If info2 and operation are
+        omited, it returns the values of the columns corresponding to
+        [AC1,year1].
+
         """
         if(type(info1[0])!=list):
             AC1=info1[0]
@@ -292,8 +295,8 @@ class indicators():
             values1= list(map( lambda x: [x[0],none_emptytr(x[1])],values1 ))
         else:
             values1 = info1
-
-        if(type(info2[0])!=list):
+        ## We allow info2 to be the empty list in case we only want one column
+        if(info2 and type(info2[0])!=list):
             AC2=info2[0]
             year2=info2[1]
             emc_id2 = self.read_sql("SELECT EMC_ID FROM RM_Mapping WHERE AC='{0}' AND CUR_YEAR={1} LIMIT 1".format(AC2,year2))
@@ -306,8 +309,10 @@ class indicators():
             values2= list(map( lambda x: [x[0],none_emptytr(x[1])],values2 ))
         else:
             values2=info2
-                
-        column_operation_result=list(map(operation,values1,values2))
+        if values2:
+            column_operation_result=list(map(operation,values1,values2))
+        else:
+            column_operation_result=values1
         return column_operation_result
 
     
@@ -417,17 +422,21 @@ class indicators():
             indicator=keys[0]
             indicator=indicator.replace(".Pr",'')
             priv_and_pu_dict[indicator]=values
-        self.write_indic_sql(priv_and_pu_dict)                                    
-            # print("numerator:")
-            # print(numerator)
-            # print("denominator:")
-            # print(denominator)
-            # sql_tupple=()
-            # for i in range(len(values)):
-            #     sql_tupple = sql_tupple + ((indicator ,self.country_code,i,self.emco_year,1,values[i][0],1,values[i][1]),)
-            # cursor.executemany("INSERT OR REPLACE INTO EDU_INDICATOR_EST (IND_ID,CO_CODE,ADM_CODE,IND_YEAR,FRM_ID,FIG,QUAL,MAGN) VALUES (?,?,?,?,?,?,?,?)", sql_tupple  )
-#        self.conn.commit()
-#        cursor.close()
+        self.write_indic_sql(priv_and_pu_dict)
+        
+    def attrition_rate(self):
+        ind_dict={}
+        indicator_name_base="TAttrR"        
+        for indicator_suffix in [".1",".2.GPV",".3.GPV",".23.GPV"]:
+            number_of_teachers_previous_year=self.column_operation(["T" + indicator_suffix,-1])
+            newly_recruited_teachers=self.column_operation(["NT" + indicator_suffix,0 ])
+            number_of_teachers_current_year=self.column_operation(["T" + indicator_suffix,0])            
+            ind_dict[indicator_name_base + indicator_suffix]=list ( map ( lambda x,y,z: prod( div( neg( sum(x,y) , z) , x) ,[100,'value']),
+                                                                          number_of_teachers_previous_year,
+                                                                          newly_recruited_teachers,
+                                                                          number_of_teachers_current_year) )
+        self.write_indic_sql(ind_dict)
+
 
     ##################################################
     ### Mean functions
@@ -649,6 +658,7 @@ class indicators():
         self.teachers_percentage_female()
         self.percentage_trained_teachers()
         self.percentage_private_teachers()
+        self.attrition_rate()
         self.percentage_non_permanent_teachers()
         self.percentage_teachers_attainment()
         self.percentage_teachers_exp()
@@ -661,6 +671,7 @@ class indicators():
    
     def __init__ (self,database_file,emco_year,country_name, username):
         self.set_database_connection(database_file)
+        set_database_file(database_file)
         self.emco_year=emco_year
         self.country_name=country_name
         self.get_country_code()
