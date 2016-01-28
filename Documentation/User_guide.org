@@ -18,14 +18,14 @@
 #+NAME:   fig:RM_GUI
 [[./img/RM_GUI.png]]
 
-This document explains how to use the management system GUI of the Regional Module. There are four main frames in the GUI that could be seen in Figure [[fig:RM_GUI]].
+This document explains how to use the management system GUI of the Regional Module (RM). There are four main frames in the GUI that could be seen in Figure [[fig:RM_GUI]].
     * [[General information][General information]]: general session and user information as
-      the user-name and database location, log, ..etc. 
+      the user name and database location, main working directory, ..etc. 
     * [[Importing questionnaire to the database][Importing questionnaire to the database]]: tools to
       import or validate a single questionnaire.
-    * [[Exporting data to Excel][Exporting data to Excel]]: tools to export and visualize the
+    * [[Exporting data or indicators to Excel][Exporting data or indicators to Excel]]: tools to export and visualize the
       raw data or indicators that are already in the database.
-    * [[Status frame and Log subfolder][Status]]: a panel that outputs updates on the carried procedures, including any errors.
+    * *Status*: a panel that outputs updates on the carried procedures, including any errors. Shown in the bottom of the interface.
 
 #+begin_sidebar
 In this guide you will learn to:
@@ -35,45 +35,43 @@ In this guide you will learn to:
     + Calculate and view indicators.
     + And hopefully some Python and SQL too.
 #+end_sidebar
-Each frame has a specific subsection below that explains in details how to use the available tools.
+Each frame, excluding the Status panel, has a specific subsection below that explains in details how to use the available tools.
 
 * General information
 This frame holds information that are essential for all tools in other frames, and will be used all over this guide.
 
     * *User* prints the automatically retrieved user name from the
       windows login information. This user name is used to track user
-      changes to the data. 
+      changes to the data as will be later explained.
     * *Main working directory* is the path of the main folder where
-      all the other mentioned subfolders are located. Basically, it is
+      all the other mentioned sub-folders are located. Basically, it is
       the folder that contains all the software, from code to documentation.
-    * *Database* shows the path to the physical database(~.db~
-      file). In Figure [[fig:RM_GUI]] it is in the subfolder ~Database~ of
-      main folder as indicated by ~/Database/Prod.db~. For example if
+    * *Database* shows the path to the physical database (~.db~ file). In Figure [[fig:RM_GUI]], it is in the sub-folder ~Database~ of
+      the main folder as indicated by ~/Database/Prod.db~. For example if
       the main directory is ~/Desktop/RMS~ then the database file is
       at ~/Desktop/RMS/Database/Prod.db~.   
-    * *Log folder* holds error and processing logs every time a user
-      attempts to write, read or move data. It is also a subfolder of
-      the main directory. See Section [[Validation report]] for more details.
+    * *Log folder* holds validation and data reports every time a user
+      attempts validate, check only or insert the data. It is also a sub-folder of
+      the main directory. See Sections [[Validation report]]  and [[Data report]] for more details.
     * *Output folder* is the default folder where exported Excel
-      workbooks are saved if no other folder is specified. /Note thaty
-      you can sepcify a folder in the next frame: [[Importing questionnaire to the database][Importing questionnaire to the database]].
-    * *Import backup folder* holds backups of every imported Excel
-      workbook. A copy of the Excel workbook is saved with with time
+      workbooks are saved if no other folder is specified. /Note that you can specify another output folder, see note in [[Exporting data options][Exporting data options]]./
+    * *Import backup folder* holds backups of every inserted Excel
+      workbook. A copy of the Excel workbook is saved with time
       and date stamps attached to its name.
 
 #+begin_note
  * Data in the [[General information][General information frame]] are only editable from the scripts, not from the GUI.
- * Only the *Export* folder is editable through the export panel.
+ * Only the *Output folder* folder is editable through the export panel, see note in [[Exporting data options][Exporting data options]].
 #+end_note
 
 * Importing questionnaire to the database
-To Import a questionnaire you need to follow the follwing steps:
-    1. Clicking on the ~Browse..~ button that is adjacent to ~file~
+To Insert a questionnaire to the database, follow these steps:
+    1. Click on the ~Browse..~ button that is adjacent to ~file~
        label and select a file.
     2. Validate the file by clicking on ~Validate~ button, since there
-       are specific pre-precessing checks to make sure that it
+       are specific pre-processing checks to make sure that it
        conforms with the coding scheme. If the checks are passed, the
-       [[Status]] frame will indicate with a note on the lines of 
+       Status panel will indicate with a note on the lines of 
        #+begin_src
        Validation successful, see report in:
        Log/Lao People's Democratic Republic_16-01-22-11-33_validation.txt 
@@ -83,11 +81,11 @@ To Import a questionnaire you need to follow the follwing steps:
        Pre-processing validation failed. Some errors exist see log file in:
        Log/Lao People's Democratic Republic_16-01-22-11-35_validation.txt
        #+end_src
-       In both cases a log report is saved in the ~Log folder~, and
-       should automatically open if the box ~Open log file~ is ticked.
-    3. If valdation passed, insert the questionnaire by clicking on
-       ~Insert~. The file is inserted and a ~csv~ data report is
-       generated and saved in the ~Log fodler~, and also should
+       In both cases a validation report is saved in the ~Log folder~, and
+       should automatically open if the box ~Open validation report~ is ticked.
+    3. If validation passed, insert the questionnaire by clicking on
+       ~Insert~. The file is inserted to the database and a ~csv~ data report is
+       generated and saved in the ~Log folder~, and also should
        automatically open if the box named ~Open data report~ is
        ticked. A note on the lines of 
         #+begin_src
@@ -102,32 +100,32 @@ To Import a questionnaire you need to follow the follwing steps:
         Data report written to: 
         Log/Lao People's Democratic Republic_16-01-22-11-40_data_report.csv
         #+end_src
-       will appear in the [[Status]] frame.
+       will appear in the Status panel.
 
-The steps above are simplified, for more details about the
-pre-processing checks and data report please refer to [[Validation report]] section.
+The steps above are simplified. For more details about the
+pre-processing checks and data report please refer to Sections [[Validation report]] and [[Data report]].
 
 #+begin_note
-    * Note that only files with ~.xlsx~ extensions are imported.
-    * All imported files are copied to the ~Export~ subfolder with
+    * Note that only files with ~.xlsx~ extensions are inserted.
+    * A copy of any inserted file is saved to the ~Export~ sub-folder with
       time and data stamps attached to their names to indicate the
       time of importing.
-    * All log files and data reports are saved to the ~Log folder~,
-      while some information is shown in the [[Status]] frame.
+    * All validation files and data reports are saved to the ~Log folder~,
+      while some information is shown in the Status panel.
 #+end_note
 
-About the check boxes we have
+*About the checkboxes:*
     * *Import to REP* is a security checkbox that stops the user from
-      importing to the reported series (REP) by mistake. It is
+      inserting to the reported series (REP) by mistake. It is
       unticked by default, and works as follows, if the user attempts
-      to omport some data to the reported series, even if the file
+      to insert some data to the reported series, even if the file
       validates, the user is not allowed unless this checkbox is
-      ticked. Only under one exception is it allowed, if the imported
+      ticked. Only under one exception is it allowed, if the inserted   
       file is an original questionnaire, this become more clear in
-      [[Exporting options]].
-    * *Open log file* is a checkbox that is ticked by defualt to
-      automatically open the log report resulting from the validation
-      step. Feel free to untick it as all the log reports are saved in
+      [[Exporting data options][Exporting data options]].
+    * *Open validation report* is a checkbox that is ticked by default to
+      automatically open the validation report resulting from the validation
+      step. Feel free to untick it as all the validation reports are saved in
       the ~Log folder~.
     * *Open data report* is a checkbox that is ticked by default to
       automatically open the date report resulting after inserting a
@@ -136,12 +134,12 @@ About the check boxes we have
 
 Finally, the button *~Check only~* allows the user to produce a data
 report without validating nor inserting the data. The objective is to
-streamline the cleanig proccess before fianlly inserting the data. 
+streamline the cleaning process before finally inserting the data. 
 
 * Exporting data or indicators to Excel
 ** Choosing a country name, year and series
 The ~Country~ drop-down list will only show names of countries with
-data already in the database. This drop-down list has a live connection to the database, thus if one imports a questionnaire for a new country as shown in a [[Importing questionnaire to the database][previous section]], the country's name should appear in the drop-down list.
+data already in the database. This drop-down list has a live connection to the database, thus if one inserts a questionnaire for a new country, as shown in a [[Importing questionnaire to the database][Importing questionnaire to the database]], the country's name should appear in the drop-down list directly.
 
 Once a country name is selected, the ~Year~ drop-down list shows years
 with available questionnaire data for the selected country. 
@@ -154,10 +152,10 @@ The series drop-down list has three options:
     2. Observed (OBS): where the user is advised to modify and validate the
        data. 
     3. Estimated (EST): where the disseminated data set should be,
-       since the indicators are calculated from this series only.
+       *since the indicators are calculated from this series only*.
 
 ** Moving data between series
-An original questionnaire is always imported to the /Reported/ series, to move it the /Observed/ or /Estimated/ series, choose first the country and year, and then click on the buttons in the ~Move between databases~ frame.
+An original questionnaire is always inserted to the /Reported/ series, to move it the /Observed/ or /Estimated/ series, choose first the country and then year, and then click on the buttons in the ~Move between databases~ frame.
 
     * ~REP to OBS~ would move the data from /Reported/ to /Observed/ series.
     * ~OBS to EST~ would move the data from the /Observed/ to /Estimated/ series.
@@ -168,58 +166,53 @@ An original questionnaire is always imported to the /Reported/ series, to move i
 This section is important because is contains many necessary details to understand how the whole GUI works.
 #+end_important
 
-There are three ways to export the data, sheet only, table only and
-alphanumeric code only. Each way has its own drop-down list.
-    1. Sheet: a drop-down list of all exportable questionnaire sheet names. Once a sheet is selected click on the adjacent ~Export~ button to export it to a new Excel workbook. To export all available sheets select ~All~ from the drop-down list.
-    2. Table: a drop-down list with all tables of the questionnaire. By selecting one and clicking on the adjacent ~Export~ button a new Excel workbook is created that holds the selected table.
-    3. AC: a drop-down list with all alphanumeric codes (AC) that are in the questionnaire. By selecting one and clicking on the adjacent ~Export~ button a new Excel workbook is created that holds the data.
+There are three ways to export data, sheet only, table only and
+alphanumeric code (AC) only. Each way has its own drop-down list.
+    + Sheet :: A drop-down list of all exportable questionnaire sheet names. Once a sheet is selected click on the adjacent ~Export~ button to export it to a new Excel workbook. To export all available sheets select ~All~ from the drop-down list.
+    + Table :: A drop-down list with all tables of the questionnaire. By selecting one and clicking on the adjacent ~Export~ button a new Excel workbook is created that holds the selected table.
+    + AC :: A drop-down list with all alphanumeric codes (AC) that are in the questionnaire. By selecting one and clicking on the adjacent ~Export~ button a new Excel workbook is created that holds the data.
 
 #+begin_note
-The exported workbooks are by default saved to ~Export~ subfolder of
-the main directory, with the naming convention ~County Name-Year-Exported Variable-Series.xlsx~. Users
-can change where to save exported files by selecting a folder in the option
-~Select output folder~ as seen in the ~Exporting data to Excel~ frame
-in Figure [[fig:RM_GUI]]. If the users select another output folder than
-~Export~, only exported questionnaire data is palced there. Validation
-logs and data reports will still be saved to the log subfolder ~Log~.
+    + The exported workbooks are by default saved to ~Export~ sub-folder of the main directory, with the naming convention ~County Name-Year-Exported Variable-Series.xlsx~. 
+    + Users can change where to save exported files by selecting a folder in the option ~Select output folder~ as seen in the ~Exporting data to Excel~ frame in Figure [[fig:RM_GUI]]. If the user selects another output folder than ~Export~, only exported questionnaire data is placed there. Validation and data reports will still be saved to the log sub-folder ~Log~.
 #+end_note  
 
-Also there are two viewing modes, an ~Edit~ and a ~Read only~ mode. 
+** Viewing modes
+When any data is exported, they are exported based on two viewing modes, an ~Edit~ and a ~Read only~ mode. 
     1) ~Edit~ mode: allows users to edit the data, comments and
-       inclusions in the Excel sheet and re-insert them to the
+       inclusions in the Excel sheet and reinsert them to the
        database as shown in [[Importing questionnaire to the database][Importing questionnaire to the database]]
        section. This works by preserving the table locations exactly
        where they are in the original questionnaire. Users will notice
        that created Excel workbooks look very similar to the original
        questionnaire. *DO NOT* move tables from their original
-       location, change the sheet name, or delete any of the data in
-       the configuration panel; in the top left corner as seen in
+       locations, change the sheet names, or delete any of the data in
+       the *configuration panel*; in the top left corner as seen in
        Figure [[fig:exportConfig]]. You are only allowed to modify cell
        figures, comments and inclusions. The configuration panel is
-       necessary to re-insert the data.
+       necessary to reinsert the data, without it the validation would fail and missing around with it might harm the functionality of the software.
     2) ~Read only~ mode: facilitates the viewing of the data by
        shifting tables to the left part of the Excel worksheet to
-       avoid unnecessary scrolling. However, the mode will not allow
-       users to re-insert the data back in the database, since the
+       avoid unnecessary scrolling. However, the mode will *not allow users to reinsert the data* back in the database, since the
        tables or alphanumeric codes are not in the exact location as
        they are in the original questionnaire. If users attempt to
-       import a ~Read only~ mode file, the validation stop will fail,
+       import a ~Read only~ mode file, the validation step will fail,
        hence not allowed to import.
 
 #+CAPTION: Screen shot of the top left corner of an exported Excel sheet which shows the configuration panel.
 #+NAME:   fig:exportConfig
 [[./img/exportConfig.png]]
 
-#+begin_note
+#+begin_important
     *  The viewing mode is chosen by the software. It is set to ~Edit~
        mode if a sheet or the whole questionnaire is exported,
        otherwise it is set to ~Read only~ mode. Users can know the
        mode by looking at the configuration panel in any Excel sheet
        as seen in Figure [[fig:exportConfig]].
     *  Users are only allowed to select from the drop-down list, or
-       type manually the name. If the users types anything else, the
+       type manually the names of sheets, tables or ACs. If the users types anything else, the
        software will reject it. 
-#+end_note
+#+end_important
 
 ** Exporting and calculating indicators
 
@@ -229,23 +222,23 @@ sub-frame will calculate all indicators from the data in the
 /Estimated/ series. Therefore, users must make sure that data exist in
 the /Estimated/ series. Once all indicators are calculated, users can
 extract them using one of the following methods
-    1. *Direct Extraction*: by selecting from the drop-down list or
-       typing the indicator and click on the adjacent ~Extract~
+    + Direct Extraction :: By selecting from the drop-down list or
+       typing the indicator name (IND_ID) and clicking on the adjacent ~Extract~
        button. To extract all indicators select or type ~All~.
-    2. *Wildcard*: since the huge list of indicators, users can
+    + Wildcard :: Since the huge list of indicators, users can
        extract groups of indicators using name patterns, where ~%~
        substitutes for zero or more characters and ~_~ substitutes for
        a single character. For example,
-       * to extract all indicators for teachers of ISCED 1 in the
-         public sector you can type ~%T.1.Pu%~, since all requested
-         indicators have the pattern ~T.1.Pu~ in thier name.
-       * to extract all the percentage of teachers with ISCED 2 or
-         less qualification in all ISCED levels, type ~EA2m%~, since
-         all of the start with the pattern ~EA2m~. If the interes is
-         in the public sector only, type ~EA2m%.Pu~.
-       * to extract the percentage of female teachers in ISCED levels 1, 2, and 3,
-         but not 2 and 3, type ~FT._~, since all have the pattern
-         ~FT.~ in their name. 
+      * to extract all indicators for teachers of ISCED 1 in the
+        public sector you can type ~%T.1.Pu%~, since all requested
+        indicators have the pattern ~T.1.Pu~ in their name.
+      * to extract all the percentage of teachers with ISCED 2 or
+        less qualification in all ISCED levels, type ~EA2m%~, since
+        all of them start with the pattern ~EA2m~. If the interest is
+        in the public sector only, type ~EA2m%.Pu~.
+      * to extract the percentage of female teachers in ISCED levels 1, 2, and 3,
+        but not 2 and 3, type ~FT._~, since all have the pattern
+        ~FT.~ in their name and =_= substitutes for a single character.
 Note that wildcards are only applicable to indicator extraction, not
 raw data.
 
@@ -255,19 +248,17 @@ raw data.
       for the selected country and year, for all administrative
       divisions. Thus even if you select a single indicator to
       extract, the result is a table of one column and a number of
-      rows corresponding to the number of adimistrative division plus
+      rows corresponding to the number of administrative division plus
       the national level. 
-    * Some indicator, for example the max and min of an indicator, is
-      only calculated for the national level, nonehtless, the
+    * Some indicators, for example the max and min of an indicator, is
+      only calculated for the national level, nonetheless, the
       extraction would result in a table of 1 column and all the
-      adimistrative division cells are empty, while the national level
-      hold the indicator number.
+      administrative division cells are empty, while the national level
+      holds the indicator figure.
     * If indicators are incalculable because of missing data or
-      inclusions, it should be shown in place if the figure the
-      resulting magnitude code. If the cell is empty, either the
-      indicator is a national level indicator or the /Estimated/
-      series is empty.
-    * Indicators are always sorted alphebatically.
+      inclusions, the figure will be replaces by resulting magnitude code in the respective cell. *If the cell is empty, either the
+      indicator is a national level indicator or the /Estimated/ series is empty.*
+    * Indicators are always sorted alphabetically.
     * Exported indicator file follow the naming convention ~County Name-Year-Indic-indicator name.xlsx~, when the use of wildcards, =%= is replaced with =xx=.
 #+end_note  
 
@@ -286,10 +277,10 @@ For the current version of the software, these are the list of calculated indica
     * Percentage of teachers by age
     * Dissimilarity
 
-For more detials about the computational methods refer to <<refInd>>.
+For more details about the computational methods refer to <<refInd>>.
 
 * Validation report
-A validation or log report is created and saved in the ~Log~ subfolder
+A validation or log report is created and saved in the ~Log~ sub-folder
 every time the user attempts to import a questionnaire by clicking on
 the ~Validate~ button. It includes all confirmations and errors and
 have the naming convention as ~RM-Country
@@ -300,7 +291,7 @@ the selected file. Only if all the validation checks pass the
 questionnaire is then allowed to be inserted.
 
 The validation check the below conditions, all failed
-conditions are saved and also printed to the [[Status frame and Log subfolder][Status]] frame:
+conditions are saved and also printed to the Status panel:
     1) If the insert is in the original questionnaire format
        * ADM label, i.e., Province, district etc, is filled.
        * number of ADM is a positive integer.
@@ -310,13 +301,13 @@ conditions are saved and also printed to the [[Status frame and Log subfolder][S
        * reference year is filled and an integer, from cell ~M14~ in
          Policy information sheet.
        * Any "No" in the "checking sheet" is copied to the validation report.
-    2) If the insert is *not* in the original questionnaire format, ~Edit mode~
+    2) If the insert is *not* in the original questionnaire format, ~Edit~ mode
        * worksheet must be in ~Edit~ mode.
        * configuration panel is properly filled.
          * no missing information.
          * labels of configuration are in the proper order of ~[Country, CO_CODE, Year, Data, No.ADM, Series,Mode]~.
          * mode defined as "Edit".
-         * year is an interger bigger than zero.
+         * year is an integer bigger than zero.
          * series is one of the following ~[OBS,REP,EST]~.
          * country code is taken from the database using the provided country name.
          * number of ADM is a positive integer. Note this variable is taken from the configuration panel, thus DO NOT change it.
@@ -332,11 +323,11 @@ conditions are saved and also printed to the [[Status frame and Log subfolder][S
   clicking on the ~Check only~ button. 
 
   The data report check the following and lists any issues: 
-  1) If the isertion is in the original questionnaire format
+  1) If the insertion is in the original questionnaire format
      * if ADM names exists in database they must equal to the one in
       the questionnaire, otherwise prints an error. This mean you
       can only change ADM names after they have been created by
-      accessing the database directly, and if you try to re-insert the original questionnaire with reordered of changed region names, it will fail.
+      accessing the database directly, and if you try to reinsert the original questionnaire with reordered of changed region names, it will fail.
   2) General
      * all columns must sum to the national level total
      * all sub-category must sum to the total. For example, public
@@ -346,7 +337,7 @@ conditions are saved and also printed to the [[Status frame and Log subfolder][S
        totals. For example, female data must be less than or equal
        to total of male and female.
 
-Note, for all the cells that have missing data (m), inclusion (x), or inapplicable (z), the inequality or summs tests are ignored.
+Note, for all the cells that have missing data (m), inclusion (x), or inapplicable (z), the inequality or sums tests are ignored.
      
 * Audit trail
 To keep track of changes to individual data and indicators, including figures, qualifiers, inclusion codes, and magnitudes, we have implemented an audit functionality in the back-end (SQL), that records any changes to the data. This doesn't include data comments or table comments. We call this functionality *Audit trail*. Note that Audit trail tables are not accessible from the software interface (GUI), rather they function in the back-end and only accessible by directly accessing the SQL database. 
@@ -434,7 +425,7 @@ CREATE TABLE INDICATOR_AUDIT_TRAIL(
     PRIMARY KEY (Audit_ID ASC));
 #+end_src  
 
-To read from the table, using ~sqlite3~ connet to ~Prod.db~ file or any other database file you are using and follow standard SQL extraction syntax as
+To read from the table, using ~sqlite3~ connect to ~Prod.db~ file or any other database file you are using and follow standard SQL extraction syntax as
 #+begin_src sql
 SELECT * from INDICATOR_AUDIT_TRAIL LIMIT 5;
 #+end_src
@@ -450,7 +441,7 @@ for all the changes that happened to =FTP.1=, percentage of female teachers in I
 To give an example consider importing a made-up questionnaire say for Laos for year 2015 that
 is saved in a file ~Desktop/Example/LAOS-2015-Regional_Survey.xlsx~, as seen in
 Figure [[fig:laosDesktop]]. First start the ~RM_GUI.py~ select the file
-and click the adjacent ~Validate~, the [[Status]] frame now shows:
+and click the adjacent ~Validate~, the Status panel frame now shows:
  
 #+CAPTION: Laos original questionnaire submission.
 #+NAME:   fig:laosDesktop
@@ -483,8 +474,8 @@ Validation successful, see report in:
 Log/Lao People's Democratic Republic_16-01-22-13-32_validation.txt
 #+end_src
 
-and since the checkbox ~Open log file~ is ticked a valedation report
-should open. To insert now click on ~Insert~, and the [[Status frame and Log subfolder][Status]] frame should show:
+and since the checkbox ~Open validation report~ is ticked a validation report
+should open. To insert now click on ~Insert~, and the Status panel should show:
 
 #+begin_src
 INSERTION STEP
@@ -517,7 +508,7 @@ files:
 After a successful original import, one can move the data from
 /Reported/ to /Observed/ series. Notice that Laos now appears in the ~Country~ drop-down
 list. Select ~Laos~ and the corresponding year, then
-click on ~REP to OBS~ button. The [[Status frame and Log subfolder][Status]] frame should show 
+click on ~REP to OBS~ button. The Status panel should show 
 
 #+begin_src
 Moving data for 4180-2015
@@ -531,7 +522,7 @@ Now, let's export ~Teachers ISCED 2~ for cleaning. Select the country,
 year and series from the drop-down lists and from the ~Sheet~
 drop-down list select ~Teachers ISCED 2~ and before clicking on the
 adjacent ~Export~ button, select the ~output folder~ to be your
-~Desktop~. The [[Status frame and Log subfolder][Status]] frame will have the confirmation seen in box
+~Desktop~. The Status panel will have the confirmation seen in box
 [[src:export_clean]], and the Excel workbook should look like [[fig:excel_clean][this]]. Notice
 the configurations panel in the top left corner, where the mode is ~Edit~ and the series is ~OBS~. 
 
@@ -547,7 +538,7 @@ Done.
 #+NAME:   fig:export_clean
 [[./img/export_clean.png]]
 
-** Cleaning and re-inserting
+** Cleaning and reinserting
 As mentioned before as long as the configuration panel is left
 untouched and all tables are not moved, one can go ahead and change
 the data, inclusion codes and insert cell and table comments. For
@@ -565,7 +556,7 @@ cell H11, saying that some data is not trusted. See Figure [[fig:laos_mod]] and 
 
 *To validate and insert* follow similar step as in Section [[Importing questionnaire
  to the database]]. Start the ~RM_GUI~ select the modified file,
- validate and insert it. If successful the [[Status frame and Log subfolder][Status]] frame should show
+ validate and insert it. If successful the Status panel should show
 
 #+begin_src
 ----------Date: January 22, 2016----------
@@ -627,13 +618,13 @@ able to see the changes and comments made earlier.
 ** Calculating indicators
 
 
-To calculate indicators, first select the country name and year, then select the estimated series. If the data is not yet in the ~EST~ series, please move it by clicking on the button ~OBS to EST~, maybe also ~REP to OBS~ if you haven't moved it yet to ~OBS~ series. Then click on the button ~Calculate~.  In around 30 seconds to a minutes, the Status frame should indicated that the process is successfull.
+To calculate indicators, first select the country name and year, then select the estimated series. If the data is not yet in the ~EST~ series, please move it by clicking on the button ~OBS to EST~, maybe also ~REP to OBS~ if you haven't moved it yet to ~OBS~ series. Then click on the button ~Calculate~.  In around 30 seconds to a minutes, the Status panel should indicated that the process is successful.
 
 #+begin_src
 Successful..all indicators are calculated.
 #+end_src
 
-Now using the wildcards lets extract the percentage of teachers with attainment of ISCED 5 and higher for all public institutions, that is we type ~EA5pPT.%Pu~ and click on ~Extract~. The file is now saved under the name ~Lao People's Democratic Republic_2015_INDIC_EA5pPT.xxPu.xlsx~ in the ~Export~ folder if no other folder is specified. This is indicated in the Status as seen below. 
+Now using the wildcards lets extract the percentage of teachers with attainment of ISCED 5 and higher for all public institutions, that is we type ~EA5pPT.%Pu~ and click on ~Extract~. The file is now saved under the name ~Lao People's Democratic Republic_2015_INDIC_EA5pPT.xxPu.xlsx~ in the ~Export~ folder if no other folder is specified. This is indicated in the Status panel as seen below. 
 
 #+begin_src
 Extracting EA5pPT.%Pu for Lao People's Democratic Republic-2015....
@@ -648,8 +639,9 @@ The file should also automatically open up and in this example, looks like this.
 
 
 * TODO 
-  + [ ] Add the indicators detials and link it here [[refInd]]
+  + [ ] Add the indicators details and link it here [[refInd]]
   + [X] complete Data report section, mainly what happens for less
     than check and region total when data has m ,n ,a,z, or x.
+  + [ ] Replace the GUI screenshoot, Figure 1.
 
 
