@@ -268,6 +268,7 @@ raw data.
       indicator is a national level indicator or the /Estimated/
       series is empty.
     * Indicators are always sorted alphebatically.
+    * Exported indicator file follow the naming convention ~County Name-Year-Indic-indicator name.xlsx~, when the use of wildcards, =%= is replaced with =xx=.
 #+end_note  
 
 For a complete list of indicator refer to <<refInd>>

@@ -6,7 +6,8 @@ import xlsxwriter
 
     
 def getTable(var, co_code, year, var_type,serie):
-    """ A function that returns AC or Table data and labels for a specific CO_CODE and year.
+    """ SQL extraction of an AC or a RM table, with labels and ADM names.
+
         var : is either  
                 "AC = 'somAC'" ( i.e. "AC =' T.1'") 
                 "RM_TABLE = 'someTableName' 
@@ -60,7 +61,8 @@ def getTable(var, co_code, year, var_type,serie):
     return(data)
 
 def getCell_comment(var, co_code, year,serie):
-    """ Returns the cell comments of a specific variable (var) if exist.
+    """ SQL extraction of cell comments of a specific AC, or a RM table.
+
         var : is either  
                 "AC = 'somAC'" ( i.e. "AC =' T.1'") 
                 "RM_TABLE = 'someTableName' 
@@ -84,7 +86,8 @@ def getCell_comment(var, co_code, year,serie):
                 
 
 def getTable_comment(var, co_code, year, view_type,serie):
-    """ A function that returns table comments for a specific table.
+    """ SQL extract RM table comments for a specific table.
+        
         var : is either  
                 "AC = 'somAC'" ( i.e. "AC =' T.1'") 
                 "RM_TABLE = 'someTableName' 
@@ -104,7 +107,8 @@ def getTable_comment(var, co_code, year, view_type,serie):
         return(data)
 
 def getIndic(co_code, year, ind):
-    """ A function that returns indicator data and labels for a specific CO_CODE and year.
+    """ SQL extract indicators and their labels for a specific CO_CODE and year.
+
         ind is either:
                 'All' for all indicators 
                 indicator name as 'NTP.1'
@@ -139,7 +143,8 @@ def getIndic(co_code, year, ind):
     return(data)
 
 def export_var(var, wb, co_code, year, var_type, serie= 'REP'):
-    """ A function that exports to an Excel workbook a data defined in var.
+    """  Exports to a xlsx file the whole RM questionniare, a sheet, a table or an AC.
+
         var in  {Table name, Sheet name, AC} as in the questionnaire
         var_type in {'AC', 'table', 'sheet'}
         wb is the workbook object from xlsxwriter.
@@ -188,7 +193,8 @@ def export_var(var, wb, co_code, year, var_type, serie= 'REP'):
 
             
 def export_indc(ind, wb, co_code, year, serie = 'EST'):
-    """ A function that exports to an Excel workbook a indicator data defined in ind,
+    """ Exports to an xlsx file a list of indicator(s).
+        
         ind is either 'All' for all indicators  or and indicator AC as 'NTP.1'
         wb is the workbook object from xlsxwriter.
         serie is always set to EST since there is only EDU_INDICATOR_EST table.
@@ -217,7 +223,8 @@ def export_indc(ind, wb, co_code, year, serie = 'EST'):
 
   
 def write_data(worksheet, data, view_type = 'ReadOnly', **op):
-    """ A function that writes data and labels to a given worksheet.
+    """ Writes to xlsx worksheet the given data in specific formats.
+        
         There are two ways to write the data. 
         1) data is a list of tuples of the format (ADM_CODE, datum, Table Col no., EXL_REF)
                 For example (00, 'National level', 2, H18) which is 

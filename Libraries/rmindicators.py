@@ -590,7 +590,7 @@ class indicators():
                 value = self.column_operation(benchSum,value1,lambda x,y:[x,y])
         else:
             value = self.column_operation(benchSum,[AC,AC_year],lambda x,y:[x,y])
-            IndicName = 'Dis' + AC
+            IndicName = 'DInd' + AC
         national = value[0]
         value = value[1:]
         disInd = list(map(lambda x: neg(div(x[0],national[0]),div(x[1],national[1])),value))
@@ -607,10 +607,11 @@ class indicators():
                {'T.1.EA.3p':['T.1.EA.3','T.1.EA.4','T.1.EA.5','T.1.EA.6','T.1.EA.7','T.1.EA.8' ]},
                {'T.1.Exp2m':['NT.1','T.1.Exp1t2']},
                {'T.1.Exp10p':['T.1.Exp11t15', 'T.1.Exp15p']},
-               'T.1.Pr', {'T.1.Fix' : ['T.1.Pr.Fix', 'T.1.Pu.Fix']},
-               'T.1.Pr.Fix', 'T.1.Pu.Fix']
-        list(map(lambda x: self.dissimilarity_index_single(x, benchAC = 'E.1'), tb1))
+               'T.1.Pr', {'T.1.Fix' : ['T.1.Pr.Fix', 'T.1.Pu.Fix']}]
 
+        list(map(lambda x: self.dissimilarity_index_single(x, benchAC = 'E.1'), tb1))
+        self.dissimilarity_index_single('T.1.Pr.Fix', benchAC = 'E.1.Pr')
+        self.dissimilarity_index_single('T.1.Pu.Fix', benchAC = 'E.1.Pu')
         tb2 = ['T.2.GPV', 'T.2.GPV.F',
                {'T.2.GPV.Ag50p':['T.2.GPV.Ag50t59', 'T.2.GPV.Ag60p']},'NT.2.GPV',
                'T.2.GPV.trained', 'NT.2.GPV.trained',
@@ -618,10 +619,11 @@ class indicators():
                {'T.2.GPV.EA.4p':['T.2.GPV.EA.4','T.2.GPV.EA.5','T.2.GPV.EA.6','T.2.GPV.EA.7','T.2.GPV.EA.8' ]},
                {'T.2.GPV.Exp2m':['NT.2.GPV','T.2.GPV.Exp1t2']},
                {'T.2.GPV.Exp10p':['T.2.GPV.Exp11t15', 'T.2.GPV.Exp15p']},
-               'T.2.GPV.Pr',{'T.2.GPV.Fix':['T.2.GPV.Pr.Fix', 'T.2.GPV.Pu.Fix']},
-               'T.2.GPV.Pr.Fix', 'T.2.GPV.Pu.Fix']
+               'T.2.GPV.Pr',{'T.2.GPV.Fix':['T.2.GPV.Pr.Fix', 'T.2.GPV.Pu.Fix']}]
+
         list(map(lambda x: self.dissimilarity_index_single(x, benchAC = 'E.2.GPV'), tb2))
-               
+        self.dissimilarity_index_single('T.2.GPV.Pr.Fix', benchAC = 'E.2.GPV.Pr')
+        self.dissimilarity_index_single('T.2.GPV.Pu.Fix', benchAC = 'E.2.GPV.Pu')
         tb3 = ['T.3.GPV', 'T.3.GPV.F',
               {'T.3.GPV.Ag50p':['T.3.GPV.Ag50t59', 'T.3.GPV.Ag60p']},'NT.3.GPV',
                'T.3.GPV.trained', 'NT.3.GPV.trained',
@@ -629,11 +631,12 @@ class indicators():
                {'T.3.GPV.EA.5p':['T.3.GPV.EA.5','T.3.GPV.EA.6','T.3.GPV.EA.7','T.3.GPV.EA.8' ]},
                {'T.3.GPV.Exp2m':['NT.3.GPV','T.3.GPV.Exp1t2']},
                {'T.3.GPV.Exp10p':['T.3.GPV.Exp11t15', 'T.3.GPV.Exp15p']},
-               'T.3.GPV.Pr',{'T.3.GPV.Fix':['T.3.GPV.Pr.Fix', 'T.3.GPV.Pu.Fix']},
-               'T.3.GPV.Pr.Fix', 'T.3.GPV.Pu.Fix']
+               'T.3.GPV.Pr',{'T.3.GPV.Fix':['T.3.GPV.Pr.Fix', 'T.3.GPV.Pu.Fix']}]
 
         list(map(lambda x: self.dissimilarity_index_single(x, benchAC = 'E.3.GPV'), tb3))
-
+        self.dissimilarity_index_single('T.3.GPV.Pr.Fix', benchAC = 'E.3.GPV.Pr')
+        self.dissimilarity_index_single('T.3.GPV.Pu.Fix', benchAC = 'E.3.GPV.Pu')
+        
         tb23 = ['T.23.GPV', 'T.23.GPV.F',
                 {'T.23.GPV.Ag50p':['T.23.GPV.Ag50t59', 'T.23.GPV.Ag60p']},
                 'NT.23.GPV','T.23.GPV.Math', 'T.23.GPV.Read',
@@ -645,6 +648,8 @@ class indicators():
                 'T.23.GPV.Pr',{'T.23.GPV.Fix':['T.23.GPV.Pr.Fix', 'T.23.GPV.Pu.Fix']},
                 'T.23.GPV.Pr.Fix', 'T.23.GPV.Pu.Fix']
         list(map(lambda x: self.dissimilarity_index_single(x, benchAC = ['E.3.GPV','E.3.GPV']), tb3))
+        self.dissimilarity_index_single('T.23.GPV.Pr.Fix', benchAC = ['E.2.GPV.Pr','E.3.GPV.Pr'])
+        self.dissimilarity_index_single('T.23.GPV.Pu.Fix', benchAC = ['E.2.GPV.Pu','E.3.GPV.Pu'])
         
 
     def audit_trail(self,temp_table = True):

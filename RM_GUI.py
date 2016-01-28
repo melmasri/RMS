@@ -1,18 +1,17 @@
+### Load Questionnaire modules and libraries
 import sys, getpass, os
 sys.path.append('Libraries')
 from rmquestionnaire import *
 
-# excel_file = "../../../../Dropbox/Regional module Survey/tests/Regional_Questionnaire_Asia_Final_v7_locked_LAOS.xlsx"
-# database="../../Database/Prod.db"
-# log_folder = "../../Log"
-# set_database_file(database)
+### Load specific libraries for this module
 import tkinter as tk
 from tkinter import ttk,StringVar, filedialog, scrolledtext, messagebox
 import re
+
 #################################################
-# Useful functions
+## Useful general functions
 def open_file_local(f):
-    """ Opens a file with the proper default program"""
+    """ Opens a file with the proper default program, for Windows and Linux."""
     if sys.platform == 'linux':
         os.system("xdg-open \"{0}\" &".format(f))
     elif re.search("win", sys.platform):
@@ -32,17 +31,34 @@ class StdoutRedirector(object):
     def flush(self):
         pass
 
-
+#################################################
+## RM Class of the GUI
 class RM():
-    """ A class the generated the regional module GUI."""
+    """ Defines the RM module GUI using tkinter class.
+    
+    Attributes:
+
+    Arguments
+        master := an object of tk.TK().
+        database := location of the database file, here it is set to 'Database/Prod.db'.
+        log_folder := A folder where validation and data reports are saved, by default it is '/Log'.
+    output_folder := A folder where all excel data or indicator extraction are saved, default is '/Export'.
+
+    Initiated
+        backup_folder :=A folder where all questionnaire imports are saved, default is '/Import'.
+        main_dir := location of the current directory in the system.
+        username := the system user name of the user, works on windows and linux.
+    """
     series = {'Reported':'REP', 'Observed': 'OBS', 'Estimated':'EST'}
+
     def __init__(self, master, database, log_folder='Log', output_folder_default='Export'):
-        """ Main initialization"""
+        """ Main initialization of the GUI"""
         self.master = master
         self.database = database
+        self.backup_folder = 'Import'
         if not os.path.exists(log_folder): os.makedirs(log_folder)
         if not os.path.exists(output_folder_default): os.makedirs(output_folder_default)
-        self.backup_folder = 'Import'
+        if not os.path.exists(self.backup_folder): os.makedirs(self.backup_folder)
         self.log_folder = log_folder
         self.main_dir = os.getcwd()
         self.output_folder_default = output_folder_default
@@ -224,10 +240,11 @@ class RM():
         self.lf_migrate.rowconfigure(0, pad=3)
 
     def messages(self):
+        """ Writes initialization massages to Status frame."""
         print('Main working directory is {0}.'.format(self.main_dir))
         print('Connection with database at {1} is established for User {0}.'.format(RM.username, self.database))
-        print('All work logs by default are save to subfolder {0}.'.format(self.log_folder))
-        print('Import backups are stored in subfolder {0}, default output subfolder is {1}.'.format(self.backup_folder, self.output_folder_default))
+        print('All work logs by default are save to sub-folder {0}.'.format(self.log_folder))
+        print('Import backups are stored in sub-folder {0}, default output sub-folder is {1}.'.format(self.backup_folder, self.output_folder_default))
         print('-----------------------------------')
 
     def export_indic(self):
@@ -339,6 +356,7 @@ class RM():
 
 
     def check_file(self):
+        """ Creates a data report without validation or inserting to SQL."""
         file1 = self.entry_one.get()
         if not file1:
             print('No file is selected.')
@@ -356,7 +374,7 @@ class RM():
 
         
     def imp_file(self):
-        """ Imports an excel questionnaire or sheets to the SQL database"""
+        """ Inserts an excel questionnaire or sheets to the SQL database"""
         if self.valid_quest == '':
             print('Please select a file and validate it.')
             return
@@ -406,6 +424,7 @@ class RM():
             print('No country is selected.')
 
     def getSheetTableAC(self,m):
+        """Updates the drop-list of sheet, table and AC from SQL. """
         if m =='sheet':
             l = "SELECT DISTINCT Tab FROM RM_Mapping"
             self.cbox_sheet['values'] =  ['All'] + list(chain.from_iterable(sql_query(l)))
@@ -417,7 +436,7 @@ class RM():
             self.cbox_AC['values'] =  list(chain.from_iterable(sql_query(l)))
 
     def migrate_serie(self, from_serie, to_serie):
-        """ A function that migrates data between series Reported(REP), Clean(OBS), Estimated(EST)"""
+        """ Migrates data between series Reported(REP), Clean(OBS), Estimated(EST)"""
         co_name = str(self.cbox_co.get())
         year = self.cbox_year.get()
         if co_name and year:
@@ -457,6 +476,7 @@ class RM():
             print('Error: missing country name, year or series.')       
 
 def main():
+    """ Running the GUI from the class RM."""
     database="Database/Prod.db"
     set_database_file(database)
     root = tk.Tk()

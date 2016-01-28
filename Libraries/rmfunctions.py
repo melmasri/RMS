@@ -37,19 +37,20 @@ with open("Libraries/variables_for_preprocessing.json") as f:
 #-----------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------
 def getADM_CODE(co_code):
-    """ A function that returns the ADM codes for a specific country"""
+    """ SQL extract of ADM codes."""
     sql_str = 'Select ADM_CODE from REGIONS where CO_CODE ={0}'.format(co_code)
     sql_str = sql_query(sql_str)[0]
 
 
 def getADM_DISTINCT(co_code):
-    """ A function that return the distinct number of ADM"""
+    """ SQL extract distinct number of ADM(s)."""
     sql_str = 'SELECT COUNT(ADM_CODE) FROM REGIONS WHERE CO_CODE={0}'.format(co_code)
     query = sql_query(sql_str)[0]
     return(query[0])
     
 def getCO_CODE(country_name):
-    """This function returns a country code given the long or short name.
+    """ SQL extract a country code given the long or short name.
+
     If the exact country name is found, it gives back the code,
     otherwise it returns None.
     """
@@ -62,7 +63,8 @@ def getCO_CODE(country_name):
         return(code[0][0])
    
 def getCO_NAME(co_code, short=True):
-    """This function returns a country name given the country code
+    """ SQL extract a country name given the country code.
+
     If the  country name is found it returns it, otherwise it returns None.
     """
     if short:
@@ -76,7 +78,7 @@ def getCO_NAME(co_code, short=True):
         return(code[0][0])
 
 def getAvailable_countries():
-    """ Returns a tuple of the available countries"""
+    """ SQL extract the tuple of the available countries."""
     sql_str = ("SELECT DISTINCT b.CO_SHORT_NAME FROM REGIONS as a "
                "left join COUNTRY as b on a.CO_CODE = b.CO_CODE "
                "where a.ADM_CODE >0")
@@ -85,7 +87,7 @@ def getAvailable_countries():
         return(res)
 
 def getAvailable_year(co_name):
-    """ Returns the data year of the submitted questionnaires"""
+    """ SQL extract data year(s) of the submitted questionnaires."""
     name = co_name.upper().replace("'", "''")
 
     sql_str = ("SELECT DISTINCT A.EMCO_YEAR FROM EDU_METER97_REP AS A "
@@ -99,7 +101,8 @@ def getAvailable_year(co_name):
 #-----------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------
 def moveSerie(co_code, year, from_serie, to_serie):
-    """A function that moves data between series. From REP to OBS for example. 
+    """ SQL moving of data between series, from/to REP, OBS or EST.
+ 
        So far, it modifies the following 3 SQL table:
         1 - EDU_METER97_{}
         2 - EDU_INCLUSION{}
@@ -248,22 +251,6 @@ def mg_id(cell_value):
         elif (not (match_missing == None)):
             return("D")
             
-        
-    
-    # if type(cell_value) in [int,float]:
-    #     return("")
-    # elif is_reference(cell_value):
-    #     return(3)
-    # elif cell_value in ["Z","z","A","a"]:
-    #     return(6)
-    # elif cell_value in ["M","m"]:
-    #     return("D")
-    # else:
-    #     return("\"\"")
-
-    
-
-
 ## Error class for a country name that is not found in the database
 class CountryNameError(Exception):
     pass
@@ -294,11 +281,11 @@ class questionnaire:
         self.wb=open_workbook(excel_file)
 
     def set_database_connection(self,database_file):
-        """Sets the connection to the database"""
+        """Sets the connection to the database."""
         self.conn=sqlite3.connect(database_file)
 
     def get_emco_year(self):
-        """Sets the attribute emco_year"""
+        """Sets the attribute emco_year."""
         if self.edit_mode:
             sheet=self.wb.sheets()[0]
             self.emco_year= sheet.cell(2,1).value
@@ -312,7 +299,7 @@ class questionnaire:
             self.emco_year = int(sheet.cell( *indexes( front_page_variables['school_year_ending'][0]  )   ).value)
         
     def get_nadm1(self):
-        """Sets the attribute nadm1 based on the questionnaire"""
+        """Sets the attribute nadm1 based on the questionnaire."""
         if self.edit_mode:
             sheet=self.wb.sheets()[0]
             self.nadm1= sheet.cell(4,1).value
@@ -407,8 +394,7 @@ class questionnaire:
 
         
     def check_adm1_names(self):
-        """Checks that the region names are filled.
-        """
+        """Checks that the region names are filled."""
         if (self.edit_mode):
             return(True)
         elif (not self.nadm1):
@@ -434,7 +420,7 @@ class questionnaire:
             return(all_regions_good)
 
     def check_reference_year(self):
-        """Checks that the reference year is filled with the right value"""
+        """Checks that the reference year is filled with the right value."""
         if (self.edit_mode):
             return(True)
         else:
@@ -448,7 +434,7 @@ class questionnaire:
             return(test_value)
 
     def check_country_name(self):
-        """Checks if the country name is filled"""
+        """Checks if the country name is filled."""
         if (self.edit_mode):
             code_test=self.country_code
             if(not code_test ):
@@ -963,7 +949,7 @@ class questionnaire:
         return(emc_id)
 
     def extract_comments(self):
-        """Writes the cell comments to the comments table
+        """Writes the cell comments to the comments table.
         """
         # Tuple of tuples with the information of the data Each entry
         # will be (emc_id,co_code,adm_code,emco_year,comments)

@@ -134,7 +134,7 @@ Some more specific technical notation exists some of the subsections.
 
    + Python method ::  percentage_non_permanent_teachers
    + IND_IDS information Private :: 
-        |          | IND_ID        | FORMULA                                                | H & L |
+        |          | IND_ID         | FORMULA                                                | H & L |
         |----------+----------------+--------------------------------------------------------+-------|
         | ISCED 1  | TAttrR.1       | 100*(T.1^{L} + NT.1 - T.1)/T.1^{L}                     | no    |
         | ISCED 2  | TAttrR.2.GPV   | 100*(T.2.GPV^{L} + NT.2.GPV - T.2.GPV)/T.2.GPV^{L}     | no    |
@@ -142,8 +142,6 @@ Some more specific technical notation exists some of the subsections.
         | ISCED 23 | TAttrR.2t3.GPV | 100*(T.23.GPV^{L} + NT.23.GPV - T.23.GPV)/T.23.GPV^{L} | no    |
         |----------+----------------+--------------------------------------------------------+-------|
 
-   
-#  LocalWords:  emco
 ** Mean age 
 
    + Python method :: mean_age_level(level in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV'])
@@ -237,25 +235,25 @@ Some more specific technical notation exists some of the subsections.
 
    + Python method :: dissimilarity_index
    + IND_IDS information :: 
-        | Measures of inequality in the           | IND_ID           | FORMULA                                                                                     |
-        |-----------------------------------------+------------------+---------------------------------------------------------------------------------------------|
-        | All                                     | DisT.IS          | \(\frac{1}{2} \sum_a\mid \frac{T.IS_a}{T.IS} - \frac{E.IS_a}{E.IS} \mid\)                   |
-        | Female                                  | DisT.IS.F        | \(\frac{1}{2} \sum_a\mid \frac{T.IS.F_a}{T.IS.F} - \frac{E.IS_a}{E.IS} \mid\)               |
-        | Teachers aged 50 and above              | DisT.IS.Ag50p    | \(\frac{1}{2} \sum_a\mid \frac{T.IS.Ag50p_a}{T.IS.Ag50p} - \frac{E.IS_a}{E.IS} \mid\)       |
-        | Newly recruited                         | DisNT.IS         | \(\frac{1}{2} \sum_a\mid \frac{NT.IS_a}{NT.IS} - \frac{E.IS_a}{E.IS} \mid\)                 |
-        | Math                                    | DisT.IS.Math     | \(\frac{1}{2} \sum_a\mid \frac{T.IS.Math_a}{T.IS.Math} - \frac{E.IS_a}{E.IS} \mid\)         |
-        | Reading and writing                     | DisT.IS.Read     | \(\frac{1}{2} \sum_a\mid \frac{T.IS.Read_a}{T.IS.Read} - \frac{E.IS_a}{E.IS} \mid\)         |
-        | Trained teachers                        | DisT.IS.trained  | \(\frac{1}{2} \sum_a\mid \frac{T.IS.trained_a}{T.IS.trained} - \frac{E.IS_a}{E.IS} \mid\)   |
-        | Newly recruited and trained teachers    | DisNT.IS.trained | \(\frac{1}{2} \sum_a\mid \frac{NT.IS.trained_a}{NT.IS.trained} - \frac{E.IS_a}{E.IS} \mid\) |
-        | Teachers with ISCED level+1 or less     | DisT.IS.EA.ISp1m | \(\frac{1}{2} \sum_a\mid \frac{T.IS.EA.ISp1m_a}{T.IS.EA.ISp1m} - \frac{E.IS_a}{E.IS} \mid\) |
-        | Teachers with ISCED level+2 or more     | DisT.IS.EA.ISp2p | \(\frac{1}{2} \sum_a\mid \frac{T.IS.EA.ISp2p_a}{T.IS.EA.ISp2p} - \frac{E.IS_a}{E.IS} \mid\) |
-        | Teachers with less than 2 years of exp  | DisT.IS.Exp2m    | \(\frac{1}{2} \sum_a\mid \frac{T.IS.Exp2m_a}{T.IS.Exp2m} - \frac{E.IS_a}{E.IS} \mid\)       |
-        | Teachers with more than 10 years of exp | DisT.IS.Exp10p   | \(\frac{1}{2} \sum_a\mid \frac{T.IS.Exp10p_a}{T.IS.Exp10p} - \frac{E.IS_a}{E.IS} \mid\)     |
-        | Private teachers                        | DisT.IS.Pr       | \(\frac{1}{2} \sum_a\mid \frac{T.IS.Pr_a}{T.IS.Pr} - \frac{E.IS_a}{E.IS} \mid\)             |
-        | Non-permanent teachers, total           | DisT.IS.Fix      | \(\frac{1}{2} \sum_a\mid \frac{T.IS.Fix_a}{T.IS.Fix} - \frac{E.IS_a}{E.IS} \mid\)           |
-        | Non-permanent teachers, private         | DisT.IS.Pr.Fix   | \(\frac{1}{2} \sum_a\mid \frac{T.IS.Pr.Fix_a}{T.IS.Pr.Fix} - \frac{E.IS_a}{E.IS} \mid\)     |
-        | Non-permanent teachers, public          | DisT.IS.Pu.Fix   | \(\frac{1}{2} \sum_a\mid \frac{T.IS.Pu.Fix_a}{T.IS.Pu.Fix} - \frac{E.IS_a}{E.IS} \mid\)     |
-        |-----------------------------------------+------------------+---------------------------------------------------------------------------------------------|
+        | Measures of inequality in the           | IND_ID            | FORMULA                                                                                       |
+        |-----------------------------------------+-------------------+-----------------------------------------------------------------------------------------------|
+        | All                                     | DIndT.IS          | \(\frac{1}{2} \sum_a\mid \frac{T.IS_a}{T.IS} - \frac{E.IS_a}{E.IS} \mid\)                     |
+        | Female                                  | DIndT.IS.F        | \(\frac{1}{2} \sum_a\mid \frac{T.IS.F_a}{T.IS.F} - \frac{E.IS_a}{E.IS} \mid\)                 |
+        | Teachers aged 50 and above              | DIndT.IS.Ag50p    | \(\frac{1}{2} \sum_a\mid \frac{T.IS.Ag50p_a}{T.IS.Ag50p} - \frac{E.IS_a}{E.IS} \mid\)         |
+        | Newly recruited                         | DIndNT.IS         | \(\frac{1}{2} \sum_a\mid \frac{NT.IS_a}{NT.IS} - \frac{E.IS_a}{E.IS} \mid\)                   |
+        | Math                                    | DIndT.IS.Math     | \(\frac{1}{2} \sum_a\mid \frac{T.IS.Math_a}{T.IS.Math} - \frac{E.IS_a}{E.IS} \mid\)           |
+        | Reading and writing                     | DIndT.IS.Read     | \(\frac{1}{2} \sum_a\mid \frac{T.IS.Read_a}{T.IS.Read} - \frac{E.IS_a}{E.IS} \mid\)           |
+        | Trained teachers                        | DIndT.IS.trained  | \(\frac{1}{2} \sum_a\mid \frac{T.IS.trained_a}{T.IS.trained} - \frac{E.IS_a}{E.IS} \mid\)     |
+        | Newly recruited and trained teachers    | DIndNT.IS.trained | \(\frac{1}{2} \sum_a\mid \frac{NT.IS.trained_a}{NT.IS.trained} - \frac{E.IS_a}{E.IS} \mid\)   |
+        | Teachers with ISCED level+1 or less     | DIndT.IS.EA.ISp1m | \(\frac{1}{2} \sum_a\mid \frac{T.IS.EA.ISp1m_a}{T.IS.EA.ISp1m} - \frac{E.IS_a}{E.IS} \mid\)   |
+        | Teachers with ISCED level+2 or more     | DIndT.IS.EA.ISp2p | \(\frac{1}{2} \sum_a\mid \frac{T.IS.EA.ISp2p_a}{T.IS.EA.ISp2p} - \frac{E.IS_a}{E.IS} \mid\)   |
+        | Teachers with less than 2 years of exp  | DIndT.IS.Exp2m    | \(\frac{1}{2} \sum_a\mid \frac{T.IS.Exp2m_a}{T.IS.Exp2m} - \frac{E.IS_a}{E.IS} \mid\)         |
+        | Teachers with more than 10 years of exp | DIndT.IS.Exp10p   | \(\frac{1}{2} \sum_a\mid \frac{T.IS.Exp10p_a}{T.IS.Exp10p} - \frac{E.IS_a}{E.IS} \mid\)       |
+        | Private teachers                        | DIndT.IS.Pr       | \(\frac{1}{2} \sum_a\mid \frac{T.IS.Pr_a}{T.IS.Pr} - \frac{E.IS_a}{E.IS} \mid\)               |
+        | Non-permanent teachers, total           | DIndT.IS.Fix      | \(\frac{1}{2} \sum_a\mid \frac{T.IS.Fix_a}{T.IS.Fix} - \frac{E.IS_a}{E.IS} \mid\)             |
+        | Non-permanent teachers, private         | DIndT.IS.Pr.Fix   | \(\frac{1}{2} \sum_a\mid \frac{T.IS.Pr.Fix_a}{T.IS.Pr.Fix} - \frac{E.IS.Pr_a}{E.IS.Pr} \mid\) |
+        | Non-permanent teachers, public          | DIndT.IS.Pu.Fix   | \(\frac{1}{2} \sum_a\mid \frac{T.IS.Pu.Fix_a}{T.IS.Pu.Fix} - \frac{E.IS.Pu_a}{E.IS.Pu} \mid\) |
+        |-----------------------------------------+-------------------+-----------------------------------------------------------------------------------------------|
    Much notations are omitted for clearer presentation.
            * ~IS~ stands for ISCED level which are ~[1, 2.GPV, 3.GPV, 23.GPV]~.
            * ~a~ stands for administrative division, on the denominators the ~a~ is omitted for national level data.
