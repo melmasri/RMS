@@ -280,8 +280,8 @@ For the current version of the software, these are the list of calculated indica
 For more details about the computational methods refer to <<refInd>>.
 
 * Validation report
-A validation or log report is created and saved in the ~Log~ sub-folder
-every time the user attempts to import a questionnaire by clicking on
+A validation report is created and saved in the ~Log~ sub-folder
+every time the user attempts to insert a questionnaire by clicking on
 the ~Validate~ button. It includes all confirmations and errors and
 have the naming convention as ~RM-Country
 Name-Year-Series-Data-Type-Time-Date.txt~. 
@@ -299,9 +299,9 @@ conditions are saved and also printed to the Status panel:
        * the correct number of sheets are available with correct
          original names.
        * reference year is filled and an integer, from cell ~M14~ in
-         Policy information sheet.
+         "Policy information" sheet.
        * Any "No" in the "checking sheet" is copied to the validation report.
-    2) If the insert is *not* in the original questionnaire format, ~Edit~ mode
+    2) If the insert is *not* in the original questionnaire format
        * worksheet must be in ~Edit~ mode.
        * configuration panel is properly filled.
          * no missing information.
@@ -309,45 +309,44 @@ conditions are saved and also printed to the Status panel:
          * mode defined as "Edit".
          * year is an integer bigger than zero.
          * series is one of the following ~[OBS,REP,EST]~.
-         * country code is taken from the database using the provided country name.
-         * number of ADM is a positive integer. Note this variable is taken from the configuration panel, thus DO NOT change it.
+         * country code matches the one taken from the database using the provided country name.
+         * number of ADM is a positive integer. Note this variable is taken from the configuration panel, thus *DO NOT change it.*
     3) General checks: 
-       * check that all data values are either a number, inclusion (X), Z, a, n, or m. Otherwise software gives error.
+       * check that all data values are either a number, inclusion (X), Z, a, n, or m. Otherwise, validation fails and error is printed.
 
 * Data report
   At this step if the validation checks have passed, once the user
   clicks on the ~Insert~ button, a data report is created and saved in
   the ~Log~ folder. If the checkbox ~Open data report~ is ticked, the
   report will automatically open. Also users can invoke the creation
-  of a data report without validating of inserting the file, by
+  of a data report without validating or inserting the file, by
   clicking on the ~Check only~ button. 
 
   The data report check the following and lists any issues: 
   1) If the insertion is in the original questionnaire format
-     * if ADM names exists in database they must equal to the one in
+     * if ADM names exists in database they must equal the ones in
       the questionnaire, otherwise prints an error. This mean you
       can only change ADM names after they have been created by
-      accessing the database directly, and if you try to reinsert the original questionnaire with reordered of changed region names, it will fail.
+      accessing the database directly, and if you try to reinsert the original questionnaire with reordered or changed region names, it will fail.
   2) General
      * all columns must sum to the national level total
      * all sub-category must sum to the total. For example, public
-       and private data must sum to the total of public and
-       private. 
+       and private data must sum to the total.
      * all partial category data must be less than or equal to
        totals. For example, female data must be less than or equal
-       to total of male and female.
+       to total.
 
 Note, for all the cells that have missing data (m), inclusion (x), or inapplicable (z), the inequality or sums tests are ignored.
      
 * Audit trail
-To keep track of changes to individual data and indicators, including figures, qualifiers, inclusion codes, and magnitudes, we have implemented an audit functionality in the back-end (SQL), that records any changes to the data. This doesn't include data comments or table comments. We call this functionality *Audit trail*. Note that Audit trail tables are not accessible from the software interface (GUI), rather they function in the back-end and only accessible by directly accessing the SQL database. 
+To keep track of changes to individual data and indicators, including figures, qualifiers, inclusion codes, and magnitudes, we have implemented an audit functionality in the backend (SQL), that records any changes to the data. This doesn't include data comments or table comments. We call this functionality *Audit trail*. Note that Audit trail tables are not accessible from the software interface (GUI), rather they function in the backend and only accessible by directly accessing the SQL database. 
 
 There are two main tables that keep track of changes, one for raw (meter) data called =METER_AUDIT_TRAIL=, and the other for indicators called =INDICATOR_AUDIT_TRAIL=. Their structure is very similar and could be combined in one table, nevertheless, for more clarity we separated the indicators from raw data. 
 
-In essence, every time there is a change in a data, both the old and new information is recorded with a time-stamp and user name. The following two subsections discuss in more details how change is recorded and how to understand and read these SQL tables.
+In essence, every time there is a change in a data, both the old and new information is recorded with a timestamp and user name. The following two subsections discuss in more details how changes are recorded and how to understand and read these SQL tables.
 
 ** Data audit trail
-   =METER_AUDIT_TRAIL= is the SQL table that records changes in raw data and meta-data. Basically, any time there is a change in a raw figure or it meta-data, which includes magnitudes (inclusion, missing,..) and qualifiers, both the new and old figures and meta-data are recorded with change time-stamp and the user name. This change happens in the cleaning process, when the user attempts to modify data directly in Excel and reinserts it into SQL. Thus every time an =Edit mode= excel file is validated and inserted, the data is compared to what is in the SQL database, and any changes are recorded. 
+   =METER_AUDIT_TRAIL= is the SQL table that records changes in raw data and metadata. Basically, any time there is a change in a raw figure or its metadata, which includes magnitudes (inclusion, missing,..) and qualifiers, both the new and old figures and metadata are recorded with the change timestamp and the user name. This change happens in the cleaning process, when the user attempts to modify data directly in Excel and reinserts it into SQL. Thus every time an =Edit= mode excel file is validated and reinserted, the data is compared to what is in the SQL database, and any changes are recorded. 
 
 The following is the schema of the SQL table, where 
     * =MC_ID= is the numeric reference of the data and corresponds to an AC.
@@ -373,7 +372,7 @@ CREATE TABLE METER_AUDIT_TRAIL(
 	MG_ID_OLD char(1) NULL, -- old magnitude
 	TYPE_MOD char(1) NULL, 
 	USER_NAME varchar(20) NOT NULL, -- user name
-	SYS_DATE datetime DEFAULT (datetime('now','localtime')), --local time-stamp
+	SYS_DATE datetime DEFAULT (datetime('now','localtime')), --local timestamp
 	SERIES varchar(10) NOT NULL, -- data series
 	SURVEY_ID char(2) NULL, --- Regional model default is set to 'RM'
     PRIMARY KEY (Audit_ID ASC));
@@ -383,7 +382,7 @@ To read from the table, using ~sqlite3~ connect to ~Prod.db~ file or any other d
 #+begin_src sql
 SELECT * from METER_AUDIT_TRAIL LIMIT 5;
 #+end_src
-for the first 5 rows of the table, and 
+to see the first 5 rows of the table, and 
 #+begin_src sql
 SELECT a.* from METER_AUDIT_TRAIL AS a
 LEFT JOIN EDU_METER_AID AS b ON a.MC_ID = b.EMC_ID
@@ -392,7 +391,7 @@ WHERE b.AC ='NT.1' AND a.CO_CODE = 4180 AND a.MC_YEAR = 2014;
 for all the changes that happened to =NT.1=, newly recruited teachers in ISCED 1, initial education, for country with code 4180 for data year 2014. Using the ~EDU_METER_AID~ facilitates the use of AC directly rather than the numeric representation (~MC_ID~).
 
 ** Indicator audit trail
-   =INDICATOR_AUDIT_TRAIL= is the SQL table that records changes in indicators and their meta-data. Any time there is a change in the indicator or its meta-data, which includes magnitudes (inclusion, missing,..) and qualifiers, both the new and old figures and meta-data are recorded with change time-stamp and the user name. This change happens when the user changes raw data and re-calculates indicators by clicking on ~Calculate~ button in the indicator frame. Contrary to the data audit trail, user cannot manually change indicators and reinserts them, this functionality is not supported by the software.
+   =INDICATOR_AUDIT_TRAIL= is the SQL table that records changes in indicators and their metadata. Any time there is a change in the indicator or its metadata, which includes magnitudes (inclusion, missing,..) and qualifiers, both the new and old figures and metadata are recorded with change timestamp and the user name. This change happens when the user changes raw data and recalculates indicators by clicking on ~Calculate~ button in the indicator frame. Contrary to the data audit trail, users cannot manually change indicators and reinserts them, this functionality is not supported by the software.
 
 The following is the schema of the SQL table, where 
     * =IND_ID= is the alphanumeric name of the indicator.
@@ -429,12 +428,12 @@ To read from the table, using ~sqlite3~ connect to ~Prod.db~ file or any other d
 #+begin_src sql
 SELECT * from INDICATOR_AUDIT_TRAIL LIMIT 5;
 #+end_src
-for the first 5 rows of the table, and 
+to see the first 5 rows of the table, and 
 #+begin_src sql
 SELECT * from INDICATOR_AUDIT_TRAIL
 WHERE IND_ID ='FTP.1' AND CO_CODE = 4180 AND IND_YEAR = 2014;
 #+end_src
-for all the changes that happened to =FTP.1=, percentage of female teachers in ISCED 1, for country with code 4180 for data year 2014. Here we didn't need an  ~EDU_METER_AID~ table sine indicators are references directly by their alphanumeric code, which do not have an equivalent numerical representation like in raw data.
+for all the changes that happened to =FTP.1=, percentage of female teachers in ISCED 1, for country with code 4180 for data year 2014. Here we didn't need an  ~EDU_METER_AID~ table sine indicators are referenced directly by their alphanumeric code, which do not have an equivalent numerical representation like in raw data.
   
 * A complete example 
 ** Importing the original questionnaire
