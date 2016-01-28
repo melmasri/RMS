@@ -17,11 +17,7 @@
 #+latex_header: \newfloat{code}{h}{txt}
 #+latex_header: \floatname{code}{Code example}
 
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/styles/readtheorg/css/readtheorg.css"/>
-#+HTML_HEAD: <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-#+HTML_HEAD: <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-#+HTML_HEAD: <script type="text/javascript" src="css/styles/lib/js/jquery.stickytableheaders.min.js"></script>
-#+HTML_HEAD: <script type="text/javascript" src="css/styles/readtheorg/js/readtheorg.js"></script>
+#+SETUPFILE: css/theme-readtheorg-local.setup
 
 
 This document explains how to process data for the RMS questionnaire

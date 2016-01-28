@@ -138,7 +138,7 @@ Finally, the button *~Check only~* allows the user to produce a data
 report without validating nor inserting the data. The objective is to
 streamline the cleanig proccess before fianlly inserting the data. 
 
-* Exporting data to Excel
+* Exporting data or indicators to Excel
 ** Choosing a country name, year and series
 The ~Country~ drop-down list will only show names of countries with
 data already in the database. This drop-down list has a live connection to the database, thus if one imports a questionnaire for a new country as shown in a [[Importing questionnaire to the database][previous section]], the country's name should appear in the drop-down list.
@@ -271,7 +271,22 @@ raw data.
     * Exported indicator file follow the naming convention ~County Name-Year-Indic-indicator name.xlsx~, when the use of wildcards, =%= is replaced with =xx=.
 #+end_note  
 
-For a complete list of indicator refer to <<refInd>>
+For the current version of the software, these are the list of calculated indicators:
+    * Percentage of female teachers
+    * Percentage of newly recruited teachers
+    * Pupils teachers ratio
+    * Percentage of trained teachers
+    * Percentage of private teachers
+    * Percentage of non-permanent teachers
+    * Attrition rate
+    * Mean age
+    * Mean years of experience
+    * Highest level of educational attainment
+    * Percentage of teachers by years of experience
+    * Percentage of teachers by age
+    * Dissimilarity
+
+For more detials about the computational methods refer to <<refInd>>.
 
 * Validation report
 A validation or log report is created and saved in the ~Log~ subfolder
@@ -333,6 +348,103 @@ conditions are saved and also printed to the [[Status frame and Log subfolder][S
 
 Note, for all the cells that have missing data (m), inclusion (x), or inapplicable (z), the inequality or summs tests are ignored.
      
+* Audit trail
+To keep track of changes to individual data and indicators, including figures, qualifiers, inclusion codes, and magnitudes, we have implemented an audit functionality in the back-end (SQL), that records any changes to the data. This doesn't include data comments or table comments. We call this functionality *Audit trail*. Note that Audit trail tables are not accessible from the software interface (GUI), rather they function in the back-end and only accessible by directly accessing the SQL database. 
+
+There are two main tables that keep track of changes, one for raw (meter) data called =METER_AUDIT_TRAIL=, and the other for indicators called =INDICATOR_AUDIT_TRAIL=. Their structure is very similar and could be combined in one table, nevertheless, for more clarity we separated the indicators from raw data. 
+
+In essence, every time there is a change in a data, both the old and new information is recorded with a time-stamp and user name. The following two subsections discuss in more details how change is recorded and how to understand and read these SQL tables.
+
+** Data audit trail
+   =METER_AUDIT_TRAIL= is the SQL table that records changes in raw data and meta-data. Basically, any time there is a change in a raw figure or it meta-data, which includes magnitudes (inclusion, missing,..) and qualifiers, both the new and old figures and meta-data are recorded with change time-stamp and the user name. This change happens in the cleaning process, when the user attempts to modify data directly in Excel and reinserts it into SQL. Thus every time an =Edit mode= excel file is validated and inserted, the data is compared to what is in the SQL database, and any changes are recorded. 
+
+The following is the schema of the SQL table, where 
+    * =MC_ID= is the numeric reference of the data and corresponds to an AC.
+    * =CO_CODE= is the country code.
+    * =ADM_CODE= is the administrative divisions code.
+    * =MC_YEAR= is the data year.
+    * =EM_FIG= is the actual data figure.
+    * =MQ_ID= is the data qualifier.
+    * =MG_ID= is the data magnitude.
+    * =SYS_DATA= is the internal local time to when the change has happened.
+#+begin_src sql
+CREATE TABLE METER_AUDIT_TRAIL(
+	Audit_ID Integer , -- Based on ROWID definition in SQLite, this should do the same job as auto-increment
+	MC_ID decimal(6, 0) NOT NULL, --numeric reference of the data
+    CO_CODE decimal(6, 0) NOT NULL, -- country code
+    ADM_CODE INT NOT NULL, -- Administrative Division code.
+	MC_YEAR decimal(4, 0) NOT NULL, -- data year
+	EM_FIG_NEW varchar(4000) NULL, -- new figure
+	EM_FIG_OLD varchar(4000) NULL,  -- old figure
+	MQ_ID_NEW char(1) NULL, -- new qualifier
+	MQ_ID_OLD char(1) NULL, -- old qualifier
+	MG_ID_NEW char(1) NULL, -- new magnitude
+	MG_ID_OLD char(1) NULL, -- old magnitude
+	TYPE_MOD char(1) NULL, 
+	USER_NAME varchar(20) NOT NULL, -- user name
+	SYS_DATE datetime DEFAULT (datetime('now','localtime')), --local time-stamp
+	SERIES varchar(10) NOT NULL, -- data series
+	SURVEY_ID char(2) NULL, --- Regional model default is set to 'RM'
+    PRIMARY KEY (Audit_ID ASC));
+#+end_src
+
+To read from the table, using ~sqlite3~ connect to ~Prod.db~ file or any other database file you are using and follow standard SQL extraction syntax as
+#+begin_src sql
+SELECT * from METER_AUDIT_TRAIL LIMIT 5;
+#+end_src
+for the first 5 rows of the table, and 
+#+begin_src sql
+SELECT a.* from METER_AUDIT_TRAIL AS a
+LEFT JOIN EDU_METER_AID AS b ON a.MC_ID = b.EMC_ID
+WHERE b.AC ='NT.1' AND a.CO_CODE = 4180 AND a.MC_YEAR = 2014;
+#+end_src
+for all the changes that happened to =NT.1=, newly recruited teachers in ISCED 1, initial education, for country with code 4180 for data year 2014. Using the ~EDU_METER_AID~ facilitates the use of AC directly rather than the numeric representation (~MC_ID~).
+
+** Indicator audit trail
+   =INDICATOR_AUDIT_TRAIL= is the SQL table that records changes in indicators and their meta-data. Any time there is a change in the indicator or its meta-data, which includes magnitudes (inclusion, missing,..) and qualifiers, both the new and old figures and meta-data are recorded with change time-stamp and the user name. This change happens when the user changes raw data and re-calculates indicators by clicking on ~Calculate~ button in the indicator frame. Contrary to the data audit trail, user cannot manually change indicators and reinserts them, this functionality is not supported by the software.
+
+The following is the schema of the SQL table, where 
+    * =IND_ID= is the alphanumeric name of the indicator.
+    * =CO_CODE= is the country code.
+    * =ADM_CODE= is the administrative divisions code.
+    * =IND_YEAR= is the indicator data year.
+    * =FIG= is the actual indicator figure.
+    * =QUAL= is the indicator qualifier.
+    * =MAGN= is the indicator magnitude.
+    * =SYS_DATA= is the internal local time to when the change has happened.
+    * =SERIES= is always set to =EST= since indicators are only calculated from estimated series.
+
+#+begin_src sql
+REATE TABLE INDICATOR_AUDIT_TRAIL
+CREATE TABLE INDICATOR_AUDIT_TRAIL(
+	Audit_ID Integer , -- Based on ROWID definition in SQLite, this should do the same job as auto-increment
+	IND_ID varchar(50) NOT NULL, -- indicator ID
+    CO_CODE decimal(6, 0) NOT NULL, -- country code
+    ADM_CODE INT NOT NULL, -- Administrative Division code.
+	IND_YEAR decimal(4, 0) NOT NULL, -- indicator data year
+	FIG_NEW varchar(4000) NULL, -- new figure
+	FIG_OLD varchar(4000) NULL, -- old figure
+	QUAL_NEW char(1) NULL,  -- new qualifier
+	QUAL_OLD char(1) NULL,  -- old qualifier
+	MAGN_NEW char(1) NULL,  -- new magnitude
+	MAGN_OLD char(1) NULL,  -- old magnitude
+	USER_NAME varchar(20) NOT NULL, 
+	SYS_DATE datetime DEFAULT (datetime('now','localtime')), -- local change time
+	SERIES varchar(10) NOT NULL, -- series is always EST
+    PRIMARY KEY (Audit_ID ASC));
+#+end_src  
+
+To read from the table, using ~sqlite3~ connet to ~Prod.db~ file or any other database file you are using and follow standard SQL extraction syntax as
+#+begin_src sql
+SELECT * from INDICATOR_AUDIT_TRAIL LIMIT 5;
+#+end_src
+for the first 5 rows of the table, and 
+#+begin_src sql
+SELECT * from INDICATOR_AUDIT_TRAIL
+WHERE IND_ID ='FTP.1' AND CO_CODE = 4180 AND IND_YEAR = 2014;
+#+end_src
+for all the changes that happened to =FTP.1=, percentage of female teachers in ISCED 1, for country with code 4180 for data year 2014. Here we didn't need an  ~EDU_METER_AID~ table sine indicators are references directly by their alphanumeric code, which do not have an equivalent numerical representation like in raw data.
+  
 * A complete example 
 ** Importing the original questionnaire
 To give an example consider importing a made-up questionnaire say for Laos for year 2015 that
@@ -536,8 +648,8 @@ The file should also automatically open up and in this example, looks like this.
 
 
 * TODO 
-  + [ ] Add the complete list of indicatore add the refereceh here [[refInd]]
-  + [ ] complete Data report section, mainly what happens for less
+  + [ ] Add the indicators detials and link it here [[refInd]]
+  + [X] complete Data report section, mainly what happens for less
     than check and region total when data has m ,n ,a,z, or x.
 
 

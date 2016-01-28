@@ -16,7 +16,7 @@ Things left to do:
         * [X] rmsqlfunctions
         * [X] RM GUI
       * [ ] Folder tress, and explanation of files and scripts.
-    * [ ] Document Audit trail method for Meter and Indic.
+    * [X] Document Audit trail method for Meter and Indic.
     * [ ] Edit all the python comment for creating the help files, and create the help file.
     * [ ] Update the github website with all the new documentation.
     * [ ] Try to create a nice PDF file or plain text for them to print from all the documentation, since org-mode export default export needs some tweaks.
