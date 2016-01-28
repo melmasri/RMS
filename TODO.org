@@ -5,9 +5,16 @@ Things left to do:
     * [X] Add attrition rate and Diss Index to documentation.
     * [-] Finish documentation, including editing.
       * [X] indicators
-      * [ ] user guide
+      * [ ] user guide :os:edit:
       * [ ] technical user guide
-      * [ ] add new indicator
+        * [ ] How to load the software
+        * [ ] How DB.
+        * [ ] How to import, extract and re-insert.
+        * [ ] How to calculate and extract indicators.
+          + [ ] How to calculate all indicators
+          + [ ] How to calculate one by one.
+        * [ ] How to read audit trail tables, and show some changes. 
+      * [ ] add new indicator :mo:edit:
       * [-] python help files.
         * [ ] rmindicators :mo:done:
         * [X] rmExcelWriter
@@ -15,7 +22,7 @@ Things left to do:
         * [X] rmquestionnaire
         * [X] rmsqlfunctions
         * [X] RM GUI
-      * [ ] Folder tress, and explanation of files and scripts.
+      * [ ] Folder tree, and explanation of files and scripts.
     * [X] Document Audit trail method for Meter and Indic.
     * [ ] Edit all the python comment for creating the help files, and create the help file.
     * [ ] Update the github website with all the new documentation.
@@ -23,3 +30,8 @@ Things left to do:
     * [ ] We have created a file called 'user_guide-technical.org' earlier in the project, where can we integrate it, and what needs to be update it sine our last submission.
     * [X] Add file naming for indicator extractions.
     * [ ] is it enough to load rmquestionnaire in all scripts or python to use the software.
+
+
+* Disscussion 
+  * Talk about unknown and ratio's issue with PM.
+
