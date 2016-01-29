@@ -120,7 +120,7 @@ class RM():
         ## Auto open log file
         self.open_log = tk.IntVar()
         self.open_log.set(1)
-        self.OpenLogCB =  ttk.Checkbutton(self.lf_impOptions, text="Open log file", variable= self.open_log)
+        self.OpenLogCB =  ttk.Checkbutton(self.lf_impOptions, text="Open validation report", variable= self.open_log)
         self.OpenLogCB.grid(row=2, column = 3, sticky = 'W', columnspan=3)
         ## Auto open data report
         self.open_data_report = tk.IntVar()
