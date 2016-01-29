@@ -436,8 +436,8 @@ WHERE IND_ID ='FTP.1' AND CO_CODE = 4180 AND IND_YEAR = 2014;
 for all the changes that happened to =FTP.1=, percentage of female teachers in ISCED 1, for country with code 4180 for data year 2014. Here we didn't need an  ~EDU_METER_AID~ table sine indicators are referenced directly by their alphanumeric code, which do not have an equivalent numerical representation like in raw data.
   
 * A complete example 
-** Importing the original questionnaire
-To give an example consider importing a made-up questionnaire say for Laos for year 2015 that
+** Inserting the original questionnaire
+To give an example consider inserting a made-up questionnaire say for Laos for year 2015 that
 is saved in a file ~Desktop/Example/LAOS-2015-Regional_Survey.xlsx~, as seen in
 Figure [[fig:laosDesktop]]. First start the ~RM_GUI.py~ select the file
 and click the adjacent ~Validate~, the Status panel frame now shows:
@@ -450,7 +450,7 @@ and click the adjacent ~Validate~, the Status panel frame now shows:
 ----------Date: January 22, 2016----------
 VALIDATION STEP
 
-Original questionnaire submited with path:
+Original questionnaire submitted with path:
 C:/Users/Mohamad/Desktop/Example/LAOS-2015-Regional_Survey.xlsx
 
 Number of administrative divisions: 5.0
@@ -464,7 +464,7 @@ Administrative divisions:
 
 Reference year: 2015
 Country name is filled: Lao People's Democratic Republic
-The correct number of sheets(11)has been submited.
+The correct number of sheets(11)has been submitted.
 Warning: The questionnaire contains missing values.
 
 ----------Questionnaire Validation finished.----------.
@@ -473,8 +473,10 @@ Validation successful, see report in:
 Log/Lao People's Democratic Republic_16-01-22-13-32_validation.txt
 #+end_src
 
-and since the checkbox ~Open validation report~ is ticked a validation report
-should open. To insert now click on ~Insert~, and the Status panel should show:
+Since the checkbox ~Open validation report~ is ticked a validation report
+should open and how more or less similarly output to the one in the Status panel.
+
+To insert the questionnaire, click on ~Insert~. The Status panel should show:
 
 #+begin_src
 INSERTION STEP
@@ -489,8 +491,8 @@ Data report written to:
  Log/Lao People's Democratic Republic_16-01-22-13-35_data_report.csv
 #+end_src
 
-In addition since the checkbox ~Open data report~ is ticked, the data
-report should open up. For this example, the data report looks like [[fig:laosDataReport]]
+Moreover, since the checkbox ~Open data report~ is ticked, the data
+report should open up. For this example, the data report looks like Figure [[fig:laosDataReport]]
 
 #+CAPTION: Laos data report after insertion
 #+NAME:   fig:laosDataReport
@@ -498,15 +500,15 @@ report should open up. For this example, the data report looks like [[fig:laosDa
 
 This implies the import is successfully, and these are the created
 files:
- + backup file: ~RMS\Import\RM_Lao People's Democratic Republic_2015_16-01-22-13-38.xlsx~
- + validation file: ~RMS\Log\Lao People's Democratic Republic_16-01-22-13-38_validation.txt~
- + data report: ~RMS\Log\Lao People's Democratic
-   Republic_16-01-22-13-38_data_report.csv~
+ + *backup file*: ~RMS\Import\RM_Lao People's Democratic Republic_2015_16-01-22-13-38.xlsx~,
+ + *validation file*: ~RMS\Log\Lao People's Democratic Republic_16-01-22-13-38_validation.txt~,
+ + *data report*: ~RMS\Log\Lao People's Democratic
+   Republic_16-01-22-13-38_data_report.csv~.
 
 ** Moving to and exporting from the Observed series.
-After a successful original import, one can move the data from
+After successfully inserting an original questionnaire, one is advised to move the data from
 /Reported/ to /Observed/ series. Notice that Laos now appears in the ~Country~ drop-down
-list. Select ~Laos~ and the corresponding year, then
+list. Select Laos and the corresponding year, then
 click on ~REP to OBS~ button. The Status panel should show 
 
 #+begin_src
@@ -516,12 +518,15 @@ Moved COMMENT_TABLE table from REP to OBS
 Done.
 #+end_src
 
+The ~METER~ table is where the data is, ~INCLU~ table is where the inclusion codes are saved, and ~FTN~ is where the cell comments are saved. Finally, ~COMMENT_TABLE~ is where the table comments are saved. 
 
-Now, let's export ~Teachers ISCED 2~ for cleaning. Select the country,
+Now, let's export ~Teachers ISCED 2~ worksheet for cleaning. Select the country,
 year and series from the drop-down lists and from the ~Sheet~
-drop-down list select ~Teachers ISCED 2~ and before clicking on the
+drop-down list select ~Teachers ISCED 2~. Before clicking on the
 adjacent ~Export~ button, select the ~output folder~ to be your
-~Desktop~. The Status panel will have the confirmation seen in box
+~Desktop~. 
+
+The Status panel will have the confirmation seen in box
 [[src:export_clean]], and the Excel workbook should look like [[fig:excel_clean][this]]. Notice
 the configurations panel in the top left corner, where the mode is ~Edit~ and the series is ~OBS~. 
 
@@ -541,13 +546,12 @@ Done.
 As mentioned before as long as the configuration panel is left
 untouched and all tables are not moved, one can go ahead and change
 the data, inclusion codes and insert cell and table comments. For
-example, assume for some reason Laos-2015 data we prefer to only
+example, assume for some reason, for Laos-2015 data, we prefer to only
 report the data under ~T.2.GPV.Pu~ in
-col 3  and not to report ~T.2.GPV.Pu.F~ in column 4. We do this by
-inclusion code.  Also we add a comment that the data
-is aggregated by programme team. Moreover, we add a table comment in
-cell H11, saying that some data is not trusted. See Figure [[fig:laos_mod]] and compare it to Figure
-[[fig:export_clean]].
+column 3  and not to report ~T.2.GPV.Pu.F~ in column 4. We do this by using
+inclusion code ~X[:3]~ to indicate that the current column is included in column 3.
+
+ Also we add a comment that the data is aggregated by programme team. Moreover, we add a table comment in cell H11, saying that some data is not trusted. See Figure [[fig:laos_mod]] and compare it to Figure [[fig:export_clean]]. Save and close the file.
 
 #+CAPTION: Modified Laos data from observed series.
 #+NAME:   fig:laos_mod
@@ -561,7 +565,7 @@ cell H11, saying that some data is not trusted. See Figure [[fig:laos_mod]] and 
 ----------Date: January 22, 2016----------
 VALIDATION STEP
 
-Edited questionnaire submited with path:
+Edited questionnaire submitted with path:
 C:/Users/Mohamad/Desktop/Example/Lao People's Democratic Republic_2015_Teachers ISCED 2_OBS.xlsx
 
 Number of administrative divisions: 5.0
@@ -591,7 +595,7 @@ otherwise it would list validation errors such as.
 ----------Date: January 22, 2016----------
 VALIDATION STEP
 
-Edited questionnaire submited with path:
+Edited questionnaire submitted with path:
 C:/Users/Mohamad/Desktop/Example/Lao People's Democratic Republic_2015_Teachers ISCED 2_OBS.xlsx
 
 Number of administrative divisions: 5.0
@@ -605,25 +609,24 @@ Pre-processing validation failed. Some errors exist see log file in:
 Log/Lao People's Democratic Republic_16-01-22-21-25_validation.txt
 #+end_src
 
-Since inserting is successful the following files are created
- * backup file: ~RMS\Import\RM_Lao People's Democratic Republic_2015_16-01-22-21-23.xlsx~
- * log file: ~RMS\Log\Lao People's Democratic Republic_16-01-22-21-23_validation.txt~
- * data report: ~RMS\Log\Lao People's Democratic Republic_16-01-22-21-23_data_report.csv~
+Since inserting is successful, again, the following files are created:
+ * *backup file*: ~RMS\Import\RM_Lao People's Democratic Republic_2015_16-01-22-21-23.xlsx~,
+ * *validation report*: ~RMS\Log\Lao People's Democratic Republic_16-01-22-21-23_validation.txt~,
+ * *data report*: ~RMS\Log\Lao People's Democratic Republic_16-01-22-21-23_data_report.csv~.
 
-Now if you re-export the whole questionnaire, ~Teachers ISCED 2~
+Now if you reexport the whole questionnaire, ~Teachers ISCED 2~
 sheet, or only ~Table 2.1~ from the observed series, you should be
 able to see the changes and comments made earlier.
 
 ** Calculating indicators
 
-
-To calculate indicators, first select the country name and year, then select the estimated series. If the data is not yet in the ~EST~ series, please move it by clicking on the button ~OBS to EST~, maybe also ~REP to OBS~ if you haven't moved it yet to ~OBS~ series. Then click on the button ~Calculate~.  In around 30 seconds to a minutes, the Status panel should indicated that the process is successful.
+To calculate indicators, first select the country name and year, then select the ~EST~ series. If the data is not yet in the ~EST~ series, move it by clicking on the button ~OBS to EST~, maybe also ~REP to OBS~ if you haven't moved it yet to ~OBS~ series. Then click on the button ~Calculate~.  In around *30 seconds to a minutes*, the Status panel should indicated that the process is successful.
 
 #+begin_src
 Successful..all indicators are calculated.
 #+end_src
 
-Now using the wildcards lets extract the percentage of teachers with attainment of ISCED 5 and higher for all public institutions, that is we type ~EA5pPT.%Pu~ and click on ~Extract~. The file is now saved under the name ~Lao People's Democratic Republic_2015_INDIC_EA5pPT.xxPu.xlsx~ in the ~Export~ folder if no other folder is specified. This is indicated in the Status panel as seen below. 
+Now using the wildcards, lets extract the percentage of teachers with attainment of ISCED 5 and higher for all public institutions, one way of doing this by typing ~EA5pPT.%Pu~ and clicking on the adjacent ~Extract~. The file is now saved under the name ~Lao People's Democratic Republic_2015_INDIC_EA5pPT.xxPu.xlsx~ in the ~Export~ folder if no other folder is specified. This is indicated in the Status panel as seen below. 
 
 #+begin_src
 Extracting EA5pPT.%Pu for Lao People's Democratic Republic-2015....
@@ -631,11 +634,14 @@ File /home/mo/Desktop/Lao People's Democratic Republic_2015_INDIC_EA5pPT.xxPu.xl
 Done.
 #+end_src
 
-The file should also automatically open up and in this example, looks like this.
+The file should also automatically open up and in this example it looks like this.
 
 #+CAPTION: Screen shot of EA5pPT indicator
 [[./img/export_indicator.png]]
 
+ #+BEGIN_CENTER
+-- -- END -- --
+ #+END_CENTER
 
 * TODO 
   + [ ] Add the indicators details and link it here [[refInd]]

@@ -474,10 +474,10 @@ class questionnaire:
             return(True)
         else:
             if pre_vars['nsheets']==self.wb.nsheets:
-                self.print_log("The correct number of sheets"+ "({})".format(self.wb.nsheets) +"has been submited.\n")
+                self.print_log("The correct number of sheets"+ "({})".format(self.wb.nsheets) +"has been submitted.\n")
                 return(True)
             else:
-                self.print_log("Error: Incorrect number of sheets submited\n")
+                self.print_log("Error: Incorrect number of sheets submitted\n")
                 return(False)
             
     def check_edited_configuration_part(self):
@@ -693,11 +693,11 @@ class questionnaire:
         self.print_log("----------"+"Date: "+datetime.datetime.now().strftime("%B %d, %Y")+"----------\n")
         self.print_log("VALIDATION STEP\n\n")
         if (not self.edit_mode):
-            self.print_log("Original questionnaire submited with path:\n")
+            self.print_log("Original questionnaire submitted with path:\n")
             self.print_log(self.excel_file+"\n\n")
             administrative_divisions_variables=pre_vars['fixed_sheets']['Administrative divisions']
         else:
-            self.print_log("Edited questionnaire submited with path:\n")
+            self.print_log("Edited questionnaire submitted with path:\n")
             self.print_log(self.excel_file+"\n\n")
 
         nadm1_test=self.check_nadm1()
