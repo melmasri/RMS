@@ -251,10 +251,6 @@ def mg_id(cell_value):
         elif (not (match_missing == None)):
             return("D")
             
-## Error class for a country name that is not found in the database
-class CountryNameError(Exception):
-    pass
-
 
 ####DATA EXTRACTION CLASS
 #-----------------------------------------------------------------------------------------------------
@@ -272,6 +268,11 @@ class questionnaire:
       country_name = the name of the country that filled the questionnaire.
       country_code = the code of the country.
       edit_mode = True or False, whether the class if going to be used for editing existing data.
+      missing_data_dictionary = Dictionary whose keys are sheet names. The values are another dictionary 
+                                whose keys are table names and values column numbers. These column numbers 
+                                contain missing values.
+      data_issues_dictionary = Similar to missing data dictionary, but it has three levels of dicionaries.
+                               sheet name : table name : data issue type : issue information.
     """
     def set_workbook(self,excel_file):
         """Set the workbook
@@ -331,7 +332,14 @@ class questionnaire:
             self.country_name = sheet.cell( *indexes( front_page_variables['country_name'][0]  )   ).value
     
     def get_database_type(self):
-        """Sets the database type (OBS,REP,EST) from the questionnaire."""
+        """Sets the database type (OBS,REP,EST).
+
+        If it is an edited questoinnaire it reads the database type
+        from the information section that is in the upper right part
+        of each sheet.
+
+        If it is a nre questionnaire it will take the value REP.
+        """
         if self.edit_mode:
             sheet=self.wb.sheets()[0]
             self.database_type = sheet.cell( 5,1 ).value
@@ -378,7 +386,7 @@ class questionnaire:
             return(False)
 
     def check_adm1_label(self):
-        """Checks that the name of administrative divisions is given. """
+        """Checks that the name of administrative divisions are not empty. """
         if self.edit_mode:
             return(True)
         else:
@@ -456,6 +464,12 @@ class questionnaire:
             return(test_value and code_test)
         
     def check_number_of_sheets(self):
+        """Checks the number of sheets in the excel file.
+
+        For an edited questionnaire it returns True. For an original
+        questoinnaire it checks if it has the same number of sheets
+        than the questionnaire originally provided.
+        """
         if (self.edit_mode):
             return(True)
         else:
@@ -467,9 +481,11 @@ class questionnaire:
                 return(False)
             
     def check_edited_configuration_part(self):
-        """
-        This functions checks that the table in the top left corner of
-        the sheet exists in an edited questionnaire and it is in Edit mode.
+        """Checks wether the questionnaire information is present in an edited questionnaire.
+
+        This functions checks that the information table in the top
+        left corner of the sheet exists in an edited questionnaire.
+
         """
         if (self.edit_mode):
             sheet=self.wb.sheets()[0]
@@ -502,7 +518,7 @@ class questionnaire:
     def check_one_value(self,value):
         """Checks that value (the argument) is proper.
         
-        This function can return three values:
+        This function can return the following values:
         0 if there is an error.
         1 if the value is OK.
         2 accept but write error (A or N).
@@ -571,6 +587,26 @@ class questionnaire:
 
         
     def check_values(self):
+        """Checks that all the values in the questionnare are proper.
+
+        This function returns false if there is at least one improper
+        value in the questionnaire. In other words, if there is at
+        least one value for which the function check_one_value returns
+        0. In this case it will also print the column and table name
+        for all the improper values. 
+
+        If all the values are proper, but there are A or N's, it will
+        print the column and table name where these ones are.
+
+        If there are undefined references, they are added to the data
+        issues dictionary and it prints a message saying that the
+        questoinnaire contains undefined references.
+
+        If there are missing values, it adds their column to the
+        missing data dictionary and it prints a message saying that
+        there are missing values in the questionnaire.
+
+        """
         edit_sheets_names=self.wb.sheet_names()
         cursor=self.conn.cursor()
         query="SELECT Tab,EXL_REF,RM_TABLE,Col FROM RM_MAPPING WHERE Tab in (" + ','.join('?'*len(edit_sheets_names)) + ") AND AC!='ADM_NAME';"
@@ -638,6 +674,21 @@ class questionnaire:
                 
 
     def validation(self):
+        """Validation step for a questionnare.
+
+        It makes the following checks:
+        1. Checks that tne number of administrative divisions is filled (method: check_nadm1).
+        2. Checks that the label of administrative divisions is filled (e.g. state, province, etc. ) (method: check_adm1_label)
+        3. Checks that the name of each administrative division is filled. (method: check_adm1_names)
+        4. Checks that the reference year is properly filled (Cell M14 from Administrative divisions). (method: check_reference_year)
+        5. Checks that the country name is filled. (method: check_country_name)
+        6. For an original questionnaire checks if the number of sheets in the questionnaire corresponds 
+           to the provided questionnaire. ( method: check_number_of_sheets )
+        7. For an edited questionnaire checks that the information section in the upper left corner exists. (method: check_edited_configuration_part) 
+        8. Checks that all the values are proper. (method: check_values)
+
+        If any of theses tests does not pass, this method returns False. Otherwise it returns True.
+        """
         check_variables=pre_vars["Checking sheet"]
         self.print_log("----------"+"Date: "+datetime.datetime.now().strftime("%B %d, %Y")+"----------\n")
         self.print_log("VALIDATION STEP\n\n")
@@ -662,7 +713,13 @@ class questionnaire:
         return ( nadm1_test and adm1_label_test and adm1_names_test and reference_year_test and country_name_test and number_of_sheets_test and edited_configuration_part_test and values_test )
 
     def check_region_totals(self):
-        """Check that the regional numbers match the total."""                
+        """Checks that the sum of the values of the regions adds up to the country total.
+
+        For each emc_id in the table RM_Mapping it checks if the sum
+        of the region values adds up to the country total. If this is
+        the case ir returns True, otherwise it returns False.
+
+        """
         cursor=self.conn.cursor()
         edit_sheets_names=self.wb.sheet_names()
         pass_test=True
@@ -706,9 +763,13 @@ class questionnaire:
         return(pass_test)
 
     def check_less(self):
-        """Checks that the pairs from the
-        check_less_dictionary satisfy that the first one is
-        smaller than the second one"""
+        """Checks that certain columns are less or equal than others.
+        
+        Checks that the list of pairs in each each key in
+        check_less_dictionary satisfy that the first one is smaller
+        than the second one.
+
+        """
         check_less_dictionary={
             ## All the inequalities correspond to the first table
             'Table 0.1' : [ [16,14], [17,15], [13,12] ],
@@ -787,7 +848,19 @@ class questionnaire:
             return(False)
         
     def check_column_sums(self):
-        """Checks columns that have to add up to other columns"""
+        """Checks columns that have to add up to other columns.
+        
+        Some pairs of columns are supposed to add up to other
+        columns. This method checks that this is the case based on the
+        local variable check_columns_sums_dictionary. In that
+        dictionary, the keys are table names and the value is a list
+        with pairs. Each pair has as a first element a list of column
+        numbers and the second element is another column number. It is
+        checked that the sum of the values in the columns in the list
+        (the first element in the pair), add up to the single column
+        number (the second element in the pair).
+
+        """
         check_columns_sums_dictionary={
             ## Each item has two items. The first item is a list whose
             ## terms have to add up to the second item
@@ -856,6 +929,20 @@ class questionnaire:
         return(pass_test)
 
     def write_data_report(self):
+        """Writed the data report file.
+
+        The data report is written after validation.  If there is
+        missing data it starts listing thre sheet table and columns
+        where there is missing data.
+
+        Then, if there are data issues different than missing data, it
+        prints the sheet table columns and data issue one by one based
+        on the data issues dictionary.
+
+        Finally it prints all the items that have no in the Checking
+        sheet of the questionnaire.
+
+        """
         cursor=self.conn.cursor()
         data_report_path=self.log_folder + "/{}".format(self.country_name) + "_"+datetime.datetime.now().strftime("%y-%m-%d-%H-%M")+"_data_report.csv"
         self.data_report_file=data_report_path
@@ -1049,7 +1136,9 @@ class questionnaire:
     def insert_region_codes(self):
         """Writes the regions from the sheet to the regions database.
 
-        If the regions exist already in the database they are rewriten.
+        If the regions exist already in the database this function
+        overwrites them.
+
         """
         cursor=self.conn.cursor()
         administrative_divisions_variables=pre_vars['fixed_sheets']['Administrative divisions']
@@ -1103,30 +1192,12 @@ class questionnaire:
         cursor.close()
 
             
-    def extract_data(self,write_csv_files=False,write_sql=True):
+    def extract_data(self,write_sql=True):
         """Reads and exports the data of the questionnaire
 
         If the argument write_sql is True, it will import all the data
-        to the sql database.
-        
-        If the argument write_csv_files is True, it will write 3
-        files. All of them in the folder imported_data. Let C be the
-        country code. The files will be: C_meters_data.csv,
-        C_inclu_data.csv and C_references.sql. 
-
-        C_meters_data.csv will have a csv files with the entries to
-        the meters table that correspond to the data being read.
-
-        C_inclu_data.csv will have the entries that go to the inclu
-        table, i.e., the fields that are begin referenced.
-
-        C_references.sql will have sql code that sets the mg_id of the
-        referenced cells to 4. 
-
-        If both csv files are imported in the sql tables and then the
-        sql code in C_references.sql was run it would be equivalent to
-        what this function adds to the sql tables when write_sql is
-        set to True.
+        to the sql database. Otherwise the data will be read but not
+        stored (useful only for testing purposes).
         """
         cursor=self.conn.cursor()
         # Tupples that will contain all the data
@@ -1136,7 +1207,12 @@ class questionnaire:
         referenced_sql_code=set()
 
         def export_to_sqlite():
-            # LOG DATABASE
+            """Exports the data to the sqlite database.
+
+            This function imports the values read from the
+            questionnaire to the database and also adds them to the
+            audit trail with the current timestamp.
+            """
             cursor=self.conn.cursor()
             ## Copy old values from
             
@@ -1206,7 +1282,7 @@ class questionnaire:
             cursor.close()
 
         def backup_imported_questionnaire():
-            """Puts a copy of the questionnaire in the imports folder.
+            """Puts a copy of the questionnaire in the Imports folder.
             """
             import_folder="./Import"
             if (not os.path.exists(import_folder)):

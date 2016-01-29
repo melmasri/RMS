@@ -62,8 +62,7 @@
    #+BEGIN_SRC python :session example1 :export code :tangle ind_test1.py
      import sys, os
 
-     os.chdir('/home/oscar/RMS')
-     #os.chdir(path_to_main_RMS_folder)
+     os.chdir(path_to_main_RMS_folder)
      sys.path.append('Libraries')
 
      from rmquestionnaire import *
