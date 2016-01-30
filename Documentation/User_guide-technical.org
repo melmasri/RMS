@@ -22,26 +22,27 @@
 
 
 This document explains how to process data for the RMS questionnaire
-using python code instead of the GUI. 
-
-* Importing the Library
-First import the library =rmquestionnaire= in =RMS\Libraries=, a code example is below.
+using python code instead of the Graphical User Interface. The first
+step is to import the library =rmquestionnaire= in =RMS\Libraries=, a
+code example is below.
 
 #+latex: \begin{code}
 
-#+BEGIN_SRC python :session Python :exports code
+#+BEGIN_SRC python :session Python :exports code :tangle technical_script_example.py :cache yes
   import sys,os
   os.chdir(path_to_main_RMS_folder)
   sys.path.append('Libraries')
   from rmquestionnaire import *
 #+END_SRC
 
+#+RESULTS:
+
 #+latex: \caption{Library import}\end{code}
 
 Replace =path_to_main_RMS_folder= for a string  with the full path to
 your main RMS folder.
 
-* Importing 
+* Processing a Questionnaire
 
 In order to import data from a questionnaire the =questionnaire= class
 should be used. Four arguments are needed when an object from this
@@ -49,17 +50,15 @@ class is defined: the excel file, the database file and the log folder
 and a username .
 
 #+latex: \begin{code}
-#+BEGIN_SRC python :session Python :exports code
+#+BEGIN_SRC python :session Python :exports code :tangle technical_script_example.py :cache yes
   excel_file="Regional_Survey_2015.xlsx"
-  database_file= "Database/Prod.db"     # Concatenating the path of the main folder and the database subfolder.
+  database_file= "Database/Prod.db"
   log_folder="/tmp/log/"
   username="user"
   qobject=questionnaire(excel_file,database_file,log_folder,username)
 #+END_SRC
+#+latex: \caption{Instating the questoinnaire class}\end{code}
 
-#+RESULTS:
-
-#+latex: \caption{Library import}\end{code}
 
 By initiating the =qobject= as shown above, the class reads the file
 to know if the questionnaire is being imported for the first time or
@@ -68,12 +67,9 @@ i.e. OBS, REP or EST. Also, =questionnaire= checks that the country
 name used in the file exist the database, otherwise, an error is
 raised.
 
-* Preprocessing
-  :PROPERTIES:
-  :ORDERED:  t
-  :END:
+** Preprocessing
 
-** Validation
+*** Validation
 Before extracting the data there is a validation step that takes
 place. This is done by the method called *validation* in the
 questionnaire class. It works by calling in order the following
@@ -110,7 +106,7 @@ some information of the questionnaire and the results of the checks is
 written in a file with name syntax =countryname_datetime_validation.txt= in
 the =Log= folder.
 
-** Data Report
+*** Data Report
 
 After a successful validation step, there might be missing data or
 inconsistencies or in the questionnaire data. These are not considered
@@ -164,18 +160,18 @@ attribute =data_issues_dictionary= that is used by
 The following code performs the validation step and data report for
 the example we have been developing.
 
-
-#+BEGIN_SRC python :session Python :exports code
+#+latex: \begin{code}
+#+BEGIN_SRC python :session Python :exports code :tangle technical_script_example.py :cache yes
   if qobject.validation():
       qobject.check_region_totals()
       qobject.check_less()
       qobject.check_column_sums()
       qobject.write_data_report()
 #+END_SRC
+#+latex: \caption{Validation and Data Report}\end{code}
 
 
-
-* Data extraction and comments
+** Data and Comments Extraction 
 The =extract_data= method reads the values and enters them in the
 database. It also writes the region names to the regions database if
 an original questionnaire is being imported. The values are also
@@ -193,7 +189,7 @@ comments and add them to the database.
 
 #+latex: \begin{code}
 
-#+BEGIN_SRC python :session Python :export code
+#+BEGIN_SRC python :session Python :export code :tangle technical_script_example.py :cache yes
     qobject.extract_data()
     qobject.extract_comments()
     qobject.extract_table_comments()
@@ -201,7 +197,52 @@ comments and add them to the database.
 
 #+RESULTS:
 
-#+latex: \end{code}
+#+latex: \caption{Extracting Data and Comments} \end{code}
+
+* Computing Indicators
+
+After extracting the data and putting it in the database it is
+possible to compute indicators.  The indicators are only computed for
+the 'EST' tables. At this point we have imported the data to the
+reported tables ('REP'). We need to copy the data to the estimated
+tables ('EST') in order to compute the indicators. This can be
+achieved using the *moveSerie* function. Before using this function it
+is necessary to tell the program what database file is being
+used. This is done with the function *set_database_file* which
+receives as only argument the full path to the database file. It was
+done this way since one want might to interact with the database
+without importing a questionnaire.
+
+#+latex: \begin{code}
+#+BEGIN_SRC python :session Python :export code :tangle technical_script_example.py :cache yes
+  set_database_file('Database/Prod.db')
+  co_code = qobject.country_code
+  year = qobject.emco_year
+  from_serie='REP'
+  to_serie='EST'
+  moveSerie(co_code, year, from_serie, to_serie)
+#+END_SRC
+#+latex: \caption{Moving data to the EST series}\end{code}
+
+
+After the estimated tables have been populated, we can compute the
+indicators. This is done with the *rmindicators* class. After having
+instantiated an object of this class for the desired country and year,
+the method *compute_all_indicators* will compute and fill the
+indicators table. Here is example code which instantiates this class
+for the data used in the example script being developed along this
+user guide.
+
+#+latex: \begin{code}
+#+BEGIN_SRC python :session Python :export code :tangle technical_script_example.py :cache yes
+  database="Database/Prod.db"
+  emco_year=2015
+  country_name="Lao People's Democratic Republic"
+  ind_object=indicators("Database/Prod.db",2015,"Lao People's Democratic Republic",username)
+  ind_object.compute_all_indicators()
+#+END_SRC
+#+latex: \caption{Computing indicators}\end{code}
+
 
 * Exporting Data
 
@@ -209,39 +250,35 @@ comments and add them to the database.
 
 In order to export the questionnaire data from the database to an
 excel file, the =xlsxwriter= modules needs to be used in combination
-with the function =export_var=. Is is also necessary to call the
-function *set_database_file* which receives as only argument the full
-path to the database file. The call to this function is necessary
-since one want might to interact with the database without importing a
-questionnaire. This can be done with this function.  As shown in the
-following example, first the excel workbook needs to be created and
-then =export_var= needs to be called for each desired sheet.
+with the function =export_var=. As shown in the following example,
+first the excel workbook needs to be created and then =export_var=
+needs to be called for each desired sheet.
 
 #+latex: \begin{code}
 
-  #+BEGIN_SRC python :session Python :export code
+  #+BEGIN_SRC python :session Python :export code :tangle technical_script_example.py :cache yes
     import xlsxwriter
-    set_database_file('Database/Prod.db')
-    co_code = qobject.country_code
-    co_name = qobject.country_name
-    year = qobject.emco_year
-
+        
+    co_name = qobject.country_name    
     filename = "{0}_{1}.xlsx".format(co_name, 2015)
 
     wb = xlsxwriter.Workbook(filename)
 
     export_var('Administrative divisions', wb, co_code, year, var_type = "sheet")
     export_var('Pupils', wb, co_code, year, var_type = "sheet")
-    export_var('Teachers ISCED 1', wb, co_code, year, var_type = "sheet")
-    export_var('Teachers ISCED 2', wb, co_code, year, var_type = "sheet")
-    export_var('Teachers ISCED 3', wb, co_code, year, var_type = "sheet")
-    export_var('Teachers ISCED 23', wb, co_code, year, var_type = "sheet")
+    export_var('Teachers ISCED 1', wb, co_code, year, var_type = "sheet",serie= 'REP')
+    export_var('Teachers ISCED 2', wb, co_code, year, var_type = "sheet",serie= 'REP')
+    export_var('Teachers ISCED 3', wb, co_code, year, var_type = "sheet",serie= 'REP')
+    export_var('Teachers ISCED 23', wb, co_code, year, var_type = "sheet",serie= 'REP')
     wb.close()
   #+END_SRC
+#+latex: \caption{Exporting data to an excel file}\end{code}
 
 After running this code an excel file with name syntax
 =countryname_2015.xlsx= is created containing the data of all the
-sheets that were passed to *export_var* before ~wb.close()~.
+sheets that were passed to *export_var* before ~wb.close()~. Notice
+that ~serie~ can take one of the values 'REP', 'OBS' or 'EST' which
+correspond to reported, observed and estimated database respectively.
 
 ** Exporting indicators
 It is also possible to export an excel file with the values of all the
@@ -249,8 +286,24 @@ indicators or for one of them. This can be achieved with the function
 *export_indc*. In order for this function to work it is also necessary
 to first call the function ~set_database_file~.
 
+One can export one indicator or all of then to an excel
+file. If ~"All"~ is passed as an argument to *export_indc* then all the
+indicators are exported. The other option is to pass the name
+alphanumeric code of the desired indicator (e.g. 'NTP.1'). 
 
-#+latex: \caption{Exporting from excel}\end{code}
+#+latex: \begin{code}
+#+BEGIN_SRC python :session Python :export code :tangle technical_script_example.py :cache yes
+    indicators_filename="{0}_{1}_indicators.xlsx".format(co_name, 2015)
+    indicators_wb = xlsxwriter.Workbook(indicators_filename)
+    export_indc("All", indicators_wb, co_code, year)
+    indicators_wb.close()
+#+END_SRC
+#+latex: \caption{Exporting indicators to an excel file }\end{code}
+
+
+
+
+
 
 #  LocalWords:  RMS Quijano Xacur Mohamad Elmasri num pri tex toc txt
 #  LocalWords:  timestamp todo noexport usepackage floatstyle SRC sys
