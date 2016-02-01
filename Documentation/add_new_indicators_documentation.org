@@ -21,43 +21,57 @@
 * Adding  Indicators
 
 ** The indicators class
-   The indicators class has three types of methods that we have
-   decided to call with the following names: auxiliary methods,
-   indicators methods and action methods.
+   To deal with indicator calculations, we have created a ~Python~ class that we named =indicators()=, it exists in the script ~RMS/Libraries/rmindicators.py~. This indicators class has three types of methods, auxiliary, indicators and action methods.
 
    The auxiliary methods are an aid either for the computation of
-   indicators or for sqlite interaction. Examples of these methods
+   indicators or for SQL interaction. Examples of these methods
    are: =get_nadm1=, =set_database_connection=, =get_country_code=,
    =column_operation=, =compute_percentages=.
 
    The indicator methods, are methods that compute the value of an
-   indicator and adds their values to the sqlite database. Examples of
+   indicator and adds their values to the SQL database. Examples of
    these functions are: =pupils_teachers_ratio=, =newly_recruited_teachers=,
    =teachers_percentage_female=, =percentage_trained_teachers=,
    =percentage_private_teachers=, =percentage_non_permanent_teachers=.
 
-   There are only two action methods: =compute_all_indicators= and
-   =__init__=. The first one is a method that calls all the indicator
-   methods. The second one, as for all classes is called when a class
-   is instantiated.
-   
-** New indicators   
-   
-   If it is needed to add a new indicator, two things need to be
-   done. First a method that computes the values of the indicator and
-   adds them to the database should be added. After this, a call to
-   this method should be added to =compute_all_indicators=. After this
-   is done, the GUI will also compute this method when the calculate
-   button is pressed.
+   There are only two action methods: =__init__= and  =compute_all_indicators=. The former is the initializer of the class and is called every time the class is initiated. The latter is a method that calls all the other indicators methods.
 
-   Before adding a method as explained in the paragraph before, one
-   usually wants to test a new indicator in a different file without
-   modifying the main code. Now we give an example of how to do this.
+   Without dwelling into much detials the objective of this section is to show how to program new indicators by using the methods of the =indicators= class.
 
-   The first thing that needs to be done is to add the =rmquestionnaire=
-   library to our script. Since it is not installed in a folder where
-   python can find it, we need to do this by hand. This can be achieved
-   with the following code
+** Setup template
+
+   To program new indicators, we first need to create a method that computes the values of the indicator and writes those values to the database. Second, we need to add the new created method to =compute_all_indicators= method. At this point, the GUI will also compute this method when the =Calculate= button is clicked. The following is the current  =compute_all_indicators= method, which shows the list of indicators that are calculated every time this method is called. 
+
+   #+begin_src python
+
+def compute_all_indicators(self):
+        """ Excute functions to calculate indicators."""
+        ### Moving data to Audit Temp
+        self.audit_trail()
+
+        ##### Calculating indicators
+        self.pupils_teachers_ratio()
+        self.newly_recruited_teachers()
+        self.teachers_percentage_female()
+        self.percentage_trained_teachers()
+        self.percentage_private_teachers()
+        self.attrition_rate()
+        self.percentage_non_permanent_teachers()
+        self.percentage_teachers_attainment()
+        self.percentage_teachers_exp()
+        self.percentage_teachers_age()
+        self.mean_level(self.mean_exp_level)
+        self.mean_level(self.mean_age_level)
+        self.dissimilarity_index()
+   
+        ## Moving changed values to Audut trail
+        self.audit_trail(False)
+   #+end_src
+
+
+   Before adding a method to the indicators class, we advise to test it in a different file without modifying the main code in ~rmindicators.py~. Let's start with an example on how to do this. First, in a new script, import the =rmquestionnaire=
+   library so we can use its methods. This can be achieved
+   with the following code:
 
    #+BEGIN_SRC python :session example1 :export code :tangle ind_test1.py
      import sys, os
@@ -70,16 +84,96 @@
 
    #+RESULTS:
 
-   The only thing that needs to be adapted form the code above is the
-   instead the path to the main folder of the program in your computer
-   should be used. After doing this, we can create a class testing
-   class for the new indicators. Let us say that we want to compute
-   the proportion of teachers in public schools in ISCED1 that have
-   one or two years of experience. Let us call this indicator
-   "PT.1.Pu.Exp1t2". This would correspond to dividing "T.1.Pu.Exp1t2"
-   by "T.1.Pu". The method =column_operation= is very handy in this
-   case. This indicator can be coded in the following way:
+   by modifying the =path_to_main_RMS_folder= to your path to the main folder where =RMS= is installed, for example ~/Desktop/RMS~ if it is installed on your desktop. Second, create a test class that inherits all the methods in the ~indicators~ class, you can do this using the following code. 
 
+   #+BEGIN_SRC python :session example1 :export code :tangle ind_test1.py
+    class tests_indicators(indicators):
+   #+END_SRC
+
+   Finally, use the SQL methods of class ~indicators~ to write to SQL. This could be done by ~write_indic_sql~, which writes a dictionary of indicator values to SQL. The key of the dictionary is the indicator name, and the value of the dictionary is the indicators values. The following is a complete template that you can use by modifying the path to the main RMS directory and the indicator and function names.
+
+  #+BEGIN_SRC python :session example1 :export code :tangle ind_test1.py
+     import sys, os
+     os.chdir(path_to_main_RMS_folder)  # Path to main directory
+     sys.path.append('Libraries')
+     from rmquestionnaire import *
+
+    class tests_indicators(indicators):
+         def function_indicator_name(self):
+             # The following is a dictionary used for inserting the value in the database
+             ind_dict={}
+             indicator_name="MyIndicator"
+             ### Start of indicator calculation method
+                
+             indicator_values= = ....... # attach indicator values to this variable
+             ### End of indicator calculation method
+
+             # We prepare a dictionary for the function write_indic_sql
+             ind_dict[indicator_name]=indicator_values
+             self.write_indic_sql(ind_dict)
+  #+END_SRC
+
+
+   At this point we are ready to program the new indicator method. 
+
+   Let us say that we want to compute the proportion of teachers in public schools in ISCED1 that have
+   one or two years of experience. Let us call this indicator "PT.1.Pu.Exp1t2". This would correspond to dividing "T.1.Pu.Exp1t2" by "T.1.Pu". The method =column_operation= is very handy in this case. Almost all the current indicators rely heavily on this function, therefore it deserves a discussion by itself.
+
+** Column operation
+    The function =column operation= applies a function to two columns in any of the tables of the RM questionnaire. Since all columns are indexed by an alphanumeric code (AC), it is sufficient to pass the ACs themselves and =column_operation= will extract all the region and national figures of these two ACs and preform an operation on each of the adjacent cells of these columns. 
+
+    The =column_operation= has three arguments, the first two arguments have the form =[AC,year]=, where AC is an alphanumeric
+    code and year is either 0 or -1. 0 stands for the value of the current year and -1 for the previous year. We only pass 0 or -1 rather than the complete year as 2014 or 2015, because by initiating the indicator class, you need to pass to it the country name and year, thus it already knows this information. The third argument is a function of the following =sum=, =prod=, =div= and =neg= that compute the sum, multiplication, division and negation according to a specific set of rules that we call /algebras/. All these functions are seen in the first part of =Libraries/rmindicators.py= and are not the default =Python= operations. 
+
+    To use any of the four mathematical operations, each takes two  arguments of the form =[fig, symbol]= (it can be a list or a tupple). =symbol= has to be one of the following: 'a', 'm', 'n', 'x' or 'value' depending if the data is not applicable, missing,  null, a reference or a number respectively. =fig= is the value to which the operation is going to be applied. The functions return a pair =[value, symbol]=, where value is the result of the function applied to the values received and symbol is the magnitude of this value. The objective of the algebra is to decide whether the operation should be preformed or the data is irregular. For example, when you attempt to sum two columns say, ~E.1.Pu~ and ~E.1.Pr~, say that for one of the regions ~E.1.Pu=10~ while ~E.1.Pr~ is missing, what should be the value of the sum? We answer this question by constructing a table as shown below, where the upper left corner is the name of the operation, and each cell, excluding the row and column headers, corresponds to the resulting magnitude value when preforming the operation. For example, since ~E.1.Pu=10~ and say it doesn't include any other category, then its magnitude is ~value~, while ~E.1.Pr~ has a magnitude of ~m~ for missing. Thus, the sum of ~[10, '']~ and ~['', 'm']~ would return ~['', 'm']~ as a null =fig= and a missing magnitude =symbol=, based on the table. The cell that corresponds to ~value~ and ~m~ is ~m~.
+
+
+  | Sum     | a | m | n     | x | value |
+  |---------+---+---+-------+---+-------|
+  | *a*     | a | a | a     | a | a     |
+  | *m*     | a | m | m     | m | m     |
+  | *n*     | a | m | n     | m | value |
+  | *x*     | a | m | m     | m | m     |
+  | *value* | a | m | value | m | value |
+  |---------+---+---+-------+---+-------|
+
+    In Python this looks like:
+
+#+BEGIN_SRC python
+sum([10, 'value], ['', 'm']) = ['', 'm']
+#+END_SRC 
+
+
+    While if ~E.1.Pr=5~ then the cell that corresponds to ~(value, value)~ is also ~value~, in this case the sum operation is preformed. 
+
+#+BEGIN_SRC python
+sum([10, 'value], [5, 'value']) = [15, 'value']
+#+END_SRC 
+
+    You can view these algebra rules in the following files:
+    + ~RMS/Libraries/algebra-sum.csv~ for the sum algebra as in the table above.
+    + ~RMS/Libraries/algebra-prod.sv~ for the product algebra.
+    + ~RMS/Libraries/algebra-div.csv~ for the division algebra as in the table above.
+    The negation algebra is the same as the sum algebra. 
+
+
+#+begin_important
+The algebra files are read every time the ~RM_GUI~ is initiated, thus, if the user doesn't agree with the result of the algebra you can change it directly in the file. *BE CAREFUL* as the software might behave inappropriately if the algebra is set wrong. For example, when summing a numeric value with a non-numeric one. 
+#+end_important
+
+Now to sum any two ACs, or columns, of the RM questionnaire, one can use the =column_operation= function directly as 
+
+#+BEGIN_SRC python
+column_operation(['E.1.Pr', 0], ['E.1.Pu', 0], sum) 
+#+END_SRC
+This would return the sum of the each of the two adjacent cells of the columns, that is region by region. 
+
+
+** Example
+   To get back to our example, we wanted to compute the proportion of teachers in public schools in ISCED1 that have
+   one or two years of experience. Let us call this indicator "PT.1.Pu.Exp1t2". This would correspond to dividing "T.1.Pu.Exp1t2" by "T.1.Pu". To do so, we use the =column_operation= and =div= with the template provided in the end of [[Setup template]] section. 
+
+   We define the function name as ~proportion_public_teachers_1t2exp_isced1(self)~, and the code looks like:
 
    #+BEGIN_SRC python :session example1 :export code :tangle ind_test1.py
      class tests_indicators(indicators):
@@ -93,52 +187,31 @@
              self.write_indic_sql(ind_dict)
    #+END_SRC
 
-   =column operation= applies a function to two alphanumeric codes for
-   all the regions and also at the country level. The first two
-   arguments have the form =[AC,year]=, where AC is an alphanumeric
-   code and year is either 0 or 1. 0 stands for the value of the
-   current year and -1 for the previous year. The third argument is a
-   function, in the example above =div=. This function has to take two
-   arguments of the form =[fig, symbol]= (it can be a list or a
-   tupple). =symbol= has to be one of the following: 'a', 'm', 'n',
-   'x' or 'value' depending if the data is not applicable, missing,
-   null, a reference or a number respectively. =fig= is the value to
-   which the operation if going to be applied. The function has also
-   to return a pair =[value, symbol]=, where value is the result of
-   the function applied to the values received and symbol is as
-   before. There library has already the functions =sum=, =prod= and
-   =div=, that compute the sum, multiplication and division according
-   to the algebra. 
-
-   After the definition of the test class. We can test the new
-   indicator with the following code
+  
+   We can test the new indicator with the following code
 
    #+BEGIN_SRC python :session example1 :export code :tangle ind_test1.py
-     test_object=tests_indicators("/home/oscar/RMS/Database/Prod.db",2015,"Lao People's Democratic Republic",'test_user')
-     #test_object=tests_indicators(path_to_database,year,country_name,'test_user')
+     test_object=tests_indicators(path_to_database,year,country_name,'test_user')
      test_object.proportion_public_teachers_1t2exp_isced1()
    #+END_SRC
 
    where =path_to_database= is a string with the full path to the
-   database file, =year= the emco year for which the indicator is
-   being computed and country_name the name of the country for which
-   it is being calculated. In order for this to work, a questionnaire
+   database file, =year= the data year, i.e 2014, for which the indicator is
+   being computed and ~country_name~ is the country name of interest. In order for this to work, a questionnaire
    for the corresponding country and year should have been already
-   imported to the database. After running the command above, it is
+   inserted in the database. After running the command above, it is
    possible to check the computed indicator directly in the
    database. To do this, open the database with sqlite and run the
    following command:
 
    #+BEGIN_SRC sqlite
-     select IND_ID ,ADM_CODE, FIG from  EDU_INDICATOR_EST AS A JOIN COUNTRY AS B ON A.CO_CODE = B.CO_CODE WHERE B.CO_LONG_NAME= country_name ;
+     SELECT IND_ID ,ADM_CODE, FIG FROM  EDU_INDICATOR_EST AS A 
+     JOIN COUNTRY AS B ON A.CO_CODE = B.CO_CODE 
+     WHERE B.CO_LONG_NAME= country_name ;
    #+END_SRC
 
    Notice that =country_name= above has to be changed for the actual
-   name of the country you are using for the test. At this part you
-   can check if you are getting the correct values (compared for
-   example to computing them by hand). If they are not, you can modify
-   the function that computes the indicator, until it gives the right
-   values.
+   name of the country you are using for the test. 
 
    Let us say that now you feel confident with your indicator function
    and that you want it to be included in the indicators computed by
@@ -146,3 +219,36 @@
    the indicator into the indicators class in the
    =/RMS/Libraries/rmindicators.py= file. After doing this you need to
    add a call to this method in the =compute_all_indicators=.
+
+   In our example, we copy the following code from the ~tests_indcators~ class above:
+   
+
+   #+BEGIN_SRC python
+   def proportion_public_teachers_1t2exp_isced1(self):
+             # The following is a dictionary used for inserting the value in the database
+             ind_dict={}
+             indicator_name="PT.1.Pu.Exp1t2"
+             indicator_values=self.column_operation(["T.1.Pu.Exp1t2",0],["T.1.Pu",0],div)
+             # We prepare a dictionary for the function write_indic_sql
+             ind_dict[indicator_name]=indicator_values
+             self.write_indic_sql(ind_dict)
+   #+END_SRC
+   
+   and paste it after the line 
+   #+BEGIN_SRC python 
+   class indicators():
+   #+END_SRC
+   in the file ~RMS/Libraries/rmindicators.py~. Finally add the line
+
+   #+BEGIN_SRC python 
+   self.proportion_public_teachers_1t2exp_isced1()
+   #+END_SRC
+
+   to the body of the function =compute_all_indicators= between the ~self.audit_trail~ functions. 
+
+   Now if you use the GUI to calculate indicators, your new indicator should appear in the drop-down list of indicators.
+
+    #+BEGIN_CENTER
+    -- -- END -- --
+    #+END_CENTER
+

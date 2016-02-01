@@ -14,7 +14,7 @@ Things left to do:
           + [ ] How to calculate all indicators
           + [ ] How to calculate one by one.
         * [ ] How to read audit trail tables, and show some changes. 
-      * [ ] add new indicator :mo:edit:
+      * [X] add new indicator :mo:edit:
       * [-] python help files.
         * [ ] rmindicators :mo:done:
         * [X] rmExcelWriter
