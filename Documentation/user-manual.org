@@ -1,7 +1,7 @@
 #+TITLE: Regional Module User Manual
 #+DATE: February 1st, 2016
 #+AUTHOR: Oscar Alberto Quijano Xacur and Mohamad Elmasri
-#+OPTIONS: ':nil *:t -:t ::t <:t H:3 \n:nil ^:t arch:headline
+#+OPTIONS: ':nil *:t -:t ::t <:t H:3 \n:nil ^:{} arch:headline
 #+OPTIONS: author:t c:nil creator:comment d:(not "LOGBOOK") date:t
 #+OPTIONS: e:t email:nil f:t inline:t num:t p:nil pri:nil stat:t
 #+OPTIONS: tags:t tasks:t tex:t timestamp:nil toc:nil todo:t |:t
@@ -187,8 +187,8 @@ alphanumeric code (AC) only. Each way has its own drop-down list.
 *** Viewing modes
 When any data is exported, they are exported based on two viewing modes, an ~Edit~ and a ~Read only~ mode. 
     1) ~Edit~ mode: allows users to edit the data, comments and
-       inclusions in the Excel sheet and reinsert them to the
-       database as shown in [[Importing questionnaire to the database][Importing questionnaire to the database]]
+       inclusions in the Excel sheet and reinsert them to the database
+       as shown in [[Importing questionnaire to the database][Importing questionnaire to the database]]
        section. This works by preserving the table locations exactly
        where they are in the original questionnaire. Users will notice
        that created Excel workbooks look very similar to the original
@@ -197,7 +197,9 @@ When any data is exported, they are exported based on two viewing modes, an ~Edi
        the *configuration panel*; in the top left corner as seen in
        Figure [[fig:exportConfig]]. You are only allowed to modify cell
        figures, comments and inclusions. The configuration panel is
-       necessary to reinsert the data, without it the validation would fail and missing around with it might harm the functionality of the software.
+       necessary to reinsert the data, without it the validation would
+       fail and modifying it might harm the functionality of the
+       software.
     2) ~Read only~ mode: facilitates the viewing of the data by
        shifting tables to the left part of the Excel worksheet to
        avoid unnecessary scrolling. However, the mode will *not allow users to reinsert the data* back in the database, since the
@@ -319,7 +321,7 @@ conditions are saved and also printed to the Status panel:
          * country code matches the one taken from the database using the provided country name.
          * number of ADM is a positive integer. Note this variable is taken from the configuration panel, thus *DO NOT change it.*
     3) General checks: 
-       * check that all data values are either a number, inclusion (X), Z, a, n, or m. Otherwise, validation fails and error is printed.
+       * check that all data values are either a number, inclusion (X), Z,z,A,a,N,n,M or m. Otherwise, validation fails and error is printed.
 
 ** Data report
   At this step if the validation checks have passed, once the user
@@ -412,23 +414,22 @@ The following is the schema of the SQL table, where
     * =SERIES= is always set to =EST= since indicators are only calculated from estimated series.
 
 #+begin_src sql
-REATE TABLE INDICATOR_AUDIT_TRAIL
-CREATE TABLE INDICATOR_AUDIT_TRAIL(
-	Audit_ID Integer , -- Based on ROWID definition in SQLite, this should do the same job as auto-increment
-	IND_ID varchar(50) NOT NULL, -- indicator ID
-    CO_CODE decimal(6, 0) NOT NULL, -- country code
-    ADM_CODE INT NOT NULL, -- Administrative Division code.
-	IND_YEAR decimal(4, 0) NOT NULL, -- indicator data year
-	FIG_NEW varchar(4000) NULL, -- new figure
-	FIG_OLD varchar(4000) NULL, -- old figure
-	QUAL_NEW char(1) NULL,  -- new qualifier
-	QUAL_OLD char(1) NULL,  -- old qualifier
-	MAGN_NEW char(1) NULL,  -- new magnitude
-	MAGN_OLD char(1) NULL,  -- old magnitude
-	USER_NAME varchar(20) NOT NULL, 
-	SYS_DATE datetime DEFAULT (datetime('now','localtime')), -- local change time
-	SERIES varchar(10) NOT NULL, -- series is always EST
-    PRIMARY KEY (Audit_ID ASC));
+  CREATE TABLE INDICATOR_AUDIT_TRAIL(
+          Audit_ID Integer , -- Based on ROWID definition in SQLite, this should do the same job as auto-increment
+          IND_ID varchar(50) NOT NULL, -- indicator ID
+      CO_CODE decimal(6, 0) NOT NULL, -- country code
+      ADM_CODE INT NOT NULL, -- Administrative Division code.
+          IND_YEAR decimal(4, 0) NOT NULL, -- indicator data year
+          FIG_NEW varchar(4000) NULL, -- new figure
+          FIG_OLD varchar(4000) NULL, -- old figure
+          QUAL_NEW char(1) NULL,  -- new qualifier
+          QUAL_OLD char(1) NULL,  -- old qualifier
+          MAGN_NEW char(1) NULL,  -- new magnitude
+          MAGN_OLD char(1) NULL,  -- old magnitude
+          USER_NAME varchar(20) NOT NULL, 
+          SYS_DATE datetime DEFAULT (datetime('now','localtime')), -- local change time
+          SERIES varchar(10) NOT NULL, -- series is always EST
+      PRIMARY KEY (Audit_ID ASC));
 #+end_src  
 
 To read from the table, using ~sqlite3~ connect to ~Prod.db~ file or any other database file you are using and follow standard SQL extraction syntax as
@@ -657,9 +658,13 @@ The file should also automatically open up and in this example it looks like thi
   Technical notations used across the document: 
   * The =Python method= lists the name of function in the =Libraries/rmindicators.py= script that calculates that indicator.
   * The superscript =L=, means that the value from the previous year is being taken. For example, if the emco year is 2015 T.1^{L} means that the 2014 value of T.1.
-  * Some indicators correspond to the highest and lowest value among all the regions of some indicator. No AC codes appear in =Indic_IDs.xlsx= for these indicators. Thus, we have convened that if A is some alphanumeric code, A.Max and A.Min correspond to the  highest and lowest value, respectively, among all the regions for the AC code A. The fourth column of each indicators says if there is also a highest and lowest indicator.
+  * Some indicators correspond to the highest and lowest value among
+    all the regions of some indicator; A.Max and A.Min correspond to the
+    highest and lowest value, respectively, among all the regions for
+    the AC code A. The fourth column of each indicators says if there
+    is also a highest and lowest indicator.
 
-Some more specific technical notation exists some of the subsections.
+Some more specific technical notation exists for some of the subsections.
 
 ** Percentage of female teachers
 
@@ -1001,10 +1006,45 @@ def compute_all_indicators(self):
 ** Column operation
     The function =column operation= applies a function to two columns in any of the tables of the RM questionnaire. Since all columns are indexed by an alphanumeric code (AC), it is sufficient to pass the ACs themselves and =column_operation= will extract all the region and national figures of these two ACs and preform an operation on each of the adjacent cells of these columns. 
 
-    The =column_operation= has three arguments, the first two arguments have the form =[AC,year]=, where AC is an alphanumeric
-    code and year is either 0 or -1. 0 stands for the value of the current year and -1 for the previous year. We only pass 0 or -1 rather than the complete year as 2014 or 2015, because by initiating the indicator class, you need to pass to it the country name and year, thus it already knows this information. The third argument is a function of the following =sum=, =prod=, =div= and =neg= that compute the sum, multiplication, division and negation according to a specific set of rules that we call /algebras/. All these functions are seen in the first part of =Libraries/rmindicators.py= and are not the default Python operations. 
+    The =column_operation= has three arguments, the first two
+    arguments have the form =[AC,year]=, where AC is an alphanumeric
+    code and year is either 0 or -1. 0 stands for the value of the
+    current year and -1 for the previous year. We only pass 0 or -1
+    rather than the complete year as 2014 or 2015, because by
+    initiating the indicator class, you need to pass to it the country
+    name and year, thus it already knows this information. The third
+    argument is a function of the following =sum=, =prod=, =div= and
+    =neg= that compute the sum, multiplication, division and negation
+    according to a specific set of rules that we call /algebras/. All
+    these functions are seen in the first part of
+    =Libraries/rmindicators.py= and are not the default Python
+    operations. It is also possible to only pass the first
+    argument. In this case the values that correspond to the
+    alphanumeric code and year are returned.
 
-    To use any of the four mathematical operations, each takes two  arguments of the form =[fig, symbol]= (it can be a list or a tupple). =symbol= has to be one of the following: 'a', 'm', 'n', 'x' or 'value' depending if the data is not applicable, missing,  null, a reference or a number respectively. =fig= is the value to which the operation is going to be applied. The functions return a pair =[value, symbol]=, where value is the result of the function applied to the values received and symbol is the magnitude of this value. The objective of the algebra is to decide whether the operation should be preformed or the data is irregular. For example, when you attempt to sum two columns say, ~E.1.Pu~ and ~E.1.Pr~, say that for one of the regions ~E.1.Pu=10~ while ~E.1.Pr~ is missing, what should be the value of the sum? We answer this question by constructing a table as shown below, where the upper left corner is the name of the operation, and each cell, excluding the row and column headers, corresponds to the resulting magnitude value when preforming the operation. For example, since ~E.1.Pu=10~ and say it doesn't include any other category, then its magnitude is ~value~, while ~E.1.Pr~ has a magnitude of ~m~ for missing. Thus, the sum of ~[10, '']~ and ~['', 'm']~ would return ~['', 'm']~ as a null =fig= and a missing magnitude =symbol=, based on the table. The cell that corresponds to ~value~ and ~m~ is ~m~.
+    To use any of the four mathematical operations, each takes two
+    arguments of the form =[fig, symbol]= (it can be a list or a
+    tupple). =symbol= has to be one of the following: 'a', 'm', 'n',
+    'x' or 'value' depending if the data is not applicable, missing,
+    null, a reference or a number respectively. =fig= is the value to
+    which the operation is going to be applied. The functions return a
+    pair =[value, symbol]=, where value is the result of the function
+    applied to the values received and symbol is the magnitude of this
+    value. The objective of the algebra is to decide whether the
+    operation should be preformed or the data is irregular. For
+    example, when you attempt to sum two columns say, ~E.1.Pu~ and
+    ~E.1.Pr~, say that for one of the regions ~E.1.Pu=10~ while
+    ~E.1.Pr~ is missing, what should be the value of the sum? We
+    answer this question by constructing a table as shown below, where
+    the upper left corner is the name of the operation, and each cell,
+    excluding the row and column headers, corresponds to the resulting
+    magnitude value when preforming the operation. For example, since
+    ~E.1.Pu=10~ and say it doesn't include any other category, then
+    its magnitude is ~value~, while ~E.1.Pr~ has a magnitude of ~m~
+    for missing. Thus, the sum of ~[10, '']~ and ~['', 'm']~ would
+    return ~['', 'm']~ as a null =fig= and a missing magnitude
+    =symbol=, based on the table. The cell that corresponds to ~value~
+    and ~m~ is ~m~.
 
 
   | Sum     | a | m | n     | x | value |
