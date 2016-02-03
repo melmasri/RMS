@@ -21,11 +21,12 @@
 #+latex_header: \usepackage[letterpaper,left=2cm,top=2cm,bottom=2cm,right=2cm]{geometry}
 #+latex_header: \setlength\parindent{0pt}
 #+latex_header: \usepackage[parfill]{parskip}
+#+latex_header: \usepackage{color}
+#+latex_header: \usepackage[dvipsnames]{xcolor}
 #+latex_header: \usepackage{fancyvrb}
 #+latex_header: \makeatletter
 #+latex_header: \def\verbatim{\small\@verbatim \frenchspacing\@vobeyspaces \@xverbatim}
 #+latex_header: \makeatother
-#+latex_header: \usepackage{color}
 #+latex_header: \makeatletter 
 #+latex_header: \renewcommand\verbatim@font{\normalfont\ttfamily\color{gray}}
 #+latex_header: \makeatother
@@ -1126,7 +1127,7 @@ sum([10, 'value], [5, 'value']) = [15, 'value']
 
 
 #+begin_important
-The algebra files are read every time the =RM_GUI= is initiated, thus, if the user doesn't agree with the result of the algebra you can change it directly in the file. *BE CAREFUL* as the software might behave inappropriately if the algebra is set wrong. For example, when summing a numeric value with a non-numeric one. 
+The algebra files are read every time the =RM_GUI= is initiated, thus, if the user doesn't agree with the result of the algebra you can change it directly in the file. *Be careful* as the software might behave inappropriately if the algebra is set wrong. For example, when summing a numeric value with a non-numeric one. 
 #+end_important
 
 Now to sum any two ACs, or columns, of the RM questionnaire, one can use the =column_operation= function directly as 
