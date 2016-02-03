@@ -16,10 +16,24 @@
 #+latex_header: \floatstyle{ruled}
 #+latex_header: \newfloat{code}{h}{txt}
 #+latex_header: \floatname{code}{Code example}
+#+latex_header: \renewcommand{\textfraction}{0.07}
+#+latex_header: \hypersetup{colorlinks,citecolor=black,filecolor=black,linkcolor=black,urlcolor=black}
+#+latex_header: \usepackage[letterpaper,left=2cm,top=2cm,bottom=2cm,right=2cm]{geometry}
+#+latex_header: \setlength\parindent{0pt}
+#+latex_header: \usepackage[parfill]{parskip}
+#+latex_header: \usepackage{fancyvrb}
+#+latex_header: \makeatletter
+#+latex_header: \def\verbatim{\small\@verbatim \frenchspacing\@vobeyspaces \@xverbatim}
+#+latex_header: \makeatother
+#+latex_header: \usepackage{color}
+#+latex_header: \makeatletter 
+#+latex_header: \renewcommand\verbatim@font{\normalfont\ttfamily\color{gray}}
+#+latex_header: \makeatother
 
 #+startup: nofold
 #+SETUPFILE: css/theme-readtheorg-local.setup
 
+#+ATTR_LATEX: :width 0.7\textwidth
 #+CAPTION: Screen shot of RM_GUI.
 #+NAME:   fig:RM_GUI
 [[./img/RM_GUI.png]]
@@ -206,6 +220,7 @@ When any data is exported, they are exported based on two viewing modes, an =Edi
        import a =Read only= mode file, the validation step will fail,
        hence not allowed to import.
 
+#+ATTR_LATEX:  :width 0.38\textwidth
 #+CAPTION: Screen shot of the top left corner of an exported Excel sheet which shows the configuration panel.
 #+NAME:   fig:exportConfig
 [[./img/exportConfig.png]]
@@ -670,7 +685,9 @@ Some more specific technical notation exists for some of the subsections.
 
    + Python method :: teachers_percentage_female
    + IND_IDS information ::
-        |          | IND_ID | FORMULA            | H & L |
+#+latex: \\
+   #+ATTR_LATEX:  :align |r|l|c|c|
+        |          | IND_ID  | FORMULA            | H & L |
         |----------+---------+--------------------+-------|
         | ISCED 1  | FTP.1   | NT.1.F/T.1         | yes   |
         | ISCED 2  | FTP.2   | NT.2.GPV/T.2.GPV   | yes   |
@@ -682,18 +699,22 @@ Some more specific technical notation exists for some of the subsections.
 
    + Python method :: newly_recruited_teachers
    + IND_IDS information :: 
-        |          | IND_ID     | FORMULA                | H & L |
-        |----------+-------------+------------------------+-------|
-        | ISCED 1  | NTP.1       | NT.1/T.1               | no    |
-        | ISCED 2  | NTP.2       | NT.2.GPV/T.2.GPV       | no    |
-        | ISCED 3  | NTP.3       | NT.3.GPV/T.3.GPV       | no    |
-        | ISCED 23 | NTP.2t3     | NT.23.GPV/T.23.GPV     | no    |
-        |----------+-------------+------------------------+-------|
+#+latex: \\
+   #+ATTR_LATEX:  :align |r|l|c|c|
+        |          | IND_ID  | FORMULA            | H & L |
+        |----------+---------+--------------------+-------|
+        | ISCED 1  | NTP.1   | NT.1/T.1           | no    |
+        | ISCED 2  | NTP.2   | NT.2.GPV/T.2.GPV   | no    |
+        | ISCED 3  | NTP.3   | NT.3.GPV/T.3.GPV   | no    |
+        | ISCED 23 | NTP.2t3 | NT.23.GPV/T.23.GPV | no    |
+        |----------+---------+--------------------+-------|
     
 ** Pupils teachers ratio
 
    + Python method ::  pupils_teachers_ratio
    + IND_IDS information :: 
+#+latex: \\
+   #+ATTR_LATEX:  :align |r|l|c|c|
         |          | IND_ID   | FORMULA           | H & L |
         |----------+-----------+-------------------+-------|
         | ISCED 1  | PTRHC.1   | E.1/T.1           | yes   |
@@ -705,7 +726,9 @@ Some more specific technical notation exists for some of the subsections.
 ** Percentage of trained teachers
 
    + Python method ::  percentage_trained_teachers
-   + IND_IDS information :: 
+   + IND_IDS information ::
+#+latex: \\
+   #+ATTR_LATEX:  :align |r|l|c|c|
         |          | IND_ID  | FORMULA                   | H & L |
         |----------+----------+---------------------------+-------|
         | ISCED 1  | TRTP.1   | T.1.trained/T.1           | yes   |
@@ -715,7 +738,8 @@ Some more specific technical notation exists for some of the subsections.
         |----------+----------+---------------------------+-------|
    In this same method, there is the computation of the percentage of
    trained newly recruited teachers, which has the following table
-   
+#+latex: \\
+   #+ATTR_LATEX:  :align |r|l|c|c|
    |          | IND_ID   | FORMULA                     | H & L |
    |----------+-----------+-----------------------------+-------|
    | ISCED 1  | TrNTP.1   | NT.1.trained/NT.1           | yes   |
@@ -726,7 +750,9 @@ Some more specific technical notation exists for some of the subsections.
 
 ** Percentage of private teachers
    + Python method ::  percentage_private_teachers
-   + IND_IDS information :: 
+   + IND_IDS information ::
+#+latex: \\
+   #+ATTR_LATEX:  :align |r|l|c|c|
         |          | IND_ID  | FORMULA              | H & L |
         |----------+----------+----------------------+-------|
         | ISCED 1  | PrTP.1   | T.1.Pr/T.1           | yes   |
@@ -739,7 +765,9 @@ Some more specific technical notation exists for some of the subsections.
    This has three sets of symbols. One for the private sector, one
    for the public sector and one combined.
    + Python method ::  percentage_non_permanent_teachers
-   + IND_IDS information Private :: 
+   + IND_IDS information Private ::
+#+latex: \\
+   #+ATTR_LATEX:  :align |r|l|c|c| 
         |          | IND_ID          | FORMULA                     | H & L |
         |----------+------------------+-----------------------------+-------|
         | ISCED 1  | FixTP.1.Pr       | T.1.Pr.Fix/T.1.Pr           | no    |
@@ -748,7 +776,9 @@ Some more specific technical notation exists for some of the subsections.
         | ISCED 23 | FixTP.2t3.GPV.Pr | T.23.GPV.Pr.Fix/T.23.GPV.Pr | no    |
         |----------+------------------+-----------------------------+-------|
 
-   + IND_IDS information Public :: 
+   + IND_IDS information Public ::
+#+latex: \\
+   #+ATTR_LATEX:  :align |r|l|c|c| 
         |          | IND_ID          | FORMULA                     | H & L |
         |----------+------------------+-----------------------------+-------|
         | ISCED 1  | FixTP.1.Pu       | T.1.Pu.Fix/T.1.Pu           | no    |
@@ -756,7 +786,10 @@ Some more specific technical notation exists for some of the subsections.
         | ISCED 3  | FixTP.3.GPV.Pu   | T.3.GPV.Pu.Fix/T.3.GPV.Pu   | no    |
         | ISCED 23 | FixTP.2t3.GPV.Pu | T.23.GPV.Pu.Fix/T.23.GPV.Pu | no    |
         |----------+------------------+-----------------------------+-------|
-   + IND_IDS information Combined :: 
+
+   + IND_IDS information Combined ::
+#+latex: \\
+   #+ATTR_LATEX:  :align |r|l|c|c| 
         |          | IND_ID       | FORMULA                                                     | H & L |
         |----------+---------------+-------------------------------------------------------------+-------|
         | ISCED 1  | FixTP.1       | (T.1.Pr.Fix+T.1.Pu.Fix)/(T.1.Pr+T.1.Pu)                     | no    |
@@ -768,7 +801,9 @@ Some more specific technical notation exists for some of the subsections.
 ** Attrition rate
 
    + Python method ::  percentage_non_permanent_teachers
-   + IND_IDS information Private :: 
+   + IND_IDS information Private ::
+#+latex: \\
+   #+ATTR_LATEX:  :align |r|l|c|c| 
         |          | IND_ID         | FORMULA                                                | H & L |
         |----------+----------------+--------------------------------------------------------+-------|
         | ISCED 1  | TAttrR.1       | 100*(T.1^{L} + NT.1 - T.1)/T.1^{L}                     | no    |
@@ -781,6 +816,8 @@ Some more specific technical notation exists for some of the subsections.
 
    + Python method :: mean_age_level(level in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV'])
    + IND_IDS information :: 
+#+latex: \\
+   #+ATTR_LATEX:  :align |r|l|c|c|
         |          | IND_ID       | FORMULA                                                                   | H & L |
         |----------+---------------+---------------------------------------------------------------------------+-------|
         | ISCED 1  | MAge.T.1      | $\sum_{\text{ y in cat}} \frac{T.1.y \times MidDur(y) }{ Pop.Ag0t99}$     | No    |
@@ -789,6 +826,8 @@ Some more specific technical notation exists for some of the subsections.
         | ISCED 23 | MAge.T.23.GPV | $\sum_{\text{ y in cat}} \frac{T.23.GPV.y\times MidDur(y) }{ Pop.Ag0t99}$ | No    |
         |----------+---------------+---------------------------------------------------------------------------+-------|
         where =Cat= is =Ag20m=, =Ag20t29=, =Ag30t39=, =Ag40t49=, =Ag50t59= and =Ag60p=. Midpoints are based on the following:
+#+latex: \\
+   #+ATTR_LATEX:  :align |r|l|c|c|
         | Age in years | <20 | 20-29 | 30-39 | 40-49 | 50-59 | 60+ |
         |--------------+-----+-------+-------+-------+-------+-----|
         | Midpoint     |  20 |  24.5 |  34.5 |  44.5 |  54.5 |  60 |
@@ -798,7 +837,9 @@ Some more specific technical notation exists for some of the subsections.
 ** Mean years of experience 
 
    + Python method :: mean_exp_level(level in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV'])
-   + IND_IDS information :: 
+   + IND_IDS information ::
+#+latex: \\
+   #+ATTR_LATEX:  :align |r|l|c|c|
         |          | IND_ID       | FORMULA                                                                     | H & L |
         |----------+---------------+-----------------------------------------------------------------------------+-------|
         | ISCED 1  | MExp.T.1      | $\sum_{\text{ y in cat}} \frac{T.1.y \times \times MidDur(y)}{ Pop.Ag0t99}$ | No    |
@@ -808,6 +849,8 @@ Some more specific technical notation exists for some of the subsections.
         |----------+---------------+-----------------------------------------------------------------------------+-------|
         where =cat= is  =Exp1t2=,  =Exp3t5=, =Exp6t10=,  =Exp11t15= and  =Exp15p=. 
        =MidDur= is =[Exp1t2 = 1.5, Exp3t5 = 4, Exp6t10 = 8, Exp11t15 = 13, Exp15p = 15]=. Mid duration's are based on the following:  
+#+latex: \\
+   #+ATTR_LATEX:  :align |r|l|c|c|
         | experience in years | New | 1-2 | 3-5 | 6-10 | 11-15 | 15+ |
         |---------------------+-----+-----+-----+------+-------+-----|
         | Mid duration        | 0.5 | 1.5 |   4 |    8 |    13 |  17 |
@@ -818,7 +861,8 @@ Some more specific technical notation exists for some of the subsections.
 
    + Python method :: percentage_teachers_attainment
    + IND_IDS information :: 
-                       
+#+latex: \\
+   #+ATTR_LATEX:  :align |r|l|c|c|                       
      | Highest educational attainment | IND_ID        | FORMULA                                                       | H & L |
      |--------------------------------+---------------+---------------------------------------------------------------+-------|
      | Lower secondary or Less        | EA.2mPT.ISCED | T.ISCED.EA.2m / T.ISCED                                       | No    |
@@ -835,6 +879,8 @@ Some more specific technical notation exists for some of the subsections.
 
    + Python method :: percentage_teachers_exp
    + IND_IDS information :: 
+#+latex: \\
+   #+ATTR_LATEX:  :align |r|l|c|c|
        | Experience         | IND_ID           | FORMULA                  | H & L |
        |--------------------+------------------+--------------------------+-------|
        | 1 to 2 years       | Exp1t2mPT.ISCED  | T.ISCED.Exp1t2/T.ISCED   | No    |
@@ -852,6 +898,8 @@ Some more specific technical notation exists for some of the subsections.
 
    + Python method :: percentage_teachers_age
    + IND_IDS information :: 
+#+latex: \\
+   #+ATTR_LATEX:  :align |r|l|c|c|
         | Age                | IND_ID          | FORMULA                 | H & L |
         |--------------------+-----------------+-------------------------+-------|
         | Less than 20 years | Ag20mPT.ISCED   | T.ISCED.Ag20m/T.ISCED   | No    |
@@ -870,6 +918,8 @@ Some more specific technical notation exists for some of the subsections.
 
    + Python method :: dissimilarity_index
    + IND_IDS information :: 
+#+latex: \\
+   #+ATTR_LATEX:  :align |r|l|c|c|
         | Measures of inequality in the           | IND_ID            | FORMULA                                                                                       |
         |-----------------------------------------+-------------------+-----------------------------------------------------------------------------------------------|
         | All                                     | DIndT.IS          | \(\frac{1}{2} \sum_a\mid \frac{T.IS_a}{T.IS} - \frac{E.IS_a}{E.IS} \mid\)                     |
