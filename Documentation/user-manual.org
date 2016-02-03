@@ -185,20 +185,20 @@ alphanumeric code (AC) only. Each way has its own drop-down list.
 
 *** Viewing modes
 When any data is exported, they are exported based on two viewing modes, an =Edit= and a =Read only= mode. 
-    1) =Edit= mode: allows users to edit the data, comments and
+    + =Edit= mode :: allows users to edit the data, comments and
        inclusions in the Excel sheet and reinsert them to the database
        as shown in [[Importing questionnaire to the database][Importing questionnaire to the database]]
        section. This works by preserving the table locations exactly
        where they are in the original questionnaire. Users will notice
        that created Excel workbooks look very similar to the original
-       questionnaire. *do not move tables from their original locations*, change the sheet names, or delete any of the data in
-       the *configuration panel*; in the top left corner as seen in
+       questionnaire. *do not move tables from their original locations, reorder or change names of administrative divisions, change the sheet names, or delete any of the data in
+       the configuration panel*; in the top left corner as seen in
        Figure [[fig:exportConfig]]. You are only allowed to modify cell
        figures, comments and inclusions. The configuration panel is
        necessary to reinsert the data, without it the validation would
        fail and modifying it might harm the functionality of the
        software.
-    2) =Read only= mode: facilitates the viewing of the data by
+   + =Read only= mode :: facilitates the viewing of the data by
        shifting tables to the left part of the Excel worksheet to
        avoid unnecessary scrolling. However, the mode will *not allow users to reinsert the data* back in the database, since the
        tables or alphanumeric codes are not in the exact location as
@@ -1165,7 +1165,7 @@ This would return the sum of the each of the two adjacent cells of the columns, 
 
    Now if you use the GUI to calculate indicators, your new indicator should appear in the drop-down list of indicators.
 
-*  Code Documentation
+* Code Documentation
 This section explains how to process questionnaire data for the RMS questionnaire
 using Python code directly, instead of the Graphical User Interface (GUI). The first
 step is to import the library =rmquestionnaire= in =RMS\Libraries=, you can use the following code example.
