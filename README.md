@@ -1,6 +1,3 @@
-
-<link rel='stylesheet' href='markdown.css'/>
-
 # Regional Module processing software
 A Regional Module data management system created using Python and SQLite. Using the simply designed graphical user interface(GUI) `RM_GUI.py`, users are able to:
 
@@ -49,9 +46,9 @@ To start double-click on the `RM_GUI.py` shortcut and the GUI should pop-up.
 
 **For more details refer to**
 
-* A complete [User Manual](Documentation/user-manual.html)
-* A complete [User Manual](Documentation/user-manual.org)
-* Python [help files](Documentation/Python help/)
+* A complete [User Manual](Documentation/user-manual.html) in HTML format.
+* A complete [User Manual](Documentation/user-manual.org) in git markdown format.
+* Python [help files](Documentation/Python help/).
 
 ## Issues and extra features <sup>[1](#myfootnote1)</sup>
 Report issues and suggest features and improvements on the [GitHub issue tracker.](https://github.com/melmasri/RMS/issues)

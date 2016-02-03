@@ -52,10 +52,10 @@ This frame holds information that are essential for all tools in other frames, a
     * *Main working directory* is the path of the main folder where
       all the other mentioned sub-folders are located. Basically, it is
       the folder that contains all the software, from code to documentation.
-    * *Database* shows the path to the physical database (~.db~ file). In Figure [[fig:RM_GUI]], it is in the sub-folder ~Database~ of
-      the main folder as indicated by ~/Database/Prod.db~. For example if
-      the main directory is ~/Desktop/RMS~ then the database file is
-      at ~/Desktop/RMS/Database/Prod.db~.   
+    * *Database* shows the path to the physical database (=.db= file). In Figure [[fig:RM_GUI]], it is in the sub-folder =Database= of
+      the main folder as indicated by =/Database/Prod.db=. For example if
+      the main directory is =/Desktop/RMS= then the database file is
+      at =/Desktop/RMS/Database/Prod.db=.   
     * *Log folder* holds validation and data reports every time a user
       attempts validate, check only or insert the data. It is also a sub-folder of
       the main directory. See Sections [[Validation report]]  and [[Data report]] for more details.
@@ -72,9 +72,9 @@ This frame holds information that are essential for all tools in other frames, a
 
 ** Importing questionnaire to the database
 To Insert a questionnaire to the database, follow these steps:
-    1. Click on the ~Browse..~ button that is adjacent to ~file~
+    1. Click on the =Browse..= button that is adjacent to =file=
        label and select a file.
-    2. Validate the file by clicking on ~Validate~ button, since there
+    2. Validate the file by clicking on =Validate= button, since there
        are specific pre-processing checks to make sure that it
        conforms with the coding scheme. If the checks are passed, the
        Status panel will indicate with a note on the lines of 
@@ -87,12 +87,12 @@ To Insert a questionnaire to the database, follow these steps:
        Pre-processing validation failed. Some errors exist see log file in:
        Log/Lao People's Democratic Republic_16-01-22-11-35_validation.txt
        #+end_src
-       In both cases a validation report is saved in the ~Log folder~, and
-       should automatically open if the box ~Open validation report~ is ticked.
+       In both cases a validation report is saved in the =Log folder=, and
+       should automatically open if the box =Open validation report= is ticked.
     3. If validation passed, insert the questionnaire by clicking on
-       ~Insert~. The file is inserted to the database and a ~csv~ data report is
-       generated and saved in the ~Log folder~, and also should
-       automatically open if the box named ~Open data report~ is
+       =Insert=. The file is inserted to the database and a =csv= data report is
+       generated and saved in the =Log folder=, and also should
+       automatically open if the box named =Open data report= is
        ticked. A note on the lines of 
         #+begin_src
            INSERTION STEP
@@ -112,11 +112,11 @@ The steps above are simplified. For more details about the
 pre-processing checks and data report please refer to Sections [[Validation report]] and [[Data report]].
 
 #+begin_note
-    * Note that only files with ~.xlsx~ extensions are inserted.
-    * A copy of any inserted file is saved to the ~Export~ sub-folder with
+    * Note that only files with =.xlsx= extensions are inserted.
+    * A copy of any inserted file is saved to the =Export= sub-folder with
       time and data stamps attached to their names to indicate the
       time of importing.
-    * All validation files and data reports are saved to the ~Log folder~,
+    * All validation files and data reports are saved to the =Log folder=,
       while some information is shown in the Status panel.
 #+end_note
 
@@ -132,39 +132,39 @@ pre-processing checks and data report please refer to Sections [[Validation repo
     * *Open validation report* is a checkbox that is ticked by default to
       automatically open the validation report resulting from the validation
       step. Feel free to untick it as all the validation reports are saved in
-      the ~Log folder~.
+      the =Log folder=.
     * *Open data report* is a checkbox that is ticked by default to
       automatically open the date report resulting after inserting a
       questionnaire. Feel free to untick it since all data reports are
-      saved to the ~Log folder~.
+      saved to the =Log folder=.
 
-Finally, the button *~Check only~* allows the user to produce a data
+Finally, the button *=Check only=* allows the user to produce a data
 report without validating nor inserting the data. The objective is to
 streamline the cleaning process before finally inserting the data. 
 
 ** Exporting data or indicators to Excel
 *** Choosing a country name, year and series
-The ~Country~ drop-down list will only show names of countries with
+The =Country= drop-down list will only show names of countries with
 data already in the database. This drop-down list has a live connection to the database, thus if one inserts a questionnaire for a new country, as shown in a [[Importing questionnaire to the database][Importing questionnaire to the database]], the country's name should appear in the drop-down list directly.
 
-Once a country name is selected, the ~Year~ drop-down list shows years
+Once a country name is selected, the =Year= drop-down list shows years
 with available questionnaire data for the selected country. 
 
 The series drop-down list has three options:
     1. Reported (REP): where the original questionnaire is
        inserted, given that no person has changed or modified any of
        the data in this series. It is advised to only modify data in
-       the Observed series, thus the checkbox ~Import to REP~ is created.
+       the Observed series, thus the checkbox =Import to REP= is created.
     2. Observed (OBS): where the user is advised to modify and validate the
        data. 
     3. Estimated (EST): where the disseminated data set should be,
        *since the indicators are calculated from this series only*.
 
 *** Moving data between series
-An original questionnaire is always inserted to the /Reported/ series, to move it the /Observed/ or /Estimated/ series, choose first the country and then year, and then click on the buttons in the ~Move between databases~ frame.
+An original questionnaire is always inserted to the /Reported/ series, to move it the /Observed/ or /Estimated/ series, choose first the country and then year, and then click on the buttons in the =Move between databases= frame.
 
-    * ~REP to OBS~ would move the data from /Reported/ to /Observed/ series.
-    * ~OBS to EST~ would move the data from the /Observed/ to /Estimated/ series.
+    * =REP to OBS= would move the data from /Reported/ to /Observed/ series.
+    * =OBS to EST= would move the data from the /Observed/ to /Estimated/ series.
 
 *** Exporting data options
 
@@ -174,18 +174,18 @@ This section is important because is contains many necessary details to understa
 
 There are three ways to export data, sheet only, table only and
 alphanumeric code (AC) only. Each way has its own drop-down list.
-    + Sheet :: A drop-down list of all exportable questionnaire sheet names. Once a sheet is selected click on the adjacent ~Export~ button to export it to a new Excel workbook. To export all available sheets select ~All~ from the drop-down list.
-    + Table :: A drop-down list with all tables of the questionnaire. By selecting one and clicking on the adjacent ~Export~ button a new Excel workbook is created that holds the selected table.
-    + AC :: A drop-down list with all alphanumeric codes (AC) that are in the questionnaire. By selecting one and clicking on the adjacent ~Export~ button a new Excel workbook is created that holds the data.
+    + Sheet :: A drop-down list of all exportable questionnaire sheet names. Once a sheet is selected click on the adjacent =Export= button to export it to a new Excel workbook. To export all available sheets select =All= from the drop-down list.
+    + Table :: A drop-down list with all tables of the questionnaire. By selecting one and clicking on the adjacent =Export= button a new Excel workbook is created that holds the selected table.
+    + AC :: A drop-down list with all alphanumeric codes (AC) that are in the questionnaire. By selecting one and clicking on the adjacent =Export= button a new Excel workbook is created that holds the data.
 
 #+begin_note
-    + The exported workbooks are by default saved to ~Export~ sub-folder of the main directory, with the naming convention ~County Name-Year-Exported Variable-Series.xlsx~. 
-    + Users can change where to save exported files by selecting a folder in the option ~Select output folder~ as seen in the ~Exporting data to Excel~ frame in Figure [[fig:RM_GUI]]. If the user selects another output folder than ~Export~, only exported questionnaire data is placed there. Validation and data reports will still be saved to the log sub-folder ~Log~.
+    + The exported workbooks are by default saved to =Export= sub-folder of the main directory, with the naming convention =County Name-Year-Exported Variable-Series.xlsx=. 
+    + Users can change where to save exported files by selecting a folder in the option =Select output folder= as seen in the =Exporting data to Excel= frame in Figure [[fig:RM_GUI]]. If the user selects another output folder than =Export=, only exported questionnaire data is placed there. Validation and data reports will still be saved to the log sub-folder =Log=.
 #+end_note  
 
 *** Viewing modes
-When any data is exported, they are exported based on two viewing modes, an ~Edit~ and a ~Read only~ mode. 
-    1) ~Edit~ mode: allows users to edit the data, comments and
+When any data is exported, they are exported based on two viewing modes, an =Edit= and a =Read only= mode. 
+    1) =Edit= mode: allows users to edit the data, comments and
        inclusions in the Excel sheet and reinsert them to the database
        as shown in [[Importing questionnaire to the database][Importing questionnaire to the database]]
        section. This works by preserving the table locations exactly
@@ -198,12 +198,12 @@ When any data is exported, they are exported based on two viewing modes, an ~Edi
        necessary to reinsert the data, without it the validation would
        fail and modifying it might harm the functionality of the
        software.
-    2) ~Read only~ mode: facilitates the viewing of the data by
+    2) =Read only= mode: facilitates the viewing of the data by
        shifting tables to the left part of the Excel worksheet to
        avoid unnecessary scrolling. However, the mode will *not allow users to reinsert the data* back in the database, since the
        tables or alphanumeric codes are not in the exact location as
        they are in the original questionnaire. If users attempt to
-       import a ~Read only~ mode file, the validation step will fail,
+       import a =Read only= mode file, the validation step will fail,
        hence not allowed to import.
 
 #+CAPTION: Screen shot of the top left corner of an exported Excel sheet which shows the configuration panel.
@@ -211,9 +211,9 @@ When any data is exported, they are exported based on two viewing modes, an ~Edi
 [[./img/exportConfig.png]]
 
 #+begin_important
-    *  The viewing mode is chosen by the software. It is set to ~Edit~
+    *  The viewing mode is chosen by the software. It is set to =Edit=
        mode if a sheet or the whole questionnaire is exported,
-       otherwise it is set to ~Read only~ mode. Users can know the
+       otherwise it is set to =Read only= mode. Users can know the
        mode by looking at the configuration panel in any Excel sheet
        as seen in Figure [[fig:exportConfig]].
     *  Users are only allowed to select from the drop-down list, or
@@ -224,28 +224,28 @@ When any data is exported, they are exported based on two viewing modes, an ~Edi
 *** Exporting and calculating indicators
 
 Before exporting any indicators, we need to calculate them. For the
-selected country and year the ~Calculate~ button in the indicator
+selected country and year the =Calculate= button in the indicator
 sub-frame will calculate all indicators from the data in the
 /Estimated/ series. Therefore, users must make sure that data exist in
 the /Estimated/ series. Once all indicators are calculated, users can
 extract them using one of the following methods
     + Direct Extraction :: By selecting from the drop-down list or
-       typing the indicator name (IND_ID) and clicking on the adjacent ~Extract~
-       button. To extract all indicators select or type ~All~.
+       typing the indicator name (IND_ID) and clicking on the adjacent =Extract=
+       button. To extract all indicators select or type =All=.
     + Wildcard :: Since the huge list of indicators, users can
-       extract groups of indicators using name patterns, where ~%~
-       substitutes for zero or more characters and ~_~ substitutes for
+       extract groups of indicators using name patterns, where =%=
+       substitutes for zero or more characters and =_= substitutes for
        a single character. For example,
       * to extract all indicators for teachers of ISCED 1 in the
-        public sector you can type ~%T.1.Pu%~, since all requested
-        indicators have the pattern ~T.1.Pu~ in their name.
+        public sector you can type =%T.1.Pu%=, since all requested
+        indicators have the pattern =T.1.Pu= in their name.
       * to extract all the percentage of teachers with ISCED 2 or
-        less qualification in all ISCED levels, type ~EA2m%~, since
-        all of them start with the pattern ~EA2m~. If the interest is
-        in the public sector only, type ~EA2m%.Pu~.
+        less qualification in all ISCED levels, type =EA2m%=, since
+        all of them start with the pattern =EA2m=. If the interest is
+        in the public sector only, type =EA2m%.Pu=.
       * to extract the percentage of female teachers in ISCED levels 1, 2, and 3,
-        but not 2 and 3, type ~FT._~, since all have the pattern
-        ~FT.~ in their name and =_= substitutes for a single character.
+        but not 2 and 3, type =FT._=, since all have the pattern
+        =FT.= in their name and =_= substitutes for a single character.
 Note that wildcards are only applicable to indicator extraction, not
 raw data.
 
@@ -266,7 +266,7 @@ raw data.
       inclusions, the figure will be replaces by resulting magnitude code in the respective cell. *If the cell is empty, either the
       indicator is a national level indicator or the /Estimated/ series is empty.*
     * Indicators are always sorted alphabetically.
-    * Exported indicator file follow the naming convention ~County Name-Year-Indic-indicator name.xlsx~, when the use of wildcards, =%= is replaced with =xx=.
+    * Exported indicator file follow the naming convention =County Name-Year-Indic-indicator name.xlsx=, when the use of wildcards, =%= is replaced with =xx=.
 #+end_note  
 
 For the current version of the software, these are the list of calculated indicators:
@@ -287,11 +287,11 @@ For the current version of the software, these are the list of calculated indica
 For more details about the computational methods refer to [[Indicators][Indicators]] section.
 
 ** Validation report
-A validation report is created and saved in the ~Log~ sub-folder
+A validation report is created and saved in the =Log= sub-folder
 every time the user attempts to insert a questionnaire by clicking on
-the ~Validate~ button. It includes all confirmations and errors and
-have the naming convention as ~RM-Country
-Name-Year-Series-Data-Type-Time-Date.txt~. 
+the =Validate= button. It includes all confirmations and errors and
+have the naming convention as =RM-Country
+Name-Year-Series-Data-Type-Time-Date.txt=. 
 
 The idea of the validation is to list critical errors with
 the selected file. Only if all the validation checks pass the
@@ -305,17 +305,17 @@ conditions are saved and also printed to the Status panel:
        * the ADM names are filled.
        * the correct number of sheets are available with correct
          original names.
-       * reference year is filled and an integer, from cell ~M14~ in
+       * reference year is filled and an integer, from cell =M14= in
          "Policy information" sheet.
        * Any "No" in the "checking sheet" is copied to the validation report.
     2) If the insert is *not* in the original questionnaire format
-       * worksheet must be in ~Edit~ mode.
+       * worksheet must be in =Edit= mode.
        * configuration panel is properly filled.
          * no missing information.
-         * labels of configuration are in the proper order of ~[Country, CO_CODE, Year, Data, No.ADM, Series,Mode]~.
+         * labels of configuration are in the proper order of =[Country, CO_CODE, Year, Data, No.ADM, Series,Mode]=.
          * mode defined as "Edit".
          * year is an integer bigger than zero.
-         * series is one of the following ~[OBS,REP,EST]~.
+         * series is one of the following =[OBS,REP,EST]=.
          * country code matches the one taken from the database using the provided country name.
          * number of ADM is a positive integer. Note this variable is taken from the configuration panel, thus *do not change it.*
     3) General checks: 
@@ -324,11 +324,11 @@ conditions are saved and also printed to the Status panel:
 For more technical information, see [[Preprocessing][Preprocessing]] section.
 ** Data report
   At this step if the validation checks have passed, once the user
-  clicks on the ~Insert~ button, a data report is created and saved in
-  the ~Log~ folder. If the checkbox ~Open data report~ is ticked, the
+  clicks on the =Insert= button, a data report is created and saved in
+  the =Log= folder. If the checkbox =Open data report= is ticked, the
   report will automatically open. Also users can invoke the creation
   of a data report without validating or inserting the file, by
-  clicking on the ~Check only~ button. 
+  clicking on the =Check only= button. 
 
   The data report check the following and lists any issues: 
   1) If the insertion is in the original questionnaire format
@@ -387,7 +387,7 @@ CREATE TABLE METER_AUDIT_TRAIL(
     PRIMARY KEY (Audit_ID ASC));
 #+end_src
 
-To read from the table, using ~sqlite3~ connect to ~Prod.db~ file or any other database file you are using and follow standard SQL extraction syntax as
+To read from the table, using =sqlite3= connect to =Prod.db= file or any other database file you are using and follow standard SQL extraction syntax as
 #+begin_src sql
 SELECT * from METER_AUDIT_TRAIL LIMIT 5;
 #+end_src
@@ -397,10 +397,10 @@ SELECT a.* from METER_AUDIT_TRAIL AS a
 LEFT JOIN EDU_METER_AID AS b ON a.MC_ID = b.EMC_ID
 WHERE b.AC ='NT.1' AND a.CO_CODE = 4180 AND a.MC_YEAR = 2014;
 #+end_src
-for all the changes that happened to =NT.1=, newly recruited teachers in ISCED 1, initial education, for country with code 4180 for data year 2014. Using the ~EDU_METER_AID~ facilitates the use of AC directly rather than the numeric representation (~MC_ID~).
+for all the changes that happened to =NT.1=, newly recruited teachers in ISCED 1, initial education, for country with code 4180 for data year 2014. Using the =EDU_METER_AID= facilitates the use of AC directly rather than the numeric representation (=MC_ID=).
 
 *** Indicator audit trail
-   =INDICATOR_AUDIT_TRAIL= is the SQL table that records changes in indicators and their metadata. Any time there is a change in the indicator or its metadata, which includes magnitudes (inclusion, missing,..) and qualifiers, both the new and old figures and metadata are recorded with change timestamp and the user name. This change happens when the user changes raw data and recalculates indicators by clicking on ~Calculate~ button in the indicator frame. Contrary to the data audit trail, users cannot manually change indicators and reinserts them, this functionality is not supported by the software.
+   =INDICATOR_AUDIT_TRAIL= is the SQL table that records changes in indicators and their metadata. Any time there is a change in the indicator or its metadata, which includes magnitudes (inclusion, missing,..) and qualifiers, both the new and old figures and metadata are recorded with change timestamp and the user name. This change happens when the user changes raw data and recalculates indicators by clicking on =Calculate= button in the indicator frame. Contrary to the data audit trail, users cannot manually change indicators and reinserts them, this functionality is not supported by the software.
 
 The following is the schema of the SQL table, where 
     * =IND_ID= is the alphanumeric name of the indicator.
@@ -432,7 +432,7 @@ The following is the schema of the SQL table, where
       PRIMARY KEY (Audit_ID ASC));
 #+end_src  
 
-To read from the table, using ~sqlite3~ connect to ~Prod.db~ file or any other database file you are using and follow standard SQL extraction syntax as
+To read from the table, using =sqlite3= connect to =Prod.db= file or any other database file you are using and follow standard SQL extraction syntax as
 #+begin_src sql
 SELECT * from INDICATOR_AUDIT_TRAIL LIMIT 5;
 #+end_src
@@ -441,14 +441,14 @@ to see the first 5 rows of the table, and
 SELECT * from INDICATOR_AUDIT_TRAIL
 WHERE IND_ID ='FTP.1' AND CO_CODE = 4180 AND IND_YEAR = 2014;
 #+end_src
-for all the changes that happened to =FTP.1=, percentage of female teachers in ISCED 1, for country with code 4180 for data year 2014. Here we didn't need an  ~EDU_METER_AID~ table sine indicators are referenced directly by their alphanumeric code, which do not have an equivalent numerical representation like in raw data.
+for all the changes that happened to =FTP.1=, percentage of female teachers in ISCED 1, for country with code 4180 for data year 2014. Here we didn't need an  =EDU_METER_AID= table sine indicators are referenced directly by their alphanumeric code, which do not have an equivalent numerical representation like in raw data.
   
 ** A complete example 
 *** Inserting the original questionnaire
 To give an example consider inserting a made-up questionnaire say for Laos for year 2015 that
-is saved in a file ~Desktop/Example/LAOS-2015-Regional_Survey.xlsx~, as seen in
-Figure [[fig:laosDesktop]]. First start the ~RM_GUI.py~ select the file
-and click the adjacent ~Validate~, the Status panel frame now shows:
+is saved in a file =Desktop/Example/LAOS-2015-Regional_Survey.xlsx=, as seen in
+Figure [[fig:laosDesktop]]. First start the =RM_GUI.py= select the file
+and click the adjacent =Validate=, the Status panel frame now shows:
  
 #+CAPTION: Laos original questionnaire submission.
 #+NAME:   fig:laosDesktop
@@ -481,10 +481,10 @@ Validation successful, see report in:
 Log/Lao People's Democratic Republic_16-01-22-13-32_validation.txt
 #+end_src
 
-Since the checkbox ~Open validation report~ is ticked a validation report
+Since the checkbox =Open validation report= is ticked a validation report
 should open and how more or less similarly output to the one in the Status panel.
 
-To insert the questionnaire, click on ~Insert~. The Status panel should show:
+To insert the questionnaire, click on =Insert=. The Status panel should show:
 
 #+begin_src
 INSERTION STEP
@@ -499,7 +499,7 @@ Data report written to:
  Log/Lao People's Democratic Republic_16-01-22-13-35_data_report.csv
 #+end_src
 
-Moreover, since the checkbox ~Open data report~ is ticked, the data
+Moreover, since the checkbox =Open data report= is ticked, the data
 report should open up. For this example, the data report looks like Figure [[fig:laosDataReport]]
 
 #+CAPTION: Laos data report after insertion
@@ -508,16 +508,16 @@ report should open up. For this example, the data report looks like Figure [[fig
 
 This implies the import is successfully, and these are the created
 files:
- + *backup file*: ~RMS\Import\RM_Lao People's Democratic Republic_2015_16-01-22-13-38.xlsx~,
- + *validation file*: ~RMS\Log\Lao People's Democratic Republic_16-01-22-13-38_validation.txt~,
- + *data report*: ~RMS\Log\Lao People's Democratic
-   Republic_16-01-22-13-38_data_report.csv~.
+ + *backup file*: =RMS\Import\RM_Lao People's Democratic Republic_2015_16-01-22-13-38.xlsx=,
+ + *validation file*: =RMS\Log\Lao People's Democratic Republic_16-01-22-13-38_validation.txt=,
+ + *data report*: =RMS\Log\Lao People's Democratic
+   Republic_16-01-22-13-38_data_report.csv=.
 
 *** Moving to and exporting from the Observed series.
 After successfully inserting an original questionnaire, one is advised to move the data from
-/Reported/ to /Observed/ series. Notice that Laos now appears in the ~Country~ drop-down
+/Reported/ to /Observed/ series. Notice that Laos now appears in the =Country= drop-down
 list. Select Laos and the corresponding year, then
-click on ~REP to OBS~ button. The Status panel should show 
+click on =REP to OBS= button. The Status panel should show 
 
 #+begin_src
 Moving data for 4180-2015
@@ -526,17 +526,17 @@ Moved COMMENT_TABLE table from REP to OBS
 Done.
 #+end_src
 
-The ~METER~ table is where the data is, ~INCLU~ table is where the inclusion codes are saved, and ~FTN~ is where the cell comments are saved. Finally, ~COMMENT_TABLE~ is where the table comments are saved. 
+The =METER= table is where the data is, =INCLU= table is where the inclusion codes are saved, and =FTN= is where the cell comments are saved. Finally, =COMMENT_TABLE= is where the table comments are saved. 
 
-Now, let's export ~Teachers ISCED 2~ worksheet for cleaning. Select the country,
-year and series from the drop-down lists and from the ~Sheet~
-drop-down list select ~Teachers ISCED 2~. Before clicking on the
-adjacent ~Export~ button, select the ~output folder~ to be your
-~Desktop~. 
+Now, let's export =Teachers ISCED 2= worksheet for cleaning. Select the country,
+year and series from the drop-down lists and from the =Sheet=
+drop-down list select =Teachers ISCED 2=. Before clicking on the
+adjacent =Export= button, select the =output folder= to be your
+=Desktop=. 
 
 The Status panel will have the confirmation seen in box
 [[src:export_clean]], and the Excel workbook should look like [[fig:excel_clean][this]]. Notice
-the configurations panel in the top left corner, where the mode is ~Edit~ and the series is ~OBS~. 
+the configurations panel in the top left corner, where the mode is =Edit= and the series is =OBS=. 
 
 #+CAPTION: Status frame output
 #+NAME:   src:export_clean
@@ -555,9 +555,9 @@ As mentioned before as long as the configuration panel is left
 untouched and all tables are not moved, one can go ahead and change
 the data, inclusion codes and insert cell and table comments. For
 example, assume for some reason, for Laos-2015 data, we prefer to only
-report the data under ~T.2.GPV.Pu~ in
-column 3  and not to report ~T.2.GPV.Pu.F~ in column 4. We do this by using
-inclusion code ~X[:3]~ to indicate that the current column is included in column 3.
+report the data under =T.2.GPV.Pu= in
+column 3  and not to report =T.2.GPV.Pu.F= in column 4. We do this by using
+inclusion code =X[:3]= to indicate that the current column is included in column 3.
 
  Also we add a comment that the data is aggregated by programme team. Moreover, we add a table comment in cell H11, saying that some data is not trusted. See Figure [[fig:laos_mod]] and compare it to Figure [[fig:export_clean]]. Save and close the file.
 
@@ -566,7 +566,7 @@ inclusion code ~X[:3]~ to indicate that the current column is included in column
 [[./img/laos_mod.png]]
 
 *To validate and insert* follow similar step as in Section [[Importing questionnaire
- to the database]]. Start the ~RM_GUI~ select the modified file,
+ to the database]]. Start the =RM_GUI= select the modified file,
  validate and insert it. If successful the Status panel should show
 
 #+begin_src
@@ -618,23 +618,23 @@ Log/Lao People's Democratic Republic_16-01-22-21-25_validation.txt
 #+end_src
 
 Since inserting is successful, again, the following files are created:
- * *backup file*: ~RMS\Import\RM_Lao People's Democratic Republic_2015_16-01-22-21-23.xlsx~,
- * *validation report*: ~RMS\Log\Lao People's Democratic Republic_16-01-22-21-23_validation.txt~,
- * *data report*: ~RMS\Log\Lao People's Democratic Republic_16-01-22-21-23_data_report.csv~.
+ * *backup file*: =RMS\Import\RM_Lao People's Democratic Republic_2015_16-01-22-21-23.xlsx=,
+ * *validation report*: =RMS\Log\Lao People's Democratic Republic_16-01-22-21-23_validation.txt=,
+ * *data report*: =RMS\Log\Lao People's Democratic Republic_16-01-22-21-23_data_report.csv=.
 
-Now if you reexport the whole questionnaire, ~Teachers ISCED 2~
-sheet, or only ~Table 2.1~ from the observed series, you should be
+Now if you reexport the whole questionnaire, =Teachers ISCED 2=
+sheet, or only =Table 2.1= from the observed series, you should be
 able to see the changes and comments made earlier.
 
 *** Calculating indicators
 
-To calculate indicators, first select the country name and year, then select the ~EST~ series. If the data is not yet in the ~EST~ series, move it by clicking on the button ~OBS to EST~, maybe also ~REP to OBS~ if you haven't moved it yet to ~OBS~ series. Then click on the button ~Calculate~.  In around *30 seconds to a minutes*, the Status panel should indicated that the process is successful.
+To calculate indicators, first select the country name and year, then select the =EST= series. If the data is not yet in the =EST= series, move it by clicking on the button =OBS to EST=, maybe also =REP to OBS= if you haven't moved it yet to =OBS= series. Then click on the button =Calculate=.  In around *30 seconds to a minutes*, the Status panel should indicated that the process is successful.
 
 #+begin_src
 Successful..all indicators are calculated.
 #+end_src
 
-Now using the wildcards, lets extract the percentage of teachers with attainment of ISCED 5 and higher for all public institutions, one way of doing this by typing ~EA5pPT.%Pu~ and clicking on the adjacent ~Extract~. The file is now saved under the name ~Lao People's Democratic Republic_2015_INDIC_EA5pPT.xxPu.xlsx~ in the ~Export~ folder if no other folder is specified. This is indicated in the Status panel as seen below. 
+Now using the wildcards, lets extract the percentage of teachers with attainment of ISCED 5 and higher for all public institutions, one way of doing this by typing =EA5pPT.%Pu= and clicking on the adjacent =Extract=. The file is now saved under the name =Lao People's Democratic Republic_2015_INDIC_EA5pPT.xxPu.xlsx= in the =Export= folder if no other folder is specified. This is indicated in the Status panel as seen below. 
 
 #+begin_src
 Extracting EA5pPT.%Pu for Lao People's Democratic Republic-2015....
@@ -788,7 +788,7 @@ Some more specific technical notation exists for some of the subsections.
         | ISCED 3  | MAge.T.3.GPV  | $\sum_{\text{ y in cat}} \frac{T.3.GPV.y\times MidDur(y) }{ Pop.Ag0t99}$  | No    |
         | ISCED 23 | MAge.T.23.GPV | $\sum_{\text{ y in cat}} \frac{T.23.GPV.y\times MidDur(y) }{ Pop.Ag0t99}$ | No    |
         |----------+---------------+---------------------------------------------------------------------------+-------|
-        where ~Cat~ is ~Ag20m~, ~Ag20t29~, ~Ag30t39~, ~Ag40t49~, ~Ag50t59~ and ~Ag60p~. Midpoints are based on the following:
+        where =Cat= is =Ag20m=, =Ag20t29=, =Ag30t39=, =Ag40t49=, =Ag50t59= and =Ag60p=. Midpoints are based on the following:
         | Age in years | <20 | 20-29 | 30-39 | 40-49 | 50-59 | 60+ |
         |--------------+-----+-------+-------+-------+-------+-----|
         | Midpoint     |  20 |  24.5 |  34.5 |  44.5 |  54.5 |  60 |
@@ -806,8 +806,8 @@ Some more specific technical notation exists for some of the subsections.
         | ISCED 3  | MExp.T.3.GPV  | $\sum_{\text{ y in cat}} \frac{T.3.GPV.y\times MidDur(y) }{ Pop.Ag0t99}$    | No    |
         | ISCED 23 | MExp.T.23.GPV | $\sum_{\text{ y in cat}} \frac{T.23.GPV.y\times MidDur(y) }{ Pop.Ag0t99}$   | No    |
         |----------+---------------+-----------------------------------------------------------------------------+-------|
-        where ~cat~ is  ~Exp1t2~,  ~Exp3t5~, ~Exp6t10~,  ~Exp11t15~ and  ~Exp15p~. 
-       ~MidDur~ is ~[Exp1t2 = 1.5, Exp3t5 = 4, Exp6t10 = 8, Exp11t15 = 13, Exp15p = 15]~. Mid duration's are based on the following:  
+        where =cat= is  =Exp1t2=,  =Exp3t5=, =Exp6t10=,  =Exp11t15= and  =Exp15p=. 
+       =MidDur= is =[Exp1t2 = 1.5, Exp3t5 = 4, Exp6t10 = 8, Exp11t15 = 13, Exp15p = 15]=. Mid duration's are based on the following:  
         | experience in years | New | 1-2 | 3-5 | 6-10 | 11-15 | 15+ |
         |---------------------+-----+-----+-----+------+-------+-----|
         | Mid duration        | 0.5 | 1.5 |   4 |    8 |    13 |  17 |
@@ -827,7 +827,7 @@ Some more specific technical notation exists for some of the subsections.
      | At least tertiary              | EA.5pPT.ISCED | T.ISCED.EA.5 + T.ISCED.EA.6+T.ISCED.EA.7+T.ISCED.EA.8/T.ISCED | No    |
      | Unknown                        | EA.ukPT.ISCED | T.ISCED.EA.uk / T.ISCED                                       | No    |
      |--------------------------------+---------------+---------------------------------------------------------------+-------|
-        ~ISCED~ is ~['  1', '2.GPV', '3.GPV', '23.GPV']~, combined with suffixes ~['.Pu', '.Pr']~ for public and private sub-category.
+        =ISCED= is =['  1', '2.GPV', '3.GPV', '23.GPV']=, combined with suffixes =['.Pu', '.Pr']= for public and private sub-category.
         
    Note  all indicators are calculated for Total, Public and Private levels.    
 
@@ -844,7 +844,7 @@ Some more specific technical notation exists for some of the subsections.
        | more 15 than years | Exp15pPT.ISCED   | T.ISCED.Exp15p/T.ISCED   | No    |
        | Unknown            | ExpukPT.ISCED    | T.ISCED.Expuk/T.ISCED    | No    |
        |--------------------+------------------+--------------------------+-------|
-        ~ISCED~ is ~['  1', '2.GPV', '3.GPV', '23.GPV']~, combined with suffixes ~['.Pu', '.Pr']~ for public and private sub-category.
+        =ISCED= is =['  1', '2.GPV', '3.GPV', '23.GPV']=, combined with suffixes =['.Pu', '.Pr']= for public and private sub-category.
         
    Note  all indicators are calculated for Total, Public and Private levels.    
 
@@ -862,7 +862,7 @@ Some more specific technical notation exists for some of the subsections.
         | 60 years or more   | Ag60pPT.ISCED   | T.ISCED.Ag60P/T.ISCED   | No    |
         | Unknown            | AgukPT.ISCED    | T.ISCED.Aguk/T.ISCED    | No    |
         |--------------------+-----------------+-------------------------+-------|
-        ~ISCED~ is ~['  1', '2.GPV', '3.GPV', '23.GPV']~, combined with suffixes ~['.Pu', '.Pr']~ for public and private sub-category.
+        =ISCED= is =['  1', '2.GPV', '3.GPV', '23.GPV']=, combined with suffixes =['.Pu', '.Pr']= for public and private sub-category.
         
    Note  all indicators are calculated for Total, Public and Private levels.    
 
@@ -890,13 +890,13 @@ Some more specific technical notation exists for some of the subsections.
         | Non-permanent teachers, public          | DIndT.IS.Pu.Fix   | \(\frac{1}{2} \sum_a\mid \frac{T.IS.Pu.Fix_a}{T.IS.Pu.Fix} - \frac{E.IS.Pu_a}{E.IS.Pu} \mid\) |
         |-----------------------------------------+-------------------+-----------------------------------------------------------------------------------------------|
    Much notations are omitted for clearer presentation.
-           * ~IS~ stands for ISCED level which are ~[1, 2.GPV, 3.GPV, 23.GPV]~.
-           * ~a~ stands for administrative division, on the denominators the ~a~ is omitted for national level data.
-           * ~E.23.GPV~ is not collected in the questionnaire, so it ~E.2.GPV + E.3.GPV~.
+           * =IS= stands for ISCED level which are =[1, 2.GPV, 3.GPV, 23.GPV]=.
+           * =a= stands for administrative division, on the denominators the =a= is omitted for national level data.
+           * =E.23.GPV= is not collected in the questionnaire, so it =E.2.GPV + E.3.GPV=.
            * To compute age 50 plus, data in ages 50 o 59 and 60 plus are added. This notation is omitted in the formula for brevity.
            * Only calculated for ISCED level 2t3, total.
-           * ~ISp1m~ reads as ISCED level which is 1 level above or less than the actual level, that is for ISCED 2 ~ISp1m = 3m~, and for ISCED 2t3 ~ISp1m =3m~. The levels are summed.
-           * ~ISp2p~ reads as ISCED level which is 2 level above or more than the actual level, that is for ISCED 2 ~ISp2p = 4pm~, and for ISCED 2t3 ~ISp2p =5p~. The levels are summed.
+           * =ISp1m= reads as ISCED level which is 1 level above or less than the actual level, that is for ISCED 2 =ISp1m = 3m=, and for ISCED 2t3 =ISp1m =3m=. The levels are summed.
+           * =ISp2p= reads as ISCED level which is 2 level above or more than the actual level, that is for ISCED 2 =ISp2p = 4pm=, and for ISCED 2t3 =ISp2p =5p=. The levels are summed.
 
 #  LocalWords:  emco
 
@@ -904,7 +904,7 @@ Some more specific technical notation exists for some of the subsections.
          
 * Adding  Indicators
 ** The indicators class
-   To deal with indicator calculations, we have created a Python class that we named =indicators()=, it exists in the script ~RMS/Libraries/rmindicators.py~. This indicators class has three types of methods, auxiliary, indicators and action methods.
+   To deal with indicator calculations, we have created a Python class that we named =indicators()=, it exists in the script =RMS/Libraries/rmindicators.py=. This indicators class has three types of methods, auxiliary, indicators and action methods.
 
    The auxiliary methods are an aid either for the computation of
    indicators or for SQL interaction. Examples of these methods
@@ -952,7 +952,7 @@ def compute_all_indicators(self):
    #+end_src
 
 
-   Before adding a method to the indicators class, we advise to test it in a different file without modifying the main code in ~rmindicators.py~. Let's start with an example on how to do this. First, in a new script, import the =rmquestionnaire=
+   Before adding a method to the indicators class, we advise to test it in a different file without modifying the main code in =rmindicators.py=. Let's start with an example on how to do this. First, in a new script, import the =rmquestionnaire=
    library so we can use its methods. This can be achieved
    with the following code:
 
@@ -967,13 +967,13 @@ def compute_all_indicators(self):
 
    #+RESULTS:
 
-   by modifying the =path_to_main_RMS_folder= to your path to the main folder where =RMS= is installed, for example ~/Desktop/RMS~ if it is installed on your desktop. Second, create a test class that inherits all the methods in the ~indicators~ class, you can do this using the following code. 
+   by modifying the =path_to_main_RMS_folder= to your path to the main folder where =RMS= is installed, for example =/Desktop/RMS= if it is installed on your desktop. Second, create a test class that inherits all the methods in the =indicators= class, you can do this using the following code. 
 
    #+BEGIN_SRC python :session example1 :export code :tangle ind_test1.py
     class tests_indicators(indicators):
    #+END_SRC
 
-   Finally, use the SQL methods of class ~indicators~ to write to SQL. This could be done by ~write_indic_sql~, which writes a dictionary of indicator values to SQL. The key of the dictionary is the indicator name, and the value of the dictionary is the indicators values. The following is a complete template that you can use by modifying the path to the main RMS directory and the indicator and function names.
+   Finally, use the SQL methods of class =indicators= to write to SQL. This could be done by =write_indic_sql=, which writes a dictionary of indicator values to SQL. The key of the dictionary is the indicator name, and the value of the dictionary is the indicators values. The following is a complete template that you can use by modifying the path to the main RMS directory and the indicator and function names.
 
   #+BEGIN_SRC python :session example1 :export code :tangle ind_test1.py
      import sys, os
@@ -1031,19 +1031,19 @@ def compute_all_indicators(self):
     applied to the values received and symbol is the magnitude of this
     value. The objective of the algebra is to decide whether the
     operation should be preformed or the data is irregular. For
-    example, when you attempt to sum two columns say, ~E.1.Pu~ and
-    ~E.1.Pr~, say that for one of the regions ~E.1.Pu=10~ while
-    ~E.1.Pr~ is missing, what should be the value of the sum? We
+    example, when you attempt to sum two columns say, =E.1.Pu= and
+    =E.1.Pr=, say that for one of the regions =E.1.Pu=10= while
+    =E.1.Pr= is missing, what should be the value of the sum? We
     answer this question by constructing a table as shown below, where
     the upper left corner is the name of the operation, and each cell,
     excluding the row and column headers, corresponds to the resulting
     magnitude value when preforming the operation. For example, since
-    ~E.1.Pu=10~ and say it doesn't include any other category, then
-    its magnitude is ~value~, while ~E.1.Pr~ has a magnitude of ~m~
-    for missing. Thus, the sum of ~[10, '']~ and ~['', 'm']~ would
-    return ~['', 'm']~ as a null =fig= and a missing magnitude
-    =symbol=, based on the table. The cell that corresponds to ~value~
-    and ~m~ is ~m~.
+    =E.1.Pu=10= and say it doesn't include any other category, then
+    its magnitude is =value=, while =E.1.Pr= has a magnitude of =m=
+    for missing. Thus, the sum of =[10, '']= and =['', 'm']= would
+    return =['', 'm']= as a null =fig= and a missing magnitude
+    =symbol=, based on the table. The cell that corresponds to =value=
+    and =m= is =m=.
 
 
   | Sum     | a | m | n     | x | value |
@@ -1062,21 +1062,21 @@ sum([10, 'value], ['', 'm']) = ['', 'm']
 #+END_SRC 
 
 
-    While if ~E.1.Pr=5~ then the cell that corresponds to ~(value, value)~ is also ~value~, in this case the sum operation is preformed. 
+    While if =E.1.Pr=5= then the cell that corresponds to =(value, value)= is also =value=, in this case the sum operation is preformed. 
 
 #+BEGIN_SRC python
 sum([10, 'value], [5, 'value']) = [15, 'value']
 #+END_SRC 
 
     You can view these algebra rules in the following files:
-    + ~RMS/Libraries/algebra-sum.csv~ for the sum algebra as in the table above.
-    + ~RMS/Libraries/algebra-prod.sv~ for the product algebra.
-    + ~RMS/Libraries/algebra-div.csv~ for the division algebra as in the table above.
+    + =RMS/Libraries/algebra-sum.csv= for the sum algebra as in the table above.
+    + =RMS/Libraries/algebra-prod.sv= for the product algebra.
+    + =RMS/Libraries/algebra-div.csv= for the division algebra as in the table above.
     The negation algebra is the same as the sum algebra. 
 
 
 #+begin_important
-The algebra files are read every time the ~RM_GUI~ is initiated, thus, if the user doesn't agree with the result of the algebra you can change it directly in the file. *BE CAREFUL* as the software might behave inappropriately if the algebra is set wrong. For example, when summing a numeric value with a non-numeric one. 
+The algebra files are read every time the =RM_GUI= is initiated, thus, if the user doesn't agree with the result of the algebra you can change it directly in the file. *BE CAREFUL* as the software might behave inappropriately if the algebra is set wrong. For example, when summing a numeric value with a non-numeric one. 
 #+end_important
 
 Now to sum any two ACs, or columns, of the RM questionnaire, one can use the =column_operation= function directly as 
@@ -1090,7 +1090,7 @@ This would return the sum of the each of the two adjacent cells of the columns, 
    To get back to our example, we wanted to compute the proportion of teachers in public schools in ISCED1 that have
    one or two years of experience. Let us call this indicator "PT.1.Pu.Exp1t2". This would correspond to dividing "T.1.Pu.Exp1t2" by "T.1.Pu". To do so, we use the =column_operation= and =div= with the template provided in the end of [[Setup template]] section. 
 
-   We define the function name as ~proportion_public_teachers_1t2exp_isced1(self)~, and the code looks like:
+   We define the function name as =proportion_public_teachers_1t2exp_isced1(self)=, and the code looks like:
 
    #+BEGIN_SRC python :session example1 :export code :tangle ind_test1.py
      class tests_indicators(indicators):
@@ -1114,7 +1114,7 @@ This would return the sum of the each of the two adjacent cells of the columns, 
 
    where =path_to_database= is a string with the full path to the
    database file, =year= the data year, i.e 2014, for which the indicator is
-   being computed and ~country_name~ is the country name of interest. In order for this to work, a questionnaire
+   being computed and =country_name= is the country name of interest. In order for this to work, a questionnaire
    for the corresponding country and year should have been already
    inserted in the database. After running the command above, it is
    possible to check the computed indicator directly in the
@@ -1137,7 +1137,7 @@ This would return the sum of the each of the two adjacent cells of the columns, 
    =/RMS/Libraries/rmindicators.py= file. After doing this you need to
    add a call to this method in the =compute_all_indicators=.
 
-   In our example, we copy the following code from the ~tests_indcators~ class above:
+   In our example, we copy the following code from the =tests_indcators= class above:
    
 
    #+BEGIN_SRC python
@@ -1155,13 +1155,13 @@ This would return the sum of the each of the two adjacent cells of the columns, 
    #+BEGIN_SRC python 
    class indicators():
    #+END_SRC
-   in the file ~RMS/Libraries/rmindicators.py~. Finally add the line
+   in the file =RMS/Libraries/rmindicators.py=. Finally add the line
 
    #+BEGIN_SRC python 
    self.proportion_public_teachers_1t2exp_isced1()
    #+END_SRC
 
-   to the body of the function =compute_all_indicators= between the ~self.audit_trail~ functions. 
+   to the body of the function =compute_all_indicators= between the =self.audit_trail= functions. 
 
    Now if you use the GUI to calculate indicators, your new indicator should appear in the drop-down list of indicators.
 
@@ -1205,7 +1205,7 @@ class is initiated: the excel file name, the database file path and the log fold
 
 By initiating the =qobject= as shown above, the class reads the file
 to know if the questionnaire is being imported for the first time or
-if it is an ~Edit~ mode questionnaire and what database series to use
+if it is an =Edit= mode questionnaire and what database series to use
 i.e. OBS, REP or EST. Also, =questionnaire= checks that the country
 name used in the file exist the in database, otherwise, an error is
 raised.
@@ -1217,32 +1217,32 @@ place, similar to when using the GUI. This is done by the method called *validat
 =questionnaire= class. It works by calling in order the following
 methods from the class.
 
-+ check_nadm1 :: Returns ~True~ if the number of administrative
-     divisions is filled and ~False~ otherwise.
-+ check_adm1_label :: Returns ~True~ if the label of administrative
-     divisions is filled (e.g. state, province, etc. ) and ~False~
++ check_nadm1 :: Returns =True= if the number of administrative
+     divisions is filled and =False= otherwise.
++ check_adm1_label :: Returns =True= if the label of administrative
+     divisions is filled (e.g. state, province, etc. ) and =False=
      otherwise.
-+ check_adm1_names :: Returns ~True~ if the name of each
-     administrative division if filled and ~False~ otherwise.
-+ check_reference_year :: Returns ~True~ if the reference year (Cell
-     ~M14~ in the Administrative divisions sheet) is filled in the
++ check_adm1_names :: Returns =True= if the name of each
+     administrative division if filled and =False= otherwise.
++ check_reference_year :: Returns =True= if the reference year (Cell
+     =M14= in the Administrative divisions sheet) is filled in the
      questionnaire.
-+ check_country_name :: Returns ~True~ if the country name is filled
-     and ~False~ otherwise.
-+ check_number_of_sheets :: Returns ~False~ for an original
++ check_country_name :: Returns =True= if the country name is filled
+     and =False= otherwise.
++ check_number_of_sheets :: Returns =False= for an original
      questionnaire where the number of sheets does not coincide with
      the number of sheets originally provided in the questionnaire. In
-     any other case it returns ~True~.
-+ check_edited_configuration_part :: Returns ~False~ for an edited
+     any other case it returns =True=.
++ check_edited_configuration_part :: Returns =False= for an edited
      questionnaire without the information table in the top left
-     corner. In any other case it returns ~True~.
+     corner. In any other case it returns =True=.
 + check_values :: Checks that all the values reported in the
      questionnaire are a positive integer or a reference or
-     A,N,Z,M. If this is the case it returns ~True~, otherwise it
-     returns ~False~.
+     A,N,Z,M. If this is the case it returns =True=, otherwise it
+     returns =False=.
 
-*validation* returns ~True~ when all of these checks return ~True~. If
-at least one of them returns ~False~, *validation* returns ~False~ and
+*validation* returns =True= when all of these checks return =True=. If
+at least one of them returns =False=, *validation* returns =False= and
 in this case the questionnaire should not be processed. A validation report with
 some information of the questionnaire and the results of the checks is
 written in a file with name syntax =countryname_datetime_validation.txt= in
@@ -1265,7 +1265,7 @@ file with name syntax =countryname_datetime_data_report.csv= saved to the
 =Log= folder.
 
 The data report is generated by the method *write_data_report* in the
-~questionnaire~ class. It is a csv file divided in three parts.
+=questionnaire= class. It is a csv file divided in three parts.
 
 The first part is called "Missing data". It lists the sheet name, table
 name and columns that contain missing data in the questionnaire.
@@ -1297,8 +1297,8 @@ inconsistencies are reported in this section.
    the help of the method *check_region_totals*.
 
 The third and last part of the data report consists of a list of all
-the items in the ~Checking sheet~ of the questionnaire that have the
-value ~No~.
+the items in the =Checking sheet= of the questionnaire that have the
+value =No=.
 
 Before calling the *write_data_report* method it is necessary to call
 the following three methods: *check_region_totals*,
@@ -1422,18 +1422,18 @@ needs to be called for each desired sheet.
 
 After running this code an excel file with name syntax
 =countryname_2015.xlsx= is created containing the data of all the
-sheets that were passed to *export_var* before ~wb.close()~. Notice
-that ~serie~ can take one of the values 'REP', 'OBS' or 'EST' which
+sheets that were passed to *export_var* before =wb.close()=. Notice
+that =serie= can take one of the values 'REP', 'OBS' or 'EST' which
 correspond to reported, observed and estimated database respectively.
 
 *** Exporting indicators
 It is also possible to export an excel file with the values of all the
 indicators or for one of them. This can be achieved with the function
 *export_indc*. In order for this function to work it is also necessary
-to first call the function ~set_database_file~.
+to first call the function =set_database_file=.
 
 One can export one indicator or all of then to an excel
-file. If ~All~ is passed as an argument to *export_indc* then all the
+file. If =All= is passed as an argument to *export_indc* then all the
 indicators are exported. The other option is to pass the name
 indicator ID of the desired indicator (e.g. 'NTP.1').
 

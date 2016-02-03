@@ -12,18 +12,6 @@ import datetime
 from itertools import chain
 import time
 from time import sleep
-#Global variables
-# conn = sqlite3.connect('../../Database/Prod.db')
-# #Uncomment the line below for creating virtual database
-# #createDb = sqlite3.connect(":memory:")
-# #creates the cursor object for SQL queries
-# database_cursor = conn.cursor()
-# # Path to the variable mapping file(json) format.
-# mapping_file_json="./variables_for_preprocessing.json"
-# # Read the json file and put the contents in the dictionary pre_vars
-
-# with open(mapping_file_json) as f:
-#     pre_vars=json.loads(f.read())
 
 # if ( re.search('\\\\Tests\\\\mo$',os.getcwd()) or re.search('/Tests/os$',os.getcwd()) or
      # re.search('/Tests/mo$',os.getcwd())   ):
