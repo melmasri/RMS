@@ -8,8 +8,9 @@ A Regional Module data management system created using Python and SQLite. Using 
 * export country specific data points and complete questionnaire tables back to Excel;
 * modify and clean the data in Excel and re-import then back in the SQLite database;
 * create different copies of country specific data, one to hold the original data, one for cleaning and one for dissemination.
+* calculate specific data indicators.
 
-**For more information see the [GUI user guide](Documentation/User_guide.html)**.
+**For more information see the complete [User Manual](Documentation/user-manual.html)**.
 
 ![](Documentation/img/RM_GUI.png "Regional model user interface")
 
@@ -48,8 +49,9 @@ To start double-click on the `RM_GUI.py` shortcut and the GUI should pop-up.
 
 **For more details refer to**
 
-* A simple [technical user guide.](Documentation/User_guide-technical.html)
-* Python functions [help files](Documentation/help files/)
+* A complete [User Manual](Documentation/user-manual.html)
+* A complete [User Manual](Documentation/user-manual.org)
+* Python [help files](Documentation/Python help/)
 
 ## Issues and extra features <sup>[1](#myfootnote1)</sup>
 Report issues and suggest features and improvements on the [GitHub issue tracker.](https://github.com/melmasri/RMS/issues)
