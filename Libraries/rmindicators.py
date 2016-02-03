@@ -350,32 +350,26 @@ class indicators():
 
                 
     def pupils_teachers_ratio(self):
-        ## Total number of pupils: E.1, E.2.GPV, E.3.GPV
-        ## Total number of teachers: T.1, T.2.GPV, T.3.GPV
+        """ Computes the PTRHC indicators."""
         variables_dict={ "PTRHC.1" : [["E.1",0],["T.1",0]], "PTRHC.2": [["E.2.GPV",0],["T.2.GPV",0]],
                          "PTRHC.3": [["E.3.GPV",0],["T.3.GPV",0]]}
         self.compute_percentages(variables_dict,True)
 
     def newly_recruited_teachers(self):
-        ## NTP.2t3 was not in the list, so we invented it.
+        """Computes the NTP indicators."""
         variables_dict={"NTP.1" : [["NT.1",0],["T.1",0]],"NTP.2":[["NT.2.GPV",0],["T.2.GPV",0]],
                         "NTP.3" : [["NT.3.GPV",0],["T.3.GPV",0]],"NTP.2t3" : [["NT.23.GPV",0],["T.23.GPV",0]]  }
         self.compute_percentages(variables_dict)
 
     def teachers_percentage_female(self):
+        """Computes FTP indicators."""
         variables_dict={ "FTP.1":[["T.1.F",0],["T.1",0]],"FTP.2":[["T.2.GPV.F",0],["T.2.GPV",0]]
                          , "FTP.3" : [["T.3.GPV.F",0],["T.3.GPV",0]],
                          "FTP.2t3" : [["T.23.GPV.F",0],["T.23.GPV",0]]}
         self.compute_percentages(variables_dict)
 
     def percentage_trained_teachers(self):
-        # number of trained teachers isced1: T.1.trained, T.2.GPV.trained, T.3.GPV.trained
-        # number of teachers : T.1, T.2.GPV T.3.GPV
-        # New recruited teachers: NT.1,NT.2.GPV,NT.3.GPV
-        # New recruited and trained: NT.1.trained, NT.2.GPV.trained, NT.3.GPV.trained
-
-        # Percentage of trained teachers: TRTP.1, TRTP.2, TRTP.3, TRTP.2t3
-        # Percentage of newly recruited teachers: TrNTP.1,  TrNTP.2, TrNTP.3, TrNTP.2t3
+        """Computes TRTP indicators. """
         variables_dict1={"TRTP.1": [["T.1.trained",0 ],["T.1",0] ], "TRTP.2": [["T.2.GPV.trained",0 ],["T.2.GPV",0]],
                          "TRTP.3" : [["T.3.GPV.trained",0],["T.3.GPV",0]],
                          "TRTP.2t3": [["T.23.GPV.trained",0 ],["T.23.GPV",0] ]  }
@@ -385,9 +379,7 @@ class indicators():
         self.compute_percentages(variables_dict2)
 
     def percentage_private_teachers(self):
-        ## Percentage of private teachers: T.1.Pr, T.2.GPV.Pr, T.3.GPV.Pr, T.23.GPV.Pr
-        ## number of teachers : T.1, T.2.GPV T.3.GPV
-        ## indicators(invented, not foun in table):  TP.1.Pr, TP.2.Pr, TP.3.Pr, TP.2t3.Pr
+        """Computes PrTP indicators. """
         variables_dict={"PrTP.1":[["T.1.Pr",0],["T.1",0]],
                         "PrTP.2":[["T.2.GPV.Pr",0],["T.2.GPV",0]],
                         "PrTP.3":[["T.3.GPV.Pr",0],["T.3.GPV",0]],
@@ -395,13 +387,7 @@ class indicators():
         self.compute_percentages(variables_dict)
 
     def percentage_non_permanent_teachers(self):
-        ## Number of non-permanent teachers: T.1.Pr.Fix, T.2.GPV.Pr.Fix, T.3.GPV.Pr.Fix,T.23.GPV.Pr.Fix
-        ## Number of permanent teachers: T.1.Pr.Perm, T.2.GPV.Pr.Perm, T.3.GPV.Pr.Perm,T.23.GPV.Pr.Fix
-        ## indicators (invented):
-        ## Percentage of non permanent teachers among public teachers isced 1: TP.1.Pr.Fix
-        ## Percentage of non permanent teachers among public teachers isced 2: TP.2.GPV.Pr.Fix
-        ## Percentage of non permanent teachers among public teachers isced 3: TP.3.GPV.Pr.Fix
-        ## Percentage of non permanent teachers among public teachers isced 3: TP.2t3.GPV.Pr.Fix
+        """Computes FixTP indicators."""
         variables_dict_private={"FixTP.1.Pr":[["T.1.Pr.Fix",0],["T.1.Pr",0]],
                                 "FixTP.2.GPV.Pr": [["T.2.GPV.Pr.Fix",0],["T.2.GPV.Pr",0]],
                                 "FixTP.3.GPV.Pr": [["T.3.GPV.Pr.Fix",0],["T.3.GPV.Pr",0]],
@@ -429,6 +415,7 @@ class indicators():
         self.write_indic_sql(priv_and_pu_dict)
         
     def attrition_rate(self):
+        """Copmutes TAttrR indicators."""
         ind_dict={}
         indicator_name_base="TAttrR"        
         for indicator_suffix in [".1",".2.GPV",".3.GPV",".23.GPV"]:
