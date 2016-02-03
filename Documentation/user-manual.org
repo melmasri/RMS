@@ -700,7 +700,7 @@ Some more specific technical notation exists for some of the subsections.
    + Python method :: newly_recruited_teachers
    + IND_IDS information :: 
 #+latex: \\
-   #+ATTR_LATEX:  :align |r|l|c|c|
+   #+ATTR_LATEX:  :align |l|l|l|l|
         |          | IND_ID  | FORMULA            | H & L |
         |----------+---------+--------------------+-------|
         | ISCED 1  | NTP.1   | NT.1/T.1           | no    |
@@ -714,7 +714,7 @@ Some more specific technical notation exists for some of the subsections.
    + Python method ::  pupils_teachers_ratio
    + IND_IDS information :: 
 #+latex: \\
-   #+ATTR_LATEX:  :align |r|l|c|c|
+   #+ATTR_LATEX:  :align |l|l|l|l|
         |          | IND_ID   | FORMULA           | H & L |
         |----------+-----------+-------------------+-------|
         | ISCED 1  | PTRHC.1   | E.1/T.1           | yes   |
@@ -728,7 +728,7 @@ Some more specific technical notation exists for some of the subsections.
    + Python method ::  percentage_trained_teachers
    + IND_IDS information ::
 #+latex: \\
-   #+ATTR_LATEX:  :align |r|l|c|c|
+   #+ATTR_LATEX:  :align |l|l|l|l|
         |          | IND_ID  | FORMULA                   | H & L |
         |----------+----------+---------------------------+-------|
         | ISCED 1  | TRTP.1   | T.1.trained/T.1           | yes   |
@@ -739,7 +739,7 @@ Some more specific technical notation exists for some of the subsections.
    In this same method, there is the computation of the percentage of
    trained newly recruited teachers, which has the following table
 #+latex: \\
-   #+ATTR_LATEX:  :align |r|l|c|c|
+   #+ATTR_LATEX:  :align |l|l|l|l|
    |          | IND_ID   | FORMULA                     | H & L |
    |----------+-----------+-----------------------------+-------|
    | ISCED 1  | TrNTP.1   | NT.1.trained/NT.1           | yes   |
@@ -752,7 +752,7 @@ Some more specific technical notation exists for some of the subsections.
    + Python method ::  percentage_private_teachers
    + IND_IDS information ::
 #+latex: \\
-   #+ATTR_LATEX:  :align |r|l|c|c|
+   #+ATTR_LATEX:  :align |l|l|l|l|
         |          | IND_ID  | FORMULA              | H & L |
         |----------+----------+----------------------+-------|
         | ISCED 1  | PrTP.1   | T.1.Pr/T.1           | yes   |
@@ -767,7 +767,7 @@ Some more specific technical notation exists for some of the subsections.
    + Python method ::  percentage_non_permanent_teachers
    + IND_IDS information Private ::
 #+latex: \\
-   #+ATTR_LATEX:  :align |r|l|c|c| 
+   #+ATTR_LATEX:  :align |l|l|l|l| 
         |          | IND_ID          | FORMULA                     | H & L |
         |----------+------------------+-----------------------------+-------|
         | ISCED 1  | FixTP.1.Pr       | T.1.Pr.Fix/T.1.Pr           | no    |
@@ -778,7 +778,7 @@ Some more specific technical notation exists for some of the subsections.
 
    + IND_IDS information Public ::
 #+latex: \\
-   #+ATTR_LATEX:  :align |r|l|c|c| 
+   #+ATTR_LATEX:  :align |l|l|l|l| 
         |          | IND_ID          | FORMULA                     | H & L |
         |----------+------------------+-----------------------------+-------|
         | ISCED 1  | FixTP.1.Pu       | T.1.Pu.Fix/T.1.Pu           | no    |
@@ -789,7 +789,7 @@ Some more specific technical notation exists for some of the subsections.
 
    + IND_IDS information Combined ::
 #+latex: \\
-   #+ATTR_LATEX:  :align |r|l|c|c| 
+   #+ATTR_LATEX:  :align |l|l|l|l| 
         |          | IND_ID       | FORMULA                                                     | H & L |
         |----------+---------------+-------------------------------------------------------------+-------|
         | ISCED 1  | FixTP.1       | (T.1.Pr.Fix+T.1.Pu.Fix)/(T.1.Pr+T.1.Pu)                     | no    |
@@ -803,7 +803,7 @@ Some more specific technical notation exists for some of the subsections.
    + Python method ::  percentage_non_permanent_teachers
    + IND_IDS information Private ::
 #+latex: \\
-   #+ATTR_LATEX:  :align |r|l|c|c| 
+   #+ATTR_LATEX:  :align |l|l|l|l| 
         |          | IND_ID         | FORMULA                                                | H & L |
         |----------+----------------+--------------------------------------------------------+-------|
         | ISCED 1  | TAttrR.1       | 100*(T.1^{L} + NT.1 - T.1)/T.1^{L}                     | no    |
@@ -817,7 +817,7 @@ Some more specific technical notation exists for some of the subsections.
    + Python method :: mean_age_level(level in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV'])
    + IND_IDS information :: 
 #+latex: \\
-   #+ATTR_LATEX:  :align |r|l|c|c|
+   #+ATTR_LATEX:  :align |l|l|l|l|
         |          | IND_ID       | FORMULA                                                                   | H & L |
         |----------+---------------+---------------------------------------------------------------------------+-------|
         | ISCED 1  | MAge.T.1      | $\sum_{\text{ y in cat}} \frac{T.1.y \times MidDur(y) }{ Pop.Ag0t99}$     | No    |
@@ -827,7 +827,7 @@ Some more specific technical notation exists for some of the subsections.
         |----------+---------------+---------------------------------------------------------------------------+-------|
         where =Cat= is =Ag20m=, =Ag20t29=, =Ag30t39=, =Ag40t49=, =Ag50t59= and =Ag60p=. Midpoints are based on the following:
 #+latex: \\
-   #+ATTR_LATEX:  :align |r|l|c|c|
+   #+ATTR_LATEX:  :align |l|l|l|l|
         | Age in years | <20 | 20-29 | 30-39 | 40-49 | 50-59 | 60+ |
         |--------------+-----+-------+-------+-------+-------+-----|
         | Midpoint     |  20 |  24.5 |  34.5 |  44.5 |  54.5 |  60 |
@@ -839,7 +839,7 @@ Some more specific technical notation exists for some of the subsections.
    + Python method :: mean_exp_level(level in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV'])
    + IND_IDS information ::
 #+latex: \\
-   #+ATTR_LATEX:  :align |r|l|c|c|
+   #+ATTR_LATEX:  :align |l|l|l|l|
         |          | IND_ID       | FORMULA                                                                     | H & L |
         |----------+---------------+-----------------------------------------------------------------------------+-------|
         | ISCED 1  | MExp.T.1      | $\sum_{\text{ y in cat}} \frac{T.1.y \times \times MidDur(y)}{ Pop.Ag0t99}$ | No    |
@@ -850,7 +850,7 @@ Some more specific technical notation exists for some of the subsections.
         where =cat= is  =Exp1t2=,  =Exp3t5=, =Exp6t10=,  =Exp11t15= and  =Exp15p=. 
        =MidDur= is =[Exp1t2 = 1.5, Exp3t5 = 4, Exp6t10 = 8, Exp11t15 = 13, Exp15p = 15]=. Mid duration's are based on the following:  
 #+latex: \\
-   #+ATTR_LATEX:  :align |r|l|c|c|
+   #+ATTR_LATEX:  :align |l|l|l|l|
         | experience in years | New | 1-2 | 3-5 | 6-10 | 11-15 | 15+ |
         |---------------------+-----+-----+-----+------+-------+-----|
         | Mid duration        | 0.5 | 1.5 |   4 |    8 |    13 |  17 |
@@ -862,7 +862,7 @@ Some more specific technical notation exists for some of the subsections.
    + Python method :: percentage_teachers_attainment
    + IND_IDS information :: 
 #+latex: \\
-   #+ATTR_LATEX:  :align |r|l|c|c|                       
+   #+ATTR_LATEX:  :align |l|l|l|l|                       
      | Highest educational attainment | IND_ID        | FORMULA                                                       | H & L |
      |--------------------------------+---------------+---------------------------------------------------------------+-------|
      | Lower secondary or Less        | EA.2mPT.ISCED | T.ISCED.EA.2m / T.ISCED                                       | No    |
@@ -880,7 +880,7 @@ Some more specific technical notation exists for some of the subsections.
    + Python method :: percentage_teachers_exp
    + IND_IDS information :: 
 #+latex: \\
-   #+ATTR_LATEX:  :align |r|l|c|c|
+   #+ATTR_LATEX:  :align |l|l|l|l|
        | Experience         | IND_ID           | FORMULA                  | H & L |
        |--------------------+------------------+--------------------------+-------|
        | 1 to 2 years       | Exp1t2mPT.ISCED  | T.ISCED.Exp1t2/T.ISCED   | No    |
@@ -899,7 +899,7 @@ Some more specific technical notation exists for some of the subsections.
    + Python method :: percentage_teachers_age
    + IND_IDS information :: 
 #+latex: \\
-   #+ATTR_LATEX:  :align |r|l|c|c|
+   #+ATTR_LATEX:  :align |l|l|l|l|
         | Age                | IND_ID          | FORMULA                 | H & L |
         |--------------------+-----------------+-------------------------+-------|
         | Less than 20 years | Ag20mPT.ISCED   | T.ISCED.Ag20m/T.ISCED   | No    |
@@ -919,7 +919,7 @@ Some more specific technical notation exists for some of the subsections.
    + Python method :: dissimilarity_index
    + IND_IDS information :: 
 #+latex: \\
-   #+ATTR_LATEX:  :align |r|l|c|c|
+   #+ATTR_LATEX:  :align |l|l|l|l|
         | Measures of inequality in the           | IND_ID            | FORMULA                                                                                       |
         |-----------------------------------------+-------------------+-----------------------------------------------------------------------------------------------|
         | All                                     | DIndT.IS          | \(\frac{1}{2} \sum_a\mid \frac{T.IS_a}{T.IS} - \frac{E.IS_a}{E.IS} \mid\)                     |
