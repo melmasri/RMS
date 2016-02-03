@@ -864,15 +864,16 @@ Some more specific technical notation exists for some of the subsections.
    + IND_IDS information :: 
 #+latex: \\
    #+ATTR_LATEX:  :align |r|l|c|c|                       
-     | Highest educational attainment | IND_ID        | FORMULA                                                       | H & L |
-     |--------------------------------+---------------+---------------------------------------------------------------+-------|
-     | Lower secondary or Less        | EA.2mPT.ISCED | T.ISCED.EA.2m / T.ISCED                                       | No    |
-     | Upper secondary                | EA.3PT.ISCED  | T.ISCED.EA.3 / T.ISCED                                        | No    |
-     | Post secondary                 | EA.4PT.ISCED  | T.ISCED.EA.4 / T.ISCED                                        | No    |
-     | At least tertiary              | EA.5pPT.ISCED | T.ISCED.EA.5 + T.ISCED.EA.6+T.ISCED.EA.7+T.ISCED.EA.8/T.ISCED | No    |
-     | Unknown                        | EA.ukPT.ISCED | T.ISCED.EA.uk / T.ISCED                                       | No    |
-     |--------------------------------+---------------+---------------------------------------------------------------+-------|
-        =ISCED= is =['  1', '2.GPV', '3.GPV', '23.GPV']=, combined with suffixes =['.Pu', '.Pr']= for public and private sub-category.
+     | Highest educational attainment | IND_ID     | FORMULA                                        | H & L |
+     |--------------------------------+------------+------------------------------------------------+-------|
+     | Lower secondary or Less        | EA.2mPT.IS | T.IS.EA.2m / T.IS                              | No    |
+     | Upper secondary                | EA.3PT.IS  | T.IS.EA.3 / T.IS                               | No    |
+     | Post secondary                 | EA.4PT.IS  | T.IS.EA.4 / T.IS                               | No    |
+     | At least tertiary              | EA.5pPT.IS | T.IS.EA.5 + T.IS.EA.6+T.IS.EA.7+T.IS.EA.8/T.IS | No    |
+     | Unknown                        | EA.ukPT.IS | T.IS.EA.uk / T.IS                              | No    |
+     |--------------------------------+------------+------------------------------------------------+-------|
+        =IS= stands for ISCED level which are =[1, 2.GPV, 3.GPV, 23.GPV]=, combined with suffixes =['.Pu', '.Pr']= for public and private sub-category.
+       
         
    Note  all indicators are calculated for Total, Public and Private levels.    
 
