@@ -3,28 +3,28 @@ Things left to do:
     * [X] Waiting for an email from Patrick on Diss Index.
     * [X] Calculate attrition rate.
     * [X] Add attrition rate and Diss Index to documentation.
-    * [-] Finish documentation, including editing.
+    * [X] Finish documentation, including editing.
       * [X] indicators
-      * [ ] user guide :os:edit:
-      * [-] technical user guide
+      * [X] user guide :os:edit:
+      * [X] technical user guide
         * [X] How to load the software
         * [X] How DB.
         * [X] How to import, extract and re-insert.
         * [X] How to calculate and extract indicators.
           + [X] How to calculate all indicators
           + [X] How to calculate one by one.
-        * [ ] How to read audit trail tables, and show some changes. 
+        * [X] How to read audit trail tables, and show some changes. 
       * [X] add new indicator :mo:edit:
-      * [-] python help files.
-        * [ ] rmindicators :mo:done:
+      * [X] python help files.
+        * [X] rmindicators :mo:done:
         * [X] rmExcelWriter
-        * [ ] rmfunctions :mo:done:
+        * [X] rmfunctions :mo:done:
         * [X] rmquestionnaire
         * [X] rmsqlfunctions
         * [X] RM GUI
-      * [ ] Folder tree, and explanation of files and scripts.
+      * [X] Folder tree, and explanation of files and scripts.
     * [X] Document Audit trail method for Meter and Indic.
-    * [ ] Edit all the python comment for creating the help files, and create the help file.
+    * [X] Edit all the python comment for creating the help files, and create the help file.
     * [ ] Update the github website with all the new documentation.
     * [ ] Try to create a nice PDF file or plain text for them to print from all the documentation, since org-mode export default export needs some tweaks.
     * [X] We have created a file called 'user_guide-technical.org' earlier in the project, where can we integrate it, and what needs to be update it sine our last submission.

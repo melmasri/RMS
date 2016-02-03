@@ -631,7 +631,6 @@ hr{
 #table-of-contents li{
     list-style:none;
     margin-left: 0px;
-    text-align:left
 }
 
 #table-of-contents header{
@@ -647,8 +646,7 @@ hr{
     white-space:nowrap}
 
 #table-of-contents ul{
-    margin-bottom:0;
-    text-align:left}
+    margin-bottom:0}
 
 #table-of-contents li.divide-top{
     border-top:solid 1px #404040}
@@ -728,7 +726,6 @@ hr{
     width:300px;
     overflow-x:hidden;
     overflow-y:scroll;
-    direction: rtl;
     height:100%;
     background:#343131;
     z-index:200;

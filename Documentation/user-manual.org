@@ -1,10 +1,10 @@
 #+TITLE: Regional Module User Manual
-#+DATE: February 1st, 2016
-#+AUTHOR: Oscar Alberto Quijano Xacur and Mohamad Elmasri
+#+DATE: February 2016
+#+AUTHOR:  Mohamad Elmasri and Oscar Quijano
 #+OPTIONS: ':nil *:t -:t ::t <:t H:3 \n:nil ^:{} arch:headline
 #+OPTIONS: author:t c:nil creator:comment d:(not "LOGBOOK") date:t
 #+OPTIONS: e:t email:nil f:t inline:t num:t p:nil pri:nil stat:t
-#+OPTIONS: tags:t tasks:t tex:t timestamp:nil toc:nil todo:t |:t
+#+OPTIONS: tags:t tasks:t tex:t timestamp:t toc:nil todo:t |:t
 #+OPTIONS:   H:4 num:t toc:3 p:t ^:nil
 #+CREATOR: Emacs 24.4.1 (Org mode 8.2.10)
 #+DESCRIPTION:
@@ -40,7 +40,6 @@ In this guide you will learn to:
     + Export and and view data for cleaning.
     + Move data between series.
     + Calculate and view indicators.
-    + And hopefully some Python and SQL too.
 #+end_sidebar
 Each frame, excluding the Status panel, has a specific subsection below that explains in details how to use the available tools.
 
@@ -192,8 +191,7 @@ When any data is exported, they are exported based on two viewing modes, an ~Edi
        section. This works by preserving the table locations exactly
        where they are in the original questionnaire. Users will notice
        that created Excel workbooks look very similar to the original
-       questionnaire. *DO NOT* move tables from their original
-       locations, change the sheet names, or delete any of the data in
+       questionnaire. *do not move tables from their original locations*, change the sheet names, or delete any of the data in
        the *configuration panel*; in the top left corner as seen in
        Figure [[fig:exportConfig]]. You are only allowed to modify cell
        figures, comments and inclusions. The configuration panel is
@@ -319,10 +317,11 @@ conditions are saved and also printed to the Status panel:
          * year is an integer bigger than zero.
          * series is one of the following ~[OBS,REP,EST]~.
          * country code matches the one taken from the database using the provided country name.
-         * number of ADM is a positive integer. Note this variable is taken from the configuration panel, thus *DO NOT change it.*
+         * number of ADM is a positive integer. Note this variable is taken from the configuration panel, thus *do not change it.*
     3) General checks: 
        * check that all data values are either a number, inclusion (X), Z,z,A,a,N,n,M or m. Otherwise, validation fails and error is printed.
 
+For more technical information, see [[Preprocessing][Preprocessing]] section.
 ** Data report
   At this step if the validation checks have passed, once the user
   clicks on the ~Insert~ button, a data report is created and saved in
@@ -346,7 +345,8 @@ conditions are saved and also printed to the Status panel:
        to total.
 
 Note, for all the cells that have missing data (m), inclusion (x), or inapplicable (z), the inequality or sums tests are ignored.
-     
+
+For more technical information, see [[Preprocessing][Preprocessing]] section.     
 ** Audit trail
 To keep track of changes to individual data and indicators, including figures, qualifiers, inclusion codes, and magnitudes, we have implemented an audit functionality in the backend (SQL), that records any changes to the data. This doesn't include data comments or table comments. We call this functionality *Audit trail*. Note that Audit trail tables are not accessible from the software interface (GUI), rather they function in the backend and only accessible by directly accessing the SQL database. 
 
@@ -866,7 +866,7 @@ Some more specific technical notation exists for some of the subsections.
         
    Note  all indicators are calculated for Total, Public and Private levels.    
 
-** Dissimilarity 
+** Dissimilarity index 
 
    + Python method :: dissimilarity_index
    + IND_IDS information :: 
@@ -901,8 +901,7 @@ Some more specific technical notation exists for some of the subsections.
 #  LocalWords:  emco
 
 
-
-           
+         
 * Adding  Indicators
 ** The indicators class
    To deal with indicator calculations, we have created a Python class that we named =indicators()=, it exists in the script ~RMS/Libraries/rmindicators.py~. This indicators class has three types of methods, auxiliary, indicators and action methods.
@@ -1166,7 +1165,7 @@ This would return the sum of the each of the two adjacent cells of the columns, 
 
    Now if you use the GUI to calculate indicators, your new indicator should appear in the drop-down list of indicators.
 
-*  Regional Module Code Documentation
+*  Code Documentation
 This section explains how to process questionnaire data for the RMS questionnaire
 using Python code directly, instead of the Graphical User Interface (GUI). The first
 step is to import the library =rmquestionnaire= in =RMS\Libraries=, you can use the following code example.
@@ -1187,7 +1186,7 @@ step is to import the library =rmquestionnaire= in =RMS\Libraries=, you can use 
 Replace =path_to_main_RMS_folder= for a string  with the full path to
 your main RMS folder.
 
-** Processing a Questionnaire
+** Processing a questionnaire
 
 In order to import data from a questionnaire the =questionnaire= class
 should be used. Four arguments are needed when an object from this
@@ -1320,7 +1319,7 @@ the example we have been developing.
 #+END_SRC
 #+latex: \caption{Validation and Data Report}\end{code}
 
-*** Data and Comments Extraction   
+*** Data and comments extraction   
 The =extract_data= method reads the values and enters them in the
 database. It also writes the region names to the regions database if
 an original questionnaire is being inserted the first time. The values are also
@@ -1347,7 +1346,7 @@ comments and add them to the database.
 
 #+latex: \caption{Extracting Data and Comments} \end{code}
 
-** Computing Indicators
+** Computing indicators
 
 After extracting the data and putting it in the database it is
 possible to compute indicators. The indicators are only computed form
@@ -1392,7 +1391,7 @@ section.
 #+END_SRC
 #+latex: \caption{Computing indicators}\end{code}
 
-** Exporting Data
+** Exporting data
 *** Exporting questionnaire data
 
 In order to export the questionnaire data from the database to an
@@ -1454,3 +1453,88 @@ indicator ID of the desired indicator (e.g. 'NTP.1').
 #  LocalWords:  newfloat floatname rmquestionnaire xlsx qobject emco
 #  LocalWords:  xlsxwriter filename wb gui
 #  LocalWords:  ISCED
+** Software folder tree 
+The following is the RMS software directory tree, where all directory levels are printed, following that the complete tree including individual files.
+#+BEGIN_SRC sh
+10 directories
+
+RMS/
+├── Database
+│   └── Inserted data
+├── Documentation
+│   ├── css
+│   ├── img
+│   └── Python help
+├── Export
+├── Import
+├── Libraries
+└── Log
+#+END_SRC
+
+#+BEGIN_SRC sh
+10 directories, 42 files
+
+RMS/
+├── Database
+│   ├── Inserted data
+│   │   ├── ADM_table.csv
+│   │   ├── All AC CODES.csv
+│   │   ├── Country.csv
+│   │   ├── EDU_INDICATOR_AID.csv
+│   │   ├── EDU_INDICATOR_AID_full.xlsx
+│   │   ├── EDU_METER_AID(data).csv
+│   │   ├── Magnitude(data).csv
+│   │   ├── NEW AC CODES inserted in EDU_METER_AID.csv
+│   │   ├── Qualifier.csv
+│   │   ├── RM_Mapping.csv
+│   │   └── RM_Mapping_NonNumeric.csv
+│   ├── create_database.bat
+│   ├── create_tables.sql
+│   ├── insert_data.sql
+│   ├── insert_indic_labels.sql
+│   ├── library.sql
+│   ├── main.sql
+│   ├── migration_to_DB_with_indic.sql
+│   ├── Prod.db
+│   └── README.md
+├── Documentation
+│   ├── css
+│   ├── img
+│   ├── Python help
+│   │   ├── rmExcelWriter.html
+│   │   ├── rmfunctions.html
+│   │   ├── RM_GUI.html
+│   │   ├── rmindicators.html
+│   │   └── rmsqlfunctions.html
+│   ├── user-manual.html
+│   └── user-manual.org
+├── Export
+│   └── README.md
+├── Import
+│   └── README.md
+├── Libraries
+│   ├── algebra-div.csv
+│   ├── algebra-prod.csv
+│   ├── algebra-sum.csv
+│   ├── Pip install.md
+│   ├── rmExcelWriter.py
+│   ├── rmfunctions.py
+│   ├── rmindicators.py
+│   ├── rmquestionnaire.py
+│   ├── rmsqlfunctions.py
+│   └── variables_for_preprocessing.json
+├── Log
+│   └── README.md
+├── README.md
+└── RM_GUI.py
+#+END_SRC
+** Python help files
+   Python had its own help documentation that could be created using =pydoc= for any script. In the [[Software folder tree][Software folder tree]] section, the tree lists 6 =.py= files, 5 in folder =/Libraries= and the =RM_GUI.py= in the main directory. The following are the links to the Python help files of each.
+   + [[file:Python help/rmExcelWriter.html][Libraries/rmExcelWriter.py]]
+   + [[file:Python help/rmfunctions.html][Libraries/rmfunctions.py]]
+   + [[file:Python help/rmindicators.html][Libraries/rmindicators.py]]
+   + [[file:Python help/rmsqlfunctions.html][Libraries/rmsqlfunctions.py]]
+   + =Libraries/rmquestionnaire.py= does not have a help file since it only loads all the other scripts. 
+   + [[file:Python help/RM_GUI.html][RM_GUI.py]]
+
+
