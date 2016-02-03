@@ -4,8 +4,8 @@
 #+OPTIONS: ':nil *:t -:t ::t <:t  \n:nil ^:{} arch:headline
 #+OPTIONS: author:t c:nil creator:comment d:(not "LOGBOOK") date:t
 #+OPTIONS: e:t email:nil f:t inline:t num:t p:nil pri:nil stat:t
-#+OPTIONS: tags:t tasks:t tex:t timestamp:t toc:nil todo:t |:t
-#+OPTIONS:   H:3 num:t toc:3 p:t ^:nil
+#+OPTIONS: tags:t tasks:t tex:t timestamp:t todo:t |:t
+#+OPTIONS:   H:3 num:t toc:3 p:t 
 #+CREATOR: Emacs 24.4.1 (Org mode 8.2.10)
 #+DESCRIPTION:
 #+EXCLUDE_TAGS: noexport
