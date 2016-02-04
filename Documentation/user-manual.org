@@ -147,9 +147,9 @@ To Insert a questionnaire to the database, follow these steps:
        will appear in the Status panel.
 
 The steps above are simplified. For more details about the
-pre-processing checks and data report please refer to Sections [[Validation report]] and [[Data report]].\\
+pre-processing checks and data report please refer to Sections [[Validation report]] and [[Data report]].
 
-
+#+latex: \newpage
 #+begin_note
     * Note that only files with =.xlsx= extensions are inserted.
     * A copy of any inserted file is saved to the =Export= sub-folder with
@@ -158,8 +158,6 @@ pre-processing checks and data report please refer to Sections [[Validation repo
     * All validation files and data reports are saved to the =Log folder=,
       while some information is shown in the Status panel.
 #+end_note
-
-
 
 *About the checkboxes:*
     * *Import to REP* is a security checkbox that stops the user from
