@@ -13,23 +13,45 @@
 #+LANGUAGE: en
 #+SELECT_TAGS: export
 #+latex_header: \usepackage{float}
+#+latex_header: \usepackage{fancyvrb}
 #+latex_header: \floatstyle{ruled}
 #+latex_header: \newfloat{code}{h}{txt}
 #+latex_header: \floatname{code}{Code example}
 #+latex_header: \renewcommand{\textfraction}{0.07}
-#+latex_header: \hypersetup{colorlinks,citecolor=black,filecolor=black,linkcolor=black,urlcolor=black}
+#+latex_header: \hypersetup{colorlinks,citecolor=black,filecolor=red,linkcolor=blue,urlcolor=blue}
 #+latex_header: \usepackage[letterpaper,left=2cm,top=2cm,bottom=2cm,right=2cm]{geometry}
 #+latex_header: \setlength\parindent{0pt}
 #+latex_header: \usepackage[parfill]{parskip}
 #+latex_header: \usepackage{color}
 #+latex_header: \usepackage[dvipsnames]{xcolor}
-#+latex_header: \usepackage{fancyvrb}
+
+# ### verbatim font small
 #+latex_header: \makeatletter
 #+latex_header: \def\verbatim{\small\@verbatim \frenchspacing\@vobeyspaces \@xverbatim}
 #+latex_header: \makeatother
-#+latex_header: \makeatletter 
-#+latex_header: \renewcommand\verbatim@font{\normalfont\ttfamily\color{gray}}
-#+latex_header: \makeatother
+
+# ### varbatim font color
+# #+latex_header: \makeatletter 
+# #+latex_header: \renewcommand\verbatim@font{\normalfont\ttfamily\color{gray}}
+# #+latex_header: \makeatother
+
+# ### verbatim backgroud
+#+latex_header:\let\oldv\verbatim
+#+latex_header:\let\oldendv\endverbatim
+#+latex_header:
+#+latex_header:\def\verbatim{\par\setbox0\vbox\bgroup\oldv}
+#+latex_header:\def\endverbatim{\oldendv\egroup\fboxsep0pt \noindent\colorbox[gray]{0.9}{\usebox0}\par}
+
+
+
+#+latex_header: \usepackage[framemethod=TikZ]{mdframed}
+#+latex_header: \usepackage[framemethod=TikZ]{mdframed}\newenvironment{mybox}[2][]{\mdfsetup{frametitle={\tikz[baseline=(current bounding box.east),outer sep=0pt]\node[anchor=east,rectangle,fill=#2]{\strut \large #1~};}}\mdfsetup{innertopmargin=10pt,linecolor=#2,linewidth=2pt,topline=true,frametitleaboveskip=\dimexpr-\ht\strutbox\relax}\begin{mdframed}[]\relax}{\end{mdframed}}
+
+#+latex_header: \newenvironment{sidebar}{\addvspace{\baselineskip} \begin{mybox}[Sidebar]{green!40}}{\end{mybox}}
+#+latex_header: \newenvironment{note}{\addvspace{\baselineskip} \begin{mybox}[Note]{blue!40}}{\end{mybox}}
+#+latex_header: \newenvironment{important}{\addvspace{\baselineskip} \begin{mybox}[Important]{orange!40}}{\end{mybox}}
+
+
 
 #+startup: nofold
 #+SETUPFILE: css/theme-readtheorg-local.setup
@@ -110,9 +132,10 @@ To Insert a questionnaire to the database, follow these steps:
        automatically open if the box named =Open data report= is
        ticked. A note on the lines of 
         #+begin_src
-           INSERTION STEP
+        INSERTION STEP
 
-        Inserting C:/Users/Mohamad/Documents/GitHub/RMS/Import/RM_Lao People's Democratic Republic_2015_15-11-19-23-46.xlsx
+        Inserting C:/Users/Mohamad/Documents/GitHub/RMS/Import/
+                    RM_Lao People's Democratic Republic_2015_15-11-19-23-46.xlsx
         Checking that region values add to the country value...Test passed.
         Checking that parts are less than the totals...Test passed.
         Checking sums of columns...
@@ -124,7 +147,8 @@ To Insert a questionnaire to the database, follow these steps:
        will appear in the Status panel.
 
 The steps above are simplified. For more details about the
-pre-processing checks and data report please refer to Sections [[Validation report]] and [[Data report]].
+pre-processing checks and data report please refer to Sections [[Validation report]] and [[Data report]].\\
+
 
 #+begin_note
     * Note that only files with =.xlsx= extensions are inserted.
@@ -134,6 +158,8 @@ pre-processing checks and data report please refer to Sections [[Validation repo
     * All validation files and data reports are saved to the =Log folder=,
       while some information is shown in the Status panel.
 #+end_note
+
+
 
 *About the checkboxes:*
     * *Import to REP* is a security checkbox that stops the user from
@@ -384,7 +410,7 @@ The following is the schema of the SQL table, where
     * =SYS_DATA= is the internal local time to when the change has happened.
 #+begin_src sql
 CREATE TABLE METER_AUDIT_TRAIL(
-	Audit_ID Integer , -- Based on ROWID definition in SQLite, this should do the same job as auto-increment
+	Audit_ID Integer , -- auto-increment ID
 	MC_ID decimal(6, 0) NOT NULL, --numeric reference of the data
     CO_CODE decimal(6, 0) NOT NULL, -- country code
     ADM_CODE INT NOT NULL, -- Administrative Division code.
@@ -431,7 +457,7 @@ The following is the schema of the SQL table, where
 
 #+begin_src sql
   CREATE TABLE INDICATOR_AUDIT_TRAIL(
-          Audit_ID Integer , -- Based on ROWID definition in SQLite, this should do the same job as auto-increment
+          Audit_ID Integer , -- auto-increment ID
           IND_ID varchar(50) NOT NULL, -- indicator ID
       CO_CODE decimal(6, 0) NOT NULL, -- country code
       ADM_CODE INT NOT NULL, -- Administrative Division code.
@@ -557,7 +583,8 @@ the configurations panel in the top left corner, where the mode is =Edit= and th
 #+CAPTION: Status frame output
 #+NAME:   src:export_clean
 #+begin_src
-Exporting Teachers ISCED 2 from OBS series for Lao People's Democratic Republic-2015....
+Exporting Teachers ISCED 2 from OBS series for 
+Lao People's Democratic Republic-2015....
 File C:/Users/myUser/Desktop/Example/Lao People's Democratic Republic_2015_Teachers ISCED 2_OBS.xlsx is created..
 Done.
 #+end_src   
@@ -590,7 +617,8 @@ inclusion code =X[:3]= to indicate that the current column is included in column
 VALIDATION STEP
 
 Edited questionnaire submitted with path:
-C:/Users/Mohamad/Desktop/Example/Lao People's Democratic Republic_2015_Teachers ISCED 2_OBS.xlsx
+C:/Users/Mohamad/Desktop/Example
+/Lao People's Democratic Republic_2015_Teachers ISCED 2_OBS.xlsx
 
 Number of administrative divisions: 5.0
 Configuration section of edited questionnaire is properly filled
@@ -603,7 +631,8 @@ Log/Lao People's Democratic Republic_16-01-22-21-23_validation.txt
 ----------Date: January 22, 2016----------
 INSERTION STEP
 
-Inserting C:/Users/Mohamad/Desktop/Example/Lao People's Democratic Republic_2015_Teachers ISCED 2_OBS.xlsx
+Inserting C:/Users/Mohamad/Desktop/Example/
+        Lao People's Democratic Republic_2015_Teachers ISCED 2_OBS.xlsx
 Checking that region values add to the country value...Test passed.
 Checking that parts are less than the totals...Test passed.
 Checking sums of columns...Test passed.
@@ -620,7 +649,8 @@ otherwise it would list validation errors such as.
 VALIDATION STEP
 
 Edited questionnaire submitted with path:
-C:/Users/Mohamad/Desktop/Example/Lao People's Democratic Republic_2015_Teachers ISCED 2_OBS.xlsx
+C:/Users/Mohamad/Desktop/Example
+/Lao People's Democratic Republic_2015_Teachers ISCED 2_OBS.xlsx
 
 Number of administrative divisions: 5.0
 Configuration section of edited questionnaire is properly filled
@@ -656,6 +686,7 @@ Now using the wildcards, lets extract the percentage of teachers with attainment
 Extracting EA5pPT.%Pu for Lao People's Democratic Republic-2015....
 File /home/mo/Desktop/Lao People's Democratic Republic_2015_INDIC_EA5pPT.xxPu.xlsx is created..
 Done.
+
 #+end_src
 
 The file should also automatically open up and in this example it looks like this.
@@ -687,7 +718,7 @@ Some more specific technical notation exists for some of the subsections.
    + Python method :: teachers_percentage_female
    + IND_IDS information ::
 #+latex: \\
-   #+ATTR_LATEX:  :align |r|l|c|c|
+   #+ATTR_LATEX:  :align |l|l|l|c|
         |          | IND_ID  | FORMULA            | H & L |
         |----------+---------+--------------------+-------|
         | ISCED 1  | FTP.1   | NT.1.F/T.1         | yes   |
@@ -701,7 +732,7 @@ Some more specific technical notation exists for some of the subsections.
    + Python method :: newly_recruited_teachers
    + IND_IDS information :: 
 #+latex: \\
-   #+ATTR_LATEX:  :align |r|l|c|c|
+   #+ATTR_LATEX:  :align |l|l|l|c|
         |          | IND_ID  | FORMULA            | H & L |
         |----------+---------+--------------------+-------|
         | ISCED 1  | NTP.1   | NT.1/T.1           | no    |
@@ -715,7 +746,7 @@ Some more specific technical notation exists for some of the subsections.
    + Python method ::  pupils_teachers_ratio
    + IND_IDS information :: 
 #+latex: \\
-   #+ATTR_LATEX:  :align |r|l|c|c|
+   #+ATTR_LATEX:  :align |l|l|l|c|
         |          | IND_ID   | FORMULA           | H & L |
         |----------+-----------+-------------------+-------|
         | ISCED 1  | PTRHC.1   | E.1/T.1           | yes   |
@@ -729,7 +760,7 @@ Some more specific technical notation exists for some of the subsections.
    + Python method ::  percentage_trained_teachers
    + IND_IDS information ::
 #+latex: \\
-   #+ATTR_LATEX:  :align |r|l|c|c|
+   #+ATTR_LATEX:  :align |l|l|l|c|
         |          | IND_ID  | FORMULA                   | H & L |
         |----------+----------+---------------------------+-------|
         | ISCED 1  | TRTP.1   | T.1.trained/T.1           | yes   |
@@ -740,7 +771,7 @@ Some more specific technical notation exists for some of the subsections.
    In this same method, there is the computation of the percentage of
    trained newly recruited teachers, which has the following table
 #+latex: \\
-   #+ATTR_LATEX:  :align |r|l|c|c|
+   #+ATTR_LATEX:  :align |l|l|l|c|
    |          | IND_ID   | FORMULA                     | H & L |
    |----------+-----------+-----------------------------+-------|
    | ISCED 1  | TrNTP.1   | NT.1.trained/NT.1           | yes   |
@@ -753,7 +784,7 @@ Some more specific technical notation exists for some of the subsections.
    + Python method ::  percentage_private_teachers
    + IND_IDS information ::
 #+latex: \\
-   #+ATTR_LATEX:  :align |r|l|c|c|
+   #+ATTR_LATEX:  :align |l|l|l|c|
         |          | IND_ID  | FORMULA              | H & L |
         |----------+----------+----------------------+-------|
         | ISCED 1  | PrTP.1   | T.1.Pr/T.1           | yes   |
@@ -768,7 +799,7 @@ Some more specific technical notation exists for some of the subsections.
    + Python method ::  percentage_non_permanent_teachers
    + IND_IDS information Private ::
 #+latex: \\
-   #+ATTR_LATEX:  :align |r|l|c|c| 
+   #+ATTR_LATEX:  :align |l|l|l|c| 
         |          | IND_ID          | FORMULA                     | H & L |
         |----------+------------------+-----------------------------+-------|
         | ISCED 1  | FixTP.1.Pr       | T.1.Pr.Fix/T.1.Pr           | no    |
@@ -779,7 +810,7 @@ Some more specific technical notation exists for some of the subsections.
 
    + IND_IDS information Public ::
 #+latex: \\
-   #+ATTR_LATEX:  :align |r|l|c|c| 
+   #+ATTR_LATEX:  :align |l|l|l|c| 
         |          | IND_ID          | FORMULA                     | H & L |
         |----------+------------------+-----------------------------+-------|
         | ISCED 1  | FixTP.1.Pu       | T.1.Pu.Fix/T.1.Pu           | no    |
@@ -790,7 +821,7 @@ Some more specific technical notation exists for some of the subsections.
 
    + IND_IDS information Combined ::
 #+latex: \\
-   #+ATTR_LATEX:  :align |r|l|c|c| 
+   #+ATTR_LATEX:  :align |l|l|l|c| 
         |          | IND_ID       | FORMULA                                                     | H & L |
         |----------+---------------+-------------------------------------------------------------+-------|
         | ISCED 1  | FixTP.1       | (T.1.Pr.Fix+T.1.Pu.Fix)/(T.1.Pr+T.1.Pu)                     | no    |
@@ -804,7 +835,7 @@ Some more specific technical notation exists for some of the subsections.
    + Python method ::  percentage_non_permanent_teachers
    + IND_IDS information Private ::
 #+latex: \\
-   #+ATTR_LATEX:  :align |r|l|c|c| 
+   #+ATTR_LATEX:  :align |l|l|l|c| 
         |          | IND_ID         | FORMULA                                                | H & L |
         |----------+----------------+--------------------------------------------------------+-------|
         | ISCED 1  | TAttrR.1       | 100*(T.1^{L} + NT.1 - T.1)/T.1^{L}                     | no    |
@@ -818,20 +849,20 @@ Some more specific technical notation exists for some of the subsections.
    + Python method :: mean_age_level(level in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV'])
    + IND_IDS information :: 
 #+latex: \\
-   #+ATTR_LATEX:  :align |r|l|c|c|
-        |          | IND_ID       | FORMULA                                                                   | H & L |
-        |----------+---------------+---------------------------------------------------------------------------+-------|
-        | ISCED 1  | MAge.T.1      | $\sum_{\text{ y in cat}} \frac{T.1.y \times MidDur(y) }{ Pop.Ag0t99}$     | No    |
-        | ISCED 2  | MAge.T.2.GPV  | $\sum_{\text{ y in cat}} \frac{T.2.GPV.y\times MidDur(y) }{ Pop.Ag0t99}$  | No    |
-        | ISCED 3  | MAge.T.3.GPV  | $\sum_{\text{ y in cat}} \frac{T.3.GPV.y\times MidDur(y) }{ Pop.Ag0t99}$  | No    |
-        | ISCED 23 | MAge.T.23.GPV | $\sum_{\text{ y in cat}} \frac{T.23.GPV.y\times MidDur(y) }{ Pop.Ag0t99}$ | No    |
-        |----------+---------------+---------------------------------------------------------------------------+-------|
-        where =Cat= is =Ag20m=, =Ag20t29=, =Ag30t39=, =Ag40t49=, =Ag50t59= and =Ag60p=. Midpoints are based on the following:
+   #+ATTR_LATEX:  :align |l|l|l|c|
+        |          | IND_ID        | FORMULA                                                           | H & L |
+        |----------+---------------+-------------------------------------------------------------------+-------|
+        | ISCED 1  | MAge.T.1      | \sum_{y in cat} T.1.y \times MP.y / \sum_{y in cat} T.1.y         | No    |
+        | ISCED 2  | MAge.T.2.GPV  | \sum_{y in cat} T.2.GPV.y \times MP.y/ \sum_{y in cat} T.2.GPV.y  | No    |
+        | ISCED 3  | MAge.T.3.GPV  | \sum_{y in cat} T.3.GPV.y \times MP.y/\sum_{y in cat} T.3.GPV.y   | No    |
+        | ISCED 23 | MAge.T.23.GPV | \sum_{y in cat} T.23.GPV.y\times MP.y/ \sum_{y in cat} T.23.GPV.y | No    |
+        |----------+---------------+-------------------------------------------------------------------+-------|
+        where =cat= is =Ag20m=, =Ag20t29=, =Ag30t39=, =Ag40t49=, =Ag50t59= and =Ag60p=. Midpoints (MP) are based on the following:
 #+latex: \\
-   #+ATTR_LATEX:  :align |r|l|c|c|
+   #+ATTR_LATEX:  :align |l|c|c|c|c|c|c|
         | Age in years | <20 | 20-29 | 30-39 | 40-49 | 50-59 | 60+ |
         |--------------+-----+-------+-------+-------+-------+-----|
-        | Midpoint     |  20 |  24.5 |  34.5 |  44.5 |  54.5 |  60 |
+        | Midpoints    |  20 |  24.5 |  34.5 |  44.5 |  54.5 |  60 |
         |--------------+-----+-------+-------+-------+-------+-----|
         Note all indicators are calculated for Total, Public and Private levels.
           
@@ -840,22 +871,22 @@ Some more specific technical notation exists for some of the subsections.
    + Python method :: mean_exp_level(level in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV'])
    + IND_IDS information ::
 #+latex: \\
-   #+ATTR_LATEX:  :align |r|l|c|c|
-        |          | IND_ID       | FORMULA                                                                     | H & L |
-        |----------+---------------+-----------------------------------------------------------------------------+-------|
-        | ISCED 1  | MExp.T.1      | $\sum_{\text{ y in cat}} \frac{T.1.y \times \times MidDur(y)}{ Pop.Ag0t99}$ | No    |
-        | ISCED 2  | MExp.T.2.GPV  | $\sum_{\text{ y in cat}} \frac{T.2.GPV.y\times MidDur(y) }{ Pop.Ag0t99}$    | No    |
-        | ISCED 3  | MExp.T.3.GPV  | $\sum_{\text{ y in cat}} \frac{T.3.GPV.y\times MidDur(y) }{ Pop.Ag0t99}$    | No    |
-        | ISCED 23 | MExp.T.23.GPV | $\sum_{\text{ y in cat}} \frac{T.23.GPV.y\times MidDur(y) }{ Pop.Ag0t99}$   | No    |
-        |----------+---------------+-----------------------------------------------------------------------------+-------|
-        where =cat= is  =Exp1t2=,  =Exp3t5=, =Exp6t10=,  =Exp11t15= and  =Exp15p=. 
-       =MidDur= is =[Exp1t2 = 1.5, Exp3t5 = 4, Exp6t10 = 8, Exp11t15 = 13, Exp15p = 15]=. Mid duration's are based on the following:  
+   #+ATTR_LATEX:  :align |l|l|l|c|
+        |          | IND_ID        | FORMULA                                                            | H & L |
+        |----------+---------------+--------------------------------------------------------------------+-------|
+        | ISCED 1  | MExp.T.1      | \sum_{y in cat} T.1.y \times \times MP.y/ \sum_{y in cat} T.1.y    | No    |
+        | ISCED 2  | MExp.T.2.GPV  | \sum_{y in cat} T.2.GPV.y\times MP.y / \sum_{y in cat} T.2.GPV.y   | No    |
+        | ISCED 3  | MExp.T.3.GPV  | \sum_{y in cat} T.3.GPV.y\times MP.y / \sum_{y in cat} T.3.GPV.y   | No    |
+        | ISCED 23 | MExp.T.23.GPV | \sum_{y in cat} T.23.GPV.y\times MP.y / \sum_{y in cat} T.23.GPV.y | No    |
+        |----------+---------------+--------------------------------------------------------------------+-------|
+        where =cat= is  =Exp1t2=,  =Exp3t5=, =Exp6t10=,  =Exp11t15= and  =Exp15p=.  and Midpoints (MP) are
+       =MP= is =[Exp1t2 = 1.5, Exp3t5 = 4, Exp6t10 = 8, Exp11t15 = 13, Exp15p = 15]=. Midpoints are based on the following:  
 #+latex: \\
-   #+ATTR_LATEX:  :align |r|l|c|c|
-        | experience in years | New | 1-2 | 3-5 | 6-10 | 11-15 | 15+ |
+   #+ATTR_LATEX:  :align |l|c|c|c|c|c|c|
+        | Experience in years | New | 1-2 | 3-5 | 6-10 | 11-15 | 15+ |
         |---------------------+-----+-----+-----+------+-------+-----|
-        | Mid duration        | 0.5 | 1.5 |   4 |    8 |    13 |  17 |
-        |---------------------+-----+-----+-----+------+-------+-----|     
+        | Midpoints           | 0.5 | 1.5 |   4 |    8 |    13 |  17 |
+        |---------------------+-----+-----+-----+------+-------+-----|
         Note all indicators are calculated for Total, Public and Private levels.
 
 ** Highest level of educational attainment
@@ -863,7 +894,7 @@ Some more specific technical notation exists for some of the subsections.
    + Python method :: percentage_teachers_attainment
    + IND_IDS information :: 
 #+latex: \\
-   #+ATTR_LATEX:  :align |r|l|c|c|                       
+   #+ATTR_LATEX:  :align |l|l|l|c|                       
      | Highest educational attainment | IND_ID     | FORMULA                                        | H & L |
      |--------------------------------+------------+------------------------------------------------+-------|
      | Lower secondary or Less        | EA.2mPT.IS | T.IS.EA.2m / T.IS                              | No    |
@@ -882,7 +913,7 @@ Some more specific technical notation exists for some of the subsections.
    + Python method :: percentage_teachers_exp
    + IND_IDS information :: 
 #+latex: \\
-   #+ATTR_LATEX:  :align |r|l|c|c|
+   #+ATTR_LATEX:  :align |l|l|l|c|
        | Experience         | IND_ID           | FORMULA                  | H & L |
        |--------------------+------------------+--------------------------+-------|
        | 1 to 2 years       | Exp1t2mPT.ISCED  | T.ISCED.Exp1t2/T.ISCED   | No    |
@@ -901,7 +932,7 @@ Some more specific technical notation exists for some of the subsections.
    + Python method :: percentage_teachers_age
    + IND_IDS information :: 
 #+latex: \\
-   #+ATTR_LATEX:  :align |r|l|c|c|
+   #+ATTR_LATEX:  :align |l|l|l|c|
         | Age                | IND_ID          | FORMULA                 | H & L |
         |--------------------+-----------------+-------------------------+-------|
         | Less than 20 years | Ag20mPT.ISCED   | T.ISCED.Ag20m/T.ISCED   | No    |
@@ -921,7 +952,7 @@ Some more specific technical notation exists for some of the subsections.
    + Python method :: dissimilarity_index
    + IND_IDS information :: 
 #+latex: \\
-   #+ATTR_LATEX:  :align |r|l|c|c|
+   #+ATTR_LATEX:  :align |l|l|l|
         | Measures of inequality in the           | IND_ID            | FORMULA                                                                                       |
         |-----------------------------------------+-------------------+-----------------------------------------------------------------------------------------------|
         | All                                     | DIndT.IS          | \(\frac{1}{2} \sum_a\mid \frac{T.IS_a}{T.IS} - \frac{E.IS_a}{E.IS} \mid\)                     |
@@ -1507,79 +1538,85 @@ indicator ID of the desired indicator (e.g. 'NTP.1').
 #  LocalWords:  ISCED
 ** Software folder tree 
 The following is the RMS software directory tree, where all directory levels are printed, following that the complete tree including individual files.
+
 #+BEGIN_SRC sh
+RMS/
+|-- Database
+|   `-- Inserted data
+|-- Documentation
+|   |-- css
+|   |-- img
+|   `-- Python help
+|-- Export
+|-- Import
+|-- Libraries
+`-- Log
+
 10 directories
-
-RMS/
-├── Database
-│   └── Inserted data
-├── Documentation
-│   ├── css
-│   ├── img
-│   └── Python help
-├── Export
-├── Import
-├── Libraries
-└── Log
 #+END_SRC
 
 #+BEGIN_SRC sh
-10 directories, 42 files
-
 RMS/
-├── Database
-│   ├── Inserted data
-│   │   ├── ADM_table.csv
-│   │   ├── All AC CODES.csv
-│   │   ├── Country.csv
-│   │   ├── EDU_INDICATOR_AID.csv
-│   │   ├── EDU_INDICATOR_AID_full.xlsx
-│   │   ├── EDU_METER_AID(data).csv
-│   │   ├── Magnitude(data).csv
-│   │   ├── NEW AC CODES inserted in EDU_METER_AID.csv
-│   │   ├── Qualifier.csv
-│   │   ├── RM_Mapping.csv
-│   │   └── RM_Mapping_NonNumeric.csv
-│   ├── create_database.bat
-│   ├── create_tables.sql
-│   ├── insert_data.sql
-│   ├── insert_indic_labels.sql
-│   ├── library.sql
-│   ├── main.sql
-│   ├── migration_to_DB_with_indic.sql
-│   ├── Prod.db
-│   └── README.md
-├── Documentation
-│   ├── css
-│   ├── img
-│   ├── Python help
-│   │   ├── rmExcelWriter.html
-│   │   ├── rmfunctions.html
-│   │   ├── RM_GUI.html
-│   │   ├── rmindicators.html
-│   │   └── rmsqlfunctions.html
-│   ├── user-manual.html
-│   └── user-manual.org
-├── Export
-│   └── README.md
-├── Import
-│   └── README.md
-├── Libraries
-│   ├── algebra-div.csv
-│   ├── algebra-prod.csv
-│   ├── algebra-sum.csv
-│   ├── Pip install.md
-│   ├── rmExcelWriter.py
-│   ├── rmfunctions.py
-│   ├── rmindicators.py
-│   ├── rmquestionnaire.py
-│   ├── rmsqlfunctions.py
-│   └── variables_for_preprocessing.json
-├── Log
-│   └── README.md
-├── README.md
-└── RM_GUI.py
+|-- Database
+|   |-- Inserted data
+|   |   |-- ADM_table.csv
+|   |   |-- All AC CODES.csv
+|   |   |-- Country.csv
+|   |   |-- EDU_INDICATOR_AID.csv
+|   |   |-- EDU_INDICATOR_AID_full.xlsx
+|   |   |-- EDU_METER_AID(data).csv
+|   |   |-- Magnitude(data).csv
+|   |   |-- NEW AC CODES inserted in EDU_METER_AID.csv
+|   |   |-- Qualifier.csv
+|   |   |-- RM_Mapping.csv
+|   |   `-- RM_Mapping_NonNumeric.csv
+|   |-- create_database.bat
+|   |-- create_tables.sql
+|   |-- insert_data.sql
+|   |-- insert_indic_labels.sql
+|   |-- library.sql
+|   |-- main.sql
+|   |-- migration_to_DB_with_indic.sql
+|   |-- Prod.db
+|   `-- README.md
+|-- Documentation
+|   |-- css
+|   |-- img
+|   |-- Python help
+|   |   |-- rmExcelWriter.html
+|   |   |-- rmfunctions.html
+|   |   |-- RM_GUI.html
+|   |   |-- rmindicators.html
+|   |   `-- rmsqlfunctions.html
+|   |-- README.md
+|   |-- user-manual.html
+|   |-- user-manual.org
+|   |-- user-manual.pdf
+|   `-- user-manual.tex
+|-- Export
+|   `-- README.md
+|-- Import
+|   `-- README.md
+|-- Libraries
+|   |-- algebra-div.csv
+|   |-- algebra-prod.csv
+|   |-- algebra-sum.csv
+|   |-- Pip install.md
+|   |-- README.md
+|   |-- rmExcelWriter.py
+|   |-- rmfunctions.py
+|   |-- rmindicators.py
+|   |-- rmquestionnaire.py
+|   |-- rmsqlfunctions.py
+|   `-- variables_for_preprocessing.json
+|-- Log
+|   `-- README.md
+|-- README.md
+`-- RM_GUI.py
+
+10 directories, 46 files
 #+END_SRC
+
 ** Python help files
    Python had its own help documentation that could be created using =pydoc= for any script. In the [[Software folder tree][Software folder tree]] section, the tree lists 6 =.py= files, 5 in folder =/Libraries= and the =RM_GUI.py= in the main directory. The following are the links to the Python help files of each.
    + [[file:Python help/rmExcelWriter.html][Libraries/rmExcelWriter.py]]
