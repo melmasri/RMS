@@ -80,8 +80,8 @@ def getAvailable_year(co_name):
 
     sql_str = ("SELECT DISTINCT A.EMCO_YEAR FROM EDU_METER97_REP AS A "
                "LEFT JOIN COUNTRY AS B ON B.CO_CODE = A.CO_CODE "
-               "WHERE UPPER(B.CO_SHORT_NAME) IS '{0}' and A.EMC_ID= 900001".format(name)) #900001 == Pop.Ag0t99
-    code = sql_query(sql_str)   
+               "WHERE UPPER(B.CO_SHORT_NAME) IS UPPER('{0}')".format(name)) #900001 == Pop.Ag0t99
+    code = sql_query(sql_str)
     if code:
         return(list(chain.from_iterable(code)))
 
@@ -283,9 +283,13 @@ class questionnaire:
             else:
                 self.emco_year=False
         else:
+            # # Old way 
             front_page_variables = pre_vars['fixed_sheets']['Front Page']
             sheet = self.wb.sheet_by_name('Front Page')
             self.emco_year = int(sheet.cell( *indexes( front_page_variables['school_year_ending'][0]  )   ).value)
+            # # New way
+            # sheet=self.wb.sheet_by_name('Policy information')
+            # reference_year=sheet.cell(*indexes('M14')).value
         
     def get_nadm1(self):
         """Sets the attribute nadm1 based on the questionnaire."""
