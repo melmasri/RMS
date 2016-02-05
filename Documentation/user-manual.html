@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Regional Module User Manual</title>
-<!-- 2016-02-04 Thu 20:56 -->
+<!-- 2016-02-04 jue 23:40 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Mohamad Elmasri and Oscar Quijano" />
@@ -444,7 +444,7 @@ inserting to the reported series (REP) by mistake. It is
 unticked by default, and works as follows, if the user attempts
 to insert some data to the reported series, even if the file
 validates, the user is not allowed unless this checkbox is
-ticked. Only under one exception is it allowed, if the inserted   
+ticked. Only under one exception it is allowed, if the inserted   
 file is an original questionnaire, this become more clear in
 <a href="#sec-1-3-3">Exporting data options</a>.
 </li>
@@ -669,12 +669,12 @@ administrative division cells are empty, while the national level
 holds the indicator figure.
 </li>
 <li>If indicators are incalculable because of missing data or
-inclusions, the figure will be replaces by resulting magnitude code in the respective cell. <b>If the cell is empty, either the
+inclusions, the figure will be replaced by resulting magnitude code in the respective cell. <b>If the cell is empty, either the
 indicator is a national level indicator or the <i>Estimated</i> series is empty.</b>
 </li>
 <li>Indicators are always sorted alphabetically.
 </li>
-<li>Exported indicator file follow the naming convention <code>County Name-Year-Indic-indicator name.xlsx</code>, when the use of wildcards, <code>%</code> is replaced with <code>xx</code>.
+<li>Exported indicator files follow the naming convention <code>County Name-Year-Indic-indicator name.xlsx</code>, when the use of wildcards, <code>%</code> is replaced with <code>xx</code>.
 </li>
 </ul>
 
@@ -727,7 +727,7 @@ A validation report is created and saved in the <code>Log</code> sub-folder
 every time the user attempts to insert a questionnaire by clicking on
 the <code>Validate</code> button. It includes all confirmations and errors and
 have the naming convention as <code>RM-Country
-Name-Year-Series-Data-Type-Time-Date.txt</code>. 
+Name-Year-Series-Data Type-Date-Time.txt</code>. 
 </p>
 
 <p>
@@ -785,7 +785,7 @@ original names.
 </li>
 <li>General checks: 
 <ul class="org-ul">
-<li>check that all data values are either a number, inclusion (X), Z,z,A,a,N,n,M or m. Otherwise, validation fails and error is printed.
+<li>check that all data values are either a number, inclusion (X or x), Z,z,A,a,N,n,M or m. Otherwise, validation fails and error is printed.
 </li>
 </ul>
 </li>
@@ -809,7 +809,7 @@ clicking on the <code>Check only</code> button.
 </p>
 
 <p>
-The data report check the following and lists any issues: 
+The data report checks the following and lists any issues: 
 </p>
 <ol class="org-ol">
 <li>If the insertion is in the original questionnaire format
@@ -891,24 +891,24 @@ The following is the schema of the SQL table, where
 </ul>
 <div class="org-src-container">
 
-<pre class="src src-sql"><span style="color: #F92672;">CREATE</span> <span style="color: #F92672;">TABLE</span> <span style="color: #A6E22E;">METER_AUDIT_TRAIL</span>(
-    Audit_ID <span style="color: #66D9EF;">Integer</span> , <span style="color: #75715E;">-- auto-increment ID</span>
-    MC_ID <span style="color: #66D9EF;">decimal</span>(6, 0) <span style="color: #F92672;">NOT</span> <span style="color: #F92672;">NULL</span>, <span style="color: #75715E;">--numeric reference of the data</span>
-    CO_CODE <span style="color: #66D9EF;">decimal</span>(6, 0) <span style="color: #F92672;">NOT</span> <span style="color: #F92672;">NULL</span>, <span style="color: #75715E;">-- country code</span>
-    ADM_CODE <span style="color: #66D9EF;">INT</span> <span style="color: #F92672;">NOT</span> <span style="color: #F92672;">NULL</span>, <span style="color: #75715E;">-- Administrative Division code.</span>
-    MC_YEAR <span style="color: #66D9EF;">decimal</span>(4, 0) <span style="color: #F92672;">NOT</span> <span style="color: #F92672;">NULL</span>, <span style="color: #75715E;">-- data year</span>
-    EM_FIG_NEW <span style="color: #66D9EF;">varchar</span>(4000) <span style="color: #F92672;">NULL</span>, <span style="color: #75715E;">-- new figure</span>
-    EM_FIG_OLD <span style="color: #66D9EF;">varchar</span>(4000) <span style="color: #F92672;">NULL</span>,  <span style="color: #75715E;">-- old figure</span>
-    MQ_ID_NEW <span style="color: #66D9EF;">char</span>(1) <span style="color: #F92672;">NULL</span>, <span style="color: #75715E;">-- new qualifier</span>
-    MQ_ID_OLD <span style="color: #66D9EF;">char</span>(1) <span style="color: #F92672;">NULL</span>, <span style="color: #75715E;">-- old qualifier</span>
-    MG_ID_NEW <span style="color: #66D9EF;">char</span>(1) <span style="color: #F92672;">NULL</span>, <span style="color: #75715E;">-- new magnitude</span>
-    MG_ID_OLD <span style="color: #66D9EF;">char</span>(1) <span style="color: #F92672;">NULL</span>, <span style="color: #75715E;">-- old magnitude</span>
-    TYPE_MOD <span style="color: #66D9EF;">char</span>(1) <span style="color: #F92672;">NULL</span>, 
-    USER_NAME <span style="color: #66D9EF;">varchar</span>(20) <span style="color: #F92672;">NOT</span> <span style="color: #F92672;">NULL</span>, <span style="color: #75715E;">-- user name</span>
-    SYS_DATE datetime <span style="color: #F92672;">DEFAULT</span> (datetime(<span style="color: #E6DB74;">'now'</span>,<span style="color: #E6DB74;">'localtime'</span>)), <span style="color: #75715E;">--local timestamp</span>
-    SERIES <span style="color: #66D9EF;">varchar</span>(10) <span style="color: #F92672;">NOT</span> <span style="color: #F92672;">NULL</span>, <span style="color: #75715E;">-- data series</span>
-    SURVEY_ID <span style="color: #66D9EF;">char</span>(2) <span style="color: #F92672;">NULL</span>, <span style="color: #75715E;">--- Regional model default is set to 'RM'</span>
-    <span style="color: #F92672;">PRIMARY</span> <span style="color: #F92672;">KEY</span> (Audit_ID <span style="color: #F92672;">ASC</span>));
+<pre class="src src-sql"><span style="color: #00bfff;">CREATE</span> <span style="color: #00bfff;">TABLE</span> <span style="color: #daa520;">METER_AUDIT_TRAIL</span>(
+        Audit_ID <span style="color: #98f5ff;">Integer</span> , <span style="color: #7f7f7f;">-- auto-increment ID</span>
+        MC_ID <span style="color: #98f5ff;">decimal</span>(6, 0) <span style="color: #00bfff;">NOT</span> <span style="color: #00bfff;">NULL</span>, <span style="color: #7f7f7f;">--numeric reference of the data</span>
+    CO_CODE <span style="color: #98f5ff;">decimal</span>(6, 0) <span style="color: #00bfff;">NOT</span> <span style="color: #00bfff;">NULL</span>, <span style="color: #7f7f7f;">-- country code</span>
+    ADM_CODE <span style="color: #98f5ff;">INT</span> <span style="color: #00bfff;">NOT</span> <span style="color: #00bfff;">NULL</span>, <span style="color: #7f7f7f;">-- Administrative Division code.</span>
+        MC_YEAR <span style="color: #98f5ff;">decimal</span>(4, 0) <span style="color: #00bfff;">NOT</span> <span style="color: #00bfff;">NULL</span>, <span style="color: #7f7f7f;">-- data year</span>
+        EM_FIG_NEW <span style="color: #98f5ff;">varchar</span>(4000) <span style="color: #00bfff;">NULL</span>, <span style="color: #7f7f7f;">-- new figure</span>
+        EM_FIG_OLD <span style="color: #98f5ff;">varchar</span>(4000) <span style="color: #00bfff;">NULL</span>,  <span style="color: #7f7f7f;">-- old figure</span>
+        MQ_ID_NEW <span style="color: #98f5ff;">char</span>(1) <span style="color: #00bfff;">NULL</span>, <span style="color: #7f7f7f;">-- new qualifier</span>
+        MQ_ID_OLD <span style="color: #98f5ff;">char</span>(1) <span style="color: #00bfff;">NULL</span>, <span style="color: #7f7f7f;">-- old qualifier</span>
+        MG_ID_NEW <span style="color: #98f5ff;">char</span>(1) <span style="color: #00bfff;">NULL</span>, <span style="color: #7f7f7f;">-- new magnitude</span>
+        MG_ID_OLD <span style="color: #98f5ff;">char</span>(1) <span style="color: #00bfff;">NULL</span>, <span style="color: #7f7f7f;">-- old magnitude</span>
+        TYPE_MOD <span style="color: #98f5ff;">char</span>(1) <span style="color: #00bfff;">NULL</span>, 
+        USER_NAME <span style="color: #98f5ff;">varchar</span>(20) <span style="color: #00bfff;">NOT</span> <span style="color: #00bfff;">NULL</span>, <span style="color: #7f7f7f;">-- user name</span>
+        SYS_DATE datetime <span style="color: #00bfff;">DEFAULT</span> (datetime(<span style="color: #deb887;">'now'</span>,<span style="color: #deb887;">'localtime'</span>)), <span style="color: #7f7f7f;">--local timestamp</span>
+        SERIES <span style="color: #98f5ff;">varchar</span>(10) <span style="color: #00bfff;">NOT</span> <span style="color: #00bfff;">NULL</span>, <span style="color: #7f7f7f;">-- data series</span>
+        SURVEY_ID <span style="color: #98f5ff;">char</span>(2) <span style="color: #00bfff;">NULL</span>, <span style="color: #7f7f7f;">--- Regional model default is set to 'RM'</span>
+    <span style="color: #00bfff;">PRIMARY</span> <span style="color: #00bfff;">KEY</span> (Audit_ID <span style="color: #00bfff;">ASC</span>));
 </pre>
 </div>
 
@@ -917,7 +917,7 @@ To read from the table, using <code>sqlite3</code> connect to <code>Prod.db</cod
 </p>
 <div class="org-src-container">
 
-<pre class="src src-sql"><span style="color: #F92672;">SELECT</span> * <span style="color: #F92672;">from</span> METER_AUDIT_TRAIL <span style="color: #F92672;">LIMIT</span> 5;
+<pre class="src src-sql"><span style="color: #00bfff;">SELECT</span> * <span style="color: #00bfff;">from</span> METER_AUDIT_TRAIL <span style="color: #00bfff;">LIMIT</span> 5;
 </pre>
 </div>
 <p>
@@ -925,9 +925,9 @@ to see the first 5 rows of the table, and
 </p>
 <div class="org-src-container">
 
-<pre class="src src-sql"><span style="color: #F92672;">SELECT</span> a.* <span style="color: #F92672;">from</span> METER_AUDIT_TRAIL <span style="color: #F92672;">AS</span> a
-<span style="color: #F92672;">LEFT</span> <span style="color: #F92672;">JOIN</span> EDU_METER_AID <span style="color: #F92672;">AS</span> b <span style="color: #F92672;">ON</span> a.MC_ID = b.EMC_ID
-<span style="color: #F92672;">WHERE</span> b.AC =<span style="color: #E6DB74;">'NT.1'</span> <span style="color: #F92672;">AND</span> a.CO_CODE = 4180 <span style="color: #F92672;">AND</span> a.MC_YEAR = 2014;
+<pre class="src src-sql"><span style="color: #00bfff;">SELECT</span> a.* <span style="color: #00bfff;">from</span> METER_AUDIT_TRAIL <span style="color: #00bfff;">AS</span> a
+<span style="color: #00bfff;">LEFT</span> <span style="color: #00bfff;">JOIN</span> EDU_METER_AID <span style="color: #00bfff;">AS</span> b <span style="color: #00bfff;">ON</span> a.MC_ID = b.EMC_ID
+<span style="color: #00bfff;">WHERE</span> b.AC =<span style="color: #deb887;">'NT.1'</span> <span style="color: #00bfff;">AND</span> a.CO_CODE = 4180 <span style="color: #00bfff;">AND</span> a.MC_YEAR = 2014;
 </pre>
 </div>
 <p>
@@ -969,22 +969,22 @@ The following is the schema of the SQL table, where
 
 <div class="org-src-container">
 
-<pre class="src src-sql"><span style="color: #F92672;">CREATE</span> <span style="color: #F92672;">TABLE</span> <span style="color: #A6E22E;">INDICATOR_AUDIT_TRAIL</span>(
-        Audit_ID <span style="color: #66D9EF;">Integer</span> , <span style="color: #75715E;">-- auto-increment ID</span>
-        IND_ID <span style="color: #66D9EF;">varchar</span>(50) <span style="color: #F92672;">NOT</span> <span style="color: #F92672;">NULL</span>, <span style="color: #75715E;">-- indicator ID</span>
-    CO_CODE <span style="color: #66D9EF;">decimal</span>(6, 0) <span style="color: #F92672;">NOT</span> <span style="color: #F92672;">NULL</span>, <span style="color: #75715E;">-- country code</span>
-    ADM_CODE <span style="color: #66D9EF;">INT</span> <span style="color: #F92672;">NOT</span> <span style="color: #F92672;">NULL</span>, <span style="color: #75715E;">-- Administrative Division code.</span>
-        IND_YEAR <span style="color: #66D9EF;">decimal</span>(4, 0) <span style="color: #F92672;">NOT</span> <span style="color: #F92672;">NULL</span>, <span style="color: #75715E;">-- indicator data year</span>
-        FIG_NEW <span style="color: #66D9EF;">varchar</span>(4000) <span style="color: #F92672;">NULL</span>, <span style="color: #75715E;">-- new figure</span>
-        FIG_OLD <span style="color: #66D9EF;">varchar</span>(4000) <span style="color: #F92672;">NULL</span>, <span style="color: #75715E;">-- old figure</span>
-        QUAL_NEW <span style="color: #66D9EF;">char</span>(1) <span style="color: #F92672;">NULL</span>,  <span style="color: #75715E;">-- new qualifier</span>
-        QUAL_OLD <span style="color: #66D9EF;">char</span>(1) <span style="color: #F92672;">NULL</span>,  <span style="color: #75715E;">-- old qualifier</span>
-        MAGN_NEW <span style="color: #66D9EF;">char</span>(1) <span style="color: #F92672;">NULL</span>,  <span style="color: #75715E;">-- new magnitude</span>
-        MAGN_OLD <span style="color: #66D9EF;">char</span>(1) <span style="color: #F92672;">NULL</span>,  <span style="color: #75715E;">-- old magnitude</span>
-        USER_NAME <span style="color: #66D9EF;">varchar</span>(20) <span style="color: #F92672;">NOT</span> <span style="color: #F92672;">NULL</span>, 
-        SYS_DATE datetime <span style="color: #F92672;">DEFAULT</span> (datetime(<span style="color: #E6DB74;">'now'</span>,<span style="color: #E6DB74;">'localtime'</span>)), <span style="color: #75715E;">-- local change time</span>
-        SERIES <span style="color: #66D9EF;">varchar</span>(10) <span style="color: #F92672;">NOT</span> <span style="color: #F92672;">NULL</span>, <span style="color: #75715E;">-- series is always EST</span>
-    <span style="color: #F92672;">PRIMARY</span> <span style="color: #F92672;">KEY</span> (Audit_ID <span style="color: #F92672;">ASC</span>));
+<pre class="src src-sql"><span style="color: #00bfff;">CREATE</span> <span style="color: #00bfff;">TABLE</span> <span style="color: #daa520;">INDICATOR_AUDIT_TRAIL</span>(
+        Audit_ID <span style="color: #98f5ff;">Integer</span> , <span style="color: #7f7f7f;">-- auto-increment ID</span>
+        IND_ID <span style="color: #98f5ff;">varchar</span>(50) <span style="color: #00bfff;">NOT</span> <span style="color: #00bfff;">NULL</span>, <span style="color: #7f7f7f;">-- indicator ID</span>
+    CO_CODE <span style="color: #98f5ff;">decimal</span>(6, 0) <span style="color: #00bfff;">NOT</span> <span style="color: #00bfff;">NULL</span>, <span style="color: #7f7f7f;">-- country code</span>
+    ADM_CODE <span style="color: #98f5ff;">INT</span> <span style="color: #00bfff;">NOT</span> <span style="color: #00bfff;">NULL</span>, <span style="color: #7f7f7f;">-- Administrative Division code.</span>
+        IND_YEAR <span style="color: #98f5ff;">decimal</span>(4, 0) <span style="color: #00bfff;">NOT</span> <span style="color: #00bfff;">NULL</span>, <span style="color: #7f7f7f;">-- indicator data year</span>
+        FIG_NEW <span style="color: #98f5ff;">varchar</span>(4000) <span style="color: #00bfff;">NULL</span>, <span style="color: #7f7f7f;">-- new figure</span>
+        FIG_OLD <span style="color: #98f5ff;">varchar</span>(4000) <span style="color: #00bfff;">NULL</span>, <span style="color: #7f7f7f;">-- old figure</span>
+        QUAL_NEW <span style="color: #98f5ff;">char</span>(1) <span style="color: #00bfff;">NULL</span>,  <span style="color: #7f7f7f;">-- new qualifier</span>
+        QUAL_OLD <span style="color: #98f5ff;">char</span>(1) <span style="color: #00bfff;">NULL</span>,  <span style="color: #7f7f7f;">-- old qualifier</span>
+        MAGN_NEW <span style="color: #98f5ff;">char</span>(1) <span style="color: #00bfff;">NULL</span>,  <span style="color: #7f7f7f;">-- new magnitude</span>
+        MAGN_OLD <span style="color: #98f5ff;">char</span>(1) <span style="color: #00bfff;">NULL</span>,  <span style="color: #7f7f7f;">-- old magnitude</span>
+        USER_NAME <span style="color: #98f5ff;">varchar</span>(20) <span style="color: #00bfff;">NOT</span> <span style="color: #00bfff;">NULL</span>, 
+        SYS_DATE datetime <span style="color: #00bfff;">DEFAULT</span> (datetime(<span style="color: #deb887;">'now'</span>,<span style="color: #deb887;">'localtime'</span>)), <span style="color: #7f7f7f;">-- local change time</span>
+        SERIES <span style="color: #98f5ff;">varchar</span>(10) <span style="color: #00bfff;">NOT</span> <span style="color: #00bfff;">NULL</span>, <span style="color: #7f7f7f;">-- series is always EST</span>
+    <span style="color: #00bfff;">PRIMARY</span> <span style="color: #00bfff;">KEY</span> (Audit_ID <span style="color: #00bfff;">ASC</span>));
 </pre>
 </div>
 
@@ -993,7 +993,7 @@ To read from the table, using <code>sqlite3</code> connect to <code>Prod.db</cod
 </p>
 <div class="org-src-container">
 
-<pre class="src src-sql"><span style="color: #F92672;">SELECT</span> * <span style="color: #F92672;">from</span> INDICATOR_AUDIT_TRAIL <span style="color: #F92672;">LIMIT</span> 5;
+<pre class="src src-sql"><span style="color: #00bfff;">SELECT</span> * <span style="color: #00bfff;">from</span> INDICATOR_AUDIT_TRAIL <span style="color: #00bfff;">LIMIT</span> 5;
 </pre>
 </div>
 <p>
@@ -1001,8 +1001,8 @@ to see the first 5 rows of the table, and
 </p>
 <div class="org-src-container">
 
-<pre class="src src-sql"><span style="color: #F92672;">SELECT</span> * <span style="color: #F92672;">from</span> INDICATOR_AUDIT_TRAIL
-<span style="color: #F92672;">WHERE</span> IND_ID =<span style="color: #E6DB74;">'FTP.1'</span> <span style="color: #F92672;">AND</span> CO_CODE = 4180 <span style="color: #F92672;">AND</span> IND_YEAR = 2014;
+<pre class="src src-sql"><span style="color: #00bfff;">SELECT</span> * <span style="color: #00bfff;">from</span> INDICATOR_AUDIT_TRAIL
+<span style="color: #00bfff;">WHERE</span> IND_ID =<span style="color: #deb887;">'FTP.1'</span> <span style="color: #00bfff;">AND</span> CO_CODE = 4180 <span style="color: #00bfff;">AND</span> IND_YEAR = 2014;
 </pre>
 </div>
 <p>
@@ -1266,7 +1266,7 @@ able to see the changes and comments made earlier.
 <h4 id="sec-1-7-4"><span class="section-number-4">1.7.4</span> Calculating indicators</h4>
 <div class="outline-text-4" id="text-1-7-4">
 <p>
-To calculate indicators, first select the country name and year, then select the <code>EST</code> series. If the data is not yet in the <code>EST</code> series, move it by clicking on the button <code>OBS to EST</code>, maybe also <code>REP to OBS</code> if you haven't moved it yet to <code>OBS</code> series. Then click on the button <code>Calculate</code>.  In around <b>30 seconds to a minutes</b>, the Status panel should indicated that the process is successful.
+To calculate indicators, first select the country name and year, then select the <code>EST</code> series. If the data is not yet in the <code>EST</code> series, move it by clicking on the button <code>OBS to EST</code>, maybe also <code>REP to OBS</code> if you haven't moved it yet to <code>OBS</code> series. Then click on the button <code>Calculate</code>.  In around <b>30 seconds to a minute</b>, the Status panel should indicated that the process is successful.
 </p>
 
 <pre class="example">
@@ -1302,12 +1302,14 @@ The file should also automatically open up and in this example it looks like thi
 <h2 id="sec-2"><span class="section-number-2">2</span> Indicators</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-This section describs how the indicators are computed and what are the AC
-codes involved in their computation.  For each indicator, we give a
-table with four columns. The first column has the ISCED level. The
-second one has the indicator alphanumeric code (IND_ID) used for the indicator. The
-third column has the formula used to compute this indicator. The
-fourth column contains yes or no depending on whether the indicator for the highest and lowest among administrative divisions is also calculated.
+This section describes how indicators are computed and what are the
+AC codes involved in their computation.  For each indicator, we give
+a table with four columns. The first column has the ISCED level. The
+second one has the indicator alphanumeric code (IND_ID). The third
+column has the formula used to compute this indicator. The fourth
+column contains yes or no depending on whether the indicator for the
+highest and lowest among administrative divisions is also
+calculated.
 </p>
 
 <p>
@@ -1321,8 +1323,7 @@ Technical notations used across the document:
 <li>Some indicators correspond to the highest and lowest value among
 all the regions of some indicator; A.Max and A.Min correspond to the
 highest and lowest value, respectively, among all the regions for
-the AC code A. The fourth column of each indicators says if there
-is also a highest and lowest indicator.
+the AC code A.
 </li>
 </ul>
 
@@ -2294,7 +2295,7 @@ Note  all indicators are calculated for Total, Public and Private levels.
 </p>
 
 <p>
-Note  all indicators are calculated for Total, Public and Private levels.    
+Note all indicators are calculated for Total, Public and Private levels.    
 </p>
 </div>
 </div>
@@ -2383,7 +2384,7 @@ Note  all indicators are calculated for Total, Public and Private levels.
 </p>
 
 <p>
-Note  all indicators are calculated for Total, Public and Private levels.    
+Note all indicators are calculated for Total, Public and Private levels.    
 </p>
 </div>
 </div>
@@ -2543,7 +2544,10 @@ Much notations are omitted for clearer presentation.
 <h3 id="sec-3-1"><span class="section-number-3">3.1</span> The indicators class</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
-To deal with indicator calculations, we have created a Python class that we named <code>indicators()</code>, it exists in the script <code>RMS/Libraries/rmindicators.py</code>. This indicators class has three types of methods, auxiliary, indicators and action methods.
+To deal with indicator calculations, a Python class named
+<code>indicators()</code> was created. It is in the script
+<code>RMS/Libraries/rmindicators.py</code>. The class has three types of
+methods, auxiliary, indicators and action methods.
 </p>
 
 <p>
@@ -2562,11 +2566,16 @@ these functions are: <code>pupils_teachers_ratio</code>, <code>newly_recruited_t
 </p>
 
 <p>
-There are only two action methods: <code>__init__</code> and  <code>compute_all_indicators</code>. The former is the initializer of the class and is called every time the class is initiated. The latter is a method that calls all the other indicators methods.
+There are only two action methods: <code>__init__</code> and
+<code>compute_all_indicators</code>. The former is the initializer of the
+class and is called every time the class is initiated. The latter
+is a method that calls all the other indicators methods.
 </p>
 
 <p>
-Without dwelling into much detials the objective of this section is to show how to program new indicators by using the methods of the <code>indicators</code> class.
+Without dwelling into much detials the objective of this section is
+to show how to program new indicators by using the methods of the
+<code>indicators</code> class.
 </p>
 </div>
 </div>
@@ -2575,88 +2584,107 @@ Without dwelling into much detials the objective of this section is to show how 
 <h3 id="sec-3-2"><span class="section-number-3">3.2</span> Setup template</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
-To program new indicators, we first need to create a method that computes the values of the indicator and writes those values to the database. Second, we need to add the new created method to <code>compute_all_indicators</code> method. At this point, the GUI will also compute this method when the <code>Calculate</code> button is clicked. The following is the current  <code>compute_all_indicators</code> method, which shows the list of indicators that are calculated every time this method is called. 
+To program new indicators, we first need to create a method that
+computes the values of the indicator and writes them to the
+database. Second, we need to add this newly created method to
+<code>compute_all_indicators</code>. At this point, the GUI will also compute
+the indicator when the <code>Calculate</code> button is clicked. The following
+is the current definition of <code>compute_all_indicators</code>, which shows
+the list of indicators that are calculated every time this method
+is called.
 </p>
 
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #F92672;">def</span> <span style="color: #A6E22E;">compute_all_indicators</span>(<span style="color: #F92672;">self</span>):
-        <span style="color: #E6DB74;">""" Excute functions to calculate indicators."""</span>
-        <span style="color: #75715E;">### </span><span style="color: #75715E;">Moving data to Audit Temp</span>
-        <span style="color: #F92672;">self</span>.audit_trail()
+<pre class="src src-python"><span style="color: #00bfff;">def</span> <span style="color: #daa520;">compute_all_indicators</span>(<span style="color: #00bfff;">self</span>):
+        <span style="color: #deb887;">""" Excute functions to calculate indicators."""</span>
+        <span style="color: #7f7f7f;">### </span><span style="color: #7f7f7f;">Moving data to Audit Temp</span>
+        <span style="color: #00bfff;">self</span>.audit_trail()
 
-        <span style="color: #75715E;">##### </span><span style="color: #75715E;">Calculating indicators</span>
-        <span style="color: #F92672;">self</span>.pupils_teachers_ratio()
-        <span style="color: #F92672;">self</span>.newly_recruited_teachers()
-        <span style="color: #F92672;">self</span>.teachers_percentage_female()
-        <span style="color: #F92672;">self</span>.percentage_trained_teachers()
-        <span style="color: #F92672;">self</span>.percentage_private_teachers()
-        <span style="color: #F92672;">self</span>.attrition_rate()
-        <span style="color: #F92672;">self</span>.percentage_non_permanent_teachers()
-        <span style="color: #F92672;">self</span>.percentage_teachers_attainment()
-        <span style="color: #F92672;">self</span>.percentage_teachers_exp()
-        <span style="color: #F92672;">self</span>.percentage_teachers_age()
-        <span style="color: #F92672;">self</span>.mean_level(<span style="color: #F92672;">self</span>.mean_exp_level)
-        <span style="color: #F92672;">self</span>.mean_level(<span style="color: #F92672;">self</span>.mean_age_level)
-        <span style="color: #F92672;">self</span>.dissimilarity_index()
+        <span style="color: #7f7f7f;">##### </span><span style="color: #7f7f7f;">Calculating indicators</span>
+        <span style="color: #00bfff;">self</span>.pupils_teachers_ratio()
+        <span style="color: #00bfff;">self</span>.newly_recruited_teachers()
+        <span style="color: #00bfff;">self</span>.teachers_percentage_female()
+        <span style="color: #00bfff;">self</span>.percentage_trained_teachers()
+        <span style="color: #00bfff;">self</span>.percentage_private_teachers()
+        <span style="color: #00bfff;">self</span>.attrition_rate()
+        <span style="color: #00bfff;">self</span>.percentage_non_permanent_teachers()
+        <span style="color: #00bfff;">self</span>.percentage_teachers_attainment()
+        <span style="color: #00bfff;">self</span>.percentage_teachers_exp()
+        <span style="color: #00bfff;">self</span>.percentage_teachers_age()
+        <span style="color: #00bfff;">self</span>.mean_level(<span style="color: #00bfff;">self</span>.mean_exp_level)
+        <span style="color: #00bfff;">self</span>.mean_level(<span style="color: #00bfff;">self</span>.mean_age_level)
+        <span style="color: #00bfff;">self</span>.dissimilarity_index()
 
-        <span style="color: #75715E;">## </span><span style="color: #75715E;">Moving changed values to Audut trail</span>
-        <span style="color: #F92672;">self</span>.audit_trail(<span style="color: #AE81FF;">False</span>)
+        <span style="color: #7f7f7f;">## </span><span style="color: #7f7f7f;">Moving changed values to Audut trail</span>
+        <span style="color: #00bfff;">self</span>.audit_trail(<span style="color: #a2cd5a;">False</span>)
 </pre>
 </div>
 
 
 <p>
-Before adding a method to the indicators class, we advise to test it in a different file without modifying the main code in <code>rmindicators.py</code>. Let's start with an example on how to do this. First, in a new script, import the <code>rmquestionnaire</code>
-library so we can use its methods. This can be achieved
-with the following code:
+Before adding a method to the indicators class, we advise to test
+it in a different file without modifying the main code in
+<code>rmindicators.py</code>. Let's start with an example on how to do
+this. First, in a new script, import the <code>rmquestionnaire</code>
+library. This can be achieved with the following code:
 </p>
 
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #F92672;">import</span> sys, os
+<pre class="src src-python"><span style="color: #00bfff;">import</span> sys, os
 
 os.chdir(path_to_main_RMS_folder)
-sys.path.append(<span style="color: #E6DB74;">'Libraries'</span>)
+sys.path.append(<span style="color: #deb887;">'Libraries'</span>)
 
-<span style="color: #F92672;">from</span> rmquestionnaire <span style="color: #F92672;">import</span> *
+<span style="color: #00bfff;">from</span> rmquestionnaire <span style="color: #00bfff;">import</span> *
 </pre>
 </div>
 
 <p>
-by modifying the <code>path_to_main_RMS_folder</code> to your path to the main folder where <code>RMS</code> is installed, for example <code>/Desktop/RMS</code> if it is installed on your desktop. Second, create a test class that inherits all the methods in the <code>indicators</code> class, you can do this using the following code. 
+by modifying the <code>path_to_main_RMS_folder</code> to your path to the main
+folder where <code>RMS</code> is installed, for example <code>/Desktop/RMS</code> if it
+is installed on your desktop. Second, create a test class that
+inherits all the methods in the <code>indicators</code> class, you can do this
+using the following code.
 </p>
 
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #F92672;">class</span> <span style="color: #66D9EF;">tests_indicators</span>(indicators):
+<pre class="src src-python"><span style="color: #00bfff;">class</span> <span style="color: #98f5ff;">tests_indicators</span>(indicators):
 </pre>
 </div>
 
 <p>
-Finally, use the SQL methods of class <code>indicators</code> to write to SQL. This could be done by <code>write_indic_sql</code>, which writes a dictionary of indicator values to SQL. The key of the dictionary is the indicator name, and the value of the dictionary is the indicators values. The following is a complete template that you can use by modifying the path to the main RMS directory and the indicator and function names.
+Finally, use the SQL methods of class <code>indicators</code> to write to
+SQL. This could be done by <code>write_indic_sql</code>, which writes a
+dictionary of indicator values to SQL. The key of the dictionary is
+the indicator name, and the value of the dictionary is the
+indicators values. The following is a complete template that you
+can use by modifying the path to the main RMS directory and the
+indicator and function names.
 </p>
 
 <div class="org-src-container">
 
-<pre class="src src-python"> <span style="color: #F92672;">import</span> sys, os
- os.chdir(path_to_main_RMS_folder)  <span style="color: #75715E;"># </span><span style="color: #75715E;">Path to main directory</span>
- sys.path.append(<span style="color: #E6DB74;">'Libraries'</span>)
- <span style="color: #F92672;">from</span> rmquestionnaire <span style="color: #F92672;">import</span> *
+<pre class="src src-python"> <span style="color: #00bfff;">import</span> sys, os
+ os.chdir(path_to_main_RMS_folder)  <span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">Path to main directory</span>
+ sys.path.append(<span style="color: #deb887;">'Libraries'</span>)
+ <span style="color: #00bfff;">from</span> rmquestionnaire <span style="color: #00bfff;">import</span> *
 
-<span style="color: #F92672;">class</span> <span style="color: #66D9EF;">tests_indicators</span>(indicators):
-     <span style="color: #F92672;">def</span> <span style="color: #A6E22E;">function_indicator_name</span>(<span style="color: #F92672;">self</span>):
-         <span style="color: #75715E;"># </span><span style="color: #75715E;">The following is a dictionary used for inserting the value in the database</span>
-         <span style="color: #FD971F;">ind_dict</span>={}
-         <span style="color: #FD971F;">indicator_name</span>=<span style="color: #E6DB74;">"MyIndicator"</span>
-         <span style="color: #75715E;">### </span><span style="color: #75715E;">Start of indicator calculation method</span>
+<span style="color: #00bfff;">class</span> <span style="color: #98f5ff;">tests_indicators</span>(indicators):
+     <span style="color: #00bfff;">def</span> <span style="color: #daa520;">function_indicator_name</span>(<span style="color: #00bfff;">self</span>):
+         <span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">The following is a dictionary used for inserting the value in the database</span>
+         <span style="color: #4eee94;">ind_dict</span>={}
+         <span style="color: #4eee94;">indicator_name</span>=<span style="color: #deb887;">"MyIndicator"</span>
+         <span style="color: #7f7f7f;">### </span><span style="color: #7f7f7f;">Start of indicator calculation method</span>
 
-         <span style="color: #FD971F;">indicator_values</span>= = ....... <span style="color: #75715E;"># </span><span style="color: #75715E;">attach indicator values to this variable</span>
-         <span style="color: #75715E;">### </span><span style="color: #75715E;">End of indicator calculation method</span>
+         <span style="color: #4eee94;">indicator_values</span>= = ....... <span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">attach indicator values to this variable</span>
+         <span style="color: #7f7f7f;">### </span><span style="color: #7f7f7f;">End of indicator calculation method</span>
 
-         <span style="color: #75715E;"># </span><span style="color: #75715E;">We prepare a dictionary for the function write_indic_sql</span>
-         <span style="color: #FD971F;">ind_dict</span>[indicator_name]=indicator_values
-         <span style="color: #F92672;">self</span>.write_indic_sql(ind_dict)
+         <span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">We prepare a dictionary for the function write_indic_sql</span>
+         <span style="color: #4eee94;">ind_dict</span>[indicator_name]=indicator_values
+         <span style="color: #00bfff;">self</span>.write_indic_sql(ind_dict)
 </pre>
 </div>
 
@@ -2666,8 +2694,13 @@ At this point we are ready to program the new indicator method.
 </p>
 
 <p>
-Let us say that we want to compute the proportion of teachers in public schools in ISCED1 that have
-one or two years of experience. Let us call this indicator "PT.1.Pu.Exp1t2". This would correspond to dividing "T.1.Pu.Exp1t2" by "T.1.Pu". The method <code>column_operation</code> is very handy in this case. Almost all the current indicators rely heavily on this function, therefore it deserves a discussion by itself.
+Let us say that we want to compute the proportion of teachers in
+public schools in ISCED1 that have one or two years of
+experience. Let us call this indicator "PT.1.Pu.Exp1t2". This would
+correspond to dividing "T.1.Pu.Exp1t2" by "T.1.Pu". The method
+<code>column_operation</code> is very handy in this case. Many current
+indicators rely on this function, therefore it deserves a
+discussion by itself.
 </p>
 </div>
 </div>
@@ -2676,7 +2709,12 @@ one or two years of experience. Let us call this indicator "PT.1.Pu.Exp1t2". Thi
 <h3 id="sec-3-3"><span class="section-number-3">3.3</span> Column operation</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
-The function <code>column operation</code> applies a function to two columns in any of the tables of the RM questionnaire. Since all columns are indexed by an alphanumeric code (AC), it is sufficient to pass the ACs themselves and <code>column_operation</code> will extract all the region and national figures of these two ACs and preform an operation on each of the adjacent cells of these columns. 
+The function <code>column operation</code> applies a function to two columns
+in any of the tables of the RM questionnaire. Since all columns
+are indexed by an alphanumeric code (AC), it is sufficient to pass
+the ACs themselves and <code>column_operation</code> will extract all the
+region and national figures of these two ACs and preform an
+operation on each of the adjacent cells of these columns.
 </p>
 
 <p>
@@ -2707,7 +2745,7 @@ which the operation is going to be applied. The functions return a
 pair <code>[value, symbol]</code>, where value is the result of the function
 applied to the values received and symbol is the magnitude of this
 value. The objective of the algebra is to decide whether the
-operation should be preformed or the data is irregular. For
+operation should be performed or the data is irregular. For
 example, when you attempt to sum two columns say, <code>E.1.Pu</code> and
 <code>E.1.Pr</code>, say that for one of the regions <code>E.1.Pu=10</code> while
 <code>E.1.Pr</code> is missing, what should be the value of the sum? We
@@ -2804,7 +2842,7 @@ In Python this looks like:
 
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #F92672;">sum</span>([10, <span style="color: #E6DB74;">'value], ['', '</span>m<span style="color: #E6DB74;">']) = ['', '</span>m<span style="color: #E6DB74;">']</span>
+<pre class="src src-python"><span style="color: #f08080;">sum</span>([10, <span style="color: #deb887;">'value], ['', '</span>m<span style="color: #deb887;">']) = ['', '</span>m<span style="color: #deb887;">']</span>
 </pre>
 </div>
 
@@ -2815,7 +2853,7 @@ While if <code>E.1.Pr=5</code> then the cell that corresponds to <code>(value, v
 
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #F92672;">sum</span>([10, <span style="color: #E6DB74;">'value], [5, '</span>value<span style="color: #E6DB74;">']) = [15, '</span>value<span style="color: #E6DB74;">']</span>
+<pre class="src src-python"><span style="color: #f08080;">sum</span>([10, <span style="color: #deb887;">'value], [5, '</span>value<span style="color: #deb887;">']) = [15, '</span>value<span style="color: #deb887;">']</span>
 </pre>
 </div>
 
@@ -2837,7 +2875,11 @@ The negation algebra is the same as the sum algebra.
 
 <div class="important">
 <p>
-The algebra files are read every time the <code>RM_GUI</code> is initiated, thus, if the user doesn't agree with the result of the algebra you can change it directly in the file. <b>Be careful</b> as the software might behave inappropriately if the algebra is set wrong. For example, when summing a numeric value with a non-numeric one. 
+The algebra files are read every time the <code>RM_GUI</code> is initiated, thus,
+if the user doesn't agree with the result of the algebra you can
+change it directly in the file. <b>Be careful</b> as the software might
+behave inappropriately if the algebra is set wrong. For example, when
+summing a numeric value with a non-numeric one.
 </p>
 
 </div>
@@ -2848,7 +2890,7 @@ Now to sum any two ACs, or columns, of the RM questionnaire, one can use the <co
 
 <div class="org-src-container">
 
-<pre class="src src-python">column_operation([<span style="color: #E6DB74;">'E.1.Pr'</span>, 0], [<span style="color: #E6DB74;">'E.1.Pu'</span>, 0], <span style="color: #F92672;">sum</span>)
+<pre class="src src-python">column_operation([<span style="color: #deb887;">'E.1.Pr'</span>, 0], [<span style="color: #deb887;">'E.1.Pu'</span>, 0], <span style="color: #f08080;">sum</span>)
 </pre>
 </div>
 <p>
@@ -2861,8 +2903,12 @@ This would return the sum of the each of the two adjacent cells of the columns, 
 <h3 id="sec-3-4"><span class="section-number-3">3.4</span> Example</h3>
 <div class="outline-text-3" id="text-3-4">
 <p>
-To get back to our example, we wanted to compute the proportion of teachers in public schools in ISCED1 that have
-one or two years of experience. Let us call this indicator "PT.1.Pu.Exp1t2". This would correspond to dividing "T.1.Pu.Exp1t2" by "T.1.Pu". To do so, we use the <code>column_operation</code> and <code>div</code> with the template provided in the end of <a href="#sec-3-2">3.2</a> section. 
+To get back to our example, we wanted to compute the proportion of
+teachers in public schools in ISCED1 that have one or two years of
+experience. Let us call this indicator "PT.1.Pu.Exp1t2". This would
+correspond to dividing "T.1.Pu.Exp1t2" by "T.1.Pu". To do so, we
+use the <code>column_operation</code> and <code>div</code> with the template provided in
+the end of <a href="#sec-3-2">3.2</a> section.
 </p>
 
 <p>
@@ -2871,15 +2917,15 @@ We define the function name as <code>proportion_public_teachers_1t2exp_isced1(se
 
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #F92672;">class</span> <span style="color: #66D9EF;">tests_indicators</span>(indicators):
-    <span style="color: #F92672;">def</span> <span style="color: #A6E22E;">proportion_public_teachers_1t2exp_isced1</span>(<span style="color: #F92672;">self</span>):
-        <span style="color: #75715E;"># </span><span style="color: #75715E;">The following is a dictionary used for inserting the value in the database</span>
-        <span style="color: #FD971F;">ind_dict</span>={}
-        <span style="color: #FD971F;">indicator_name</span>=<span style="color: #E6DB74;">"PT.1.Pu.Exp1t2"</span>
-        <span style="color: #FD971F;">indicator_values</span>=<span style="color: #F92672;">self</span>.column_operation([<span style="color: #E6DB74;">"T.1.Pu.Exp1t2"</span>,0],[<span style="color: #E6DB74;">"T.1.Pu"</span>,0],div)
-        <span style="color: #75715E;"># </span><span style="color: #75715E;">We prepare a dictionary for the function write_indic_sql</span>
-        <span style="color: #FD971F;">ind_dict</span>[indicator_name]=indicator_values
-        <span style="color: #F92672;">self</span>.write_indic_sql(ind_dict)
+<pre class="src src-python"><span style="color: #00bfff;">class</span> <span style="color: #98f5ff;">tests_indicators</span>(indicators):
+    <span style="color: #00bfff;">def</span> <span style="color: #daa520;">proportion_public_teachers_1t2exp_isced1</span>(<span style="color: #00bfff;">self</span>):
+        <span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">The following is a dictionary used for inserting the value in the database</span>
+        <span style="color: #4eee94;">ind_dict</span>={}
+        <span style="color: #4eee94;">indicator_name</span>=<span style="color: #deb887;">"PT.1.Pu.Exp1t2"</span>
+        <span style="color: #4eee94;">indicator_values</span>=<span style="color: #00bfff;">self</span>.column_operation([<span style="color: #deb887;">"T.1.Pu.Exp1t2"</span>,0],[<span style="color: #deb887;">"T.1.Pu"</span>,0],div)
+        <span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">We prepare a dictionary for the function write_indic_sql</span>
+        <span style="color: #4eee94;">ind_dict</span>[indicator_name]=indicator_values
+        <span style="color: #00bfff;">self</span>.write_indic_sql(ind_dict)
 </pre>
 </div>
 
@@ -2890,27 +2936,27 @@ We can test the new indicator with the following code
 
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #FD971F;">test_object</span>=tests_indicators(path_to_database,year,country_name,<span style="color: #E6DB74;">'test_user'</span>)
+<pre class="src src-python"><span style="color: #4eee94;">test_object</span>=tests_indicators(path_to_database,year,country_name,<span style="color: #deb887;">'test_user'</span>)
 test_object.proportion_public_teachers_1t2exp_isced1()
 </pre>
 </div>
 
 <p>
 where <code>path_to_database</code> is a string with the full path to the
-database file, <code>year</code> the data year, i.e 2014, for which the indicator is
-being computed and <code>country_name</code> is the country name of interest. In order for this to work, a questionnaire
-for the corresponding country and year should have been already
-inserted in the database. After running the command above, it is
-possible to check the computed indicator directly in the
-database. To do this, open the database with sqlite and run the
-following command:
+database file, <code>year</code> the data year, i.e 2014, for which the
+indicator is being computed and <code>country_name</code> is the country name
+of interest. In order for this to work, a questionnaire for the
+corresponding country and year should have been already inserted in
+the database. After running the command above, it is possible to
+check the computed indicator directly in the database. To do this,
+open the database with sqlite and run the following command:
 </p>
 
 <div class="org-src-container">
 
-<pre class="src src-sqlite"><span style="color: #F92672;">SELECT</span> IND_ID ,ADM_CODE, FIG <span style="color: #F92672;">FROM</span>  EDU_INDICATOR_EST <span style="color: #F92672;">AS</span> A 
-<span style="color: #F92672;">JOIN</span> COUNTRY <span style="color: #F92672;">AS</span> B <span style="color: #F92672;">ON</span> A.CO_CODE = B.CO_CODE 
-<span style="color: #F92672;">WHERE</span> B.CO_LONG_NAME= country_name ;
+<pre class="src src-sqlite"><span style="color: #00bfff;">SELECT</span> IND_ID ,ADM_CODE, FIG <span style="color: #00bfff;">FROM</span>  EDU_INDICATOR_EST <span style="color: #00bfff;">AS</span> A 
+<span style="color: #00bfff;">JOIN</span> COUNTRY <span style="color: #00bfff;">AS</span> B <span style="color: #00bfff;">ON</span> A.CO_CODE = B.CO_CODE 
+<span style="color: #00bfff;">WHERE</span> B.CO_LONG_NAME= country_name ;
 </pre>
 </div>
 
@@ -2935,14 +2981,14 @@ In our example, we copy the following code from the <code>tests_indcators</code>
 
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #F92672;">def</span> <span style="color: #A6E22E;">proportion_public_teachers_1t2exp_isced1</span>(<span style="color: #F92672;">self</span>):
-          <span style="color: #75715E;"># </span><span style="color: #75715E;">The following is a dictionary used for inserting the value in the database</span>
-          <span style="color: #FD971F;">ind_dict</span>={}
-          <span style="color: #FD971F;">indicator_name</span>=<span style="color: #E6DB74;">"PT.1.Pu.Exp1t2"</span>
-          <span style="color: #FD971F;">indicator_values</span>=<span style="color: #F92672;">self</span>.column_operation([<span style="color: #E6DB74;">"T.1.Pu.Exp1t2"</span>,0],[<span style="color: #E6DB74;">"T.1.Pu"</span>,0],div)
-          <span style="color: #75715E;"># </span><span style="color: #75715E;">We prepare a dictionary for the function write_indic_sql</span>
-          <span style="color: #FD971F;">ind_dict</span>[indicator_name]=indicator_values
-          <span style="color: #F92672;">self</span>.write_indic_sql(ind_dict)
+<pre class="src src-python"><span style="color: #00bfff;">def</span> <span style="color: #daa520;">proportion_public_teachers_1t2exp_isced1</span>(<span style="color: #00bfff;">self</span>):
+          <span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">The following is a dictionary used for inserting the value in the database</span>
+          <span style="color: #4eee94;">ind_dict</span>={}
+          <span style="color: #4eee94;">indicator_name</span>=<span style="color: #deb887;">"PT.1.Pu.Exp1t2"</span>
+          <span style="color: #4eee94;">indicator_values</span>=<span style="color: #00bfff;">self</span>.column_operation([<span style="color: #deb887;">"T.1.Pu.Exp1t2"</span>,0],[<span style="color: #deb887;">"T.1.Pu"</span>,0],div)
+          <span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">We prepare a dictionary for the function write_indic_sql</span>
+          <span style="color: #4eee94;">ind_dict</span>[indicator_name]=indicator_values
+          <span style="color: #00bfff;">self</span>.write_indic_sql(ind_dict)
 </pre>
 </div>
 
@@ -2951,7 +2997,7 @@ and paste it after the line
 </p>
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #F92672;">class</span> <span style="color: #66D9EF;">indicators</span>():
+<pre class="src src-python"><span style="color: #00bfff;">class</span> <span style="color: #98f5ff;">indicators</span>():
 </pre>
 </div>
 <p>
@@ -2960,7 +3006,7 @@ in the file <code>RMS/Libraries/rmindicators.py</code>. Finally add the line
 
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #F92672;">self</span>.proportion_public_teachers_1t2exp_isced1()
+<pre class="src src-python"><span style="color: #00bfff;">self</span>.proportion_public_teachers_1t2exp_isced1()
 </pre>
 </div>
 
@@ -2979,17 +3025,19 @@ Now if you use the GUI to calculate indicators, your new indicator should appear
 <h2 id="sec-4"><span class="section-number-2">4</span> Code Documentation</h2>
 <div class="outline-text-2" id="text-4">
 <p>
-This section explains how to process questionnaire data for the RMS questionnaire
-using Python code directly, instead of the Graphical User Interface (GUI). The first
-step is to import the library <code>rmquestionnaire</code> in <code>RMS\Libraries</code>, you can use the following code example.
+This section explains how to process questionnaire data for the RMS
+questionnaire using Python code directly, instead of the Graphical
+User Interface (GUI). The first step is to import the library
+<code>rmquestionnaire</code> in <code>RMS\Libraries</code>, you can use the following code
+example.
 </p>
 
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #F92672;">import</span> sys,os
-os.chdir(path_to_main_RMS_folder)    <span style="color: #75715E;"># </span><span style="color: #75715E;">replace path_to_main_RMS_folder</span>
-sys.path.append(<span style="color: #E6DB74;">'Libraries'</span>)
-<span style="color: #F92672;">from</span> rmquestionnaire <span style="color: #F92672;">import</span> *
+<pre class="src src-python"><span style="color: #00bfff;">import</span> sys,os
+os.chdir(path_to_main_RMS_folder)    <span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">replace path_to_main_RMS_folder</span>
+sys.path.append(<span style="color: #deb887;">'Libraries'</span>)
+<span style="color: #00bfff;">from</span> rmquestionnaire <span style="color: #00bfff;">import</span> *
 </pre>
 </div>
 
@@ -3005,16 +3053,17 @@ your main RMS folder.
 <p>
 In order to import data from a questionnaire the <code>questionnaire</code> class
 should be used. Four arguments are needed when an object from this
-class is initiated: the excel file name, the database file path and the log folder path and a user name. The following is an example.
+class is initiated: the excel file name, the database file path, the
+log folder path and a user name. The following is an example.
 </p>
 
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #FD971F;">excel_file</span>=<span style="color: #E6DB74;">"Regional_Survey_2015.xlsx"</span>
-<span style="color: #FD971F;">database_file</span>= <span style="color: #E6DB74;">"Database/Prod.db"</span>
-<span style="color: #FD971F;">log_folder</span>=<span style="color: #E6DB74;">"/tmp/log/"</span>
-<span style="color: #FD971F;">username</span>=<span style="color: #E6DB74;">"user"</span>
-<span style="color: #FD971F;">qobject</span>=questionnaire(excel_file,database_file,log_folder,username)
+<pre class="src src-python"><span style="color: #4eee94;">excel_file</span>=<span style="color: #deb887;">"Regional_Survey_2015.xlsx"</span>
+<span style="color: #4eee94;">database_file</span>= <span style="color: #deb887;">"Database/Prod.db"</span>
+<span style="color: #4eee94;">log_folder</span>=<span style="color: #deb887;">"/tmp/log/"</span>
+<span style="color: #4eee94;">username</span>=<span style="color: #deb887;">"user"</span>
+<span style="color: #4eee94;">qobject</span>=questionnaire(excel_file,database_file,log_folder,username)
 </pre>
 </div>
 <p>
@@ -3167,7 +3216,7 @@ the example we have been developing.
 
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #F92672;">if</span> qobject.validation():
+<pre class="src src-python"><span style="color: #00bfff;">if</span> qobject.validation():
     qobject.check_region_totals()
     qobject.check_less()
     qobject.check_column_sums()
@@ -3190,9 +3239,11 @@ inserted in the audit trail table  with the current timestamp, if there is a cha
 </p>
 
 <p>
-There are two different types of comments, cell comments and table comments. The cell comments are part of Excel functionality, while table comments are on the top of each table in the questionnaire. Cell comments can be
-imported to the database with the  <code>extract_comments</code> method and table
-comments with the <code>extract_table_comments</code> method.
+There are two different types of comments, cell comments and table
+comments. The cell comments are part of Excel functionality, while
+table comments are on the top of each table in the questionnaire. Cell
+comments can be imported to the database with the <code>extract_comments</code>
+method and table comments with the <code>extract_table_comments</code> method.
 </p>
 
 <p>
@@ -3231,11 +3282,11 @@ without importing a questionnaire.
 
 <div class="org-src-container">
 
-<pre class="src src-python">set_database_file(<span style="color: #E6DB74;">'Database/Prod.db'</span>)
-<span style="color: #FD971F;">co_code</span> = qobject.country_code
-<span style="color: #FD971F;">year</span> = qobject.emco_year
-<span style="color: #FD971F;">from_serie</span>=<span style="color: #E6DB74;">'REP'</span>
-<span style="color: #FD971F;">to_serie</span>=<span style="color: #E6DB74;">'EST'</span>
+<pre class="src src-python">set_database_file(<span style="color: #deb887;">'Database/Prod.db'</span>)
+<span style="color: #4eee94;">co_code</span> = qobject.country_code
+<span style="color: #4eee94;">year</span> = qobject.emco_year
+<span style="color: #4eee94;">from_serie</span>=<span style="color: #deb887;">'REP'</span>
+<span style="color: #4eee94;">to_serie</span>=<span style="color: #deb887;">'EST'</span>
 moveSerie(co_code, year, from_serie, to_serie)
 </pre>
 </div>
@@ -3252,10 +3303,10 @@ section.
 
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #FD971F;">database</span>=<span style="color: #E6DB74;">"Database/Prod.db"</span>
-<span style="color: #FD971F;">emco_year</span>=2015
-<span style="color: #FD971F;">country_name</span>=<span style="color: #E6DB74;">"Lao People's Democratic Republic"</span>
-<span style="color: #FD971F;">ind_object</span>=indicators(<span style="color: #E6DB74;">"Database/Prod.db"</span>,2015,<span style="color: #E6DB74;">"Lao People's Democratic Republic"</span>,username)
+<pre class="src src-python"><span style="color: #4eee94;">database</span>=<span style="color: #deb887;">"Database/Prod.db"</span>
+<span style="color: #4eee94;">emco_year</span>=2015
+<span style="color: #4eee94;">country_name</span>=<span style="color: #deb887;">"Lao People's Democratic Republic"</span>
+<span style="color: #4eee94;">ind_object</span>=indicators(<span style="color: #deb887;">"Database/Prod.db"</span>,2015,<span style="color: #deb887;">"Lao People's Democratic Republic"</span>,username)
 ind_object.compute_all_indicators()
 </pre>
 </div>
@@ -3278,19 +3329,19 @@ needs to be called for each desired sheet.
 
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #F92672;">import</span> xlsxwriter
+<pre class="src src-python"><span style="color: #00bfff;">import</span> xlsxwriter
 
-<span style="color: #FD971F;">co_name</span> = qobject.country_name    
-<span style="color: #FD971F;">filename</span> = <span style="color: #E6DB74;">"{0}_{1}.xlsx"</span>.<span style="color: #F92672;">format</span>(co_name, 2015)
+<span style="color: #4eee94;">co_name</span> = qobject.country_name    
+<span style="color: #4eee94;">filename</span> = <span style="color: #deb887;">"{0}_{1}.xlsx"</span>.<span style="color: #f08080;">format</span>(co_name, 2015)
 
-<span style="color: #FD971F;">wb</span> = xlsxwriter.Workbook(filename)
+<span style="color: #4eee94;">wb</span> = xlsxwriter.Workbook(filename)
 
-export_var(<span style="color: #E6DB74;">'Administrative divisions'</span>, wb, co_code, year, var_type = <span style="color: #E6DB74;">"sheet"</span>)
-export_var(<span style="color: #E6DB74;">'Pupils'</span>, wb, co_code, year, var_type = <span style="color: #E6DB74;">"sheet"</span>)
-export_var(<span style="color: #E6DB74;">'Teachers ISCED 1'</span>, wb, co_code, year, var_type = <span style="color: #E6DB74;">"sheet"</span>,serie= <span style="color: #E6DB74;">'REP'</span>)
-export_var(<span style="color: #E6DB74;">'Teachers ISCED 2'</span>, wb, co_code, year, var_type = <span style="color: #E6DB74;">"sheet"</span>,serie= <span style="color: #E6DB74;">'REP'</span>)
-export_var(<span style="color: #E6DB74;">'Teachers ISCED 3'</span>, wb, co_code, year, var_type = <span style="color: #E6DB74;">"sheet"</span>,serie= <span style="color: #E6DB74;">'REP'</span>)
-export_var(<span style="color: #E6DB74;">'Teachers ISCED 23'</span>, wb, co_code, year, var_type = <span style="color: #E6DB74;">"sheet"</span>,serie= <span style="color: #E6DB74;">'REP'</span>)
+export_var(<span style="color: #deb887;">'Administrative divisions'</span>, wb, co_code, year, var_type = <span style="color: #deb887;">"sheet"</span>)
+export_var(<span style="color: #deb887;">'Pupils'</span>, wb, co_code, year, var_type = <span style="color: #deb887;">"sheet"</span>)
+export_var(<span style="color: #deb887;">'Teachers ISCED 1'</span>, wb, co_code, year, var_type = <span style="color: #deb887;">"sheet"</span>,serie= <span style="color: #deb887;">'REP'</span>)
+export_var(<span style="color: #deb887;">'Teachers ISCED 2'</span>, wb, co_code, year, var_type = <span style="color: #deb887;">"sheet"</span>,serie= <span style="color: #deb887;">'REP'</span>)
+export_var(<span style="color: #deb887;">'Teachers ISCED 3'</span>, wb, co_code, year, var_type = <span style="color: #deb887;">"sheet"</span>,serie= <span style="color: #deb887;">'REP'</span>)
+export_var(<span style="color: #deb887;">'Teachers ISCED 23'</span>, wb, co_code, year, var_type = <span style="color: #deb887;">"sheet"</span>,serie= <span style="color: #deb887;">'REP'</span>)
 wb.close()
 </pre>
 </div>
@@ -3323,9 +3374,9 @@ indicator ID of the desired indicator (e.g. 'NTP.1').
 
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #FD971F;">indicators_filename</span>=<span style="color: #E6DB74;">"{0}_{1}_indicators.xlsx"</span>.<span style="color: #F92672;">format</span>(co_name, 2015)
-<span style="color: #FD971F;">indicators_wb</span> = xlsxwriter.Workbook(indicators_filename)
-export_indc(<span style="color: #E6DB74;">"All"</span>, indicators_wb, co_code, year)
+<pre class="src src-python"><span style="color: #4eee94;">indicators_filename</span>=<span style="color: #deb887;">"{0}_{1}_indicators.xlsx"</span>.<span style="color: #f08080;">format</span>(co_name, 2015)
+<span style="color: #4eee94;">indicators_wb</span> = xlsxwriter.Workbook(indicators_filename)
+export_indc(<span style="color: #deb887;">"All"</span>, indicators_wb, co_code, year)
 indicators_wb.close()
 </pre>
 </div>
@@ -3336,24 +3387,26 @@ indicators_wb.close()
 <h3 id="sec-4-4"><span class="section-number-3">4.4</span> Software folder tree</h3>
 <div class="outline-text-3" id="text-4-4">
 <p>
-The following is the RMS software directory tree, where all directory levels are printed, following that the complete tree including individual files.
+The following is the RMS software directory tree, where all directory
+levels are printed, following that the complete tree including
+individual files.
 </p>
 
 <div class="org-src-container">
 
 <pre class="src src-sh">RMS/
 |-- Database
-|   <span style="color: #AE81FF; font-weight: bold;">`-- Inserted data</span>
-<span style="color: #AE81FF; font-weight: bold;">|-- Documentation</span>
-<span style="color: #AE81FF; font-weight: bold;">|   |-- css</span>
-<span style="color: #AE81FF; font-weight: bold;">|   |-- img</span>
-<span style="color: #AE81FF; font-weight: bold;">|   `</span>-- Python help
+|   <span style="color: #fa8072;">`-- Inserted data</span>
+<span style="color: #fa8072;">|-- Documentation</span>
+<span style="color: #fa8072;">|   |-- css</span>
+<span style="color: #fa8072;">|   |-- img</span>
+<span style="color: #fa8072;">|   `</span>-- Python help
 |-- Export
 |-- Import
 |-- Libraries
-<span style="color: #AE81FF; font-weight: bold;">`-- Log</span>
+<span style="color: #fa8072;">`-- Log</span>
 
-<span style="color: #AE81FF; font-weight: bold;">10 directories</span>
+<span style="color: #fa8072;">10 directories</span>
 </pre>
 </div>
 
@@ -3369,19 +3422,19 @@ The following is the RMS software directory tree, where all directory levels are
 |   |   |-- EDU_INDICATOR_AID_full.xlsx
 |   |   |-- EDU_METER_AID(data).csv
 |   |   |-- Magnitude(data).csv
-|   |   |-- NEW AC CODES inserted<span style="color: #F92672;"> in</span> EDU_METER_AID.csv
+|   |   |-- NEW AC CODES inserted<span style="color: #00bfff;"> in</span> EDU_METER_AID.csv
 |   |   |-- Qualifier.csv
 |   |   |-- RM_Mapping.csv
-|   |   <span style="color: #AE81FF; font-weight: bold;">`-- RM_Mapping_NonNumeric.csv</span>
-<span style="color: #AE81FF; font-weight: bold;">|   |-- create_database.bat</span>
-<span style="color: #AE81FF; font-weight: bold;">|   |-- create_tables.sql</span>
-<span style="color: #AE81FF; font-weight: bold;">|   |-- insert_data.sql</span>
-<span style="color: #AE81FF; font-weight: bold;">|   |-- insert_indic_labels.sql</span>
-<span style="color: #AE81FF; font-weight: bold;">|   |-- library.sql</span>
-<span style="color: #AE81FF; font-weight: bold;">|   |-- main.sql</span>
-<span style="color: #AE81FF; font-weight: bold;">|   |-- migration_to_DB_with_indic.sql</span>
-<span style="color: #AE81FF; font-weight: bold;">|   |-- Prod.db</span>
-<span style="color: #AE81FF; font-weight: bold;">|   `</span>-- README.md
+|   |   <span style="color: #fa8072;">`-- RM_Mapping_NonNumeric.csv</span>
+<span style="color: #fa8072;">|   |-- create_database.bat</span>
+<span style="color: #fa8072;">|   |-- create_tables.sql</span>
+<span style="color: #fa8072;">|   |-- insert_data.sql</span>
+<span style="color: #fa8072;">|   |-- insert_indic_labels.sql</span>
+<span style="color: #fa8072;">|   |-- library.sql</span>
+<span style="color: #fa8072;">|   |-- main.sql</span>
+<span style="color: #fa8072;">|   |-- migration_to_DB_with_indic.sql</span>
+<span style="color: #fa8072;">|   |-- Prod.db</span>
+<span style="color: #fa8072;">|   `</span>-- README.md
 |-- Documentation
 |   |-- css
 |   |-- img
@@ -3390,16 +3443,16 @@ The following is the RMS software directory tree, where all directory levels are
 |   |   |-- rmfunctions.html
 |   |   |-- RM_GUI.html
 |   |   |-- rmindicators.html
-|   |   <span style="color: #AE81FF; font-weight: bold;">`-- rmsqlfunctions.html</span>
-<span style="color: #AE81FF; font-weight: bold;">|   |-- README.md</span>
-<span style="color: #AE81FF; font-weight: bold;">|   |-- user-manual.html</span>
-<span style="color: #AE81FF; font-weight: bold;">|   |-- user-manual.org</span>
-<span style="color: #AE81FF; font-weight: bold;">|   |-- user-manual.pdf</span>
-<span style="color: #AE81FF; font-weight: bold;">|   `</span>-- user-manual.tex
+|   |   <span style="color: #fa8072;">`-- rmsqlfunctions.html</span>
+<span style="color: #fa8072;">|   |-- README.md</span>
+<span style="color: #fa8072;">|   |-- user-manual.html</span>
+<span style="color: #fa8072;">|   |-- user-manual.org</span>
+<span style="color: #fa8072;">|   |-- user-manual.pdf</span>
+<span style="color: #fa8072;">|   `</span>-- user-manual.tex
 |-- Export
-|   <span style="color: #AE81FF; font-weight: bold;">`-- README.md</span>
-<span style="color: #AE81FF; font-weight: bold;">|-- Import</span>
-<span style="color: #AE81FF; font-weight: bold;">|   `</span>-- README.md
+|   <span style="color: #fa8072;">`-- README.md</span>
+<span style="color: #fa8072;">|-- Import</span>
+<span style="color: #fa8072;">|   `</span>-- README.md
 |-- Libraries
 |   |-- algebra-div.csv
 |   |-- algebra-prod.csv
@@ -3411,13 +3464,13 @@ The following is the RMS software directory tree, where all directory levels are
 |   |-- rmindicators.py
 |   |-- rmquestionnaire.py
 |   |-- rmsqlfunctions.py
-|   <span style="color: #AE81FF; font-weight: bold;">`-- variables_for_preprocessing.json</span>
-<span style="color: #AE81FF; font-weight: bold;">|-- Log</span>
-<span style="color: #AE81FF; font-weight: bold;">|   `</span>-- README.md
+|   <span style="color: #fa8072;">`-- variables_for_preprocessing.json</span>
+<span style="color: #fa8072;">|-- Log</span>
+<span style="color: #fa8072;">|   `</span>-- README.md
 |-- README.md
-<span style="color: #AE81FF; font-weight: bold;">`-- RM_GUI.py</span>
+<span style="color: #fa8072;">`-- RM_GUI.py</span>
 
-<span style="color: #AE81FF; font-weight: bold;">10 directories, 46 files</span>
+<span style="color: #fa8072;">10 directories, 46 files</span>
 </pre>
 </div>
 </div>
@@ -3427,7 +3480,11 @@ The following is the RMS software directory tree, where all directory levels are
 <h3 id="sec-4-5"><span class="section-number-3">4.5</span> Python help files</h3>
 <div class="outline-text-3" id="text-4-5">
 <p>
-Python had its own help documentation that could be created using <code>pydoc</code> for any script. In the <a href="#sec-4-4">Software folder tree</a> section, the tree lists 6 <code>.py</code> files, 5 in folder <code>/Libraries</code> and the <code>RM_GUI.py</code> in the main directory. The following are the links to the Python help files of each.
+Python had its own help documentation that could be created using
+<code>pydoc</code> for any script. In the <a href="#sec-4-4">Software folder tree</a> section, the
+tree lists 6 <code>.py</code> files, 5 in folder <code>/Libraries</code> and the
+<code>RM_GUI.py</code> in the main directory. The following are the links to
+the Python help files of each.
 </p>
 <ul class="org-ul">
 <li><a href="Python help/rmExcelWriter.html">Libraries/rmExcelWriter.py</a>
@@ -3450,7 +3507,7 @@ Python had its own help documentation that could be created using <code>pydoc</c
 <div id="postamble" class="status">
 <p class="date">Date: February 2016</p>
 <p class="author">Author: Mohamad Elmasri and Oscar Quijano</p>
-<p class="date">Created: 2016-02-04 Thu 20:56</p>
+<p class="date">Created: 2016-02-04 jue 23:40</p>
 <p class="creator">Emacs 24.4.1 (Org mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

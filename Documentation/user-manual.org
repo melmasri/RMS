@@ -165,7 +165,7 @@ pre-processing checks and data report please refer to Sections [[Validation repo
       unticked by default, and works as follows, if the user attempts
       to insert some data to the reported series, even if the file
       validates, the user is not allowed unless this checkbox is
-      ticked. Only under one exception is it allowed, if the inserted   
+      ticked. Only under one exception it is allowed, if the inserted   
       file is an original questionnaire, this become more clear in
       [[Exporting data options][Exporting data options]].
     * *Open validation report* is a checkbox that is ticked by default to
@@ -303,10 +303,10 @@ raw data.
       administrative division cells are empty, while the national level
       holds the indicator figure.
     * If indicators are incalculable because of missing data or
-      inclusions, the figure will be replaces by resulting magnitude code in the respective cell. *If the cell is empty, either the
+      inclusions, the figure will be replaced by resulting magnitude code in the respective cell. *If the cell is empty, either the
       indicator is a national level indicator or the /Estimated/ series is empty.*
     * Indicators are always sorted alphabetically.
-    * Exported indicator file follow the naming convention =County Name-Year-Indic-indicator name.xlsx=, when the use of wildcards, =%= is replaced with =xx=.
+    * Exported indicator files follow the naming convention =County Name-Year-Indic-indicator name.xlsx=, when the use of wildcards, =%= is replaced with =xx=.
 #+end_note  
 
 For the current version of the software, these are the list of calculated indicators:
@@ -331,7 +331,7 @@ A validation report is created and saved in the =Log= sub-folder
 every time the user attempts to insert a questionnaire by clicking on
 the =Validate= button. It includes all confirmations and errors and
 have the naming convention as =RM-Country
-Name-Year-Series-Data-Type-Time-Date.txt=. 
+Name-Year-Series-Data Type-Date-Time.txt=. 
 
 The idea of the validation is to list critical errors with
 the selected file. Only if all the validation checks pass the
@@ -359,7 +359,7 @@ conditions are saved and also printed to the Status panel:
          * country code matches the one taken from the database using the provided country name.
          * number of ADM is a positive integer. Note this variable is taken from the configuration panel, thus *do not change it.*
     3) General checks: 
-       * check that all data values are either a number, inclusion (X), Z,z,A,a,N,n,M or m. Otherwise, validation fails and error is printed.
+       * check that all data values are either a number, inclusion (X or x), Z,z,A,a,N,n,M or m. Otherwise, validation fails and error is printed.
 
 For more technical information, see [[Preprocessing][Preprocessing]] section.
 ** Data report
@@ -370,7 +370,7 @@ For more technical information, see [[Preprocessing][Preprocessing]] section.
   of a data report without validating or inserting the file, by
   clicking on the =Check only= button. 
 
-  The data report check the following and lists any issues: 
+  The data report checks the following and lists any issues: 
   1) If the insertion is in the original questionnaire format
      * if ADM names exists in database they must equal the ones in
       the questionnaire, otherwise prints an error. This mean you
@@ -672,7 +672,7 @@ able to see the changes and comments made earlier.
 
 *** Calculating indicators
 
-To calculate indicators, first select the country name and year, then select the =EST= series. If the data is not yet in the =EST= series, move it by clicking on the button =OBS to EST=, maybe also =REP to OBS= if you haven't moved it yet to =OBS= series. Then click on the button =Calculate=.  In around *30 seconds to a minutes*, the Status panel should indicated that the process is successful.
+To calculate indicators, first select the country name and year, then select the =EST= series. If the data is not yet in the =EST= series, move it by clicking on the button =OBS to EST=, maybe also =REP to OBS= if you haven't moved it yet to =OBS= series. Then click on the button =Calculate=.  In around *30 seconds to a minute*, the Status panel should indicated that the process is successful.
 
 #+begin_src
 Successful..all indicators are calculated.
@@ -693,12 +693,14 @@ The file should also automatically open up and in this example it looks like thi
 [[./img/export_indicator.png]]
 
 * Indicators
-  This section describs how the indicators are computed and what are the AC
-  codes involved in their computation.  For each indicator, we give a
-  table with four columns. The first column has the ISCED level. The
-  second one has the indicator alphanumeric code (IND_ID) used for the indicator. The
-  third column has the formula used to compute this indicator. The
-  fourth column contains yes or no depending on whether the indicator for the highest and lowest among administrative divisions is also calculated.
+  This section describes how indicators are computed and what are the
+  AC codes involved in their computation.  For each indicator, we give
+  a table with four columns. The first column has the ISCED level. The
+  second one has the indicator alphanumeric code (IND_ID). The third
+  column has the formula used to compute this indicator. The fourth
+  column contains yes or no depending on whether the indicator for the
+  highest and lowest among administrative divisions is also
+  calculated.
   
   Technical notations used across the document: 
   * The =Python method= lists the name of function in the =Libraries/rmindicators.py= script that calculates that indicator.
@@ -706,8 +708,7 @@ The file should also automatically open up and in this example it looks like thi
   * Some indicators correspond to the highest and lowest value among
     all the regions of some indicator; A.Max and A.Min correspond to the
     highest and lowest value, respectively, among all the regions for
-    the AC code A. The fourth column of each indicators says if there
-    is also a highest and lowest indicator.
+    the AC code A.
 
 Some more specific technical notation exists for some of the subsections.
 
@@ -923,7 +924,7 @@ Some more specific technical notation exists for some of the subsections.
        |--------------------+------------------+--------------------------+-------|
         =ISCED= is =['  1', '2.GPV', '3.GPV', '23.GPV']=, combined with suffixes =['.Pu', '.Pr']= for public and private sub-category.
         
-   Note  all indicators are calculated for Total, Public and Private levels.    
+   Note all indicators are calculated for Total, Public and Private levels.    
 
 ** Percentage of teachers by age
 
@@ -943,7 +944,7 @@ Some more specific technical notation exists for some of the subsections.
         |--------------------+-----------------+-------------------------+-------|
         =ISCED= is =['  1', '2.GPV', '3.GPV', '23.GPV']=, combined with suffixes =['.Pu', '.Pr']= for public and private sub-category.
         
-   Note  all indicators are calculated for Total, Public and Private levels.    
+   Note all indicators are calculated for Total, Public and Private levels.    
 
 ** Dissimilarity index 
 
@@ -985,7 +986,10 @@ Some more specific technical notation exists for some of the subsections.
          
 * Adding  Indicators
 ** The indicators class
-   To deal with indicator calculations, we have created a Python class that we named =indicators()=, it exists in the script =RMS/Libraries/rmindicators.py=. This indicators class has three types of methods, auxiliary, indicators and action methods.
+   To deal with indicator calculations, a Python class named
+   =indicators()= was created. It is in the script
+   =RMS/Libraries/rmindicators.py=. The class has three types of
+   methods, auxiliary, indicators and action methods.
 
    The auxiliary methods are an aid either for the computation of
    indicators or for SQL interaction. Examples of these methods
@@ -998,13 +1002,25 @@ Some more specific technical notation exists for some of the subsections.
    =teachers_percentage_female=, =percentage_trained_teachers=,
    =percentage_private_teachers=, =percentage_non_permanent_teachers=.
 
-   There are only two action methods: =__init__= and  =compute_all_indicators=. The former is the initializer of the class and is called every time the class is initiated. The latter is a method that calls all the other indicators methods.
+   There are only two action methods: =__init__= and
+   =compute_all_indicators=. The former is the initializer of the
+   class and is called every time the class is initiated. The latter
+   is a method that calls all the other indicators methods.
 
-   Without dwelling into much detials the objective of this section is to show how to program new indicators by using the methods of the =indicators= class.
+   Without dwelling into much detials the objective of this section is
+   to show how to program new indicators by using the methods of the
+   =indicators= class.
 
 ** Setup template
 
-   To program new indicators, we first need to create a method that computes the values of the indicator and writes those values to the database. Second, we need to add the new created method to =compute_all_indicators= method. At this point, the GUI will also compute this method when the =Calculate= button is clicked. The following is the current  =compute_all_indicators= method, which shows the list of indicators that are calculated every time this method is called. 
+   To program new indicators, we first need to create a method that
+   computes the values of the indicator and writes them to the
+   database. Second, we need to add this newly created method to
+   =compute_all_indicators=. At this point, the GUI will also compute
+   the indicator when the =Calculate= button is clicked. The following
+   is the current definition of =compute_all_indicators=, which shows
+   the list of indicators that are calculated every time this method
+   is called.
 
    #+begin_src python
 
@@ -1033,9 +1049,11 @@ def compute_all_indicators(self):
    #+end_src
 
 
-   Before adding a method to the indicators class, we advise to test it in a different file without modifying the main code in =rmindicators.py=. Let's start with an example on how to do this. First, in a new script, import the =rmquestionnaire=
-   library so we can use its methods. This can be achieved
-   with the following code:
+   Before adding a method to the indicators class, we advise to test
+   it in a different file without modifying the main code in
+   =rmindicators.py=. Let's start with an example on how to do
+   this. First, in a new script, import the =rmquestionnaire=
+   library. This can be achieved with the following code:
 
    #+BEGIN_SRC python :session example1 :export code :tangle ind_test1.py
      import sys, os
@@ -1048,13 +1066,23 @@ def compute_all_indicators(self):
 
    #+RESULTS:
 
-   by modifying the =path_to_main_RMS_folder= to your path to the main folder where =RMS= is installed, for example =/Desktop/RMS= if it is installed on your desktop. Second, create a test class that inherits all the methods in the =indicators= class, you can do this using the following code. 
+   by modifying the =path_to_main_RMS_folder= to your path to the main
+   folder where =RMS= is installed, for example =/Desktop/RMS= if it
+   is installed on your desktop. Second, create a test class that
+   inherits all the methods in the =indicators= class, you can do this
+   using the following code.
 
    #+BEGIN_SRC python :session example1 :export code :tangle ind_test1.py
     class tests_indicators(indicators):
    #+END_SRC
 
-   Finally, use the SQL methods of class =indicators= to write to SQL. This could be done by =write_indic_sql=, which writes a dictionary of indicator values to SQL. The key of the dictionary is the indicator name, and the value of the dictionary is the indicators values. The following is a complete template that you can use by modifying the path to the main RMS directory and the indicator and function names.
+   Finally, use the SQL methods of class =indicators= to write to
+   SQL. This could be done by =write_indic_sql=, which writes a
+   dictionary of indicator values to SQL. The key of the dictionary is
+   the indicator name, and the value of the dictionary is the
+   indicators values. The following is a complete template that you
+   can use by modifying the path to the main RMS directory and the
+   indicator and function names.
 
   #+BEGIN_SRC python :session example1 :export code :tangle ind_test1.py
      import sys, os
@@ -1080,11 +1108,21 @@ def compute_all_indicators(self):
 
    At this point we are ready to program the new indicator method. 
 
-   Let us say that we want to compute the proportion of teachers in public schools in ISCED1 that have
-   one or two years of experience. Let us call this indicator "PT.1.Pu.Exp1t2". This would correspond to dividing "T.1.Pu.Exp1t2" by "T.1.Pu". The method =column_operation= is very handy in this case. Almost all the current indicators rely heavily on this function, therefore it deserves a discussion by itself.
+   Let us say that we want to compute the proportion of teachers in
+   public schools in ISCED1 that have one or two years of
+   experience. Let us call this indicator "PT.1.Pu.Exp1t2". This would
+   correspond to dividing "T.1.Pu.Exp1t2" by "T.1.Pu". The method
+   =column_operation= is very handy in this case. Many current
+   indicators rely on this function, therefore it deserves a
+   discussion by itself.
 
 ** Column operation
-    The function =column operation= applies a function to two columns in any of the tables of the RM questionnaire. Since all columns are indexed by an alphanumeric code (AC), it is sufficient to pass the ACs themselves and =column_operation= will extract all the region and national figures of these two ACs and preform an operation on each of the adjacent cells of these columns. 
+    The function =column operation= applies a function to two columns
+    in any of the tables of the RM questionnaire. Since all columns
+    are indexed by an alphanumeric code (AC), it is sufficient to pass
+    the ACs themselves and =column_operation= will extract all the
+    region and national figures of these two ACs and preform an
+    operation on each of the adjacent cells of these columns.
 
     The =column_operation= has three arguments, the first two
     arguments have the form =[AC,year]=, where AC is an alphanumeric
@@ -1111,7 +1149,7 @@ def compute_all_indicators(self):
     pair =[value, symbol]=, where value is the result of the function
     applied to the values received and symbol is the magnitude of this
     value. The objective of the algebra is to decide whether the
-    operation should be preformed or the data is irregular. For
+    operation should be performed or the data is irregular. For
     example, when you attempt to sum two columns say, =E.1.Pu= and
     =E.1.Pr=, say that for one of the regions =E.1.Pu=10= while
     =E.1.Pr= is missing, what should be the value of the sum? We
@@ -1157,7 +1195,11 @@ sum([10, 'value], [5, 'value']) = [15, 'value']
 
 
 #+begin_important
-The algebra files are read every time the =RM_GUI= is initiated, thus, if the user doesn't agree with the result of the algebra you can change it directly in the file. *Be careful* as the software might behave inappropriately if the algebra is set wrong. For example, when summing a numeric value with a non-numeric one. 
+The algebra files are read every time the =RM_GUI= is initiated, thus,
+if the user doesn't agree with the result of the algebra you can
+change it directly in the file. *Be careful* as the software might
+behave inappropriately if the algebra is set wrong. For example, when
+summing a numeric value with a non-numeric one.
 #+end_important
 
 Now to sum any two ACs, or columns, of the RM questionnaire, one can use the =column_operation= function directly as 
@@ -1168,8 +1210,12 @@ column_operation(['E.1.Pr', 0], ['E.1.Pu', 0], sum)
 This would return the sum of the each of the two adjacent cells of the columns, that is region by region. 
 
 ** Example
-   To get back to our example, we wanted to compute the proportion of teachers in public schools in ISCED1 that have
-   one or two years of experience. Let us call this indicator "PT.1.Pu.Exp1t2". This would correspond to dividing "T.1.Pu.Exp1t2" by "T.1.Pu". To do so, we use the =column_operation= and =div= with the template provided in the end of [[Setup template]] section. 
+   To get back to our example, we wanted to compute the proportion of
+   teachers in public schools in ISCED1 that have one or two years of
+   experience. Let us call this indicator "PT.1.Pu.Exp1t2". This would
+   correspond to dividing "T.1.Pu.Exp1t2" by "T.1.Pu". To do so, we
+   use the =column_operation= and =div= with the template provided in
+   the end of [[Setup template]] section.
 
    We define the function name as =proportion_public_teachers_1t2exp_isced1(self)=, and the code looks like:
 
@@ -1194,13 +1240,13 @@ This would return the sum of the each of the two adjacent cells of the columns, 
    #+END_SRC
 
    where =path_to_database= is a string with the full path to the
-   database file, =year= the data year, i.e 2014, for which the indicator is
-   being computed and =country_name= is the country name of interest. In order for this to work, a questionnaire
-   for the corresponding country and year should have been already
-   inserted in the database. After running the command above, it is
-   possible to check the computed indicator directly in the
-   database. To do this, open the database with sqlite and run the
-   following command:
+   database file, =year= the data year, i.e 2014, for which the
+   indicator is being computed and =country_name= is the country name
+   of interest. In order for this to work, a questionnaire for the
+   corresponding country and year should have been already inserted in
+   the database. After running the command above, it is possible to
+   check the computed indicator directly in the database. To do this,
+   open the database with sqlite and run the following command:
 
    #+BEGIN_SRC sqlite
      SELECT IND_ID ,ADM_CODE, FIG FROM  EDU_INDICATOR_EST AS A 
@@ -1247,9 +1293,11 @@ This would return the sum of the each of the two adjacent cells of the columns, 
    Now if you use the GUI to calculate indicators, your new indicator should appear in the drop-down list of indicators.
 
 * Code Documentation
-This section explains how to process questionnaire data for the RMS questionnaire
-using Python code directly, instead of the Graphical User Interface (GUI). The first
-step is to import the library =rmquestionnaire= in =RMS\Libraries=, you can use the following code example.
+This section explains how to process questionnaire data for the RMS
+questionnaire using Python code directly, instead of the Graphical
+User Interface (GUI). The first step is to import the library
+=rmquestionnaire= in =RMS\Libraries=, you can use the following code
+example.
 
 #+latex: \begin{code}
 
@@ -1271,7 +1319,8 @@ your main RMS folder.
 
 In order to import data from a questionnaire the =questionnaire= class
 should be used. Four arguments are needed when an object from this
-class is initiated: the excel file name, the database file path and the log folder path and a user name. The following is an example.
+class is initiated: the excel file name, the database file path, the
+log folder path and a user name. The following is an example.
 
 #+latex: \begin{code}
 #+BEGIN_SRC python :session Python :exports code :tangle technical_script_example.py :cache yes
@@ -1407,9 +1456,11 @@ an original questionnaire is being inserted the first time. The values are also
 inserted in the audit trail table  with the current timestamp, if there is a change from the previously inserted version. For more details about audit trail functionality read 
 [[Audit trail][Audit trail]] section.
 
-There are two different types of comments, cell comments and table comments. The cell comments are part of Excel functionality, while table comments are on the top of each table in the questionnaire. Cell comments can be
-imported to the database with the  =extract_comments= method and table
-comments with the =extract_table_comments= method.
+There are two different types of comments, cell comments and table
+comments. The cell comments are part of Excel functionality, while
+table comments are on the top of each table in the questionnaire. Cell
+comments can be imported to the database with the =extract_comments=
+method and table comments with the =extract_table_comments= method.
 
 The following lines of code extract the data, cell comments and table
 comments and add them to the database.
@@ -1535,7 +1586,9 @@ indicator ID of the desired indicator (e.g. 'NTP.1').
 #  LocalWords:  xlsxwriter filename wb gui
 #  LocalWords:  ISCED
 ** Software folder tree 
-The following is the RMS software directory tree, where all directory levels are printed, following that the complete tree including individual files.
+The following is the RMS software directory tree, where all directory
+levels are printed, following that the complete tree including
+individual files.
 
 #+BEGIN_SRC sh
 RMS/
@@ -1616,7 +1669,11 @@ RMS/
 #+END_SRC
 
 ** Python help files
-   Python had its own help documentation that could be created using =pydoc= for any script. In the [[Software folder tree][Software folder tree]] section, the tree lists 6 =.py= files, 5 in folder =/Libraries= and the =RM_GUI.py= in the main directory. The following are the links to the Python help files of each.
+   Python had its own help documentation that could be created using
+   =pydoc= for any script. In the [[Software folder tree][Software folder tree]] section, the
+   tree lists 6 =.py= files, 5 in folder =/Libraries= and the
+   =RM_GUI.py= in the main directory. The following are the links to
+   the Python help files of each.
    + [[file:Python help/rmExcelWriter.html][Libraries/rmExcelWriter.py]]
    + [[file:Python help/rmfunctions.html][Libraries/rmfunctions.py]]
    + [[file:Python help/rmindicators.html][Libraries/rmindicators.py]]
