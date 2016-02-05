@@ -10,7 +10,7 @@ A Regional Module data management system created using Python and SQLite. Using 
 * create different copies of country specific data, one to hold the original data, one for cleaning and one for dissemination.
 * calculate specific indicators.
 
-**For more information see the HTML [User Manual](Documentation/user-manual.html)**, or the Github [repo](https://github.com/melmasri/RMS).
+**For more information see the HTML [User Manual](Documentation/user-manual.html)**, or the GitHub [repo](https://github.com/melmasri/RMS).
 
 ## Installation (on windows)
 ### Required packages:
@@ -38,7 +38,7 @@ pip install https://github.com/melmasri/xlrd/archive/master.zip
 ### Installation of the main package
 Two installation options are available:
 
-* **Downloading**: download and extract the package form the Github [repo](https://github.com/melmasri/RMS). 
+* **Downloading**: download and extract the package form the GitHub [repo](https://github.com/melmasri/RMS). 
 * **Git cloning**: in your terminal run `git clone https://github.com/melmasri/RMS`.
 
 Move the downloaded/cloned folder to your desired destination and then create a shortcut to `RM_GUI.py`.
@@ -48,7 +48,7 @@ To start double-click on the `RM_GUI.py` shortcut and the GUI should pop-up.
 **For more details refer to**
 
 * A complete User Manual in [HTML](Documentation/user-manual.html), [PDF](Documentation/user-manual.pdf), or [Markdown](Documentation/user-manual.org).
-* Python [help files](https://github.com/melmasri/RMS/tree/master/Documentation/Python%20help).
+* Python scripts help files are in the `Documentation` folder in the GitHub [repo](https://github.com/melmasri/RMS).
 
 
 ## Issues and extra features <sup>[1](#myfootnote1)</sup>
