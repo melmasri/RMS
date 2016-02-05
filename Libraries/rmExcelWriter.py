@@ -6,15 +6,15 @@ import xlsxwriter
 
     
 def getTable(var, co_code, year, var_type,serie):
-    """ SQL extraction of an AC or a RM table, with labels and ADM names.
+    """ SQL extraction of an AC or RM table, with labels and ADM names.
 
         var : is either  
-                "AC = 'somAC'" ( i.e. "AC =' T.1'") 
-                "RM_TABLE = 'someTableName' 
+                "AC = 'somAC'" ( i.e. "AC =' T.1'"),
+                "RM_TABLE = 'someTableName' (i.e. "RM_TABLE=Table 1.3").
         it depends if you want to extract a specific AC code and its labels or a whole table.
         serie : is either 'REP', 'OBS', 'EST.
-        The function returns the a list of tuples, where each tuple is an SQL record. 
-        The tuple is organized as ( ADM_CODE, DATA, CELL.NO , EXL_REF)
+        The function returns a list of tuples, where each tuple is a SQL record. 
+        The tuple is organized as ( ADM_CODE, DATA, CELL.NO , EXL_REF).
     """
     data = []
     # The bellow offset is to accord for the data in the questionnaire from the previous year.
@@ -61,11 +61,11 @@ def getTable(var, co_code, year, var_type,serie):
     return(data)
 
 def getCell_comment(var, co_code, year,serie):
-    """ SQL extraction of cell comments of a specific AC, or a RM table.
+    """ SQL extraction of cell comments of a specific AC or a RM table.
 
-        var : is either  
-                "AC = 'somAC'" ( i.e. "AC =' T.1'") 
-                "RM_TABLE = 'someTableName' 
+        var: is either  
+                "AC = 'somAC'" ( i.e. "AC =' T.1'"),
+                "RM_TABLE = 'someTableName' (i.e. "RM_TABLE=Table 1.2").
     """
     ntable_adm_divi_offset = ''
     if var != "RM_TABLE='Table i'":
@@ -86,11 +86,11 @@ def getCell_comment(var, co_code, year,serie):
                 
 
 def getTable_comment(var, co_code, year, view_type,serie):
-    """ SQL extract RM table comments for a specific table.
+    """ SQL extraction of RM table comments for a specific table.
         
         var : is either  
-                "AC = 'somAC'" ( i.e. "AC =' T.1'") 
-                "RM_TABLE = 'someTableName' 
+                "AC = 'somAC'" ( i.e. "AC =' T.1'"),
+                "RM_TABLE = 'someTableName'  (i.e. "RM_TABLE=Table 3.2").
         Return value is a dictionary of Excel references as keys and data as values.
     """
     sql_str =("select a.RM_TABLE || ': ' || a.RM_TABLE_NAME, b.COM_DATA, a.EXL_REF "
@@ -107,14 +107,14 @@ def getTable_comment(var, co_code, year, view_type,serie):
         return(data)
 
 def getIndic(co_code, year, ind):
-    """ SQL extract indicators and their labels for a specific CO_CODE and year.
+    """ SQL extraction of indicators and their labels for a specific CO_CODE and year.
 
         ind is either:
-                'All' for all indicators 
-                indicator name as 'NTP.1'
-                or a regular expression as '%T.1%' all indicators for ISCED 1
-        The function returns the a list of tuples, where each tuple is an SQL record. 
-        The tuple is organized as (ADM_CODE, DATA, CELL.NO , EXL_REF)
+                'All' for all indicators,
+                indicator name as 'NTP.1',
+                or a regular expression as '%T.1%' for all indicators for ISCED 1.
+        The function returns a list of tuples, where each tuple is a SQL record. 
+        The tuple is organized as (ADM_CODE, DATA, CELL.NO , EXL_REF).
     """
     ind = ' ' if ind =='All' else " and a.IND_ID like '{0}'".format(ind)
     #coalesce(a.FIG,a.MAGN)  ## Try this in the future.
@@ -145,9 +145,9 @@ def getIndic(co_code, year, ind):
 def export_var(var, wb, co_code, year, var_type, serie= 'REP'):
     """  Exports to a xlsx file the whole RM questionniare, a sheet, a table or an AC.
 
-        var in  {Table name, Sheet name, AC} as in the questionnaire
-        var_type in {'AC', 'table', 'sheet'}
-        wb is the workbook object from xlsxwriter.
+        var:     in  {Table name, Sheet name, AC} as in the questionnaire
+        var_type: in {'AC', 'table', 'sheet'}
+        wb:      is the workbook object from xlsxwriter.
     """
     view_type='ReadOnly'
     if var_type == "AC":
@@ -195,9 +195,11 @@ def export_var(var, wb, co_code, year, var_type, serie= 'REP'):
 def export_indc(ind, wb, co_code, year, serie = 'EST'):
     """ Exports to an xlsx file a list of indicator(s).
         
-        ind is either 'All' for all indicators  or and indicator AC as 'NTP.1'
-        wb is the workbook object from xlsxwriter.
-        serie is always set to EST since there is only EDU_INDICATOR_EST table.
+        ind:    is either 'All' for all indicators or an IND_ID as 'NTP.1'.
+        wb:     is the workbook object from xlsxwriter.
+        serie:  is always set to EST since there is only EDU_INDICATOR_EST table.
+        co_cod: country code.
+        year:    data reference year.
     """
     co_name = getCO_NAME(co_code)
     no_ADM = getADM_DISTINCT(co_code) -1
@@ -243,7 +245,7 @@ def write_data(worksheet, data, view_type = 'ReadOnly', **op):
                 label 'Administrative divisions' above
                 region names by an offset of 2 rows above the first name.
         2) data is a dictionary where keys are EXL_REF and values are the datum.
-                For example {'A1': 'Country name', 'B1': Canada}
+                For example {'A1': 'Country name', 'B1': Canada}.
 
         view_type: 'ReadOnly' would shift all the Excel references to the right of the worksheet for easier viewing.
                    'Edit' would place them as is, in their original location in the questionnaire.

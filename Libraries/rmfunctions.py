@@ -4,7 +4,6 @@ from xlrd import open_workbook
 import re
 import collections #enable namedtuple: varname = collections.namedtuple('varname','val1, val2, val3..') and ordered dic
 import sys, json
-from rmsqlfunctions import *
 import os
 from functools import reduce
 import shutil
@@ -12,6 +11,7 @@ import datetime
 from itertools import chain
 import time
 from time import sleep
+from rmsqlfunctions import *
 
 # if ( re.search('\\\\Tests\\\\mo$',os.getcwd()) or re.search('/Tests/os$',os.getcwd()) or
      # re.search('/Tests/mo$',os.getcwd())   ):
@@ -150,7 +150,7 @@ def moveSerie(co_code, year, from_serie, to_serie):
 #-----------------------------------------------------------------------------------------------------
 
 def indexes(cellname):
-    """This function returns a vector with the indices of a cell given its name
+    """This function returns a vector with the indices of a cell given its name.
 
     For example if cellname='A1' it returns [0,0].
     """
@@ -361,7 +361,7 @@ class questionnaire:
         cursor.close()
 
     def emc_id(self,table_name,column):
-        """Returns the emc_id given then table and column number.
+        """Returns the emc_id given the table and column number.
         """
         cursor=self.conn.cursor()
         cursor.execute("SELECT EMC_ID  FROM RM_MAPPING WHERE RM_TABLE=\"{0}\" AND Col={1};".format(table_name,column ) )
@@ -394,7 +394,7 @@ class questionnaire:
 
         
     def check_adm1_names(self):
-        """Checks that the region names are filled."""
+        """Checks that the administrative division names are filled."""
         if (self.edit_mode):
             return(True)
         elif (not self.nadm1):
@@ -476,7 +476,7 @@ class questionnaire:
         """Checks wether the questionnaire information is present in an edited questionnaire.
 
         This functions checks that the information table in the top
-        left corner of the sheet exists in an edited questionnaire.
+        left corner of the sheet exists and is an edited questionnaire.
 
         """
         if (self.edit_mode):
@@ -561,8 +561,8 @@ class questionnaire:
         
         For 'check_less' relevant_data is [smaller_column bigger_column [ list of rows with problems] ].
         For 'undefined_reference' it is the column number.
-        For 'column_sums' [[summands_columns],total_column,[row_problems]]
-        For 'region_totals' it is the column number
+        For 'column_sums' [[summands_columns],total_column,[row_problems]].
+        For 'region_totals' it is the column number.
         """
         if (sheet_name in self.data_issues_dictionary.keys()):
             existing_tables_dict=self.data_issues_dictionary[sheet_name]
@@ -648,7 +648,8 @@ class questionnaire:
         return(overall_test)
     
     def print_log(self,text_string,log_type=False):
-        """Puts the test in log and stdout.
+        """ Puts the test in log and stdout.
+
         """
         print(text_string,end='')
         if (not log_type):            
@@ -667,7 +668,7 @@ class questionnaire:
 
         It makes the following checks:
         1. Checks that tne number of administrative divisions is filled (method: check_nadm1).
-        2. Checks that the label of administrative divisions is filled (e.g. state, province, etc. ) (method: check_adm1_label)
+        2. Checks that the label of administrative divisions is filled (e.g. state, province, etc. ). (method: check_adm1_label)
         3. Checks that the name of each administrative division is filled. (method: check_adm1_names)
         4. Checks that the reference year is properly filled (Cell M14 from Administrative divisions). (method: check_reference_year)
         5. Checks that the country name is filled. (method: check_country_name)
@@ -706,7 +707,7 @@ class questionnaire:
 
         For each emc_id in the table RM_Mapping it checks if the sum
         of the region values adds up to the country total. If this is
-        the case ir returns True, otherwise it returns False.
+        the case it returns True, otherwise it returns False.
 
         """
         cursor=self.conn.cursor()
@@ -921,14 +922,14 @@ class questionnaire:
         """Writed the data report file.
 
         The data report is written after validation.  If there is
-        missing data it starts listing thre sheet table and columns
+        missing data it starts listing the sheet table and columns
         where there is missing data.
 
         Then, if there are data issues different than missing data, it
         prints the sheet table columns and data issue one by one based
         on the data issues dictionary.
 
-        Finally it prints all the items that have no in the Checking
+        Finally it prints all the items that have "No" in the Checking
         sheet of the questionnaire.
 
         """
@@ -1182,7 +1183,7 @@ class questionnaire:
 
             
     def extract_data(self,write_sql=True):
-        """Reads and exports the data of the questionnaire
+        """Reads and exports the data of the questionnaire.
 
         If the argument write_sql is True, it will import all the data
         to the sql database. Otherwise the data will be read but not
@@ -1390,7 +1391,7 @@ class questionnaire:
         cursor.close()
         
     def __init__(self,excel_file,database_file="../Database/Prod.db",log_folder="/tmp/log",username="user"):
-        """Set up variables for questionnaire and database reading"""
+        """Set up variables for questionnaire and database reading."""
         self.excel_file=excel_file
         self.set_workbook(excel_file)
         self.edit_mode= not 'Checking sheet' in self.wb.sheet_names()

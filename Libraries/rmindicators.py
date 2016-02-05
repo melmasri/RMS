@@ -70,7 +70,11 @@ read_algebra()
 ##################################################           
 def sum(x,y):
     """
-    Sums two tupels x = (fig, mg_symbol), y = (fig, mg_symbol), returns a tupple (fig, symbol), where symbol is the result of the algebra tables and fig is '' is symbol is n, m ,a or x.
+    Sums two tupels x = (fig, mg_symbol), y = (fig, mg_symbol).
+
+    Returns a tupple (fig, symbol), where symbol is 
+    the result of the algebra tables and
+    fig is '' is symbol is n, m ,a or x.
 
     Algebra Table 
     Sum,a, m,n,x, value
@@ -88,7 +92,11 @@ def sum(x,y):
 
 def neg(x,y):
     """ 
-    Negation of two tuppels x = (fig, mg_symbol), y = (fig, mg_symbol) and returns a tupple (fig, symbol), where symbol is the result of the algebra tables, fig is '' is symbol is n, m ,a or x.
+    Negation of two tuppels x = (fig, mg_symbol), y = (fig, mg_symbol).
+
+    Returns a tupple (fig, symbol), where symbol 
+    is the result of the algebra tables, 
+    fig is '' is symbol is n, m ,a or x.
     """
     if y[1]=='value':
         y[0] = -y[0]
@@ -96,7 +104,11 @@ def neg(x,y):
 
 def prod(x,y):
     """
-    Product of two tuppels x = (fig, mg_symbol), y = (fig, mg_symbol), returns a tupple (fig, symbol), where symbol is the result of the algebra tables, fig is '' is symbol is n, m ,a or x.
+    Product of two tuppels x = (fig, mg_symbol), y = (fig, mg_symbol).
+    
+    Returns a tupple (fig, symbol), where symbol is 
+    the result of the algebra tables, 
+    fig is '' is symbol is n, m ,a or x.
 
     Algebra Table 
     Prod,a, m,n,x, value
@@ -114,7 +126,11 @@ def prod(x,y):
 
 def div(x,y):
     """
-    Division of two tuppels x = (fig, mg_symbol), y = (fig, mg_symbol), returns a tupple (fig, symbol), where symbol is the result of the algebra tables, fig is '' is symbol is n, m ,a or x.
+    Division of two tuppels x = (fig, mg_symbol), y = (fig, mg_symbol).
+
+    Returns a tupple (fig, symbol), where symbol 
+    is the result of the algebra tables, 
+    fig is '' is symbol is n, m ,a or x.
     
     Algebra Table 
     Div,a, m,n,x, value
@@ -131,13 +147,13 @@ def div(x,y):
     return(['',algeb])
 
 def op2col(col1, col2, op):
-    """Operation (sum/div/prod) of two columns"""
+    """Operation (sum/div/prod) of two columns."""
     return  list(map(lambda x,y: op(x, y), col1, col2))
 
 def min_sp(lala):
-    """Used to find the minimum value for the lowest female percentage
-    calculation.
+    """Used to find the minimum value of a list or region indicators.
 
+    Used in computing min indicators.
     """
     def auxf(x,y):
         if ( (type(x[0]) in [int,float]) and (type(y[0]) in [int,float]) ):
@@ -152,9 +168,9 @@ def min_sp(lala):
                                   # regions.
 
 def max_sp(lala):
-    """Used to find the maximum value for the highest female percentage
-    calculation.
+    """Used to find the maximum value of a list or region indicators.
 
+    Used in computing max indicators.
     """
     def auxf(x,y):
         if ( (type(x[0]) in [int,float]) and (type(y[0]) in [int,float]) ):
@@ -168,6 +184,7 @@ def max_sp(lala):
 
 
 def inverse_mg_id(x):
+    """Converts from mg_id to symbol."""
     if type(x) in [int,float]:
         return('')
     elif x==3:
@@ -178,6 +195,7 @@ def inverse_mg_id(x):
         return("m")
 
 def none_emptytr(x):
+    """ Returns 'value' if x=None."""
     if x==None:
        return('value')
     else:
@@ -185,11 +203,11 @@ def none_emptytr(x):
     
 class indicators():
     def set_database_connection(self,database_file):
-        """Sets the connection to the database"""
+        """Sets the connection to the database."""
         self.conn=sqlite3.connect(database_file)
 
     def read_sql(self,sql_str):
-        """ Reads from sql"""
+        """ Reads from sql database."""
         database_cursor = self.conn.cursor()
         try:
             aux = database_cursor.execute(sql_str)    
@@ -202,14 +220,14 @@ class indicators():
 
 
     def write_many_sql(self, sql_str, value_tupple):
-        """ Write a tupple to SQL"""
+        """ Write a tupple to SQL."""
         cursor=self.conn.cursor()
         cursor.executemany(sql_str, value_tupple)
         self.conn.commit()
         cursor.close()
         
     def write_sql(self, sql_str):
-        """ Excute a single SQL query"""
+        """ Excute a single SQL query."""
         cursor=self.conn.cursor()
         cursor.execute(sql_str)
         self.conn.commit()
@@ -247,7 +265,7 @@ class indicators():
 
         
     def get_nadm1(self):
-        """Gets the number of regions"""
+        """Gets the number of regions."""
         nadm1= self.read_sql(("select count(ADM_CODE) from regions "
                               "where co_code={} and ADM_CODE>0".format(self.country_code)))
        
@@ -432,7 +450,10 @@ class indicators():
 
     def mean_category(self, codes, midpoints, ac_pop, DivBySum = False):
         """ Calculates a generic mean by category given the category and a list of indicators
-        returns the mean category by ADM
+
+        Returns the mean category by ADM.
+        If DivBySum = True is divides by the sum of the category, otherwise by ac_pop.
+        length of AC codes an midpoints should be the same.
         """
         if len(midpoints)!=len(codes):
             print("Length of midpoints doesn't equal length of codes!")
@@ -452,7 +473,9 @@ class indicators():
         """ 
         Given a level in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV'], returns mean age (MAge) for total, public and private.
 
-        Return is a dictionary format, with indicator names as key of the dictionary. The average is calculated by using the midpoint ages defined in the midpoint variable below in a ascending order. 
+        Return is a dictionary format, with indicator names as key of the dictionary.
+        The average is calculated by using the midpoint ages 
+        defined in the midpoint variable below in a ascending order. 
         """
         if level not in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']:
             print("The only levels allowed are ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']")
@@ -472,8 +495,9 @@ class indicators():
         """ 
         Given a level in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV'], returns mean expireince (MExp) for total, public and private.
 
-        Return is a dictionary format, with indicator names as key of the dictionary. 
-        The average is calculated by using the midpoint ages defined in the midpoint variable below in a ascending order. 
+        Return is a dictionary format, with indicator names as key of the dictionary.
+        The average is calculated by using the midpoint ages 
+        defined in the midpoint variable below in a ascending order. 
         """
         if level not in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']:
             print("The only levels allowed are ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']")
@@ -506,7 +530,7 @@ class indicators():
                 self.write_indic_sql(levelFun(s))
 
     def percentage_teachers_attainment(self):
-        """ Calculates EA2mPT, EA3PT, EA4PT, EA5pPT, EAukPT """
+        """ ComputesEA2mPT, EA3PT, EA4PT, EA5pPT, EAukPT indicators."""
         isced = ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']
         suffix1 = ['', '.Pu', '.Pr']
         temp = {"EA2mPX": ['X.EA.2m'], "EA3PX": ['X.EA.3'],
@@ -526,7 +550,7 @@ class indicators():
         self.compute_percentages(dict_i, False)
 
     def percentage_teachers_exp(self):
-        """ Calculates Exp1t2, Exp3t5, Exp6t10, Exp11t15, Exp15p, Expuk """
+        """ Computes Exp1t2, Exp3t5, Exp6t10, Exp11t15, Exp15p, Expuk indicators. """
         isced = ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']
         suffix1 = ['', '.Pu', '.Pr']
         temp = {"Exp1t2PY": ['Y.Exp1t2'], "Exp3t5PY": ['Y.Exp3t5'],
@@ -543,7 +567,7 @@ class indicators():
         self.compute_percentages(dict_i, False)
 
     def percentage_teachers_age(self):
-        """Calculates Ag20mPT, Ag20t29PT, Ag30t39PT, Ag40t49PT, Ag50t59PT, Ag60pPT, AgukPT"""
+        """Computes Ag20mPT, Ag20t29PT, Ag30t39PT, Ag40t49PT, Ag50t59PT, Ag60pPT, AgukPT indicators."""
         isced = ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']
         suffix1 = ['', '.Pu', '.Pr']
         temp ={"Ag20mPY":['Y.Ag20m'],"Ag20t29PY":['Y.Ag20t29'],
@@ -563,6 +587,7 @@ class indicators():
 
         Using the formula 0.5*SUM_adm|AC_adm/AC_national - benchAC_adm/bench_national|, 
         where adm = administrative divisions.
+        year should be 0 for current year or -1 for previous one.
         """
         if(type(benchAC)==list):
             benchSum = reduce(lambda x,y: self.column_operation(x, y, sum),list(map(lambda x: [x,bench_year],benchAC)))
@@ -587,7 +612,7 @@ class indicators():
         self.write_indic_sql_no_regions(IndicName, disInd)
 
     def dissimilarity_index(self):
-        """ Lists all to be computed dissimilarity_indces by ISCED level, and computes them."""
+        """ Lists all to be computed dissimilarity indices by ISCED level, and computes them."""
         
         tb1 = ['T.1', 'T.1.F', {'T.1.Ag50p':['T.1.Ag50t59','T.1.Ag60p']},'NT.1',
                'T.1.trained', 'NT.1.trained', 'T.1.EA.2m',
@@ -640,7 +665,7 @@ class indicators():
         
 
     def audit_trail(self,temp_table = True):
-        """ Records the changes of indicators in the INDICATORS_AUDIT_TRAIL SQL table"""
+        """ Records the changes of indicators in the INDICATORS_AUDIT_TRAIL SQL table."""
         if(temp_table):
             self.write_sql("DELETE FROM METER_AUDIT_TEMP")
             self.write_sql(("INSERT INTO METER_AUDIT_TEMP "

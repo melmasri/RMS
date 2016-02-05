@@ -4,7 +4,7 @@ import sqlite3 #sql connection
 def set_database_file(database_file):
     """Sets the database file.
 
-    This function will set the country_cursor global variable to  a
+    This function will set the 'con' global variable to  a
     cursor connected to the debase in database_file
     """
     global con
@@ -16,7 +16,11 @@ def set_database_file(database_file):
 
 
 def sql_query(sql_str, readonly = True):
-    """ Write sql queries"""
+    """ Write sql queries.
+    
+    if readonly = True it only returns the result of the query,
+    otherwise only executes.
+    """
     global con
     database_cursor = con.cursor()
     try:

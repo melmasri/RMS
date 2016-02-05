@@ -51,11 +51,11 @@
 
 <dl><dt><a name="indicators-attrition_rate"><strong>attrition_rate</strong></a>(self)</dt><dd><tt>Copmutes&nbsp;TAttrR&nbsp;<a href="#indicators">indicators</a>.</tt></dd></dl>
 
-<dl><dt><a name="indicators-audit_trail"><strong>audit_trail</strong></a>(self, temp_table=True)</dt><dd><tt>Records&nbsp;the&nbsp;changes&nbsp;of&nbsp;<a href="#indicators">indicators</a>&nbsp;in&nbsp;the&nbsp;INDICATORS_AUDIT_TRAIL&nbsp;SQL&nbsp;table</tt></dd></dl>
+<dl><dt><a name="indicators-audit_trail"><strong>audit_trail</strong></a>(self, temp_table=True)</dt><dd><tt>Records&nbsp;the&nbsp;changes&nbsp;of&nbsp;<a href="#indicators">indicators</a>&nbsp;in&nbsp;the&nbsp;INDICATORS_AUDIT_TRAIL&nbsp;SQL&nbsp;table.</tt></dd></dl>
 
 <dl><dt><a name="indicators-check_est_values"><strong>check_est_values</strong></a>(self)</dt><dd><tt>Checks&nbsp;if&nbsp;any&nbsp;values&nbsp;exist&nbsp;in&nbsp;the&nbsp;Est&nbsp;series&nbsp;before&nbsp;computing&nbsp;<a href="#indicators">indicators</a>.</tt></dd></dl>
 
-<dl><dt><a name="indicators-column_operation"><strong>column_operation</strong></a>(self, info1, info2=[], operation=<function indicators.<lambda> at 0x7f9dab2f1a60>)</dt><dd><tt>Perform&nbsp;column&nbsp;operations&nbsp;given&nbsp;ACs&nbsp;and&nbsp;year.<br>
+<dl><dt><a name="indicators-column_operation"><strong>column_operation</strong></a>(self, info1, info2=[], operation=<function indicators.<lambda> at 0x7efe11f2b950>)</dt><dd><tt>Perform&nbsp;column&nbsp;operations&nbsp;given&nbsp;ACs&nbsp;and&nbsp;year.<br>
 &nbsp;<br>
 This&nbsp;function&nbsp;returns&nbsp;a&nbsp;vector&nbsp;with&nbsp;an&nbsp;operation&nbsp;applied&nbsp;to<br>
 two&nbsp;columns.&nbsp;infoi&nbsp;is&nbsp;a&nbsp;vector&nbsp;[ACi,yeari],&nbsp;where&nbsp;ACi&nbsp;is&nbsp;an<br>
@@ -76,12 +76,13 @@ The&nbsp;keys&nbsp;of&nbsp;indexes&nbsp;dict&nbsp;has&nbsp;to&nbsp;be&nbsp;the&n
 indicator&nbsp;to&nbsp;compute,&nbsp;the&nbsp;value&nbsp;should&nbsp;be&nbsp;a&nbsp;list&nbsp;with&nbsp;two<br>
 pairs&nbsp;that&nbsp;go&nbsp;in&nbsp;the&nbsp;column&nbsp;operation&nbsp;function.</tt></dd></dl>
 
-<dl><dt><a name="indicators-dissimilarity_index"><strong>dissimilarity_index</strong></a>(self)</dt><dd><tt>Lists&nbsp;all&nbsp;to&nbsp;be&nbsp;computed&nbsp;dissimilarity_indces&nbsp;by&nbsp;ISCED&nbsp;level,&nbsp;and&nbsp;computes&nbsp;them.</tt></dd></dl>
+<dl><dt><a name="indicators-dissimilarity_index"><strong>dissimilarity_index</strong></a>(self)</dt><dd><tt>Lists&nbsp;all&nbsp;to&nbsp;be&nbsp;computed&nbsp;dissimilarity&nbsp;indices&nbsp;by&nbsp;ISCED&nbsp;level,&nbsp;and&nbsp;computes&nbsp;them.</tt></dd></dl>
 
 <dl><dt><a name="indicators-dissimilarity_index_single"><strong>dissimilarity_index_single</strong></a>(self, AC, AC_year=0, benchAC='Pop.Ag0t99', bench_year=0)</dt><dd><tt>Calculates&nbsp;the&nbsp;dissimilarity&nbsp;index&nbsp;between&nbsp;AC&nbsp;and&nbsp;a&nbsp;benchmark&nbsp;AC.<br>
 &nbsp;<br>
 Using&nbsp;the&nbsp;formula&nbsp;0.5*SUM_adm|AC_adm/AC_national&nbsp;-&nbsp;benchAC_adm/bench_national|,&nbsp;<br>
-where&nbsp;adm&nbsp;=&nbsp;administrative&nbsp;divisions.</tt></dd></dl>
+where&nbsp;adm&nbsp;=&nbsp;administrative&nbsp;divisions.<br>
+year&nbsp;should&nbsp;be&nbsp;0&nbsp;for&nbsp;current&nbsp;year&nbsp;or&nbsp;-1&nbsp;for&nbsp;previous&nbsp;one.</tt></dd></dl>
 
 <dl><dt><a name="indicators-get_country_code"><strong>get_country_code</strong></a>(self)</dt><dd><tt>Sets&nbsp;the&nbsp;country&nbsp;code&nbsp;by&nbsp;looking&nbsp;in&nbsp;the&nbsp;COUNTRY&nbsp;table.<br>
 &nbsp;<br>
@@ -90,19 +91,25 @@ using&nbsp;the&nbsp;self.<strong>country_name</strong>&nbsp;variable&nbsp;of&nbs
 that&nbsp;there&nbsp;will&nbsp;be&nbsp;an&nbsp;exact&nbsp;match&nbsp;up&nbsp;to&nbsp;case.&nbsp;If&nbsp;this&nbsp;is&nbsp;not<br>
 the&nbsp;case&nbsp;it&nbsp;returns&nbsp;None.</tt></dd></dl>
 
-<dl><dt><a name="indicators-get_nadm1"><strong>get_nadm1</strong></a>(self)</dt><dd><tt>Gets&nbsp;the&nbsp;number&nbsp;of&nbsp;regions</tt></dd></dl>
+<dl><dt><a name="indicators-get_nadm1"><strong>get_nadm1</strong></a>(self)</dt><dd><tt>Gets&nbsp;the&nbsp;number&nbsp;of&nbsp;regions.</tt></dd></dl>
 
 <dl><dt><a name="indicators-mean_age_level"><strong>mean_age_level</strong></a>(self, level)</dt><dd><tt>Given&nbsp;a&nbsp;level&nbsp;in&nbsp;['T.1',&nbsp;'T.2.GPV',&nbsp;'T.3.GPV',&nbsp;'T.23.GPV'],&nbsp;returns&nbsp;mean&nbsp;age&nbsp;(MAge)&nbsp;for&nbsp;total,&nbsp;public&nbsp;and&nbsp;private.<br>
 &nbsp;<br>
-Return&nbsp;is&nbsp;a&nbsp;dictionary&nbsp;format,&nbsp;with&nbsp;indicator&nbsp;names&nbsp;as&nbsp;key&nbsp;of&nbsp;the&nbsp;dictionary.&nbsp;The&nbsp;average&nbsp;is&nbsp;calculated&nbsp;by&nbsp;using&nbsp;the&nbsp;midpoint&nbsp;ages&nbsp;defined&nbsp;in&nbsp;the&nbsp;midpoint&nbsp;variable&nbsp;below&nbsp;in&nbsp;a&nbsp;ascending&nbsp;order.</tt></dd></dl>
+Return&nbsp;is&nbsp;a&nbsp;dictionary&nbsp;format,&nbsp;with&nbsp;indicator&nbsp;names&nbsp;as&nbsp;key&nbsp;of&nbsp;the&nbsp;dictionary.<br>
+The&nbsp;average&nbsp;is&nbsp;calculated&nbsp;by&nbsp;using&nbsp;the&nbsp;midpoint&nbsp;ages&nbsp;<br>
+defined&nbsp;in&nbsp;the&nbsp;midpoint&nbsp;variable&nbsp;below&nbsp;in&nbsp;a&nbsp;ascending&nbsp;order.</tt></dd></dl>
 
 <dl><dt><a name="indicators-mean_category"><strong>mean_category</strong></a>(self, codes, midpoints, ac_pop, DivBySum=False)</dt><dd><tt>Calculates&nbsp;a&nbsp;generic&nbsp;mean&nbsp;by&nbsp;category&nbsp;given&nbsp;the&nbsp;category&nbsp;and&nbsp;a&nbsp;list&nbsp;of&nbsp;<a href="#indicators">indicators</a><br>
-returns&nbsp;the&nbsp;mean&nbsp;category&nbsp;by&nbsp;ADM</tt></dd></dl>
+&nbsp;<br>
+Returns&nbsp;the&nbsp;mean&nbsp;category&nbsp;by&nbsp;ADM.<br>
+If&nbsp;DivBySum&nbsp;=&nbsp;True&nbsp;is&nbsp;divides&nbsp;by&nbsp;the&nbsp;sum&nbsp;of&nbsp;the&nbsp;category,&nbsp;otherwise&nbsp;by&nbsp;ac_pop.<br>
+length&nbsp;of&nbsp;AC&nbsp;codes&nbsp;an&nbsp;midpoints&nbsp;should&nbsp;be&nbsp;the&nbsp;same.</tt></dd></dl>
 
 <dl><dt><a name="indicators-mean_exp_level"><strong>mean_exp_level</strong></a>(self, level)</dt><dd><tt>Given&nbsp;a&nbsp;level&nbsp;in&nbsp;['T.1',&nbsp;'T.2.GPV',&nbsp;'T.3.GPV',&nbsp;'T.23.GPV'],&nbsp;returns&nbsp;mean&nbsp;expireince&nbsp;(MExp)&nbsp;for&nbsp;total,&nbsp;public&nbsp;and&nbsp;private.<br>
 &nbsp;<br>
-Return&nbsp;is&nbsp;a&nbsp;dictionary&nbsp;format,&nbsp;with&nbsp;indicator&nbsp;names&nbsp;as&nbsp;key&nbsp;of&nbsp;the&nbsp;dictionary.&nbsp;<br>
-The&nbsp;average&nbsp;is&nbsp;calculated&nbsp;by&nbsp;using&nbsp;the&nbsp;midpoint&nbsp;ages&nbsp;defined&nbsp;in&nbsp;the&nbsp;midpoint&nbsp;variable&nbsp;below&nbsp;in&nbsp;a&nbsp;ascending&nbsp;order.</tt></dd></dl>
+Return&nbsp;is&nbsp;a&nbsp;dictionary&nbsp;format,&nbsp;with&nbsp;indicator&nbsp;names&nbsp;as&nbsp;key&nbsp;of&nbsp;the&nbsp;dictionary.<br>
+The&nbsp;average&nbsp;is&nbsp;calculated&nbsp;by&nbsp;using&nbsp;the&nbsp;midpoint&nbsp;ages&nbsp;<br>
+defined&nbsp;in&nbsp;the&nbsp;midpoint&nbsp;variable&nbsp;below&nbsp;in&nbsp;a&nbsp;ascending&nbsp;order.</tt></dd></dl>
 
 <dl><dt><a name="indicators-mean_level"><strong>mean_level</strong></a>(self, levelFun, ret=False)</dt><dd><tt>Calculates&nbsp;the&nbsp;mean&nbsp;of&nbsp;age/exp/...&nbsp;for&nbsp;the&nbsp;following&nbsp;levels&nbsp;['T.1',&nbsp;'T.2.GPV',&nbsp;'T.3.GPV',&nbsp;'T.23.GPV'],by&nbsp;passing&nbsp;levelFun(indic,&nbsp;level)&nbsp;as&nbsp;in&nbsp;mean_age_level&nbsp;or&nbsp;mean_exp_level.</tt></dd></dl>
 
@@ -112,19 +119,19 @@ The&nbsp;average&nbsp;is&nbsp;calculated&nbsp;by&nbsp;using&nbsp;the&nbsp;midpoi
 
 <dl><dt><a name="indicators-percentage_private_teachers"><strong>percentage_private_teachers</strong></a>(self)</dt><dd><tt>Computes&nbsp;PrTP&nbsp;<a href="#indicators">indicators</a>.</tt></dd></dl>
 
-<dl><dt><a name="indicators-percentage_teachers_age"><strong>percentage_teachers_age</strong></a>(self)</dt><dd><tt>Calculates&nbsp;Ag20mPT,&nbsp;Ag20t29PT,&nbsp;Ag30t39PT,&nbsp;Ag40t49PT,&nbsp;Ag50t59PT,&nbsp;Ag60pPT,&nbsp;AgukPT</tt></dd></dl>
+<dl><dt><a name="indicators-percentage_teachers_age"><strong>percentage_teachers_age</strong></a>(self)</dt><dd><tt>Computes&nbsp;Ag20mPT,&nbsp;Ag20t29PT,&nbsp;Ag30t39PT,&nbsp;Ag40t49PT,&nbsp;Ag50t59PT,&nbsp;Ag60pPT,&nbsp;AgukPT&nbsp;<a href="#indicators">indicators</a>.</tt></dd></dl>
 
-<dl><dt><a name="indicators-percentage_teachers_attainment"><strong>percentage_teachers_attainment</strong></a>(self)</dt><dd><tt>Calculates&nbsp;EA2mPT,&nbsp;EA3PT,&nbsp;EA4PT,&nbsp;EA5pPT,&nbsp;EAukPT</tt></dd></dl>
+<dl><dt><a name="indicators-percentage_teachers_attainment"><strong>percentage_teachers_attainment</strong></a>(self)</dt><dd><tt>ComputesEA2mPT,&nbsp;EA3PT,&nbsp;EA4PT,&nbsp;EA5pPT,&nbsp;EAukPT&nbsp;<a href="#indicators">indicators</a>.</tt></dd></dl>
 
-<dl><dt><a name="indicators-percentage_teachers_exp"><strong>percentage_teachers_exp</strong></a>(self)</dt><dd><tt>Calculates&nbsp;Exp1t2,&nbsp;Exp3t5,&nbsp;Exp6t10,&nbsp;Exp11t15,&nbsp;Exp15p,&nbsp;Expuk</tt></dd></dl>
+<dl><dt><a name="indicators-percentage_teachers_exp"><strong>percentage_teachers_exp</strong></a>(self)</dt><dd><tt>Computes&nbsp;Exp1t2,&nbsp;Exp3t5,&nbsp;Exp6t10,&nbsp;Exp11t15,&nbsp;Exp15p,&nbsp;Expuk&nbsp;<a href="#indicators">indicators</a>.</tt></dd></dl>
 
 <dl><dt><a name="indicators-percentage_trained_teachers"><strong>percentage_trained_teachers</strong></a>(self)</dt><dd><tt>Computes&nbsp;TRTP&nbsp;<a href="#indicators">indicators</a>.</tt></dd></dl>
 
 <dl><dt><a name="indicators-pupils_teachers_ratio"><strong>pupils_teachers_ratio</strong></a>(self)</dt><dd><tt>Computes&nbsp;the&nbsp;PTRHC&nbsp;<a href="#indicators">indicators</a>.</tt></dd></dl>
 
-<dl><dt><a name="indicators-read_sql"><strong>read_sql</strong></a>(self, sql_str)</dt><dd><tt>Reads&nbsp;from&nbsp;sql</tt></dd></dl>
+<dl><dt><a name="indicators-read_sql"><strong>read_sql</strong></a>(self, sql_str)</dt><dd><tt>Reads&nbsp;from&nbsp;sql&nbsp;database.</tt></dd></dl>
 
-<dl><dt><a name="indicators-set_database_connection"><strong>set_database_connection</strong></a>(self, database_file)</dt><dd><tt>Sets&nbsp;the&nbsp;connection&nbsp;to&nbsp;the&nbsp;database</tt></dd></dl>
+<dl><dt><a name="indicators-set_database_connection"><strong>set_database_connection</strong></a>(self, database_file)</dt><dd><tt>Sets&nbsp;the&nbsp;connection&nbsp;to&nbsp;the&nbsp;database.</tt></dd></dl>
 
 <dl><dt><a name="indicators-teachers_percentage_female"><strong>teachers_percentage_female</strong></a>(self)</dt><dd><tt>Computes&nbsp;FTP&nbsp;<a href="#indicators">indicators</a>.</tt></dd></dl>
 
@@ -135,9 +142,9 @@ lists&nbsp;with&nbsp;each&nbsp;sub-list&nbsp;for&nbsp;a&nbsp;region,&nbsp;must&n
 <dl><dt><a name="indicators-write_indic_sql_no_regions"><strong>write_indic_sql_no_regions</strong></a>(self, indicator_name, value_pair)</dt><dd><tt>It&nbsp;is&nbsp;similar&nbsp;to&nbsp;write_indic_sql,&nbsp;but&nbsp;it&nbsp;only&nbsp;inserts&nbsp;an&nbsp;indicator<br>
 for&nbsp;the&nbsp;country&nbsp;level&nbsp;instead&nbsp;of&nbsp;doing&nbsp;it&nbsp;for&nbsp;all&nbsp;the&nbsp;regions.</tt></dd></dl>
 
-<dl><dt><a name="indicators-write_many_sql"><strong>write_many_sql</strong></a>(self, sql_str, value_tupple)</dt><dd><tt>Write&nbsp;a&nbsp;tupple&nbsp;to&nbsp;SQL</tt></dd></dl>
+<dl><dt><a name="indicators-write_many_sql"><strong>write_many_sql</strong></a>(self, sql_str, value_tupple)</dt><dd><tt>Write&nbsp;a&nbsp;tupple&nbsp;to&nbsp;SQL.</tt></dd></dl>
 
-<dl><dt><a name="indicators-write_sql"><strong>write_sql</strong></a>(self, sql_str)</dt><dd><tt>Excute&nbsp;a&nbsp;single&nbsp;SQL&nbsp;query</tt></dd></dl>
+<dl><dt><a name="indicators-write_sql"><strong>write_sql</strong></a>(self, sql_str)</dt><dd><tt>Excute&nbsp;a&nbsp;single&nbsp;SQL&nbsp;query.</tt></dd></dl>
 
 <hr>
 Data descriptors defined here:<br>
@@ -157,7 +164,11 @@ Data descriptors defined here:<br>
 <td width="100%"><dl><dt><a name="-arrange_algebra_dist"><strong>arrange_algebra_dist</strong></a>(data, op='Sum')</dt><dd><tt>Re-orderd&nbsp;from&nbsp;a&nbsp;read&nbsp;csv&nbsp;file&nbsp;to&nbsp;dictionary&nbsp;as&nbsp;seen&nbsp;in&nbsp;the&nbsp;global&nbsp;variables.<br>
 &nbsp;<br>
 The&nbsp;left&nbsp;corner&nbsp;of&nbsp;the&nbsp;table&nbsp;in&nbsp;the&nbsp;csv&nbsp;file&nbsp;should&nbsp;be&nbsp;the&nbsp;op,&nbsp;case&nbsp;sensitive.</tt></dd></dl>
- <dl><dt><a name="-div"><strong>div</strong></a>(x, y)</dt><dd><tt>Division&nbsp;of&nbsp;two&nbsp;tuppels&nbsp;x&nbsp;=&nbsp;(fig,&nbsp;mg_symbol),&nbsp;y&nbsp;=&nbsp;(fig,&nbsp;mg_symbol),&nbsp;returns&nbsp;a&nbsp;tupple&nbsp;(fig,&nbsp;symbol),&nbsp;where&nbsp;symbol&nbsp;is&nbsp;the&nbsp;result&nbsp;of&nbsp;the&nbsp;algebra&nbsp;tables,&nbsp;fig&nbsp;is&nbsp;''&nbsp;is&nbsp;symbol&nbsp;is&nbsp;n,&nbsp;m&nbsp;,a&nbsp;or&nbsp;x.<br>
+ <dl><dt><a name="-div"><strong>div</strong></a>(x, y)</dt><dd><tt>Division&nbsp;of&nbsp;two&nbsp;tuppels&nbsp;x&nbsp;=&nbsp;(fig,&nbsp;mg_symbol),&nbsp;y&nbsp;=&nbsp;(fig,&nbsp;mg_symbol).<br>
+&nbsp;<br>
+Returns&nbsp;a&nbsp;tupple&nbsp;(fig,&nbsp;symbol),&nbsp;where&nbsp;symbol&nbsp;<br>
+is&nbsp;the&nbsp;result&nbsp;of&nbsp;the&nbsp;algebra&nbsp;tables,&nbsp;<br>
+fig&nbsp;is&nbsp;''&nbsp;is&nbsp;symbol&nbsp;is&nbsp;n,&nbsp;m&nbsp;,a&nbsp;or&nbsp;x.<br>
 &nbsp;<br>
 Algebra&nbsp;Table&nbsp;<br>
 Div,a,&nbsp;m,n,x,&nbsp;value<br>
@@ -166,15 +177,25 @@ m,m,&nbsp;m,m,m,m<br>
 n,n,&nbsp;m,n,x,&nbsp;value<br>
 x,x,&nbsp;m,&nbsp;x,x,&nbsp;x<br>
 value,&nbsp;value,&nbsp;m,&nbsp;value,x,&nbsp;value</tt></dd></dl>
- <dl><dt><a name="-inverse_mg_id"><strong>inverse_mg_id</strong></a>(x)</dt></dl>
- <dl><dt><a name="-max_sp"><strong>max_sp</strong></a>(lala)</dt><dd><tt>Used&nbsp;to&nbsp;find&nbsp;the&nbsp;maximum&nbsp;value&nbsp;for&nbsp;the&nbsp;highest&nbsp;female&nbsp;percentage<br>
-calculation.</tt></dd></dl>
- <dl><dt><a name="-min_sp"><strong>min_sp</strong></a>(lala)</dt><dd><tt>Used&nbsp;to&nbsp;find&nbsp;the&nbsp;minimum&nbsp;value&nbsp;for&nbsp;the&nbsp;lowest&nbsp;female&nbsp;percentage<br>
-calculation.</tt></dd></dl>
- <dl><dt><a name="-neg"><strong>neg</strong></a>(x, y)</dt><dd><tt>Negation&nbsp;of&nbsp;two&nbsp;tuppels&nbsp;x&nbsp;=&nbsp;(fig,&nbsp;mg_symbol),&nbsp;y&nbsp;=&nbsp;(fig,&nbsp;mg_symbol)&nbsp;and&nbsp;returns&nbsp;a&nbsp;tupple&nbsp;(fig,&nbsp;symbol),&nbsp;where&nbsp;symbol&nbsp;is&nbsp;the&nbsp;result&nbsp;of&nbsp;the&nbsp;algebra&nbsp;tables,&nbsp;fig&nbsp;is&nbsp;''&nbsp;is&nbsp;symbol&nbsp;is&nbsp;n,&nbsp;m&nbsp;,a&nbsp;or&nbsp;x.</tt></dd></dl>
- <dl><dt><a name="-none_emptytr"><strong>none_emptytr</strong></a>(x)</dt></dl>
- <dl><dt><a name="-op2col"><strong>op2col</strong></a>(col1, col2, op)</dt><dd><tt>Operation&nbsp;(sum/div/prod)&nbsp;of&nbsp;two&nbsp;columns</tt></dd></dl>
- <dl><dt><a name="-prod"><strong>prod</strong></a>(x, y)</dt><dd><tt>Product&nbsp;of&nbsp;two&nbsp;tuppels&nbsp;x&nbsp;=&nbsp;(fig,&nbsp;mg_symbol),&nbsp;y&nbsp;=&nbsp;(fig,&nbsp;mg_symbol),&nbsp;returns&nbsp;a&nbsp;tupple&nbsp;(fig,&nbsp;symbol),&nbsp;where&nbsp;symbol&nbsp;is&nbsp;the&nbsp;result&nbsp;of&nbsp;the&nbsp;algebra&nbsp;tables,&nbsp;fig&nbsp;is&nbsp;''&nbsp;is&nbsp;symbol&nbsp;is&nbsp;n,&nbsp;m&nbsp;,a&nbsp;or&nbsp;x.<br>
+ <dl><dt><a name="-inverse_mg_id"><strong>inverse_mg_id</strong></a>(x)</dt><dd><tt>Converts&nbsp;from&nbsp;mg_id&nbsp;to&nbsp;symbol.</tt></dd></dl>
+ <dl><dt><a name="-max_sp"><strong>max_sp</strong></a>(lala)</dt><dd><tt>Used&nbsp;to&nbsp;find&nbsp;the&nbsp;maximum&nbsp;value&nbsp;of&nbsp;a&nbsp;list&nbsp;or&nbsp;region&nbsp;<a href="#indicators">indicators</a>.<br>
+&nbsp;<br>
+Used&nbsp;in&nbsp;computing&nbsp;max&nbsp;<a href="#indicators">indicators</a>.</tt></dd></dl>
+ <dl><dt><a name="-min_sp"><strong>min_sp</strong></a>(lala)</dt><dd><tt>Used&nbsp;to&nbsp;find&nbsp;the&nbsp;minimum&nbsp;value&nbsp;of&nbsp;a&nbsp;list&nbsp;or&nbsp;region&nbsp;<a href="#indicators">indicators</a>.<br>
+&nbsp;<br>
+Used&nbsp;in&nbsp;computing&nbsp;min&nbsp;<a href="#indicators">indicators</a>.</tt></dd></dl>
+ <dl><dt><a name="-neg"><strong>neg</strong></a>(x, y)</dt><dd><tt>Negation&nbsp;of&nbsp;two&nbsp;tuppels&nbsp;x&nbsp;=&nbsp;(fig,&nbsp;mg_symbol),&nbsp;y&nbsp;=&nbsp;(fig,&nbsp;mg_symbol).<br>
+&nbsp;<br>
+Returns&nbsp;a&nbsp;tupple&nbsp;(fig,&nbsp;symbol),&nbsp;where&nbsp;symbol&nbsp;<br>
+is&nbsp;the&nbsp;result&nbsp;of&nbsp;the&nbsp;algebra&nbsp;tables,&nbsp;<br>
+fig&nbsp;is&nbsp;''&nbsp;is&nbsp;symbol&nbsp;is&nbsp;n,&nbsp;m&nbsp;,a&nbsp;or&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-none_emptytr"><strong>none_emptytr</strong></a>(x)</dt><dd><tt>Returns&nbsp;'value'&nbsp;if&nbsp;x=None.</tt></dd></dl>
+ <dl><dt><a name="-op2col"><strong>op2col</strong></a>(col1, col2, op)</dt><dd><tt>Operation&nbsp;(sum/div/prod)&nbsp;of&nbsp;two&nbsp;columns.</tt></dd></dl>
+ <dl><dt><a name="-prod"><strong>prod</strong></a>(x, y)</dt><dd><tt>Product&nbsp;of&nbsp;two&nbsp;tuppels&nbsp;x&nbsp;=&nbsp;(fig,&nbsp;mg_symbol),&nbsp;y&nbsp;=&nbsp;(fig,&nbsp;mg_symbol).<br>
+&nbsp;<br>
+Returns&nbsp;a&nbsp;tupple&nbsp;(fig,&nbsp;symbol),&nbsp;where&nbsp;symbol&nbsp;is&nbsp;<br>
+the&nbsp;result&nbsp;of&nbsp;the&nbsp;algebra&nbsp;tables,&nbsp;<br>
+fig&nbsp;is&nbsp;''&nbsp;is&nbsp;symbol&nbsp;is&nbsp;n,&nbsp;m&nbsp;,a&nbsp;or&nbsp;x.<br>
 &nbsp;<br>
 Algebra&nbsp;Table&nbsp;<br>
 Prod,a,&nbsp;m,n,x,&nbsp;value<br>
@@ -197,7 +218,11 @@ For&nbsp;example,&nbsp;<a href="#-reduce">reduce</a>(lambda&nbsp;x,&nbsp;y:&nbsp
 ((((1+2)+3)+4)+5).&nbsp;&nbsp;If&nbsp;initial&nbsp;is&nbsp;present,&nbsp;it&nbsp;is&nbsp;placed&nbsp;before&nbsp;the&nbsp;items<br>
 of&nbsp;the&nbsp;sequence&nbsp;in&nbsp;the&nbsp;calculation,&nbsp;and&nbsp;serves&nbsp;as&nbsp;a&nbsp;default&nbsp;when&nbsp;the<br>
 sequence&nbsp;is&nbsp;empty.</tt></dd></dl>
- <dl><dt><a name="-sum"><strong>sum</strong></a>(x, y)</dt><dd><tt>Sums&nbsp;two&nbsp;tupels&nbsp;x&nbsp;=&nbsp;(fig,&nbsp;mg_symbol),&nbsp;y&nbsp;=&nbsp;(fig,&nbsp;mg_symbol),&nbsp;returns&nbsp;a&nbsp;tupple&nbsp;(fig,&nbsp;symbol),&nbsp;where&nbsp;symbol&nbsp;is&nbsp;the&nbsp;result&nbsp;of&nbsp;the&nbsp;algebra&nbsp;tables&nbsp;and&nbsp;fig&nbsp;is&nbsp;''&nbsp;is&nbsp;symbol&nbsp;is&nbsp;n,&nbsp;m&nbsp;,a&nbsp;or&nbsp;x.<br>
+ <dl><dt><a name="-sum"><strong>sum</strong></a>(x, y)</dt><dd><tt>Sums&nbsp;two&nbsp;tupels&nbsp;x&nbsp;=&nbsp;(fig,&nbsp;mg_symbol),&nbsp;y&nbsp;=&nbsp;(fig,&nbsp;mg_symbol).<br>
+&nbsp;<br>
+Returns&nbsp;a&nbsp;tupple&nbsp;(fig,&nbsp;symbol),&nbsp;where&nbsp;symbol&nbsp;is&nbsp;<br>
+the&nbsp;result&nbsp;of&nbsp;the&nbsp;algebra&nbsp;tables&nbsp;and<br>
+fig&nbsp;is&nbsp;''&nbsp;is&nbsp;symbol&nbsp;is&nbsp;n,&nbsp;m&nbsp;,a&nbsp;or&nbsp;x.<br>
 &nbsp;<br>
 Algebra&nbsp;Table&nbsp;<br>
 Sum,a,&nbsp;m,n,x,&nbsp;value<br>
@@ -213,7 +238,7 @@ value,&nbsp;value,&nbsp;m,&nbsp;value,x,&nbsp;value</tt></dd></dl>
 <font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
     
 <tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><strong>__warningregistry__</strong> = {("unclosed file &lt;_io.TextIOWrapper name='Libraries/algebra-div.csv' mode='r' encoding='UTF-8'&gt;", &lt;class 'ResourceWarning'&gt;, 65): True, ("unclosed file &lt;_io.TextIOWrapper name='Libraries/algebra-prod.csv' mode='r' encoding='UTF-8'&gt;", &lt;class 'ResourceWarning'&gt;, 46): True, ("unclosed file &lt;_io.TextIOWrapper name='Libraries/algebra-sum.csv' mode='r' encoding='UTF-8'&gt;", &lt;class 'ResourceWarning'&gt;, 41): True, 'version': 0}<br>
+<td width="100%"><strong>__warningregistry__</strong> = {("unclosed file &lt;_io.TextIOWrapper name='Libraries/algebra-sum.csv' mode='r' encoding='UTF-8'&gt;", &lt;class 'ResourceWarning'&gt;, 41): True, ("unclosed file &lt;_io.TextIOWrapper name='Libraries/algebra-prod.csv' mode='r' encoding='UTF-8'&gt;", &lt;class 'ResourceWarning'&gt;, 46): True, ("unclosed file &lt;_io.TextIOWrapper name='Libraries/algebra-div.csv' mode='r' encoding='UTF-8'&gt;", &lt;class 'ResourceWarning'&gt;, 65): True, 'version': 0}<br>
 <strong>algebra_div</strong> = {'a': {'a': 'a', 'm': 'a', 'n': 'a', 'value': 'a', 'x': 'a'}, 'm': {'a': 'a', 'm': 'm', 'n': 'm', 'value': 'm', 'x': 'm'}, 'n': {'a': 'a', 'm': 'm', 'n': 'm', 'value': 'n', 'x': 'm'}, 'value': {'a': 'a', 'm': 'm', 'n': 'm', 'value': 'value', 'x': 'm'}, 'x': {'a': 'a', 'm': 'm', 'n': 'm', 'value': 'm', 'x': 'm'}}<br>
 <strong>algebra_prod</strong> = {'a': {'a': 'a', 'm': 'a', 'n': 'a', 'value': 'a', 'x': 'a'}, 'm': {'a': 'a', 'm': 'm', 'n': 'm', 'value': 'm', 'x': 'm'}, 'n': {'a': 'a', 'm': 'm', 'n': 'n', 'value': 'n', 'x': 'n'}, 'value': {'a': 'a', 'm': 'm', 'n': 'n', 'value': 'value', 'x': 'm'}, 'x': {'a': 'a', 'm': 'm', 'n': 'm', 'value': 'm', 'x': 'm'}}<br>
 <strong>algebra_sum</strong> = {'a': {'a': 'a', 'm': 'a', 'n': 'a', 'value': 'a', 'x': 'a'}, 'm': {'a': 'a', 'm': 'm', 'n': 'm', 'value': 'm', 'x': 'm'}, 'n': {'a': 'a', 'm': 'm', 'n': 'n', 'value': 'value', 'x': 'm'}, 'value': {'a': 'a', 'm': 'm', 'n': 'value', 'value': 'value', 'x': 'm'}, 'x': {'a': 'a', 'm': 'm', 'n': 'm', 'value': 'm', 'x': 'm'}}</td></tr></table>

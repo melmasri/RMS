@@ -1,4 +1,3 @@
-### Load Questionnaire modules and libraries
 import sys, getpass, os
 sys.path.append('Libraries')
 from rmquestionnaire import *
@@ -45,14 +44,14 @@ class RM():
     output_folder := A folder where all excel data or indicator extraction are saved, default is '/Export'.
 
     Initiated
-        backup_folder :=A folder where all questionnaire imports are saved, default is '/Import'.
+        backup_folder := A folder where all questionnaire imports are saved, default is '/Import'.
         main_dir := location of the current directory in the system.
         username := the system user name of the user, works on windows and linux.
     """
     series = {'Reported':'REP', 'Observed': 'OBS', 'Estimated':'EST'}
 
     def __init__(self, master, database, log_folder='Log', output_folder_default='Export'):
-        """ Main initialization of the GUI"""
+        """ Main initialization of the GUI."""
         self.master = master
         self.database = database
         self.backup_folder = 'Import'
@@ -211,7 +210,7 @@ class RM():
 
     ### Supporting functions
     def setFormating(self):
-        """ Formats the sizes and padding of different widgets"""
+        """ Formats the sizes and padding of different widgets."""
         ### Import frame settings
         self.lf_impOptions.columnconfigure(0, pad=3)
         self.lf_impOptions.columnconfigure(1, pad=3)
@@ -248,7 +247,7 @@ class RM():
         print('-----------------------------------')
 
     def export_indic(self):
-        """ Exporting an indicator"""
+        """ Exporting an indicator to an excel workbook"""
         var = str(self.cbox_indic.get())
         if var:
             co_name = str(self.cbox_co.get())
@@ -273,7 +272,7 @@ class RM():
             print("Error: no indicator is specified")
         
     def export(self,x):
-        """ Exports a whole questionnaire, sheet or AC"""
+        """ Exports a whole questionnaire, sheet or AC to an excel workbook."""
         err1 = ''
         if x=='sheet':
             var = str(self.cbox_sheet.get())
@@ -316,7 +315,7 @@ class RM():
 
 
     def select_file(self,x):
-        """ Requests from the user to select a file/folder of questionnaires to import"""
+        """ Requests from the user to select a questionnaires file to import."""
         FILEOPENOPTIONS = dict(filetypes=[('Excel sheets','*.xlsx*'),('All files','*.*')])
         if x=='file':
             dirname = tk.filedialog.askopenfilename(title="Select files",**FILEOPENOPTIONS )
@@ -337,7 +336,7 @@ class RM():
 
 
     def validate_file(self):
-        """ Validating the file for processing"""
+        """ Validating the file for processing."""
         i = self.entry_one.get()
         if not i:
             print('No file is selected.')
@@ -374,7 +373,7 @@ class RM():
 
         
     def imp_file(self):
-        """ Inserts an excel questionnaire or sheets to the SQL database"""
+        """ Inserts an excel questionnaire or sheets to the SQL database."""
         if self.valid_quest == '':
             print('Please select a file and validate it.')
             return
@@ -407,7 +406,7 @@ class RM():
                 open_file_local(self.main_dir + '/' + x.data_report_file)
   
     def updtCountry(self):
-        """Queries the names of countries that submitted an rm questionnaire"""
+        """Queries the names of countries that submitted an rm questionnaire."""
         l = getAvailable_countries()
         if l: 
             self.cbox_co['values'] =  list(chain.from_iterable(l))
@@ -436,7 +435,7 @@ class RM():
             self.cbox_AC['values'] =  list(chain.from_iterable(sql_query(l)))
 
     def migrate_serie(self, from_serie, to_serie):
-        """ Migrates data between series Reported(REP), Clean(OBS), Estimated(EST)"""
+        """ Migrates data between series Reported(REP), Clean(OBS), Estimated(EST)."""
         co_name = str(self.cbox_co.get())
         year = self.cbox_year.get()
         if co_name and year:
@@ -446,19 +445,19 @@ class RM():
             print('Error: missing country name or year.')
 
     def getIndic(self):
-        """ Returns a list of indicators from EDU_INDICATOR_EST"""
+        """ Returns a list of indicators from EDU_INDICATOR_EST."""
         l = "SELECT DISTINCT IND_ID FROM EDU_INDICATOR_EST"
         self.cbox_indic['values'] =  ['All'] + list(chain.from_iterable(sql_query(l)))
         
     def MsgBox(self, header = 'Default header' , msg='Generic.'):
-        """ A pop-up message box to confirm an action"""
+        """ A pop-up message box to confirm an action."""
         result = tk.messagebox.askquestion(header, msg, icon='warning')
         if result == 'yes':
             return(True)
         else:
             return (False)
     def indic_calc(self):
-        """ Calculates all indicators in class Indicators"""
+        """ Calculates all indicators in class Indicators."""
         co_name = str(self.cbox_co.get())
         year = self.cbox_year.get()
         if co_name and year:
