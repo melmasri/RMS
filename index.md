@@ -48,7 +48,7 @@ To start double-click on the `RM_GUI.py` shortcut and the GUI should pop-up.
 **For more details refer to**
 
 * A complete User Manual in [HTML](Documentation/user-manual.html), [PDF](Documentation/user-manual.pdf), or [Markdown](Documentation/user-manual.org).
-* Python [help files](Documentation/Python help/).
+* Python [help files](https://github.com/melmasri/RMS/tree/master/Documentation/Python%20help).
 
 
 ## Issues and extra features <sup>[1](#myfootnote1)</sup>
