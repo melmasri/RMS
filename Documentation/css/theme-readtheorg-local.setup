@@ -1,9 +1,50 @@
+#+latex_header: \usepackage{float}
+#+latex_header: \usepackage{fancyvrb}
+#+latex_header: \floatstyle{ruled}
+#+latex_header: \newfloat{code}{h}{txt}
+#+latex_header: \floatname{code}{Code example}
+#+latex_header: \renewcommand{\textfraction}{0.07}
+#+latex_header: \hypersetup{colorlinks,citecolor=black,filecolor=red,linkcolor=blue,urlcolor=blue}
+#+latex_header: \usepackage[letterpaper,left=2cm,top=2cm,bottom=2cm,right=2cm]{geometry}
+#+latex_header: \setlength\parindent{0pt}
+#+latex_header: \usepackage[parfill]{parskip}
+#+latex_header: \usepackage{color}
+#+latex_header: \usepackage[dvipsnames]{xcolor}
+
+# ### verbatim font small
+#+latex_header: \makeatletter
+#+latex_header: \def\verbatim{\small\@verbatim \frenchspacing\@vobeyspaces \@xverbatim}
+#+latex_header: \makeatother
+
+# ### varbatim font color
+# #+latex_header: \makeatletter 
+# #+latex_header: \renewcommand\verbatim@font{\normalfont\ttfamily\color{gray}}
+# #+latex_header: \makeatother
+
+# ### verbatim backgroud
+#+latex_header:\let\oldv\verbatim
+#+latex_header:\let\oldendv\endverbatim
+#+latex_header:
+#+latex_header:\def\verbatim{\par\setbox0\vbox\bgroup\oldv}
+#+latex_header:\def\endverbatim{\oldendv\egroup\fboxsep0pt \noindent\colorbox[gray]{0.9}{\usebox0}\par}
+
+
+
+#+latex_header: \usepackage[framemethod=TikZ]{mdframed}
+#+latex_header: \usepackage[framemethod=TikZ]{mdframed}\newenvironment{mybox}[2][]{\mdfsetup{frametitle={\tikz[baseline=(current bounding box.east),outer sep=0pt]\node[anchor=east,rectangle,fill=#2]{\strut \large #1~};}}\mdfsetup{innertopmargin=10pt,linecolor=#2,linewidth=2pt,topline=true,frametitleaboveskip=\dimexpr-\ht\strutbox\relax}\begin{mdframed}[]\relax}{\end{mdframed}}
+
+#+latex_header: \newenvironment{sidebar}{\addvspace{\baselineskip} \begin{mybox}[Sidebar]{green!40}}{\end{mybox}}
+#+latex_header: \newenvironment{note}{\addvspace{\baselineskip} \begin{mybox}[Note]{blue!40}}{\end{mybox}}
+#+latex_header: \newenvironment{important}{\addvspace{\baselineskip} \begin{mybox}[Important]{orange!40}}{\end{mybox}}
+
+
 # -*- mode: org; -*-
 
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/styles/readtheorg/css/htmlize.css"/>
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/styles/readtheorg/css/readtheorg.css"/>
 
 #+HTML_HEAD: <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-#+HTML_HEAD: <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-#+HTML_HEAD: <script type="text/javascript" src="css/styles/lib/js/jquery.stickytableheaders.min.js"></script>
+#+HTML_HEAD: <script src="css/styles/lib/js/bootstrap.min.js"></script>
+# #+HTML_HEAD: <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+# #+HTML_HEAD: <script type="text/javascript" src="css/styles/lib/js/jquery.stickytableheaders.min.js"></script>
 #+HTML_HEAD: <script type="text/javascript" src="css/styles/readtheorg/js/readtheorg.js"></script>

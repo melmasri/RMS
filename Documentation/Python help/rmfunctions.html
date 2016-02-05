@@ -1,0 +1,332 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module rmfunctions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>rmfunctions</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/mo/Github/RMS/Libraries/rmfunctions.py">/home/mo/Github/RMS/Libraries/rmfunctions.py</a></font></td></tr></table>
+    <p><tt>#&nbsp;import&nbsp;sqlite3&nbsp;#sql&nbsp;connection</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="collections.html">collections</a><br>
+<a href="datetime.html">datetime</a><br>
+<a href="json.html">json</a><br>
+</td><td width="25%" valign=top><a href="os.html">os</a><br>
+<a href="re.html">re</a><br>
+<a href="shutil.html">shutil</a><br>
+</td><td width="25%" valign=top><a href="sys.html">sys</a><br>
+<a href="time.html">time</a><br>
+<a href="xlrd.html">xlrd</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="builtins.html#object">builtins.object</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="rmfunctions.html#questionnaire">questionnaire</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="questionnaire">class <strong>questionnaire</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Defines&nbsp;<a href="#questionnaire">questionnaire</a>&nbsp;properties&nbsp;and&nbsp;methods<br>
+&nbsp;<br>
+Attributes:<br>
+&nbsp;&nbsp;wb&nbsp;=&nbsp;the&nbsp;workbook&nbsp;that&nbsp;correspond&nbsp;to&nbsp;the&nbsp;class.<br>
+&nbsp;&nbsp;conn&nbsp;=&nbsp;connection&nbsp;<a href="builtins.html#object">object</a>&nbsp;to&nbsp;the&nbsp;database<br>
+&nbsp;&nbsp;emco_year&nbsp;=&nbsp;the&nbsp;emco_year&nbsp;read&nbsp;from&nbsp;the&nbsp;workbook.<br>
+&nbsp;&nbsp;nadm1&nbsp;=&nbsp;&nbsp;number&nbsp;of&nbsp;administrative&nbsp;divisions&nbsp;in&nbsp;the&nbsp;file<br>
+&nbsp;&nbsp;country_name&nbsp;=&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;country&nbsp;that&nbsp;filled&nbsp;the&nbsp;<a href="#questionnaire">questionnaire</a>.<br>
+&nbsp;&nbsp;country_code&nbsp;=&nbsp;the&nbsp;code&nbsp;of&nbsp;the&nbsp;country.<br>
+&nbsp;&nbsp;edit_mode&nbsp;=&nbsp;True&nbsp;or&nbsp;False,&nbsp;whether&nbsp;the&nbsp;class&nbsp;if&nbsp;going&nbsp;to&nbsp;be&nbsp;used&nbsp;for&nbsp;editing&nbsp;existing&nbsp;data.<br>
+&nbsp;&nbsp;missing_data_dictionary&nbsp;=&nbsp;Dictionary&nbsp;whose&nbsp;keys&nbsp;are&nbsp;sheet&nbsp;names.&nbsp;The&nbsp;values&nbsp;are&nbsp;another&nbsp;dictionary&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;whose&nbsp;keys&nbsp;are&nbsp;table&nbsp;names&nbsp;and&nbsp;values&nbsp;column&nbsp;numbers.&nbsp;These&nbsp;column&nbsp;numbers&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;contain&nbsp;missing&nbsp;values.<br>
+&nbsp;&nbsp;data_issues_dictionary&nbsp;=&nbsp;Similar&nbsp;to&nbsp;missing&nbsp;data&nbsp;dictionary,&nbsp;but&nbsp;it&nbsp;has&nbsp;three&nbsp;levels&nbsp;of&nbsp;dicionaries.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sheet&nbsp;name&nbsp;:&nbsp;table&nbsp;name&nbsp;:&nbsp;data&nbsp;issue&nbsp;type&nbsp;:&nbsp;issue&nbsp;information.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="questionnaire-__init__"><strong>__init__</strong></a>(self, excel_file, database_file='../Database/Prod.db', log_folder='/tmp/log', username='user')</dt><dd><tt>Set&nbsp;up&nbsp;variables&nbsp;for&nbsp;<a href="#questionnaire">questionnaire</a>&nbsp;and&nbsp;database&nbsp;reading.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-add_data_issues"><strong>add_data_issues</strong></a>(self, sheet_name, table, issue_type, relevant_data)</dt><dd><tt>Adds&nbsp;information&nbsp;to&nbsp;the&nbsp;data&nbsp;issues&nbsp;dictionary.<br>
+&nbsp;<br>
+&nbsp;<br>
+There&nbsp;are&nbsp;4&nbsp;types&nbsp;of&nbsp;data&nbsp;issues:&nbsp;'undefined_reference','check_less','column_sums','region_totals'.<br>
+&nbsp;<br>
+For&nbsp;'check_less'&nbsp;relevant_data&nbsp;is&nbsp;[smaller_column&nbsp;bigger_column&nbsp;[&nbsp;list&nbsp;of&nbsp;rows&nbsp;with&nbsp;problems]&nbsp;].<br>
+For&nbsp;'undefined_reference'&nbsp;it&nbsp;is&nbsp;the&nbsp;column&nbsp;number.<br>
+For&nbsp;'column_sums'&nbsp;[[summands_columns],total_column,[row_problems]].<br>
+For&nbsp;'region_totals'&nbsp;it&nbsp;is&nbsp;the&nbsp;column&nbsp;number.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-add_missing_column"><strong>add_missing_column</strong></a>(self, sheet_name, table, column)</dt><dd><tt>Adds&nbsp;a&nbsp;columns&nbsp;to&nbsp;the&nbsp;missing&nbsp;values&nbsp;dictionary.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-add_values"><strong>add_values</strong></a>(self, x, y)</dt><dd><tt>If&nbsp;both&nbsp;x&nbsp;and&nbsp;y&nbsp;are&nbsp;numbers&nbsp;returns&nbsp;their&nbsp;sum.&nbsp;Otherwise&nbsp;the&nbsp;value&nbsp;of&nbsp;one&nbsp;of&nbsp;them.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-are_equal"><strong>are_equal</strong></a>(self, x, y)</dt><dd><tt>Checks&nbsp;is&nbsp;x&nbsp;and&nbsp;y&nbsp;are&nbsp;equal&nbsp;numbers.&nbsp;<br>
+&nbsp;<br>
+Returns&nbsp;True&nbsp;if&nbsp;both&nbsp;x&nbsp;and&nbsp;y&nbsp;are&nbsp;numbers&nbsp;and&nbsp;they&nbsp;are&nbsp;equal&nbsp;or<br>
+if&nbsp;at&nbsp;least&nbsp;one&nbsp;of&nbsp;the&nbsp;values&nbsp;is&nbsp;not&nbsp;a&nbsp;number.&nbsp;Otherwise&nbsp;it<br>
+returns&nbsp;False.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-check_adm1_label"><strong>check_adm1_label</strong></a>(self)</dt><dd><tt>Checks&nbsp;that&nbsp;the&nbsp;name&nbsp;of&nbsp;administrative&nbsp;divisions&nbsp;are&nbsp;not&nbsp;empty.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-check_adm1_names"><strong>check_adm1_names</strong></a>(self)</dt><dd><tt>Checks&nbsp;that&nbsp;the&nbsp;administrative&nbsp;division&nbsp;names&nbsp;are&nbsp;filled.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-check_column_sums"><strong>check_column_sums</strong></a>(self)</dt><dd><tt>Checks&nbsp;columns&nbsp;that&nbsp;have&nbsp;to&nbsp;add&nbsp;up&nbsp;to&nbsp;other&nbsp;columns.<br>
+&nbsp;<br>
+Some&nbsp;pairs&nbsp;of&nbsp;columns&nbsp;are&nbsp;supposed&nbsp;to&nbsp;add&nbsp;up&nbsp;to&nbsp;other<br>
+columns.&nbsp;This&nbsp;method&nbsp;checks&nbsp;that&nbsp;this&nbsp;is&nbsp;the&nbsp;case&nbsp;based&nbsp;on&nbsp;the<br>
+local&nbsp;variable&nbsp;check_columns_sums_dictionary.&nbsp;In&nbsp;that<br>
+dictionary,&nbsp;the&nbsp;keys&nbsp;are&nbsp;table&nbsp;names&nbsp;and&nbsp;the&nbsp;value&nbsp;is&nbsp;a&nbsp;list<br>
+with&nbsp;pairs.&nbsp;Each&nbsp;pair&nbsp;has&nbsp;as&nbsp;a&nbsp;first&nbsp;element&nbsp;a&nbsp;list&nbsp;of&nbsp;column<br>
+numbers&nbsp;and&nbsp;the&nbsp;second&nbsp;element&nbsp;is&nbsp;another&nbsp;column&nbsp;number.&nbsp;It&nbsp;is<br>
+checked&nbsp;that&nbsp;the&nbsp;sum&nbsp;of&nbsp;the&nbsp;values&nbsp;in&nbsp;the&nbsp;columns&nbsp;in&nbsp;the&nbsp;list<br>
+(the&nbsp;first&nbsp;element&nbsp;in&nbsp;the&nbsp;pair),&nbsp;add&nbsp;up&nbsp;to&nbsp;the&nbsp;single&nbsp;column<br>
+number&nbsp;(the&nbsp;second&nbsp;element&nbsp;in&nbsp;the&nbsp;pair).</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-check_country_name"><strong>check_country_name</strong></a>(self)</dt><dd><tt>Checks&nbsp;if&nbsp;the&nbsp;country&nbsp;name&nbsp;is&nbsp;filled.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-check_edited_configuration_part"><strong>check_edited_configuration_part</strong></a>(self)</dt><dd><tt>Checks&nbsp;wether&nbsp;the&nbsp;<a href="#questionnaire">questionnaire</a>&nbsp;information&nbsp;is&nbsp;present&nbsp;in&nbsp;an&nbsp;edited&nbsp;<a href="#questionnaire">questionnaire</a>.<br>
+&nbsp;<br>
+This&nbsp;functions&nbsp;checks&nbsp;that&nbsp;the&nbsp;information&nbsp;table&nbsp;in&nbsp;the&nbsp;top<br>
+left&nbsp;corner&nbsp;of&nbsp;the&nbsp;sheet&nbsp;exists&nbsp;and&nbsp;is&nbsp;an&nbsp;edited&nbsp;<a href="#questionnaire">questionnaire</a>.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-check_less"><strong>check_less</strong></a>(self)</dt><dd><tt>Checks&nbsp;that&nbsp;certain&nbsp;columns&nbsp;are&nbsp;less&nbsp;or&nbsp;equal&nbsp;than&nbsp;others.<br>
+&nbsp;<br>
+Checks&nbsp;that&nbsp;the&nbsp;list&nbsp;of&nbsp;pairs&nbsp;in&nbsp;each&nbsp;each&nbsp;key&nbsp;in<br>
+check_less_dictionary&nbsp;satisfy&nbsp;that&nbsp;the&nbsp;first&nbsp;one&nbsp;is&nbsp;smaller<br>
+than&nbsp;the&nbsp;second&nbsp;one.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-check_nadm1"><strong>check_nadm1</strong></a>(self)</dt><dd><tt>Checks&nbsp;that&nbsp;number&nbsp;of&nbsp;administrative&nbsp;divisions&nbsp;is&nbsp;filled&nbsp;with&nbsp;a&nbsp;positive&nbsp;integer.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-check_number_of_sheets"><strong>check_number_of_sheets</strong></a>(self)</dt><dd><tt>Checks&nbsp;the&nbsp;number&nbsp;of&nbsp;sheets&nbsp;in&nbsp;the&nbsp;excel&nbsp;file.<br>
+&nbsp;<br>
+For&nbsp;an&nbsp;edited&nbsp;<a href="#questionnaire">questionnaire</a>&nbsp;it&nbsp;returns&nbsp;True.&nbsp;For&nbsp;an&nbsp;original<br>
+questoinnaire&nbsp;it&nbsp;checks&nbsp;if&nbsp;it&nbsp;has&nbsp;the&nbsp;same&nbsp;number&nbsp;of&nbsp;sheets<br>
+than&nbsp;the&nbsp;<a href="#questionnaire">questionnaire</a>&nbsp;originally&nbsp;provided.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-check_one_value"><strong>check_one_value</strong></a>(self, value)</dt><dd><tt>Checks&nbsp;that&nbsp;value&nbsp;(the&nbsp;argument)&nbsp;is&nbsp;proper.<br>
+&nbsp;<br>
+This&nbsp;function&nbsp;can&nbsp;return&nbsp;the&nbsp;following&nbsp;values:<br>
+0&nbsp;if&nbsp;there&nbsp;is&nbsp;an&nbsp;error.<br>
+1&nbsp;if&nbsp;the&nbsp;value&nbsp;is&nbsp;OK.<br>
+2&nbsp;accept&nbsp;but&nbsp;write&nbsp;error&nbsp;(A&nbsp;or&nbsp;N).<br>
+3&nbsp;if&nbsp;there&nbsp;is&nbsp;an&nbsp;X&nbsp;with&nbsp;no&nbsp;reference.<br>
+4&nbsp;if&nbsp;there&nbsp;is&nbsp;a&nbsp;missing&nbsp;value.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-check_reference_year"><strong>check_reference_year</strong></a>(self)</dt><dd><tt>Checks&nbsp;that&nbsp;the&nbsp;reference&nbsp;year&nbsp;is&nbsp;filled&nbsp;with&nbsp;the&nbsp;right&nbsp;value.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-check_region_totals"><strong>check_region_totals</strong></a>(self)</dt><dd><tt>Checks&nbsp;that&nbsp;the&nbsp;sum&nbsp;of&nbsp;the&nbsp;values&nbsp;of&nbsp;the&nbsp;regions&nbsp;adds&nbsp;up&nbsp;to&nbsp;the&nbsp;country&nbsp;total.<br>
+&nbsp;<br>
+For&nbsp;each&nbsp;emc_id&nbsp;in&nbsp;the&nbsp;table&nbsp;RM_Mapping&nbsp;it&nbsp;checks&nbsp;if&nbsp;the&nbsp;sum<br>
+of&nbsp;the&nbsp;region&nbsp;values&nbsp;adds&nbsp;up&nbsp;to&nbsp;the&nbsp;country&nbsp;total.&nbsp;If&nbsp;this&nbsp;is<br>
+the&nbsp;case&nbsp;it&nbsp;returns&nbsp;True,&nbsp;otherwise&nbsp;it&nbsp;returns&nbsp;False.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-check_values"><strong>check_values</strong></a>(self)</dt><dd><tt>Checks&nbsp;that&nbsp;all&nbsp;the&nbsp;values&nbsp;in&nbsp;the&nbsp;questionnare&nbsp;are&nbsp;proper.<br>
+&nbsp;<br>
+This&nbsp;function&nbsp;returns&nbsp;false&nbsp;if&nbsp;there&nbsp;is&nbsp;at&nbsp;least&nbsp;one&nbsp;improper<br>
+value&nbsp;in&nbsp;the&nbsp;<a href="#questionnaire">questionnaire</a>.&nbsp;In&nbsp;other&nbsp;words,&nbsp;if&nbsp;there&nbsp;is&nbsp;at<br>
+least&nbsp;one&nbsp;value&nbsp;for&nbsp;which&nbsp;the&nbsp;function&nbsp;check_one_value&nbsp;returns<br>
+0.&nbsp;In&nbsp;this&nbsp;case&nbsp;it&nbsp;will&nbsp;also&nbsp;print&nbsp;the&nbsp;column&nbsp;and&nbsp;table&nbsp;name<br>
+for&nbsp;all&nbsp;the&nbsp;improper&nbsp;values.&nbsp;<br>
+&nbsp;<br>
+If&nbsp;all&nbsp;the&nbsp;values&nbsp;are&nbsp;proper,&nbsp;but&nbsp;there&nbsp;are&nbsp;A&nbsp;or&nbsp;N's,&nbsp;it&nbsp;will<br>
+print&nbsp;the&nbsp;column&nbsp;and&nbsp;table&nbsp;name&nbsp;where&nbsp;these&nbsp;ones&nbsp;are.<br>
+&nbsp;<br>
+If&nbsp;there&nbsp;are&nbsp;undefined&nbsp;references,&nbsp;they&nbsp;are&nbsp;added&nbsp;to&nbsp;the&nbsp;data<br>
+issues&nbsp;dictionary&nbsp;and&nbsp;it&nbsp;prints&nbsp;a&nbsp;message&nbsp;saying&nbsp;that&nbsp;the<br>
+questoinnaire&nbsp;contains&nbsp;undefined&nbsp;references.<br>
+&nbsp;<br>
+If&nbsp;there&nbsp;are&nbsp;missing&nbsp;values,&nbsp;it&nbsp;adds&nbsp;their&nbsp;column&nbsp;to&nbsp;the<br>
+missing&nbsp;data&nbsp;dictionary&nbsp;and&nbsp;it&nbsp;prints&nbsp;a&nbsp;message&nbsp;saying&nbsp;that<br>
+there&nbsp;are&nbsp;missing&nbsp;values&nbsp;in&nbsp;the&nbsp;<a href="#questionnaire">questionnaire</a>.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-compare_region_names"><strong>compare_region_names</strong></a>(self)</dt><dd><tt>Compares&nbsp;region&nbsp;names&nbsp;in&nbsp;sheet&nbsp;and&nbsp;database.<br>
+&nbsp;<br>
+Returns&nbsp;1&nbsp;if&nbsp;regions&nbsp;do&nbsp;not&nbsp;exist&nbsp;in&nbsp;the&nbsp;database.&nbsp;&nbsp;If&nbsp;they<br>
+exist,&nbsp;returns&nbsp;True&nbsp;if&nbsp;names&nbsp;in&nbsp;the&nbsp;database&nbsp;are&nbsp;the&nbsp;same&nbsp;than<br>
+in&nbsp;the&nbsp;sheet&nbsp;and&nbsp;False&nbsp;otherwise.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-emc_id"><strong>emc_id</strong></a>(self, table_name, column)</dt><dd><tt>Returns&nbsp;the&nbsp;emc_id&nbsp;given&nbsp;the&nbsp;table&nbsp;and&nbsp;column&nbsp;number.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-emc_id_from_cell_info"><strong>emc_id_from_cell_info</strong></a>(self, sheet_name, xlrd_vector_coordinates)</dt><dd><tt>Returns&nbsp;the&nbsp;emc_id&nbsp;given&nbsp;cell&nbsp;xlrd&nbsp;coordinates.<br>
+&nbsp;<br>
+xlrd_vector_coordinates&nbsp;should&nbsp;be&nbsp;a&nbsp;list&nbsp;with&nbsp;the&nbsp;xlrd<br>
+coordinates.<br>
+sheet_name&nbsp;is&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;sheet&nbsp;in&nbsp;which&nbsp;the&nbsp;cell&nbsp;is.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-extract_comments"><strong>extract_comments</strong></a>(self)</dt><dd><tt>Writes&nbsp;the&nbsp;cell&nbsp;comments&nbsp;to&nbsp;the&nbsp;comments&nbsp;table.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-extract_data"><strong>extract_data</strong></a>(self, write_sql=True)</dt><dd><tt>Reads&nbsp;and&nbsp;exports&nbsp;the&nbsp;data&nbsp;of&nbsp;the&nbsp;<a href="#questionnaire">questionnaire</a>.<br>
+&nbsp;<br>
+If&nbsp;the&nbsp;argument&nbsp;write_sql&nbsp;is&nbsp;True,&nbsp;it&nbsp;will&nbsp;import&nbsp;all&nbsp;the&nbsp;data<br>
+to&nbsp;the&nbsp;sql&nbsp;database.&nbsp;Otherwise&nbsp;the&nbsp;data&nbsp;will&nbsp;be&nbsp;read&nbsp;but&nbsp;not<br>
+stored&nbsp;(useful&nbsp;only&nbsp;for&nbsp;testing&nbsp;purposes).</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-extract_table_comments"><strong>extract_table_comments</strong></a>(self)</dt><dd><tt>Extract&nbsp;the&nbsp;comments&nbsp;from&nbsp;the&nbsp;top&nbsp;of&nbsp;each&nbsp;table.<br>
+&nbsp;<br>
+This&nbsp;function&nbsp;can&nbsp;also&nbsp;be&nbsp;used&nbsp;with&nbsp;the&nbsp;edit&nbsp;mode.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-get_country_code"><strong>get_country_code</strong></a>(self)</dt><dd><tt>Sets&nbsp;the&nbsp;country&nbsp;code&nbsp;by&nbsp;looking&nbsp;in&nbsp;the&nbsp;COUNTRY&nbsp;table.<br>
+&nbsp;<br>
+This&nbsp;function&nbsp;searches&nbsp;the&nbsp;country&nbsp;code&nbsp;in&nbsp;the&nbsp;COUNTRY&nbsp;table<br>
+using&nbsp;the&nbsp;self.<strong>country_name</strong>&nbsp;variable&nbsp;of&nbsp;the&nbsp;class.&nbsp;It&nbsp;assumes<br>
+that&nbsp;there&nbsp;will&nbsp;be&nbsp;an&nbsp;exact&nbsp;match&nbsp;up&nbsp;to&nbsp;case.&nbsp;If&nbsp;this&nbsp;is&nbsp;not<br>
+the&nbsp;case&nbsp;it&nbsp;returns&nbsp;None.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-get_country_name"><strong>get_country_name</strong></a>(self)</dt><dd><tt>Sets&nbsp;the&nbsp;country&nbsp;name&nbsp;based&nbsp;on&nbsp;the&nbsp;front&nbsp;page&nbsp;of&nbsp;the&nbsp;<a href="#questionnaire">questionnaire</a>.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-get_database_type"><strong>get_database_type</strong></a>(self)</dt><dd><tt>Sets&nbsp;the&nbsp;database&nbsp;type&nbsp;(OBS,REP,EST).<br>
+&nbsp;<br>
+If&nbsp;it&nbsp;is&nbsp;an&nbsp;edited&nbsp;questoinnaire&nbsp;it&nbsp;reads&nbsp;the&nbsp;database&nbsp;type<br>
+from&nbsp;the&nbsp;information&nbsp;section&nbsp;that&nbsp;is&nbsp;in&nbsp;the&nbsp;upper&nbsp;right&nbsp;part<br>
+of&nbsp;each&nbsp;sheet.<br>
+&nbsp;<br>
+If&nbsp;it&nbsp;is&nbsp;a&nbsp;new&nbsp;<a href="#questionnaire">questionnaire</a>&nbsp;it&nbsp;will&nbsp;take&nbsp;the&nbsp;value&nbsp;REP.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-get_emco_year"><strong>get_emco_year</strong></a>(self)</dt><dd><tt>Sets&nbsp;the&nbsp;attribute&nbsp;emco_year.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-get_nadm1"><strong>get_nadm1</strong></a>(self)</dt><dd><tt>Sets&nbsp;the&nbsp;attribute&nbsp;nadm1&nbsp;based&nbsp;on&nbsp;the&nbsp;<a href="#questionnaire">questionnaire</a>.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-get_regions"><strong>get_regions</strong></a>(self)</dt><dd><tt>Returns&nbsp;a&nbsp;tupple&nbsp;with&nbsp;the&nbsp;names&nbsp;of&nbsp;the&nbsp;regions&nbsp;in&nbsp;order&nbsp;taken&nbsp;from&nbsp;the&nbsp;database.<br>
+&nbsp;<br>
+The&nbsp;regions&nbsp;are&nbsp;read&nbsp;from&nbsp;the&nbsp;database.&nbsp;If&nbsp;no&nbsp;regions&nbsp;are<br>
+found&nbsp;in&nbsp;the&nbsp;database,&nbsp;this&nbsp;function&nbsp;returns&nbsp;False.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-insert_region_codes"><strong>insert_region_codes</strong></a>(self)</dt><dd><tt>Writes&nbsp;the&nbsp;regions&nbsp;from&nbsp;the&nbsp;sheet&nbsp;to&nbsp;the&nbsp;regions&nbsp;database.<br>
+&nbsp;<br>
+If&nbsp;the&nbsp;regions&nbsp;exist&nbsp;already&nbsp;in&nbsp;the&nbsp;database&nbsp;this&nbsp;function<br>
+overwrites&nbsp;them.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-print_log"><strong>print_log</strong></a>(self, text_string, log_type=False)</dt><dd><tt>Puts&nbsp;the&nbsp;test&nbsp;in&nbsp;log&nbsp;and&nbsp;stdout.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-read_regions_from_sheet"><strong>read_regions_from_sheet</strong></a>(self)</dt><dd><tt>Reads&nbsp;region&nbsp;names&nbsp;from&nbsp;the&nbsp;<a href="#questionnaire">questionnaire</a>.<br>
+&nbsp;<br>
+It&nbsp;reads&nbsp;the&nbsp;&nbsp;region&nbsp;names&nbsp;from&nbsp;the&nbsp;&nbsp;questoinnaire&nbsp;and&nbsp;creates<br>
+the&nbsp;attribute&nbsp;self.<strong>regions_from_sheet</strong>&nbsp;containing&nbsp;the&nbsp;read&nbsp;names.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-set_database_connection"><strong>set_database_connection</strong></a>(self, database_file)</dt><dd><tt>Sets&nbsp;the&nbsp;connection&nbsp;to&nbsp;the&nbsp;database.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-set_workbook"><strong>set_workbook</strong></a>(self, excel_file)</dt><dd><tt>Set&nbsp;the&nbsp;workbook<br>
+&nbsp;<br>
+excel_file&nbsp;should&nbsp;be&nbsp;the&nbsp;full&nbsp;path&nbsp;to&nbsp;the&nbsp;excel&nbsp;file.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-validation"><strong>validation</strong></a>(self)</dt><dd><tt>Validation&nbsp;step&nbsp;for&nbsp;a&nbsp;questionnare.<br>
+&nbsp;<br>
+It&nbsp;makes&nbsp;the&nbsp;following&nbsp;checks:<br>
+1.&nbsp;Checks&nbsp;that&nbsp;tne&nbsp;number&nbsp;of&nbsp;administrative&nbsp;divisions&nbsp;is&nbsp;filled&nbsp;(method:&nbsp;check_nadm1).<br>
+2.&nbsp;Checks&nbsp;that&nbsp;the&nbsp;label&nbsp;of&nbsp;administrative&nbsp;divisions&nbsp;is&nbsp;filled&nbsp;(e.g.&nbsp;state,&nbsp;province,&nbsp;etc.&nbsp;).&nbsp;(method:&nbsp;check_adm1_label)<br>
+3.&nbsp;Checks&nbsp;that&nbsp;the&nbsp;name&nbsp;of&nbsp;each&nbsp;administrative&nbsp;division&nbsp;is&nbsp;filled.&nbsp;(method:&nbsp;check_adm1_names)<br>
+4.&nbsp;Checks&nbsp;that&nbsp;the&nbsp;reference&nbsp;year&nbsp;is&nbsp;properly&nbsp;filled&nbsp;(Cell&nbsp;M14&nbsp;from&nbsp;Administrative&nbsp;divisions).&nbsp;(method:&nbsp;check_reference_year)<br>
+5.&nbsp;Checks&nbsp;that&nbsp;the&nbsp;country&nbsp;name&nbsp;is&nbsp;filled.&nbsp;(method:&nbsp;check_country_name)<br>
+6.&nbsp;For&nbsp;an&nbsp;original&nbsp;<a href="#questionnaire">questionnaire</a>&nbsp;checks&nbsp;if&nbsp;the&nbsp;number&nbsp;of&nbsp;sheets&nbsp;in&nbsp;the&nbsp;<a href="#questionnaire">questionnaire</a>&nbsp;corresponds&nbsp;<br>
+&nbsp;&nbsp;&nbsp;to&nbsp;the&nbsp;provided&nbsp;<a href="#questionnaire">questionnaire</a>.&nbsp;(&nbsp;method:&nbsp;check_number_of_sheets&nbsp;)<br>
+7.&nbsp;For&nbsp;an&nbsp;edited&nbsp;<a href="#questionnaire">questionnaire</a>&nbsp;checks&nbsp;that&nbsp;the&nbsp;information&nbsp;section&nbsp;in&nbsp;the&nbsp;upper&nbsp;left&nbsp;corner&nbsp;exists.&nbsp;(method:&nbsp;check_edited_configuration_part)&nbsp;<br>
+8.&nbsp;Checks&nbsp;that&nbsp;all&nbsp;the&nbsp;values&nbsp;are&nbsp;proper.&nbsp;(method:&nbsp;check_values)<br>
+&nbsp;<br>
+If&nbsp;any&nbsp;of&nbsp;theses&nbsp;tests&nbsp;does&nbsp;not&nbsp;pass,&nbsp;this&nbsp;method&nbsp;returns&nbsp;False.&nbsp;Otherwise&nbsp;it&nbsp;returns&nbsp;True.</tt></dd></dl>
+
+<dl><dt><a name="questionnaire-write_data_report"><strong>write_data_report</strong></a>(self)</dt><dd><tt>Writed&nbsp;the&nbsp;data&nbsp;report&nbsp;file.<br>
+&nbsp;<br>
+The&nbsp;data&nbsp;report&nbsp;is&nbsp;written&nbsp;after&nbsp;validation.&nbsp;&nbsp;If&nbsp;there&nbsp;is<br>
+missing&nbsp;data&nbsp;it&nbsp;starts&nbsp;listing&nbsp;the&nbsp;sheet&nbsp;table&nbsp;and&nbsp;columns<br>
+where&nbsp;there&nbsp;is&nbsp;missing&nbsp;data.<br>
+&nbsp;<br>
+Then,&nbsp;if&nbsp;there&nbsp;are&nbsp;data&nbsp;issues&nbsp;different&nbsp;than&nbsp;missing&nbsp;data,&nbsp;it<br>
+prints&nbsp;the&nbsp;sheet&nbsp;table&nbsp;columns&nbsp;and&nbsp;data&nbsp;issue&nbsp;one&nbsp;by&nbsp;one&nbsp;based<br>
+on&nbsp;the&nbsp;data&nbsp;issues&nbsp;dictionary.<br>
+&nbsp;<br>
+Finally&nbsp;it&nbsp;prints&nbsp;all&nbsp;the&nbsp;items&nbsp;that&nbsp;have&nbsp;"No"&nbsp;in&nbsp;the&nbsp;Checking<br>
+sheet&nbsp;of&nbsp;the&nbsp;<a href="#questionnaire">questionnaire</a>.</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-ec_td_id"><strong>ec_td_id</strong></a>(sheet_name)</dt><dd><tt>Returns&nbsp;the&nbsp;EC_TD_ID&nbsp;given&nbsp;the&nbsp;sheet&nbsp;name.</tt></dd></dl>
+ <dl><dt><a name="-getADM_CODE"><strong>getADM_CODE</strong></a>(co_code)</dt><dd><tt>SQL&nbsp;extract&nbsp;of&nbsp;ADM&nbsp;codes.</tt></dd></dl>
+ <dl><dt><a name="-getADM_DISTINCT"><strong>getADM_DISTINCT</strong></a>(co_code)</dt><dd><tt>SQL&nbsp;extract&nbsp;distinct&nbsp;number&nbsp;of&nbsp;ADM(s).</tt></dd></dl>
+ <dl><dt><a name="-getAvailable_countries"><strong>getAvailable_countries</strong></a>()</dt><dd><tt>SQL&nbsp;extract&nbsp;the&nbsp;tuple&nbsp;of&nbsp;the&nbsp;available&nbsp;countries.</tt></dd></dl>
+ <dl><dt><a name="-getAvailable_year"><strong>getAvailable_year</strong></a>(co_name)</dt><dd><tt>SQL&nbsp;extract&nbsp;data&nbsp;year(s)&nbsp;of&nbsp;the&nbsp;submitted&nbsp;questionnaires.</tt></dd></dl>
+ <dl><dt><a name="-getCO_CODE"><strong>getCO_CODE</strong></a>(country_name)</dt><dd><tt>SQL&nbsp;extract&nbsp;a&nbsp;country&nbsp;code&nbsp;given&nbsp;the&nbsp;long&nbsp;or&nbsp;short&nbsp;name.<br>
+&nbsp;<br>
+If&nbsp;the&nbsp;exact&nbsp;country&nbsp;name&nbsp;is&nbsp;found,&nbsp;it&nbsp;gives&nbsp;back&nbsp;the&nbsp;code,<br>
+otherwise&nbsp;it&nbsp;returns&nbsp;None.</tt></dd></dl>
+ <dl><dt><a name="-getCO_NAME"><strong>getCO_NAME</strong></a>(co_code, short=True)</dt><dd><tt>SQL&nbsp;extract&nbsp;a&nbsp;country&nbsp;name&nbsp;given&nbsp;the&nbsp;country&nbsp;code.<br>
+&nbsp;<br>
+If&nbsp;the&nbsp;&nbsp;country&nbsp;name&nbsp;is&nbsp;found&nbsp;it&nbsp;returns&nbsp;it,&nbsp;otherwise&nbsp;it&nbsp;returns&nbsp;None.</tt></dd></dl>
+ <dl><dt><a name="-indexes"><strong>indexes</strong></a>(cellname)</dt><dd><tt>This&nbsp;function&nbsp;returns&nbsp;a&nbsp;vector&nbsp;with&nbsp;the&nbsp;indices&nbsp;of&nbsp;a&nbsp;cell&nbsp;given&nbsp;its&nbsp;name.<br>
+&nbsp;<br>
+For&nbsp;example&nbsp;if&nbsp;cellname='A1'&nbsp;it&nbsp;returns&nbsp;[0,0].</tt></dd></dl>
+ <dl><dt><a name="-indexes_inverse"><strong>indexes_inverse</strong></a>(xlrd_coordinates)</dt><dd><tt>Returns&nbsp;excel&nbsp;coordinates&nbsp;given&nbsp;a&nbsp;vector&nbsp;with&nbsp;xlrd&nbsp;coordinates.<br>
+&nbsp;<br>
+It&nbsp;works&nbsp;for&nbsp;a&nbsp;maximum&nbsp;of&nbsp;two&nbsp;letters&nbsp;in&nbsp;the&nbsp;column&nbsp;name.</tt></dd></dl>
+ <dl><dt><a name="-is_reference"><strong>is_reference</strong></a>(cell_value)</dt><dd><tt>Checks&nbsp;if&nbsp;a&nbsp;value&nbsp;is&nbsp;a&nbsp;reference&nbsp;to&nbsp;another&nbsp;cell.<br>
+&nbsp;<br>
+This&nbsp;functions&nbsp;receives&nbsp;a&nbsp;string,&nbsp;and&nbsp;checks&nbsp;if&nbsp;it&nbsp;has&nbsp;the&nbsp;form<br>
+X[a:b].&nbsp;If&nbsp;yes,&nbsp;it&nbsp;returns&nbsp;[a,b],&nbsp;else&nbsp;it&nbsp;returns&nbsp;None.&nbsp;<br>
+If&nbsp;it&nbsp;has&nbsp;the&nbsp;form&nbsp;X[:b]&nbsp;it&nbsp;returns&nbsp;[None,b].<br>
+If&nbsp;it&nbsp;is&nbsp;only&nbsp;X,&nbsp;it&nbsp;returns&nbsp;the&nbsp;string&nbsp;"empty_reference"</tt></dd></dl>
+ <dl><dt><a name="-mg_id"><strong>mg_id</strong></a>(cell_value)</dt><dd><tt>This&nbsp;function&nbsp;gets&nbsp;the&nbsp;MG_ID&nbsp;for&nbsp;the&nbsp;read&nbsp;data<br>
+&nbsp;<br>
+This&nbsp;works&nbsp;for&nbsp;the&nbsp;meters&nbsp;table&nbsp;only.&nbsp;Reading&nbsp;a&nbsp;number&nbsp;will&nbsp;return<br>
+an&nbsp;empty&nbsp;string.</tt></dd></dl>
+ <dl><dt><a name="-moveSerie"><strong>moveSerie</strong></a>(co_code, year, from_serie, to_serie)</dt><dd><tt>SQL&nbsp;moving&nbsp;of&nbsp;data&nbsp;between&nbsp;series,&nbsp;from/to&nbsp;REP,&nbsp;OBS&nbsp;or&nbsp;EST.<br>
+&nbsp;<br>
+So&nbsp;far,&nbsp;it&nbsp;modifies&nbsp;the&nbsp;following&nbsp;3&nbsp;SQL&nbsp;table:<br>
+&nbsp;1&nbsp;-&nbsp;EDU_METER97_{}<br>
+&nbsp;2&nbsp;-&nbsp;EDU_INCLUSION{}<br>
+&nbsp;3&nbsp;-&nbsp;EDU_FTN97_{}<br>
+&nbsp;4&nbsp;-&nbsp;EDU_COMMENT_TABLE_{}</tt></dd></dl>
+ <dl><dt><a name="-reduce"><strong>reduce</strong></a>(...)</dt><dd><tt><a href="#-reduce">reduce</a>(function,&nbsp;sequence[,&nbsp;initial])&nbsp;-&gt;&nbsp;value<br>
+&nbsp;<br>
+Apply&nbsp;a&nbsp;function&nbsp;of&nbsp;two&nbsp;arguments&nbsp;cumulatively&nbsp;to&nbsp;the&nbsp;items&nbsp;of&nbsp;a&nbsp;sequence,<br>
+from&nbsp;left&nbsp;to&nbsp;right,&nbsp;so&nbsp;as&nbsp;to&nbsp;reduce&nbsp;the&nbsp;sequence&nbsp;to&nbsp;a&nbsp;single&nbsp;value.<br>
+For&nbsp;example,&nbsp;<a href="#-reduce">reduce</a>(lambda&nbsp;x,&nbsp;y:&nbsp;x+y,&nbsp;[1,&nbsp;2,&nbsp;3,&nbsp;4,&nbsp;5])&nbsp;calculates<br>
+((((1+2)+3)+4)+5).&nbsp;&nbsp;If&nbsp;initial&nbsp;is&nbsp;present,&nbsp;it&nbsp;is&nbsp;placed&nbsp;before&nbsp;the&nbsp;items<br>
+of&nbsp;the&nbsp;sequence&nbsp;in&nbsp;the&nbsp;calculation,&nbsp;and&nbsp;serves&nbsp;as&nbsp;a&nbsp;default&nbsp;when&nbsp;the<br>
+sequence&nbsp;is&nbsp;empty.</tt></dd></dl>
+ <dl><dt><a name="-sleep"><strong>sleep</strong></a>(...)</dt><dd><tt><a href="#-sleep">sleep</a>(seconds)<br>
+&nbsp;<br>
+Delay&nbsp;execution&nbsp;for&nbsp;a&nbsp;given&nbsp;number&nbsp;of&nbsp;seconds.&nbsp;&nbsp;The&nbsp;argument&nbsp;may&nbsp;be<br>
+a&nbsp;floating&nbsp;point&nbsp;number&nbsp;for&nbsp;subsecond&nbsp;precision.</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>f</strong> = &lt;_io.TextIOWrapper name='Libraries/variables_for_preprocessing.json' mode='r' encoding='UTF-8'&gt;<br>
+<strong>pre_vars</strong> = {'Checking sheet': {'Administrative divisions': [[14, 15, 16, 17, 18, 19], 10], 'Front page': [[9, 10, 11], 10], 'Policy information (General information)': [[23, 24, 25, 26, 27, 28], 10], 'Policy information (Table iii)': [[30, 31], 10], 'Pupils': [[34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, ...], 10], 'Teachers ISCED 1 (Table 1.1)': [[10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, ...], 17], 'Teachers ISCED 1 (Table 1.2)': [[58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, ...], 17], 'Teachers ISCED 1 (Table 1.3)': [[89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, ...], 17], 'Teachers ISCED 1 (Table 1.4)': [[120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, ...], 17], 'Teachers ISCED 2 (Table 2.1)': [[10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, ...], 24], ...}, 'fixed_sheets': {'Administrative divisions': {'adm1': ['N10', 1], 'adm1_number': ['O12', 2], 'id_start': ['H21', 2]}, 'Front Page': {'academic_year': ['U14', 2], 'country_name': ['U12', 1], 'school_year_ending': ['U19', 1]}, 'Pupils': {'adm1_names_start': ['I18', 1]}, 'Respondent Information': {'address': ['F14', 1], 'city': ['O14', 1], 'country': ['F16', 1], 'department': ['F10', 1], 'email': ['F25', 1], 'family_name': ['J6', 1], 'first_name': ['O6', 1], 'institution': ['F12', 1], 'job_title': ['F8', 1], 'notes': ['F30', 1], ...}}, 'names': ['Front Page', 'Respondent Information', 'Administrative divisions', 'Policy information', 'Pupils', 'Teachers ISCED 1', 'Teachers ISCED 2', 'Teachers ISCED 3', 'Teachers ISCED 23', 'Checking sheet', 'Changes log'], 'nsheets': 11}</td></tr></table>
+</body></html>

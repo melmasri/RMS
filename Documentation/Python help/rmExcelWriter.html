@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module rmExcelWriter</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>rmExcelWriter</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/mo/Github/RMS/Libraries/rmExcelWriter.py">/home/mo/Github/RMS/Libraries/rmExcelWriter.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="sys.html">sys</a><br>
+</td><td width="25%" valign=top><a href="xlsxwriter.html">xlsxwriter</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-export_indc"><strong>export_indc</strong></a>(ind, wb, co_code, year, serie='EST')</dt><dd><tt>Exports&nbsp;to&nbsp;an&nbsp;xlsx&nbsp;file&nbsp;a&nbsp;list&nbsp;of&nbsp;indicator(s).<br>
+&nbsp;<br>
+ind:&nbsp;&nbsp;&nbsp;&nbsp;is&nbsp;either&nbsp;'All'&nbsp;for&nbsp;all&nbsp;indicators&nbsp;or&nbsp;an&nbsp;IND_ID&nbsp;as&nbsp;'NTP.1'.<br>
+wb:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is&nbsp;the&nbsp;workbook&nbsp;object&nbsp;from&nbsp;xlsxwriter.<br>
+serie:&nbsp;&nbsp;is&nbsp;always&nbsp;set&nbsp;to&nbsp;EST&nbsp;since&nbsp;there&nbsp;is&nbsp;only&nbsp;EDU_INDICATOR_EST&nbsp;table.<br>
+co_cod:&nbsp;country&nbsp;code.<br>
+year:&nbsp;&nbsp;&nbsp;&nbsp;data&nbsp;reference&nbsp;year.</tt></dd></dl>
+ <dl><dt><a name="-export_var"><strong>export_var</strong></a>(var, wb, co_code, year, var_type, serie='REP')</dt><dd><tt>Exports&nbsp;to&nbsp;a&nbsp;xlsx&nbsp;file&nbsp;the&nbsp;whole&nbsp;RM&nbsp;questionniare,&nbsp;a&nbsp;sheet,&nbsp;a&nbsp;table&nbsp;or&nbsp;an&nbsp;AC.<br>
+&nbsp;<br>
+var:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in&nbsp;&nbsp;{Table&nbsp;name,&nbsp;Sheet&nbsp;name,&nbsp;AC}&nbsp;as&nbsp;in&nbsp;the&nbsp;questionnaire<br>
+var_type:&nbsp;in&nbsp;{'AC',&nbsp;'table',&nbsp;'sheet'}<br>
+wb:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is&nbsp;the&nbsp;workbook&nbsp;object&nbsp;from&nbsp;xlsxwriter.</tt></dd></dl>
+ <dl><dt><a name="-getCell_comment"><strong>getCell_comment</strong></a>(var, co_code, year, serie)</dt><dd><tt>SQL&nbsp;extraction&nbsp;of&nbsp;cell&nbsp;comments&nbsp;of&nbsp;a&nbsp;specific&nbsp;AC&nbsp;or&nbsp;a&nbsp;RM&nbsp;table.<br>
+&nbsp;<br>
+var:&nbsp;is&nbsp;either&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"AC&nbsp;=&nbsp;'somAC'"&nbsp;(&nbsp;i.e.&nbsp;"AC&nbsp;='&nbsp;T.1'"),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"RM_TABLE&nbsp;=&nbsp;'someTableName'&nbsp;(i.e.&nbsp;"RM_TABLE=Table&nbsp;1.2").</tt></dd></dl>
+ <dl><dt><a name="-getIndic"><strong>getIndic</strong></a>(co_code, year, ind)</dt><dd><tt>SQL&nbsp;extraction&nbsp;of&nbsp;indicators&nbsp;and&nbsp;their&nbsp;labels&nbsp;for&nbsp;a&nbsp;specific&nbsp;CO_CODE&nbsp;and&nbsp;year.<br>
+&nbsp;<br>
+ind&nbsp;is&nbsp;either:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'All'&nbsp;for&nbsp;all&nbsp;indicators,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;indicator&nbsp;name&nbsp;as&nbsp;'NTP.1',<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;or&nbsp;a&nbsp;regular&nbsp;expression&nbsp;as&nbsp;'%T.1%'&nbsp;for&nbsp;all&nbsp;indicators&nbsp;for&nbsp;ISCED&nbsp;1.<br>
+The&nbsp;function&nbsp;returns&nbsp;a&nbsp;list&nbsp;of&nbsp;tuples,&nbsp;where&nbsp;each&nbsp;tuple&nbsp;is&nbsp;a&nbsp;SQL&nbsp;record.&nbsp;<br>
+The&nbsp;tuple&nbsp;is&nbsp;organized&nbsp;as&nbsp;(ADM_CODE,&nbsp;DATA,&nbsp;CELL.NO&nbsp;,&nbsp;EXL_REF).</tt></dd></dl>
+ <dl><dt><a name="-getTable"><strong>getTable</strong></a>(var, co_code, year, var_type, serie)</dt><dd><tt>SQL&nbsp;extraction&nbsp;of&nbsp;an&nbsp;AC&nbsp;or&nbsp;RM&nbsp;table,&nbsp;with&nbsp;labels&nbsp;and&nbsp;ADM&nbsp;names.<br>
+&nbsp;<br>
+var&nbsp;:&nbsp;is&nbsp;either&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"AC&nbsp;=&nbsp;'somAC'"&nbsp;(&nbsp;i.e.&nbsp;"AC&nbsp;='&nbsp;T.1'"),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"RM_TABLE&nbsp;=&nbsp;'someTableName'&nbsp;(i.e.&nbsp;"RM_TABLE=Table&nbsp;1.3").<br>
+it&nbsp;depends&nbsp;if&nbsp;you&nbsp;want&nbsp;to&nbsp;extract&nbsp;a&nbsp;specific&nbsp;AC&nbsp;code&nbsp;and&nbsp;its&nbsp;labels&nbsp;or&nbsp;a&nbsp;whole&nbsp;table.<br>
+serie&nbsp;:&nbsp;is&nbsp;either&nbsp;'REP',&nbsp;'OBS',&nbsp;'EST.<br>
+The&nbsp;function&nbsp;returns&nbsp;a&nbsp;list&nbsp;of&nbsp;tuples,&nbsp;where&nbsp;each&nbsp;tuple&nbsp;is&nbsp;a&nbsp;SQL&nbsp;record.&nbsp;<br>
+The&nbsp;tuple&nbsp;is&nbsp;organized&nbsp;as&nbsp;(&nbsp;ADM_CODE,&nbsp;DATA,&nbsp;CELL.NO&nbsp;,&nbsp;EXL_REF).</tt></dd></dl>
+ <dl><dt><a name="-getTable_comment"><strong>getTable_comment</strong></a>(var, co_code, year, view_type, serie)</dt><dd><tt>SQL&nbsp;extraction&nbsp;of&nbsp;RM&nbsp;table&nbsp;comments&nbsp;for&nbsp;a&nbsp;specific&nbsp;table.<br>
+&nbsp;<br>
+var&nbsp;:&nbsp;is&nbsp;either&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"AC&nbsp;=&nbsp;'somAC'"&nbsp;(&nbsp;i.e.&nbsp;"AC&nbsp;='&nbsp;T.1'"),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"RM_TABLE&nbsp;=&nbsp;'someTableName'&nbsp;&nbsp;(i.e.&nbsp;"RM_TABLE=Table&nbsp;3.2").<br>
+Return&nbsp;value&nbsp;is&nbsp;a&nbsp;dictionary&nbsp;of&nbsp;Excel&nbsp;references&nbsp;as&nbsp;keys&nbsp;and&nbsp;data&nbsp;as&nbsp;values.</tt></dd></dl>
+ <dl><dt><a name="-write_data"><strong>write_data</strong></a>(worksheet, data, view_type='ReadOnly', **op)</dt><dd><tt>Writes&nbsp;to&nbsp;xlsx&nbsp;worksheet&nbsp;the&nbsp;given&nbsp;data&nbsp;in&nbsp;specific&nbsp;formats.<br>
+&nbsp;<br>
+There&nbsp;are&nbsp;two&nbsp;ways&nbsp;to&nbsp;write&nbsp;the&nbsp;data.&nbsp;<br>
+1)&nbsp;data&nbsp;is&nbsp;a&nbsp;list&nbsp;of&nbsp;tuples&nbsp;of&nbsp;the&nbsp;format&nbsp;(ADM_CODE,&nbsp;datum,&nbsp;Table&nbsp;Col&nbsp;no.,&nbsp;EXL_REF)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For&nbsp;example&nbsp;(00,&nbsp;'National&nbsp;level',&nbsp;2,&nbsp;H18)&nbsp;which&nbsp;is&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ADM_CODE&nbsp;for&nbsp;national&nbsp;level,&nbsp;label&nbsp;,&nbsp;Table&nbsp;column&nbsp;2,&nbsp;Excel&nbsp;ref&nbsp;H18)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Note&nbsp;that&nbsp;the&nbsp;EXL_REF&nbsp;need&nbsp;to&nbsp;be&nbsp;the&nbsp;reference&nbsp;of&nbsp;the&nbsp;first&nbsp;datum&nbsp;in&nbsp;the&nbsp;column.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For&nbsp;example,&nbsp;if&nbsp;first&nbsp;region&nbsp;label&nbsp;is&nbsp;in&nbsp;H18&nbsp;and&nbsp;there&nbsp;are&nbsp;10&nbsp;regions,&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;than&nbsp;National&nbsp;level&nbsp;Excel&nbsp;reference&nbsp;is&nbsp;H30&nbsp;(&nbsp;18&nbsp;+&nbsp;10&nbsp;+2),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;but&nbsp;in&nbsp;the&nbsp;tuple&nbsp;EXL_REF&nbsp;is&nbsp;H18&nbsp;not&nbsp;H30&nbsp;as&nbsp;in&nbsp;the&nbsp;tuple&nbsp;example&nbsp;above.&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;is&nbsp;the&nbsp;same&nbsp;for&nbsp;all&nbsp;datum,&nbsp;EXL_REF&nbsp;is&nbsp;Excel&nbsp;reference&nbsp;for&nbsp;the&nbsp;first&nbsp;datum&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in&nbsp;that&nbsp;column.&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To&nbsp;pass&nbsp;table&nbsp;headers,&nbsp;alphanumeric&nbsp;codes&nbsp;(AC)&nbsp;and&nbsp;column&nbsp;numbers,&nbsp;you&nbsp;can&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;use&nbsp;ADM_CODE&nbsp;as&nbsp;an&nbsp;offset.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Basically,&nbsp;&nbsp;ADM_CODE&nbsp;for&nbsp;table&nbsp;headers&nbsp;is&nbsp;-3,&nbsp;for&nbsp;AC&nbsp;codes&nbsp;is&nbsp;-2&nbsp;and&nbsp;for&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Col&nbsp;numbers&nbsp;is&nbsp;-1.,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i.e.,&nbsp;(-2,&nbsp;'Administrative&nbsp;divisions',&nbsp;2,&nbsp;'H18'),&nbsp;this&nbsp;would&nbsp;place&nbsp;the&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;label&nbsp;'Administrative&nbsp;divisions'&nbsp;above<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;region&nbsp;names&nbsp;by&nbsp;an&nbsp;offset&nbsp;of&nbsp;2&nbsp;rows&nbsp;above&nbsp;the&nbsp;first&nbsp;name.<br>
+2)&nbsp;data&nbsp;is&nbsp;a&nbsp;dictionary&nbsp;where&nbsp;keys&nbsp;are&nbsp;EXL_REF&nbsp;and&nbsp;values&nbsp;are&nbsp;the&nbsp;datum.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For&nbsp;example&nbsp;{'A1':&nbsp;'Country&nbsp;name',&nbsp;'B1':&nbsp;Canada}.<br>
+&nbsp;<br>
+view_type:&nbsp;'ReadOnly'&nbsp;would&nbsp;shift&nbsp;all&nbsp;the&nbsp;Excel&nbsp;references&nbsp;to&nbsp;the&nbsp;right&nbsp;of&nbsp;the&nbsp;worksheet&nbsp;for&nbsp;easier&nbsp;viewing.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Edit'&nbsp;would&nbsp;place&nbsp;them&nbsp;as&nbsp;is,&nbsp;in&nbsp;their&nbsp;original&nbsp;location&nbsp;in&nbsp;the&nbsp;questionnaire.</tt></dd></dl>
+</td></tr></table>
+</body></html>

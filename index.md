@@ -4,12 +4,13 @@
 # Regional Module processing software
 A Regional Module data management system created using Python and SQLite. Using the simply designed graphical user interface(GUI) `RM_GUI.py`, users are able to:
 
-* import filled Excel questionnaires to the SQLite database;
+* insert filled Excel questionnaires to the SQLite database;
 * export country specific data points and complete questionnaire tables back to Excel;
 * modify and clean the data in Excel and re-import then back in the SQLite database;
 * create different copies of country specific data, one to hold the original data, one for cleaning and one for dissemination.
+* calculate specific indicators.
 
-**For more information see the [GUI user guide](Documentation/User_guide.html)**.
+**For more information see the HTML [User Manual](Documentation/user-manual.html)**, or the Github [repo](https://github.com/melmasri/RMS).
 
 ## Installation (on windows)
 ### Required packages:
@@ -37,8 +38,8 @@ pip install https://github.com/melmasri/xlrd/archive/master.zip
 ### Installation of the main package
 Two installation options are available:
 
-* **Downloading**: download and extract the following [zip file.](https://github.com/melmasri/RMS/archive/master.zip).
-* **Git cloning**: in your terminal run `git clone https://github.com/melmasri/RMS`
+* **Downloading**: download and extract the package form the Github [repo](https://github.com/melmasri/RMS). 
+* **Git cloning**: in your terminal run `git clone https://github.com/melmasri/RMS`.
 
 Move the downloaded/cloned folder to your desired destination and then create a shortcut to `RM_GUI.py`.
 
@@ -46,8 +47,9 @@ To start double-click on the `RM_GUI.py` shortcut and the GUI should pop-up.
 
 **For more details refer to**
 
-* A simple [technical user guide.](Documentation/User_guide-technical.html)
-* Python functions [help files](Documentation/help files/)
+* A complete User Manual in [HTML](Documentation/user-manual.html), [PDF](Documentation/user-manual.pdf), or [Markdown](Documentation/user-manual.org).
+* Python [help files](Documentation/Python help/).
+
 
 ## Issues and extra features <sup>[1](#myfootnote1)</sup>
 Report issues and suggest features and improvements on the [GitHub issue tracker.](https://github.com/melmasri/RMS/issues)
