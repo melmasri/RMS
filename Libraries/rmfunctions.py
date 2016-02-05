@@ -330,7 +330,7 @@ class questionnaire:
         from the information section that is in the upper right part
         of each sheet.
 
-        If it is a nre questionnaire it will take the value REP.
+        If it is a new questionnaire it will take the value REP.
         """
         if self.edit_mode:
             sheet=self.wb.sheets()[0]
@@ -649,9 +649,6 @@ class questionnaire:
     
     def print_log(self,text_string,log_type=False):
         """Puts the test in log and stdout.
-
-        if log_type=False, it writes to the validation log
-        if log_type=True (the default) , it writes sys.stdout using print
         """
         print(text_string,end='')
         if (not log_type):            
