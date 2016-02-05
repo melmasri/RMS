@@ -627,9 +627,9 @@ class questionnaire:
             values_test=list(map( self.check_one_value,meter_values ))
             no_errors_test= 0 not in values_test
             if (0 in values_test):
-                self.print_log("Error: Column {0} in table {1} has improper values.\n".format(col_number,table))
+                self.print_log("Error: Column {0} in {1} has improper values.\n".format(col_number,table))
             if (2 in values_test):
-                self.print_log("Error: Column {0} in table {1} has at least one A or N.\n".format(col_number,table))
+                self.print_log("Error: Column {0} in {1} has at least one A or N.\n".format(col_number,table))
             if (3 in values_test):
                 #self.print_log("Error: Column {0} in table {1} has at least one undefined reference.\n".format(col_number,table))
                 overall_undefined_references=True
