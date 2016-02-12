@@ -286,10 +286,10 @@ class questionnaire:
             # # Old way 
             front_page_variables = pre_vars['fixed_sheets']['Front Page']
             sheet = self.wb.sheet_by_name('Front Page')
-            self.emco_year = int(sheet.cell( *indexes( front_page_variables['school_year_ending'][0]  )   ).value)
+            self.front_page_year = int(sheet.cell( *indexes( front_page_variables['school_year_ending'][0]  )   ).value)
             # # New way
-            # sheet=self.wb.sheet_by_name('Policy information')
-            # reference_year=sheet.cell(*indexes('M14')).value
+            sheet=self.wb.sheet_by_name('Policy information')
+            self.emco_year=sheet.cell(*indexes('M14')).value
         
     def get_nadm1(self):
         """Sets the attribute nadm1 based on the questionnaire."""
@@ -432,6 +432,22 @@ class questionnaire:
             else:
                 self.print_log("Error: Reference year not filled.\n")
             return(test_value)
+
+    def check_front_page_year(self):
+        """Checks that the reference year is filled with the right value."""
+        if (self.edit_mode):
+            return(True)
+        else:
+            #sheet=self.wb.sheet_by_name('Policy information')
+            #reference_year=sheet.cell(*indexes('M14')).value
+            test_value= type(self.front_page_year ) == float or type( self.front_page_year) == int
+            if (test_value):
+                self.print_log("Front page school year ending : {0}\n".format(int(reference_year)))
+            else:
+                self.print_log("Error: Front page school year ending year not filled.\n")
+            return(test_value)
+
+    
 
     def check_country_name(self):
         """Checks if the country name is filled."""
@@ -693,6 +709,7 @@ class questionnaire:
         nadm1_test=self.check_nadm1()
         adm1_label_test=self.check_adm1_label()
         adm1_names_test=self.check_adm1_names()
+        front_year_test=self.check_front_page_year
         reference_year_test=self.check_reference_year()
         country_name_test=self.check_country_name()
         number_of_sheets_test=self.check_number_of_sheets()
@@ -700,7 +717,7 @@ class questionnaire:
         values_test=self.check_values()
         print("\n----------Questionnaire Validation finished.----------.\n")
         self.validation_log_file.close()
-        return ( nadm1_test and adm1_label_test and adm1_names_test and reference_year_test and country_name_test and number_of_sheets_test and edited_configuration_part_test and values_test )
+        return ( nadm1_test and adm1_label_test and adm1_names_test and front_year_test   and reference_year_test and country_name_test and number_of_sheets_test and edited_configuration_part_test and values_test )
 
     def check_region_totals(self):
         """Checks that the sum of the values of the regions adds up to the country total.
