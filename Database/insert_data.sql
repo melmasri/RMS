@@ -131,11 +131,11 @@ DROP TABLE IF EXISTS RM_TEMP;
 
 -- inserting REGIONS
 -- cvs mode to set the separators before inserting data
-.mode csv
-.import "Inserted data/ADM_table.csv" REGIONS
+-- .mode csv
+-- .import "Inserted data/ADM_table.csv" REGIONS
 
---removing the headers ( a bit of a hack but sqlite has no direct way)
-delete FROM REGIONS WHERE CO_CODE = 'CO_CODE';
+-- --removing the headers ( a bit of a hack but sqlite has no direct way)
+-- delete FROM REGIONS WHERE CO_CODE = 'CO_CODE';
 
 
 -- inserting RM_Mapping_NonNumeric

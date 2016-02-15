@@ -27,7 +27,7 @@ def getTable(var, co_code, year, var_type,serie):
                     "a.Col, a.EXL_REF from EDU_METER97_{4} as b "
                     "left join RM_Mapping as a on a.EMC_ID = b.EMC_ID "
                     "left join REGIONS as c on b.CO_CODE = c.CO_CODE "
-                    "and b.ADM_CODE = c.ADM_CODE "
+                    "and b.ADM_CODE = c.ADM_CODE and b.EMCO_YEAR = c.MC_YEAR "
                     "left join EDU_INCLUSION_{4} as d on d.CO_CODE =b.CO_CODE "
                     "and d.EMCO_YEAR = b.EMCO_YEAR and d.ADM_CODE = b.ADM_CODE "
                     "and d.EMC_ID = b.EMC_ID "
@@ -56,7 +56,7 @@ def getTable(var, co_code, year, var_type,serie):
                             "b.col, b.EXL_REF from REGIONS as a "
                             "left join RM_Mapping as b on "
                             "b.AC = 'ADM_NAME' "              
-                            "and b.{0} where a.co_code ={1};".format(var, co_code, year))
+                            "and b.{0} where a.co_code ={1} and a.mc_year={2};".format(var, co_code, year))
     data =  data + sql_query(label_adm)
     return(data)
 
@@ -136,7 +136,7 @@ def getIndic(co_code, year, ind):
     ## Creating ADM column
     label_adm = ("select a.ADM_CODE, a.ADM_NAME as cell, "
                  "2 as Cell, 'C18' as EXL_REF from REGIONS as a "
-                 "where co_code ={0};".format(co_code))
+                 "where co_code ={0} and mc_year={1};".format(co_code, year))
     data = data + sql_query(label_adm) +  [(-2, 'ADM_NAME', 2, 'C18'),(-1, 2, 2, 'C18')]
     ## Adding everything
     data = data + col_num + indic_ids +label_en
@@ -165,7 +165,7 @@ def export_var(var, wb, co_code, year, var_type, serie= 'REP'):
         sys.exit("Only types AC, table, sheet are accepted")
 
     co_name = getCO_NAME(co_code)
-    no_ADM = getADM_DISTINCT(co_code) -1
+    no_ADM = getADM_DISTINCT(co_code,year) -1
     # Header to write to each worksheet
     header_dict= {'A1': 'Country','B1': co_name,'A2': 'CO_CODE',
                   'B2': co_code,'A3': 'Year','B3': year,
@@ -202,7 +202,7 @@ def export_indc(ind, wb, co_code, year, serie = 'EST'):
         year:    data reference year.
     """
     co_name = getCO_NAME(co_code)
-    no_ADM = getADM_DISTINCT(co_code) -1
+    no_ADM = getADM_DISTINCT(co_code, year) -1
     view_type = 'ReadOnly'
     # Header to write to each worksheet
     header_dict= {'A1': 'Country','B1': co_name,'A2': 'CO_CODE',

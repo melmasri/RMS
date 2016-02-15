@@ -24,15 +24,14 @@ with open("Libraries/variables_for_preprocessing.json") as f:
 ####DATA EXTRACTION
 #-----------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------
-def getADM_CODE(co_code):
-    """ SQL extract of ADM codes."""
-    sql_str = 'Select ADM_CODE from REGIONS where CO_CODE ={0}'.format(co_code)
-    sql_str = sql_query(sql_str)[0]
+# def getADM_CODE(co_code):
+#     """ SQL extract of ADM codes."""
+#     sql_str = 'Select ADM_CODE from REGIONS where CO_CODE ={0}'.format(co_code)
+#     sql_str = sql_query(sql_str)[0]
 
-
-def getADM_DISTINCT(co_code):
+def getADM_DISTINCT(co_code,year):
     """ SQL extract distinct number of ADM(s)."""
-    sql_str = 'SELECT COUNT(ADM_CODE) FROM REGIONS WHERE CO_CODE={0}'.format(co_code)
+    sql_str = 'SELECT COUNT(ADM_CODE) FROM REGIONS WHERE CO_CODE={0} AND MC_YEAR={1}'.format(co_code, year)
     query = sql_query(sql_str)[0]
     return(query[0])
     
@@ -145,6 +144,33 @@ def moveSerie(co_code, year, from_serie, to_serie):
     print("Moved COMMENT_TABLE table from {0} to {1}".format(from_serie, to_serie))
      
 
+def delete_questionnaire(co_code, year):
+    """ Delete all questionnaire data and indicators"""
+    ## REP
+    sql_query("DELETE FROM EDU_METER97_REP WHERE CO_CODE = {0} AND EMCO_YEAR = {1};".format(co_code, year), False)
+    sql_query("DELETE FROM EDU_METER97_NonNumeric_REP WHERE CO_CODE = {0} AND EMCO_YEAR = {1};".format(co_code, year), False)
+    sql_query("DELETE FROM EDU_INCLUSION_REP WHERE CO_CODE = {0} AND EMCO_YEAR = {1};".format(co_code, year), False)
+    sql_query("DELETE FROM EDU_COMMENT_TABLE_REP WHERE CO_CODE = {0} AND EMCO_YEAR = {1};".format(co_code, year), False)
+    sql_query("DELETE FROM EDU_FTN97_REP WHERE CO_CODE = {0} AND EMCO_YEAR = {1};".format(co_code, year), False)
+    ##OBS
+    sql_query("DELETE FROM EDU_METER97_OBS WHERE CO_CODE = {0} AND EMCO_YEAR = {1};".format(co_code, year), False)
+    sql_query("DELETE FROM EDU_METER97_NonNumeric_OBS WHERE CO_CODE = {0} AND EMCO_YEAR = {1};".format(co_code, year), False)
+    sql_query("DELETE FROM EDU_INCLUSION_OBS WHERE CO_CODE = {0} AND EMCO_YEAR = {1};".format(co_code, year), False)
+    sql_query("DELETE FROM EDU_COMMENT_TABLE_OBS WHERE CO_CODE = {0} AND EMCO_YEAR = {1};".format(co_code, year), False)
+    sql_query("DELETE FROM EDU_FTN97_OBS WHERE CO_CODE = {0} AND EMCO_YEAR = {1};".format(co_code, year), False)
+    ## EST
+    sql_query("DELETE FROM EDU_METER97_EST WHERE CO_CODE = {0} AND EMCO_YEAR = {1};".format(co_code, year), False)
+    sql_query("DELETE FROM EDU_METER97_NonNumeric_EST WHERE CO_CODE = {0} AND EMCO_YEAR = {1};".format(co_code, year), False)
+    sql_query("DELETE FROM EDU_INCLUSION_EST WHERE CO_CODE = {0} AND EMCO_YEAR = {1};".format(co_code, year), False)
+    sql_query("DELETE FROM EDU_COMMENT_TABLE_EST WHERE CO_CODE = {0} AND EMCO_YEAR = {1};".format(co_code, year), False)
+    sql_query("DELETE FROM EDU_FTN97_EST WHERE CO_CODE = {0} AND EMCO_YEAR = {1};".format(co_code, year), False)
+    ## Indic and audit trail
+    sql_query("DELETE FROM METER_AUDIT_TRAIL WHERE CO_CODE = {0} AND MC_YEAR = {1};".format(co_code, year), False)
+    sql_query("DELETE FROM EDU_INDICATOR_EST WHERE CO_CODE = {0} AND IND_YEAR = {1};".format(co_code, year), False)
+    sql_query("DELETE FROM INDICATOR_AUDIT_TRAIL WHERE CO_CODE = {0} AND IND_YEAR = {1};".format(co_code, year), False)
+    ## Regions
+    sql_query("DELETE FROM REGIONS WHERE CO_CODE = {0};".format(co_code), False)
+    
 ####MISC
 #-----------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------
@@ -284,9 +310,9 @@ class questionnaire:
                 self.emco_year=False
         else:
             # # Old way 
-            front_page_variables = pre_vars['fixed_sheets']['Front Page']
-            sheet = self.wb.sheet_by_name('Front Page')
-            self.front_page_year = int(sheet.cell( *indexes( front_page_variables['school_year_ending'][0]  )   ).value)
+            # front_page_variables = pre_vars['fixed_sheets']['Front Page']
+            # sheet = self.wb.sheet_by_name('Front Page')
+            # self.front_page_year = int(sheet.cell( *indexes( front_page_variables['school_year_ending'][0]  )   ).value)
             # # New way
             sheet=self.wb.sheet_by_name('Policy information')
             self.emco_year=sheet.cell(*indexes('M14')).value
@@ -438,11 +464,12 @@ class questionnaire:
         if (self.edit_mode):
             return(True)
         else:
-            #sheet=self.wb.sheet_by_name('Policy information')
-            #reference_year=sheet.cell(*indexes('M14')).value
-            test_value= type(self.front_page_year ) == float or type( self.front_page_year) == int
+            front_page_variables = pre_vars['fixed_sheets']['Front Page']
+            sheet = self.wb.sheet_by_name('Front Page')
+            front_page_year = int(sheet.cell( *indexes( front_page_variables['school_year_ending'][0]  )   ).value)
+            test_value= type(front_page_year) == float or type(front_page_year) == int
             if (test_value):
-                self.print_log("Front page school year ending : {0}\n".format(int(reference_year)))
+                self.print_log("Front page - school year ending : {0}\n".format(int(front_page_year)))
             else:
                 self.print_log("Error: Front page school year ending year not filled.\n")
             return(test_value)
@@ -709,7 +736,7 @@ class questionnaire:
         nadm1_test=self.check_nadm1()
         adm1_label_test=self.check_adm1_label()
         adm1_names_test=self.check_adm1_names()
-        front_year_test=self.check_front_page_year
+        front_year_test=self.check_front_page_year()
         reference_year_test=self.check_reference_year()
         country_name_test=self.check_country_name()
         number_of_sheets_test=self.check_number_of_sheets()
@@ -1155,8 +1182,10 @@ class questionnaire:
                                                         id_start_coordinates[0],\
                                                         id_start_coordinates[0]+self.nadm1)))
 
-        sql_values=tuple(map(lambda x,y,z: (x,y,z), [self.country_code] * self.nadm1 , regions_index, self.regions_from_sheet  ))
-        cursor.executemany("INSERT OR REPLACE INTO REGIONS VALUES(?,?,?);",sql_values)
+        sql_values=tuple(map(lambda x,y,z: (x,y,z, self.emco_year), [self.country_code] * self.nadm1 , regions_index, self.regions_from_sheet  ))
+        ## Adding national level
+        sql_values = sql_values + ((self.country_code, 0, 'National level', self.emco_year),)
+        cursor.executemany("INSERT OR REPLACE INTO REGIONS VALUES(?,?,?,?);",sql_values)
         self.conn.commit()
         cursor.close()
         
@@ -1167,7 +1196,7 @@ class questionnaire:
         found in the database, this function returns False.
         """
         cursor=self.conn.cursor()
-        cursor.execute("SELECT ADM_NAME FROM REGIONS WHERE CO_CODE=? AND ADM_CODE>0 ORDER BY ADM_CODE ASC;",(self.country_code,) )
+        cursor.execute("SELECT ADM_NAME FROM REGIONS WHERE CO_CODE=? AND ADM_CODE>0 AND MC_YEAR=? ORDER BY ADM_CODE ASC;",(self.country_code,self.emco_year) )
         sql_return=cursor.fetchall()
         cursor.close()
         if sql_return:

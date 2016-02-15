@@ -152,6 +152,8 @@ class RM():
         self.cbox_series.grid(row=2, column =1, sticky='W')
         self.cbox_series['values']= ['Reported', 'Observed', 'Estimated']
 
+        ttk.Button(self.writeframe, text ='Delete questionnaire', command=self.del_quest).grid(row=1, column=5, sticky='W')
+
         pane = ttk.Panedwindow(self.writeframe, orient='horizontal')
         # Exporting options
         self.lf_exOptions = ttk.LabelFrame(pane , text="Extract by:")
@@ -433,6 +435,21 @@ class RM():
         elif m=='AC':
             l = "SELECT DISTINCT AC FROM RM_Mapping order by AC"
             self.cbox_AC['values'] =  list(chain.from_iterable(sql_query(l)))
+
+    def del_quest(self):
+         co_name = str(self.cbox_co.get())
+         year = self.cbox_year.get()
+         if co_name and year:
+             print("Deleting questionnare of {0} for {1}..".format(co_name,year))
+             msg = "Sure you want to delete questionnaire of: \n\n {0} \n\n for {1}?".format(co_name, year)
+             if not self.MsgBox("Delete confirmation" , msg):
+                 print('You must confirm before proceeding!')
+                 return
+             co_code = getCO_CODE(co_name)
+             delete_questionnaire(co_code, year)
+             print('Done.')
+         else:
+                print('Error: missing country name and year.')
 
     def migrate_serie(self, from_serie, to_serie):
         """ Migrates data between series Reported(REP), Clean(OBS), Estimated(EST)."""

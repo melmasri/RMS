@@ -267,7 +267,7 @@ class indicators():
     def get_nadm1(self):
         """Gets the number of regions."""
         nadm1= self.read_sql(("select count(ADM_CODE) from regions "
-                              "where co_code={} and ADM_CODE>0".format(self.country_code)))
+                              "where co_code={} and ADM_CODE>0 and MC_YEAR={}".format(self.country_code, self.emco_year)))
        
     def get_country_code(self):
         """Sets the country code by looking in the COUNTRY table.
