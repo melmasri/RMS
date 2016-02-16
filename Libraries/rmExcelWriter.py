@@ -298,8 +298,9 @@ def write_data(worksheet, data, view_type = 'ReadOnly', **op):
 def direct_extraction(s, loc):
     """ Writes record format to Excel.
     
-    s must be in the format AAA[co_code1(adm1, adm2,..);co_code2;..;year;AC]
+    s must be in the format TYPE-SERIES[co_code1(adm1, adm2,..);co_code2;..;year;AC]
     where 
+    TYPE        = raw of indic
     year        = 'yyyy' for a specific year
                 = 'yyyy:yyyy' for a range of years
                 = '' left empty for all years
@@ -307,11 +308,12 @@ def direct_extraction(s, loc):
                 = xxx(x1,x2,..) for a specific country and a list of regions, x1, x2, ..
                 = '' empty for all countries and regions
     AC          = a specific indicator or AC, wildcards of % and _ are accepted.
+    SERIES      = rep, obs, or est, by default is est.
     
     loc is where the file location should be.
     """
     s = s.replace(' ','')
-    gen_format = '(raw|indic)\[([A-Za-z0-9\.\(\):,%_]*;?)+\]$'
+    gen_format = '(raw|indic)(-rep|-obs|-est)?\[([A-Za-z0-9\.\(\):,%_]*;?)+\]$'
     if not re.match(gen_format, s):
         print("Error: wrong format.")
         return None
@@ -321,13 +323,16 @@ def direct_extraction(s, loc):
     if s.count(';')<2:
         print("Error: minimum of three separators ';'. ")
         return
-    extract_type = s[0:s.find('[')]
-    s = s.replace(extract_type,'')
-    s=s.replace('[', '')
-    s=s.replace(']', '')
+    extract_type =re.search('(raw|indic)',s).group(0)
+    series = 'est'
+    if re.search('(rep|obs|est)',s):
+        series = re.search('(rep|obs|est)',s).group(0)
+
+    s = s.replace(series, '')
+    s = s[s.find('[')+1:s.find(']')]
     s= s.split(';')
     n = len(s)
-        ## Testing AC
+    ## Testing AC
     AC_reg = '^[A-Za-z0-9\.%_]+$'
     if not re.match(AC_reg, s[n-1]):
         print('Error: wrong format for AC code, only A-Z, a-z, 0-9 and . are acceptable.')
@@ -392,7 +397,7 @@ def direct_extraction(s, loc):
                      "left join MAGNITUDE as e on e.MG_ID = b.MG_ID "
                      "where g.AC LIKE '{0}' {3} {1} {2} "
                      "ORDER BY b.CO_CODE, b.ADM_CODE, "
-                     "b.EMCO_YEAR, g.AC ASC;".format(ac,co_code, year_str,regions, 'REP'))
+                     "b.EMCO_YEAR, g.AC ASC;".format(ac,co_code, year_str,regions,      series))
         elif extract_type =='indic':
             query = ("select f.CO_SHORT_NAME, b.CO_CODE, "
                      "c.ADM_NAME, b.ADM_CODE, b.IND_YEAR, b.IND_ID, "

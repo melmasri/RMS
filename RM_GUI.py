@@ -202,9 +202,9 @@ class RM():
         self.entry_SQL.grid(row=0, columnspan=6, sticky='WE', padx=2, pady=2, ipadx=2, ipady=2)
         ttk.Button(self.lf_SQLOptions, text ='Extract', command = self.getDirectSQL).grid(row=0, column=8, sticky='W',padx=5,pady=5)
         
-        ttk.Label(self.lf_SQLOptions, text=("Format:= TYPE[co_code1(adm1,adm2,...);co_code2;...;YEAR;AC]\n"
-                                            "TYPE:= raw OR indic, YEAR:= yyyy OR yyyy:yyyy for range, "
-                                            "wildcards allowed for AC")).grid(row=1, column=0, sticky='W', columnspan = 8)
+        ttk.Label(self.lf_SQLOptions, text=("Format:= type-series[co_code1(adm1,adm2,...);co_code2;...;YEAR;AC]\n"
+                                            "type:= raw OR indic, series:=rep, obs or est (default), YEAR:= yyyy OR yyyy:yyyy for range.\n"
+                                            "Wildcards allowed for AC, empty co_code or AC for ALL.")).grid(row=1, column=0, sticky='W', columnspan = 8)
         
         # # Output folder
         ttk.Label(self.writeframe, text='Select output folder ').grid(row=10, column=0, sticky='EW')    
@@ -504,7 +504,7 @@ class RM():
             print('Error: missing country name, year or series.')
 
     def getDirectSQL(self):
-        """Direct SQL extraction using the format TYPE[co_code1(adm1,adm2,...);co_code2;...;YEAR;AC]."""
+        """Direct SQL extraction using the format type-series[co_code1(adm1,adm2,...);co_code2;...;YEAR;AC]."""
         string = self.entry_SQL.get()
         if string:
             if self.output_folder_var:
