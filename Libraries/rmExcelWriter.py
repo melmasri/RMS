@@ -18,24 +18,25 @@ def getTable(var, co_code, year, var_type,serie):
     """
     data = []
     # The bellow offset is to accord for the data in the questionnaire from the previous year.
-    for offset in [0,-1]:
-        sql_data = ("select b.ADM_CODE, case when b.MG_ID ='1' then 'n' "
-                    "when b.MG_ID ='3' then d.DESC_INCLU "
+    #for offset in [0,-1]:
+    offset = 0
+    sql_data = ("select b.ADM_CODE, case when b.MG_ID ='1' then 'n' "
+                "when b.MG_ID ='3' then d.DESC_INCLU "
                     "when b.MG_ID ='6' then 'Z' "
-                    "when b.MG_ID ='D' then 'm' "
-                    "else b.EM_FIG end as cell, "
-                    "a.Col, a.EXL_REF from EDU_METER97_{4} as b "
-                    "left join RM_Mapping as a on a.EMC_ID = b.EMC_ID "
-                    "left join REGIONS as c on b.CO_CODE = c.CO_CODE "
-                    "and b.ADM_CODE = c.ADM_CODE and b.EMCO_YEAR = c.MC_YEAR "
-                    "left join EDU_INCLUSION_{4} as d on d.CO_CODE =b.CO_CODE "
-                    "and d.EMCO_YEAR = b.EMCO_YEAR and d.ADM_CODE = b.ADM_CODE "
-                    "and d.EMC_ID = b.EMC_ID "
-                    "left join MAGNITUDE as e on e.MG_ID = b.MG_ID "
-                    "where b.CO_CODE ={1} and b.EMCO_YEAR ={2} "
-                    "and a.{0} and "
-                    "a.CUR_YEAR = {3}".format(var, co_code, year+offset , offset, serie))
-        data = data + sql_query(sql_data)
+                "when b.MG_ID ='D' then 'm' "
+                "else b.EM_FIG end as cell, "
+                "a.Col, a.EXL_REF from EDU_METER97_{4} as b "
+                "left join RM_Mapping as a on a.EMC_ID = b.EMC_ID "
+                "left join REGIONS as c on b.CO_CODE = c.CO_CODE "
+                "and b.ADM_CODE = c.ADM_CODE and b.EMCO_YEAR = c.MC_YEAR "
+                "left join EDU_INCLUSION_{4} as d on d.CO_CODE =b.CO_CODE "
+                "and d.EMCO_YEAR = b.EMCO_YEAR and d.ADM_CODE = b.ADM_CODE "
+                "and d.EMC_ID = b.EMC_ID "
+                "left join MAGNITUDE as e on e.MG_ID = b.MG_ID "
+                "where b.CO_CODE ={1} and b.EMCO_YEAR ={2} "
+                "and a.{0} and "
+                "a.CUR_YEAR = {3}".format(var, co_code, year+offset , offset, serie))
+    data = data + sql_query(sql_data)
         # Table header/label
     label_adm = ("select -1 as ADM_CODE, a.Col as cell, a.Col, a.EXL_REF "
                  "from RM_Mapping as a where a.{0} "
@@ -73,14 +74,15 @@ def getCell_comment(var, co_code, year,serie):
         
     data = []
     # The bellow offset is to accord for the data in the questionnaire from the previous year.
-    for offset in [0,-1]:
-        sql_str = ("SELECT c.ADM_CODE, '[' || c.DATE_ADDED || '] ' || c.FTN_DATA, a.Col, a.EXL_REF, c.USERNAME FROM RM_Mapping AS a "
-                   "LEFT JOIN EDU_METER_AID AS b ON b.AC = a.AC "
-                   "JOIN EDU_FTN97_{4} AS c ON b.EMC_ID = c.EMC_ID "
-                   "WHERE a.{0} AND a.CUR_YEAR = {3} "
-                   "AND c.CO_CODE = {1} "
-                   "AND c.EMCO_YEAR = {2} {5};".format(var,co_code, year+ offset, offset,serie, ntable_adm_divi_offset))
-        data = data + sql_query(sql_str)
+    ##for offset in [0,-1]:
+    offset=0
+    sql_str = ("SELECT c.ADM_CODE, '[' || c.DATE_ADDED || '] ' || c.FTN_DATA, a.Col, a.EXL_REF, c.USERNAME FROM RM_Mapping AS a "
+               "LEFT JOIN EDU_METER_AID AS b ON b.AC = a.AC "
+               "JOIN EDU_FTN97_{4} AS c ON b.EMC_ID = c.EMC_ID "
+               "WHERE a.{0} AND a.CUR_YEAR = {3} "
+               "AND c.CO_CODE = {1} "
+               "AND c.EMCO_YEAR = {2} {5};".format(var,co_code, year+ offset, offset,serie, ntable_adm_divi_offset))
+    data = data + sql_query(sql_str)
     if data:
         return(data)
                 
