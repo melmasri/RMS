@@ -64,7 +64,7 @@ class RM():
         self.output_folder_var = ''
         self.master.title('Regional module Survey: main dir ' + self.main_dir)
         # width x height + x_offset + y_offset:
-        self.master.geometry("730x950+50+50")
+        self.master.geometry("730x900+50+50")
         self.status = StringVar()
         self.createWidgets()
         self.setFormating()
@@ -155,6 +155,7 @@ class RM():
         ttk.Button(self.writeframe, text ='Delete questionnaire', command=self.del_quest).grid(row=1, column=2, sticky='W')
 
         pane = ttk.Panedwindow(self.writeframe, orient='horizontal')
+        pane.grid(row=5, columnspan=6,padx=5, pady=5, ipadx=5, ipady=5, sticky='W')
         # Exporting options
         self.lf_exOptions = ttk.LabelFrame(pane , text="Extract by:")
         self.lf_exOptions.grid(row=3, columnspan=3, sticky='W', padx=5, pady=5, ipadx=5, ipady=5)
@@ -182,7 +183,7 @@ class RM():
 
         pane.add(self.lf_exOptions,weight=50)
         pane.add(self.lf_migrate,weight=50)
-        pane.grid(row=5, columnspan=5,padx=5, pady=5, ipadx=5, ipady=5)
+
 
         # # Indicators options
         self.lf_IndicOptions = ttk.LabelFrame(self.writeframe , text="Extract by:")
@@ -197,11 +198,10 @@ class RM():
 
         ## Direct SQL extraction
         self.lf_SQLOptions = ttk.LabelFrame(self.writeframe , text="Direct SQL extraction:")
-        self.lf_SQLOptions.grid(row=7,columnspan=8,  sticky='W', padx=5, pady=5, ipadx=5, ipady=5)
-        self.entry_SQL = ttk.Entry(self.lf_SQLOptions, width=70)
-        self.entry_SQL.grid(row=0, columnspan=6, sticky='WE', padx=2, pady=2, ipadx=2, ipady=2)
-        ttk.Button(self.lf_SQLOptions, text ='Extract', command = self.getDirectSQL).grid(row=0, column=8, sticky='W',padx=5,pady=5)
-        
+        self.lf_SQLOptions.grid(row=7,columnspan=6,  sticky='W', padx=5, pady=5, ipadx=5, ipady=5)
+        self.entry_SQL = ttk.Entry(self.lf_SQLOptions, width=60)
+        self.entry_SQL.grid(row=0, columnspan=3, sticky='W', padx=2, pady=2, ipadx=2, ipady=2)
+        ttk.Button(self.lf_SQLOptions, text ='Extract', command = self.getDirectSQL).grid(row=0, column=3, sticky='W',padx=5,pady=5)
         ttk.Label(self.lf_SQLOptions, text=("Format:= type-series[co_code1(adm1,adm2,...);co_code2;...;YEAR;AC]\n"
                                             "type:= raw OR indic, series:=rep, obs or est (default), YEAR:= yyyy OR yyyy:yyyy for range.\n"
                                             "Wildcards allowed for AC, empty co_code or AC for ALL.")).grid(row=1, column=0, sticky='W', columnspan = 8)
@@ -214,9 +214,9 @@ class RM():
 
         ### Status frame
         self.StatusLabelFrame = ttk.LabelFrame(self.master, text="Status:")
-        self.StatusLabelFrame.pack(fill="both", side = 'bottom', padx = 3, pady=3,ipadx=3, ipady=3, anchor = 's')
+        self.StatusLabelFrame.pack(fill="both", expand=True,side = 'bottom', padx = 3, pady=3,ipadx=3, ipady=3, anchor = 's')
         self.text_box = tk.scrolledtext.ScrolledText(self.StatusLabelFrame, wrap='word')
-        self.text_box.pack()
+        self.text_box.pack(expand=True, fill='both', padx = 3, pady=3,ipadx=3, ipady=3)
         ## Error and information output.
         sys.stdout =  StdoutRedirector(self.text_box)
         sys.stderr = StdoutRedirector(self.text_box)
