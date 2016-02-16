@@ -64,7 +64,7 @@ class RM():
         self.output_folder_var = ''
         self.master.title('Regional module Survey: main dir ' + self.main_dir)
         # width x height + x_offset + y_offset:
-        self.master.geometry("730x730+50+50")
+        self.master.geometry("730x950+50+50")
         self.status = StringVar()
         self.createWidgets()
         self.setFormating()
@@ -152,7 +152,7 @@ class RM():
         self.cbox_series.grid(row=2, column =1, sticky='W')
         self.cbox_series['values']= ['Reported', 'Observed', 'Estimated']
 
-        ttk.Button(self.writeframe, text ='Delete questionnaire', command=self.del_quest).grid(row=1, column=5, sticky='W')
+        ttk.Button(self.writeframe, text ='Delete questionnaire', command=self.del_quest).grid(row=1, column=2, sticky='W')
 
         pane = ttk.Panedwindow(self.writeframe, orient='horizontal')
         # Exporting options
@@ -193,12 +193,24 @@ class RM():
         self.cbox_indic.grid(row=0, column=1, sticky='W')
         ttk.Button(self.lf_IndicOptions, text ='Extract', command = self.export_indic).grid(row=0, column=2, sticky='W',padx=5,pady=5)
         ttk.Button(self.lf_IndicOptions, text ='Calculate', command = self.indic_calc).grid(row=0, column=3, sticky='W',padx=5,pady=5)
-        ttk.Label(self.lf_IndicOptions, text="Wildcards: % sub for zero or more characters, _ for a single character.").grid(row=1, column=0, sticky='W', columnspan = 5)              
+        ttk.Label(self.lf_IndicOptions, text="Wildcards: % sub for zero or more characters, _ for a single character.").grid(row=1, column=0, sticky='W', columnspan = 5)
+
+        ## Direct SQL extraction
+        self.lf_SQLOptions = ttk.LabelFrame(self.writeframe , text="Direct SQL extraction:")
+        self.lf_SQLOptions.grid(row=7,columnspan=8,  sticky='W', padx=5, pady=5, ipadx=5, ipady=5)
+        self.entry_SQL = ttk.Entry(self.lf_SQLOptions, width=70)
+        self.entry_SQL.grid(row=0, columnspan=6, sticky='WE', padx=2, pady=2, ipadx=2, ipady=2)
+        ttk.Button(self.lf_SQLOptions, text ='Extract', command = self.getDirectSQL).grid(row=0, column=8, sticky='W',padx=5,pady=5)
+        
+        ttk.Label(self.lf_SQLOptions, text=("Format:= TYPE[co_code1(adm1,adm2,...);co_code2;...;YEAR;AC]\n"
+                                            "TYPE:= raw OR indic, YEAR:= yyyy OR yyyy:yyyy for range, "
+                                            "wildcards allowed for AC")).grid(row=1, column=0, sticky='W', columnspan = 8)
+        
         # # Output folder
-        ttk.Label(self.writeframe, text='Select output folder ').grid(row=7, column=0, sticky='W')    
+        ttk.Label(self.writeframe, text='Select output folder ').grid(row=10, column=0, sticky='EW')    
         self.output_folder = ttk.Entry(self.writeframe, textvariable= self.output_folder_var)
-        self.output_folder.grid(row=7, column=1, columnspan =3, sticky='WE')
-        ttk.Button(self.writeframe, text= 'Browse..', command = lambda x='out_folder': self.select_file(x)).grid(row=7, column=5, sticky='W')
+        self.output_folder.grid(row=10, column=1, columnspan =3, sticky='WE', padx=3, pady=3)
+        ttk.Button(self.writeframe, text= 'Browse..', command = lambda x='out_folder': self.select_file(x)).grid(row=10, column=5, sticky='W')
 
         ### Status frame
         self.StatusLabelFrame = ttk.LabelFrame(self.master, text="Status:")
@@ -489,7 +501,21 @@ class RM():
             else:
                 print('No data in Estimated series!')
         else:
-            print('Error: missing country name, year or series.')       
+            print('Error: missing country name, year or series.')
+
+    def getDirectSQL(self):
+        """Direct SQL extraction using the format TYPE[co_code1(adm1,adm2,...);co_code2;...;YEAR;AC]."""
+        string = self.entry_SQL.get()
+        if string:
+            if self.output_folder_var:
+                loc = self.output_folder_var +'/'
+            else:
+                loc = self.main_dir + "/" + self.output_folder_default + "/"
+            filename = direct_extraction(string, loc)
+            if filename:
+                open_file_local(filename)                
+        else:
+            print('Empty string.')
 
 def main():
     """ Running the GUI from the class RM."""

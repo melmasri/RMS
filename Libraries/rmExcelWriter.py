@@ -294,3 +294,147 @@ def write_data(worksheet, data, view_type = 'ReadOnly', **op):
         for key, value in data.items():
             worksheet.write(key, value)
 
+
+def direct_extraction(s, loc):
+    """ Writes record format to Excel.
+    
+    s must be in the format AAA[co_code1(adm1, adm2,..);co_code2;..;year;AC]
+    where 
+    year        = 'yyyy' for a specific year
+                = 'yyyy:yyyy' for a range of years
+                = '' left empty for all years
+    co_code     = xxx for a specific country and all regions
+                = xxx(x1,x2,..) for a specific country and a list of regions, x1, x2, ..
+                = '' empty for all countries and regions
+    AC          = a specific indicator or AC, wildcards of % and _ are accepted.
+    
+    loc is where the file location should be.
+    """
+    s = s.replace(' ','')
+    gen_format = '(raw|indic)\[([A-Za-z0-9\.\(\):,%_]*;?)+\]$'
+    if not re.match(gen_format, s):
+        print("Error: wrong format.")
+        return None
+    if re.match('^\[\]$',s):
+        print("Error: empty string.")
+        return None
+    if s.count(';')<2:
+        print("Error: minimum of three separators ';'. ")
+        return
+    extract_type = s[0:s.find('[')]
+    s = s.replace(extract_type,'')
+    s=s.replace('[', '')
+    s=s.replace(']', '')
+    s= s.split(';')
+    n = len(s)
+        ## Testing AC
+    AC_reg = '^[A-Za-z0-9\.%_]+$'
+    if not re.match(AC_reg, s[n-1]):
+        print('Error: wrong format for AC code, only A-Z, a-z, 0-9 and . are acceptable.')
+        return None
+    ac = s[n-1]
+    ##Testing year
+    year_reg = '^([0-9]{4}$|[0-9]{4}:[0-9]{4}|\b)$'
+    if not re.match(year_reg, s[n-2]) and not s[n-2]=='':
+        print("Error: wrong year format, only YYYY, YYYY:YYYY, and '' are allowed.")
+        return None
+    if s[n-2].count(':')>0:
+        aux = s[n-2].split(':')
+        year_str = "AND b.EMCO_YEAR >={0} and b.EMCO_YEAR<={1}".format(aux[0], aux[1])
+    elif s[n-2]=='':
+        year_str=''
+    else:
+        year_str = 'AND b.EMCO_YEAR='+ s[n-2]
+
+    if extract_type=='indic':
+        year_str = year_str.replace('EMCO', 'IND')
+
+    data = []
+    filename = loc + 'record_format_' + extract_type + '-' + ac.replace('%','xx')+'.xlsx'
+    print('writing: '+filename, end='')
+    wb = xlsxwriter.Workbook(filename)
+    
+    for x in s[0:n-2]:
+        if re.match('([0-9]+\([0-9,]+\)|[0-9]+)',x) :
+            paran  = x.find('(')
+            if paran == -1:
+                co_code = 'AND b.CO_CODE=' + x
+                regions = ''
+            else:       
+                co_code = 'AND b.CO_CODE=' + x[0:paran]
+                regions = 'AND b.ADM_CODE in ' + x[paran:x.index(')')+1]
+        elif x=='':
+            co_code = ''
+            regions = ''
+        else:
+            print("Error: wrong format for co_code, expects co_code(adm_code's), co_code, or '', got {0} ".format(x))
+            pass
+        if extract_type =='raw':
+            query = ("select f.CO_SHORT_NAME, b.CO_CODE, "
+                     "c.ADM_NAME, b.ADM_CODE, b.EMCO_YEAR, b.EMC_ID, g.AC, "
+                     "case when b.MG_ID ='1' then 'n' "
+                     "when b.MG_ID ='3' then d.DESC_INCLU "
+                     "when b.MG_ID ='6' then 'Z' "
+                     "when b.MG_ID ='D' then 'm' "
+                     "else b.EM_FIG end as cell, "
+                     "h.USERNAME || '[' || h.DATE_ADDED || '] ' || h.FTN_DATA "
+                     "from EDU_METER97_{4} as b "
+                     "left join COUNTRY as f on b.CO_CODE = f.CO_CODE "
+                     "left join EDU_METER_AID as g on b.EMC_ID = g.EMC_ID "
+                     "left join REGIONS as c on b.CO_CODE = c.CO_CODE "
+                     "and b.ADM_CODE = c.ADM_CODE and b.EMCO_YEAR = c.MC_YEAR "
+                     "left join EDU_FTN97_{4} AS h ON b.EMC_ID = h.EMC_ID AND "
+                     "b.CO_CODE = h.CO_CODE "
+                     "AND b.ADM_CODE = h.ADM_CODE AND b.EMCO_YEAR = h.EMCO_YEAR "
+                     "left join EDU_INCLUSION_{4} as d on d.CO_CODE =b.CO_CODE "
+                     "and d.EMCO_YEAR = b.EMCO_YEAR and d.ADM_CODE = b.ADM_CODE "
+                     "and d.EMC_ID = b.EMC_ID "
+                     "left join MAGNITUDE as e on e.MG_ID = b.MG_ID "
+                     "where g.AC LIKE '{0}' {3} {1} {2} "
+                     "ORDER BY b.CO_CODE, b.ADM_CODE, "
+                     "b.EMCO_YEAR, g.AC ASC;".format(ac,co_code, year_str,regions, 'REP'))
+        elif extract_type =='indic':
+            query = ("select f.CO_SHORT_NAME, b.CO_CODE, "
+                     "c.ADM_NAME, b.ADM_CODE, b.IND_YEAR, b.IND_ID, "
+                     "case when b.MAGN = 'value' then b.FIG "
+                     "else b.MAGN end "
+                     "from EDU_INDICATOR_EST as b "
+                     "left join COUNTRY as f on b.CO_CODE = f.CO_CODE "
+                     "left join REGIONS as c on b.CO_CODE = c.CO_CODE "
+                     "and b.ADM_CODE = c.ADM_CODE and c.MC_YEAR = b.IND_YEAR "
+                     "where b.IND_ID like '{0}' {1} {2} {3}"
+                     "ORDER BY b.CO_CODE, b.ADM_CODE, "
+                     "b.IND_YEAR, b.IND_ID ASC".format(ac, co_code, year_str, regions))
+        data = data + sql_query(query)
+        
+    worksheet = wb.add_worksheet(ac.replace('%', 'xx'))
+    worksheet.show_comments() # to make comments visibile once workbook is
+    format_wb  = wb.add_format({'align' : 'left'})
+    worksheet.set_column('A:J', 12, format_wb)
+    if data:
+        row=0
+        col=0
+        worksheet.write(row, col,'CO_SHORT_NAME')
+        worksheet.write(row, col + 1, 'CO_CODE')
+        worksheet.write(row, col + 2, 'ADM_NAME')
+        worksheet.write(row, col + 3, 'ADM_CODE')
+        worksheet.write(row, col + 4, 'YEAR')
+        worksheet.write(row, col + 5, 'MC_ID')
+        worksheet.write(row, col + 6, 'AC')
+        worksheet.write(row, col + 7, 'FIG')
+        row += 1
+        for co_name, co, ad_name, ad, year, mc_id, ac, fig,comm in (data): 
+            worksheet.write(row, col,co_name)
+            worksheet.write(row, col + 1, co)
+            worksheet.write(row, col + 2, ad_name)
+            worksheet.write(row, col + 3, ad)
+            worksheet.write(row, col + 4, year)
+            worksheet.write(row, col + 5, mc_id)
+            worksheet.write(row, col + 6, ac)
+            worksheet.write(row, col + 7, fig)
+            if comm and extract_type=='raw':
+                worksheet.write_comment(row, col+7, comm)
+            row += 1
+    wb.close()
+    print('...Done.')
+    return filename
