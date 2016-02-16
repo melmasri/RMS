@@ -840,8 +840,8 @@ Some more specific technical notation exists for some of the subsections.
         | ISCED 3  | MExp.T.3.GPV  | \sum_{y in cat} T.3.GPV.y\times MP.y / \sum_{y in cat} T.3.GPV.y   | No    |
         | ISCED 23 | MExp.T.23.GPV | \sum_{y in cat} T.23.GPV.y\times MP.y / \sum_{y in cat} T.23.GPV.y | No    |
         |----------+---------------+--------------------------------------------------------------------+-------|
-        where =cat= is  =Exp1t2=,  =Exp3t5=, =Exp6t10=,  =Exp11t15= and  =Exp15p=.  and Midpoints (MP) are =[Exp1t2 = 1.5, Exp3t5 = 4, Exp6t10 = 8, Exp11t15 = 13, Exp15p = 15]=, and based on the following:  
-#+latex: \\
+        where =cat= is  =Exp1t2=,  =Exp3t5=, =Exp6t10=,  =Exp11t15= and  =Exp15p=.  and Midpoints (MP) are based on the following:  
+   #+latex: \\
    #+ATTR_LATEX:  :align |l|c|c|c|c|c|c|
         | Experience in years | New | 1-2 | 3-5 | 6-10 | 11-15 | 15+ |
         |---------------------+-----+-----+-----+------+-------+-----|
@@ -855,14 +855,14 @@ Some more specific technical notation exists for some of the subsections.
    + IND_IDS information :: 
 #+latex: \\
    #+ATTR_LATEX:  :align |l|l|l|c|                       
-     | Highest educational attainment | IND_ID     | FORMULA                                        | H & L |
-     |--------------------------------+------------+------------------------------------------------+-------|
-     | Lower secondary or Less        | EA.2mPT.IS | T.IS.EA.2m / T.IS                              | No    |
-     | Upper secondary                | EA.3PT.IS  | T.IS.EA.3 / T.IS                               | No    |
-     | Post secondary                 | EA.4PT.IS  | T.IS.EA.4 / T.IS                               | No    |
-     | At least tertiary              | EA.5pPT.IS | T.IS.EA.5 + T.IS.EA.6+T.IS.EA.7+T.IS.EA.8/T.IS | No    |
-     | Unknown                        | EA.ukPT.IS | T.IS.EA.uk / T.IS                              | No    |
-     |--------------------------------+------------+------------------------------------------------+-------|
+     | Highest educational attainment | IND_ID    | FORMULA                                        | H & L |
+     |--------------------------------+-----------+------------------------------------------------+-------|
+     | Lower secondary or Less        | EA2mPT.IS | T.IS.EA.2m / T.IS                              | No    |
+     | Upper secondary                | EA3PT.IS  | T.IS.EA.3 / T.IS                               | No    |
+     | Post secondary                 | EA4PT.IS  | T.IS.EA.4 / T.IS                               | No    |
+     | At least tertiary              | EA5pPT.IS | T.IS.EA.5 + T.IS.EA.6+T.IS.EA.7+T.IS.EA.8/T.IS | No    |
+     | Unknown                        | EAukPT.IS | T.IS.EA.uk / T.IS                              | No    |
+     |--------------------------------+-----------+------------------------------------------------+-------|
         =IS= stands for ISCED level which are =[1, 2.GPV, 3.GPV, 23.GPV]=, combined with suffixes =['.Pu', '.Pr']= for public and private sub-category.
        
         
@@ -938,7 +938,7 @@ Some more specific technical notation exists for some of the subsections.
            * =E.23.GPV= is not collected in the questionnaire, so it is =E.2.GPV + E.3.GPV=.
            * To compute age 50 plus, data in ages 50 to 59 and 60 plus are added. This notation is omitted in the formula for brevity.
            * =Math=, =Reading and Writing= are only calculated for ISCED level 2t3, total.
-           * =ISp1m= reads as ISCED level which is 1 level above or less than the actual level, that is for ISCED 2 =ISp1m = 3m=, and for ISCED 2t3 =ISp1m =3m=. The levels are summed.
+           * =ISp1m= reads as ISCED level which is 1 level above or less than the actual level, that is for ISCED 2 =ISp1m = 3m=, and for ISCED 2t3 =ISp1m =4m=. The levels are summed.
            * =ISp2p= reads as ISCED level which is 2 level above or more than the actual level, that is for ISCED 2 =ISp2p = 4pm=, and for ISCED 2t3 =ISp2p =5p=. The levels are summed.
 
 #  LocalWords:  emco

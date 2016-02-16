@@ -426,22 +426,37 @@ def direct_extraction(s, loc):
         worksheet.write(row, col + 2, 'ADM_NAME')
         worksheet.write(row, col + 3, 'ADM_CODE')
         worksheet.write(row, col + 4, 'YEAR')
-        worksheet.write(row, col + 5, 'MC_ID')
-        worksheet.write(row, col + 6, 'AC')
-        worksheet.write(row, col + 7, 'FIG')
+        if extract_type =='raw':
+            worksheet.write(row, col + 5, 'MC_ID')
+            worksheet.write(row, col + 6, 'AC')
+            worksheet.write(row, col + 7, 'FIG')
+        else:
+            worksheet.write(row, col + 5, 'AC')
+            worksheet.write(row, col + 6, 'FIG')
         row += 1
-        for co_name, co, ad_name, ad, year, mc_id, ac, fig,comm in (data): 
-            worksheet.write(row, col,co_name)
-            worksheet.write(row, col + 1, co)
-            worksheet.write(row, col + 2, ad_name)
-            worksheet.write(row, col + 3, ad)
-            worksheet.write(row, col + 4, year)
-            worksheet.write(row, col + 5, mc_id)
-            worksheet.write(row, col + 6, ac)
-            worksheet.write(row, col + 7, fig)
-            if comm and extract_type=='raw':
-                worksheet.write_comment(row, col+7, comm)
-            row += 1
+        if extract_type=='raw':
+            for co_name, co, ad_name, ad, year, mc_id, ac, fig,comm in (data): 
+                worksheet.write(row, col,co_name)
+                worksheet.write(row, col + 1, co)
+                worksheet.write(row, col + 2, ad_name)
+                worksheet.write(row, col + 3, ad)
+                worksheet.write(row, col + 4, year)
+                worksheet.write(row, col + 5, mc_id)
+                worksheet.write(row, col + 6, ac)
+                worksheet.write(row, col + 7, fig)
+                if comm:
+                    worksheet.write_comment(row, col+7, comm)
+                row += 1
+        else:
+            for co_name, co, ad_name, ad, year, ac, fig in (data): 
+                worksheet.write(row, col,co_name)
+                worksheet.write(row, col + 1, co)
+                worksheet.write(row, col + 2, ad_name)
+                worksheet.write(row, col + 3, ad)
+                worksheet.write(row, col + 4, year)
+                worksheet.write(row, col + 5, ac)
+                worksheet.write(row, col + 6, fig)
+                row += 1
     wb.close()
     print('...Done.')
     return filename

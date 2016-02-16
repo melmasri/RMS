@@ -659,7 +659,7 @@ class indicators():
                 {'T.23.GPV.Exp10p':['T.23.GPV.Exp11t15', 'T.23.GPV.Exp15p']},
                 'T.23.GPV.Pr',{'T.23.GPV.Fix':['T.23.GPV.Pr.Fix', 'T.23.GPV.Pu.Fix']},
                 'T.23.GPV.Pr.Fix', 'T.23.GPV.Pu.Fix']
-        list(map(lambda x: self.dissimilarity_index_single(x, benchAC = ['E.3.GPV','E.3.GPV']), tb3))
+        list(map(lambda x: self.dissimilarity_index_single(x, benchAC = ['E.2.GPV','E.3.GPV']), tb23))
         self.dissimilarity_index_single('T.23.GPV.Pr.Fix', benchAC = ['E.2.GPV.Pr','E.3.GPV.Pr'])
         self.dissimilarity_index_single('T.23.GPV.Pu.Fix', benchAC = ['E.2.GPV.Pu','E.3.GPV.Pu'])
         
