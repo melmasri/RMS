@@ -121,7 +121,7 @@ CREATE TABLE RM_TEMP(
 --removing the headers
 DELETE FROM RM_TEMP WHERE Tab= 'Tab';
 
--- Extracting EMC_IDs andInserting the mapping and EMC_IDs to RM_Mapping table
+-- Extracting EMC_IDs and Inserting the mapping and EMC_IDs to RM_Mapping table
 INSERT INTO RM_Mapping 
        select EDU_METER_AID.EMC_ID, RM_Temp.* from RM_Temp 
        left join  EDU_METER_AID on EDU_METER_AID.AC = RM_Temp.AC;

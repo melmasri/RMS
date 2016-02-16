@@ -325,3 +325,7 @@ EMC_ID,AC,LABEL_INT_EN,LABEL_INT_FR,LABEL_EXT_EN,LABEL_EXT_FR
 900324,T.23.GPV.Ag50t59,"Education staff 2 and 3, General&Pre-Voc, initial education, Aged 50 to 59 years",,,
 900325,T.23.GPV.Ag60p,"Education staff 2 and 3, General&Pre-Voc, initial education, Aged 60 or more years",,,
 900326,T.23.GPV.Aguk,"Education staff 2 and 3, General&Pre-Voc, initial education, Age no specified",,,
+900327,T.1.m1,"Education staff in ISCED 1, initial education, previous year.",,,
+900328,T.2.GPV.m1,"Education staff in ISCED 2, General&Pre-Voc, initial education, previous year.",,,
+900329,T.3.GPV.m1,"Education staff in ISCED 3, General&Pre-Voc, initial education, previous year.",,,
+900330,T.23.GPV.m1,"Education staff 2 and 3, General&Pre-Voc, initial education, previous year.",,,

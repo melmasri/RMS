@@ -30,7 +30,7 @@ Teachers ISCED 1,Table 1.1,"Number of teachers by ADM1, type of institution and 
 Teachers ISCED 1,Table 1.1,"Number of teachers by ADM1, type of institution and professional status. ISCED 1",12,T.1.F,S19,0
 Teachers ISCED 1,Table 1.1,"Number of teachers by ADM1, type of institution and professional status. ISCED 1",13,T.1.trained,T19,0
 Teachers ISCED 1,Table 1.1,"Number of teachers by ADM1, type of institution and professional status. ISCED 1",14,T.1.trained.F,U19,0
-Teachers ISCED 1,Table 1.1,"Number of teachers by ADM1, type of institution and professional status. ISCED 1",15,T.1,V19,-1
+Teachers ISCED 1,Table 1.1,"Number of teachers by ADM1, type of institution and professional status. ISCED 1",15,T.1.m1,V19,0
 Teachers ISCED 1,Table 1.1,"Number of teachers by ADM1, type of institution and professional status. ISCED 1",20,T.1.Pu.Perm,X19,0
 Teachers ISCED 1,Table 1.1,"Number of teachers by ADM1, type of institution and professional status. ISCED 1",21,T.1.Pu.Fix,Y19,0
 Teachers ISCED 1,Table 1.1,"Number of teachers by ADM1, type of institution and professional status. ISCED 1",22,T.1.Pu.uk,Z19,0
@@ -122,7 +122,7 @@ Teachers ISCED 2,Table 2.1,"Number of teachers by ADM1, type of institution, sub
 Teachers ISCED 2,Table 2.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24",12,T.2.GPV.F,S19,0
 Teachers ISCED 2,Table 2.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24",13,T.2.GPV.trained,T19,0
 Teachers ISCED 2,Table 2.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24",14,T.2.GPV.trained.F,U19,0
-Teachers ISCED 2,Table 2.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24",15,T.2.GPV,V19,-1
+Teachers ISCED 2,Table 2.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24",15,T.2.GPV.m1,V19,0
 Teachers ISCED 2,Table 2.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24",20,T.2.GPV.Pu.Math,X19,0
 Teachers ISCED 2,Table 2.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24",21,T.2.GPV.Pu.Read,Y19,0
 Teachers ISCED 2,Table 2.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24",22,T.2.GPV.Pr.Math,Z19,0
@@ -220,7 +220,7 @@ Teachers ISCED 3,Table 3.1,"Number of teachers by ADM1, type of institution, sub
 Teachers ISCED 3,Table 3.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 34",12,T.3.GPV.F,S19,0
 Teachers ISCED 3,Table 3.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 34",13,T.3.GPV.trained,T19,0
 Teachers ISCED 3,Table 3.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 34",14,T.3.GPV.trained.F,U19,0
-Teachers ISCED 3,Table 3.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 34",15,T.3.GPV,V19,-1
+Teachers ISCED 3,Table 3.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 34",15,T.3.GPV.m1,V19,0
 Teachers ISCED 3,Table 3.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 34",20,T.3.GPV.Pu.Math,X19,0
 Teachers ISCED 3,Table 3.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 34",21,T.3.GPV.Pu.Read,Y19,0
 Teachers ISCED 3,Table 3.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 34",22,T.3.GPV.Pr.Math,Z19,0
@@ -318,7 +318,7 @@ Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, su
 Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",12,T.23.GPV.F,S19,0
 Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",13,T.23.GPV.trained,T19,0
 Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",14,T.23.GPV.trained.F,U19,0
-Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",15,T.23.GPV,V19,-1
+Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",15,T.23.GPV.m1,V19,0
 Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",20,T.23.GPV.Pu.Math,X19,0
 Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",21,T.23.GPV.Pu.Read,Y19,0
 Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",22,T.23.GPV.Pr.Math,Z19,0
