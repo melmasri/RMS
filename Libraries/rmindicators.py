@@ -629,7 +629,7 @@ class indicators():
                     
         if(type(AC)==dict):
             for key, value in AC.items():
-                IndicName = key
+                IndicName = 'DInd' + key
                 AC1 = list(map(lambda x: [x,AC_year],value))
                 value1= reduce(lambda x,y: self.column_operation(x, y, sum), AC1)
                 value = self.column_operation(benchSum,value1,lambda x,y:[x,y])
@@ -737,7 +737,7 @@ class indicators():
         self.teachers_percentage_female()
         self.percentage_trained_teachers()
         self.percentage_private_teachers()
-        self.attrition_rate()
+        #self.attrition_rate()
         self.percentage_non_permanent_teachers()
         self.percentage_teachers_attainment()
         self.percentage_teachers_exp()
