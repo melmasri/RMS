@@ -678,30 +678,78 @@ Some more specific technical notation exists for some of the subsections.
 
    + Python method :: teachers_percentage_female
    + IND_IDS information ::
-#+latex: \\
+   #+latex: \\
    #+ATTR_LATEX:  :align |l|l|l|c|
-        |          | IND_ID  | FORMULA            | H & L |
-        |----------+---------+--------------------+-------|
-        | ISCED 1  | FTP.1   | NT.1.F/T.1         | yes   |
-        | ISCED 2  | FTP.2   | NT.2.GPV/T.2.GPV   | yes   |
-        | ISCED 3  | FTP.3   | NT.3.GPV/T.3.GPV   | yes   |
-        | ISCED 23 | FTP.2t3 | NT.23.GPV/T.23.GPV | yes   |
-        |----------+---------+--------------------+-------|
-    
+        |          | IND_ID  | FORMULA             | H & L |
+        |----------+---------+---------------------+-------|
+        | ISCED 1  | FTP.1   | T.1.F/T.1           | yes   |
+        | ISCED 2  | FTP.2   | T.2.GPV.F/T.2.GPV   | yes   |
+        | ISCED 3  | FTP.3   | T.3.GPV.F/T.3.GPV   | yes   |
+        | ISCED 23 | FTP.2t3 | T.23.GPV.F/T.23.GPV | yes   |
+        |----------+---------+---------------------+-------|
+
+	In this same method, there is the computation of female
+	teachers percentage in public and private institutions. Their
+	respective tables are the following:
+	#+latex: \\
+	#+ATTR_LATEX:  :align |l|l|l|c|
+        |          | IND_ID     | FORMULA                   | H & L |
+        |----------+------------+---------------------------+-------|
+        | ISCED 1  | FTP.1.Pu   | T.1.Pu.F/T.1.Pu           | yes   |
+        | ISCED 2  | FTP.2.Pu   | T.2.GPV.Pu.F/T.2.GPV.Pu   | yes   |
+        | ISCED 3  | FTP.3.Pu   | T.3.GPV.Pu.F/T.3.GPV.Pu   | yes   |
+        | ISCED 23 | FTP.2t3.Pu | T.23.GPV.Pu.F/T.23.GPV.Pu | yes   |
+        |----------+------------+---------------------------+-------|
+	#+latex: \\
+	#+ATTR_LATEX:  :align |l|l|l|c|
+        |          | IND_ID     | FORMULA                   | H & L |
+        |----------+------------+---------------------------+-------|
+        | ISCED 1  | FTP.1.Pr   | T.1.Pr.F/T.1.Pr           | yes   |
+        | ISCED 2  | FTP.2.Pr   | T.2.GPV.Pr.F/T.2.GPV.Pr   | yes   |
+        | ISCED 3  | FTP.3.Pr   | T.3.GPV.Pr.F/T.3.GPV.Pr   | yes   |
+        | ISCED 23 | FTP.2t3.Pr | T.23.GPV.Pr.F/T.23.GPV.Pr | yes   |
+        |----------+------------+---------------------------+-------|
+		
+	
+	
 ** Percentage of newly recruited teachers
 
    + Python method :: newly_recruited_teachers
    + IND_IDS information :: 
-#+latex: \\
+   #+latex: \\
    #+ATTR_LATEX:  :align |l|l|l|c|
         |          | IND_ID  | FORMULA            | H & L |
         |----------+---------+--------------------+-------|
-        | ISCED 1  | NTP.1   | NT.1/T.1           | no    |
-        | ISCED 2  | NTP.2   | NT.2.GPV/T.2.GPV   | no    |
-        | ISCED 3  | NTP.3   | NT.3.GPV/T.3.GPV   | no    |
-        | ISCED 23 | NTP.2t3 | NT.23.GPV/T.23.GPV | no    |
+        | ISCED 1  | NTP.1   | NT.1/T.1           | yes   |
+        | ISCED 2  | NTP.2   | NT.2.GPV/T.2.GPV   | yes   |
+        | ISCED 3  | NTP.3   | NT.3.GPV/T.3.GPV   | yes   |
+        | ISCED 23 | NTP.2t3 | NT.23.GPV/T.23.GPV | yes   |
         |----------+---------+--------------------+-------|
-    
+
+	In this same method, there is the computation of newly
+	recruited teachers percentage in public and private
+	institutions. Their respective tables are the following:
+	#+latex: \\
+	#+ATTR_LATEX:  :align |l|l|l|c|
+        |          | IND_ID     | FORMULA                  | H & L |
+        |----------+------------+--------------------------+-------|
+        | ISCED 1  | NTP.1.Pu   | NT.1.Pu/T.1.Pu           | yes   |
+        | ISCED 2  | NTP.2.Pu   | NT.2.GPV.Pu/T.2.GPV.Pu   | yes   |
+        | ISCED 3  | NTP.3.Pu   | NT.3.GPV.Pu/T.3.GPV.Pu   | yes   |
+        | ISCED 23 | NTP.2t3.Pu | NT.23.GPV.Pu/T.23.GPV.Pu | yes   |
+        |----------+------------+--------------------------+-------|
+	#+latex: \\
+	#+ATTR_LATEX:  :align |l|l|l|c|
+        |          | IND_ID     | FORMULA                  | H & L |
+        |----------+------------+--------------------------+-------|
+        | ISCED 1  | NTP.1.Pr   | NT.1.Pr/T.1.Pr           | yes   |
+        | ISCED 2  | NTP.2.Pr   | NT.2.GPV.Pr/T.2.GPV.Pr   | yes   |
+        | ISCED 3  | NTP.3.Pr   | NT.3.GPV.Pr/T.3.GPV.Pr   | yes   |
+        | ISCED 23 | NTP.2t3.Pr | NT.23.GPV.Pr/T.23.GPV.Pr | yes   |
+        |----------+------------+--------------------------+-------|
+
+
+
 ** Pupils teachers ratio
 
    + Python method ::  pupils_teachers_ratio

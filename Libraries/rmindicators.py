@@ -302,13 +302,16 @@ class indicators():
         that is going to be applied element by element to both colums.
         The years should be zero or -1. If info2 and operation are
         omited, it returns the values of the columns corresponding to
-        [AC1,year1].
+        [AC1,year1]. If data for one of the selected year and AC has
+        not been entered in the database, an empty list is returned.
 
         """
         if(type(info1[0])!=list):
             AC1=info1[0]
             year1=info1[1]
             emc_id1 = self.read_sql("SELECT EMC_ID FROM RM_Mapping WHERE AC='{0}' AND CUR_YEAR={1} LIMIT 1".format(AC1,year1))
+            if not emc_id1:
+                return([])
             emc_id1= emc_id1[0][0]
             values1= self.read_sql(("select a.EM_FIG,b.SYMBOL from EDU_METER97_EST AS a "
                                     "LEFT JOIN MAGNITUDE AS b ON ( a.mg_id = b.mg_id) "
@@ -322,6 +325,8 @@ class indicators():
             AC2=info2[0]
             year2=info2[1]
             emc_id2 = self.read_sql("SELECT EMC_ID FROM RM_Mapping WHERE AC='{0}' AND CUR_YEAR={1} LIMIT 1".format(AC2,year2))
+            if not emc_id2:
+                return([])
             emc_id2 = emc_id2[0][0]
             values2= self.read_sql(("select a.EM_FIG,b.SYMBOL from EDU_METER97_EST AS a "
                                     "LEFT JOIN MAGNITUDE AS b ON ( a.mg_id = b.mg_id) "
@@ -375,15 +380,41 @@ class indicators():
 
     def newly_recruited_teachers(self):
         """Computes the NTP indicators."""
-        variables_dict={"NTP.1" : [["NT.1",0],["T.1",0]],"NTP.2":[["NT.2.GPV",0],["T.2.GPV",0]],
-                        "NTP.3" : [["NT.3.GPV",0],["T.3.GPV",0]],"NTP.2t3" : [["NT.23.GPV",0],["T.23.GPV",0]]  }
+        variables_dict={"NTP.1" : [["NT.1",0],["T.1",0]],
+                        "NTP.2":[["NT.2.GPV",0],["T.2.GPV",0]],
+                        "NTP.3" : [["NT.3.GPV",0],["T.3.GPV",0]],
+                        "NTP.2t3" : [["NT.23.GPV",0],["T.23.GPV",0]],
+
+                        "NTP.1.Pu" : [["NT.1.Pu",0],["T.1.Pu",0]],
+                        "NTP.2.Pu":[["NT.2.GPV.Pu",0],["T.2.GPV.Pu",0]],
+                        "NTP.3.Pu" : [["NT.3.GPV.Pu",0],["T.3.GPV.Pu",0]],
+                        "NTP.2t3.Pu" : [["NT.23.GPV.Pu",0],["T.23.GPV.Pu",0]],
+
+                        "NTP.1.Pr" : [["NT.1.Pr",0],["T.1.Pr",0]],
+                        "NTP.2.Pr":[["NT.2.GPV.Pr",0],["T.2.GPV.Pr",0]],
+                        "NTP.3.Pr" : [["NT.3.GPV.Pr",0],["T.3.GPV.Pr",0]],
+                        "NTP.2t3.Pr" : [["NT.23.GPV.Pr",0],["T.23.GPV.Pr",0]]
+        }
         self.compute_percentages(variables_dict)
 
     def teachers_percentage_female(self):
         """Computes FTP indicators."""
-        variables_dict={ "FTP.1":[["T.1.F",0],["T.1",0]],"FTP.2":[["T.2.GPV.F",0],["T.2.GPV",0]]
-                         , "FTP.3" : [["T.3.GPV.F",0],["T.3.GPV",0]],
-                         "FTP.2t3" : [["T.23.GPV.F",0],["T.23.GPV",0]]}
+        variables_dict={ "FTP.1":[["T.1.F",0],["T.1",0]],
+                         "FTP.2":[["T.2.GPV.F",0],["T.2.GPV",0]],
+                         "FTP.3" : [["T.3.GPV.F",0],["T.3.GPV",0]],
+                         "FTP.2t3" : [["T.23.GPV.F",0],["T.23.GPV",0]],
+                         
+                         "FTP.1.Pu":[["T.1.Pu.F",0],["T.1.Pu",0]],
+                         "FTP.2.Pu":[["T.2.GPV.Pu.F",0],["T.2.GPV.Pu",0]],
+                         "FTP.3.Pu" : [["T.3.GPV.Pu.F",0],["T.3.GPV.Pu",0]],
+                         "FTP.2t3.Pu" : [["T.23.GPV.Pu.F",0],["T.23.GPV.Pu",0]],
+
+                         "FTP.1.Pr":[["T.1.Pr.F",0],["T.1.Pr",0]],
+                         "FTP.2.Pr":[["T.2.GPV.Pr.F",0],["T.2.GPV.Pr",0]],
+                         "FTP.3.Pr" : [["T.3.GPV.Pr.F",0],["T.3.GPV.Pr",0]],
+                         "FTP.2t3.Pr" : [["T.23.GPV.Pr.F",0],["T.23.GPV.Pr",0]]
+                         }
+        
         self.compute_percentages(variables_dict)
 
     def percentage_trained_teachers(self):
@@ -438,6 +469,8 @@ class indicators():
         indicator_name_base="TAttrR"        
         for indicator_suffix in [".1",".2.GPV",".3.GPV",".23.GPV"]:
             number_of_teachers_previous_year=self.column_operation(["T" + indicator_suffix,-1])
+            if not number_of_teachers_previous_year:
+                number_of_teachers_previous_year=self.column_operation(["T" + indicator_suffix + ".m1",0])
             newly_recruited_teachers=self.column_operation(["NT" + indicator_suffix,0 ])
             number_of_teachers_current_year=self.column_operation(["T" + indicator_suffix,0])            
             ind_dict[indicator_name_base + indicator_suffix]=list ( map ( lambda x,y,z: prod( div( neg( sum(x,y) , z) , x) ,[100,'value']),
@@ -445,7 +478,7 @@ class indicators():
                                                                           newly_recruited_teachers,
                                                                           number_of_teachers_current_year) )
         self.write_indic_sql(ind_dict)
-
+        print(ind_dict)
 
 
     def mean_category(self, codes, midpoints, ac_pop, DivBySum = False):

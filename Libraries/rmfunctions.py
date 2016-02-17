@@ -1110,8 +1110,10 @@ class questionnaire:
                         adm_code=xlrd_coord[0]-17
                         if adm_code>self.nadm1:
                             adm_code=0
-                        if (emc_id in [20162,20166,20172,20184]  and  xlrd_coord[1] ==  21 ):
-                            emco_year= emco_year - 1
+                        #OLD CODE
+                        # if (emc_id in [20162,20166,20172,20184]  and  xlrd_coord[1] ==  21 ):
+                        #     emco_year= emco_year - 1
+                        # ENDS OLD CODE
                     else:
                         adm_code=xlrd_coord[0]-19
                         if adm_code>self.nadm1:
@@ -1376,10 +1378,15 @@ class questionnaire:
                 continue
             ## The emco_year that is entered is the one of the table
             ## minus 1 for certain fields:
-            if variables[2] in [20162,20166,20172,20184] and variables[4]==15:
-                emco_year=self.emco_year - 1
-            else:
-                emco_year=self.emco_year
+
+            ## OLD CODE
+            # if variables[2] in [20162,20166,20172,20184] and variables[4]==15:
+            #     emco_year=self.emco_year - 1
+            # else:
+            #     emco_year=self.emco_year
+            ## FINISHES OLD CODE
+            
+            emco_year=self.emco_year
             sheet = self.wb.sheet_by_name(variables[0])
             # We read the starting excel coordinates
             meter_starting_index = variables[1]
