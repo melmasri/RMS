@@ -374,9 +374,58 @@ class indicators():
                 
     def pupils_teachers_ratio(self):
         """ Computes the PTRHC indicators."""
-        variables_dict={ "PTRHC.1" : [["E.1",0],["T.1",0]], "PTRHC.2": [["E.2.GPV",0],["T.2.GPV",0]],
-                         "PTRHC.3": [["E.3.GPV",0],["T.3.GPV",0]]}
+        variables_dict={ "PTRHC.1" : [["E.1",0],["T.1",0]],
+                         "PTRHC.2": [["E.2.GPV",0],["T.2.GPV",0]],
+                         "PTRHC.3": [["E.3.GPV",0],["T.3.GPV",0]],
+
+                         "PTRHC.1.Pu" : [["E.1.Pu",0],["T.1.Pu",0]],
+                         "PTRHC.2.Pu": [["E.2.GPV.Pu",0],["T.2.GPV.Pu",0]],
+                         "PTRHC.3.Pu": [["E.3.GPV.Pu",0],["T.3.GPV.Pu",0]],
+
+                         "PTRHC.1.Pr" : [["E.1.Pr",0],["T.1.Pr",0]],
+                         "PTRHC.2.Pr": [["E.2.GPV.Pr",0],["T.2.GPV.Pr",0]],
+                         "PTRHC.3.Pr": [["E.3.GPV.Pr",0],["T.3.GPV.Pr",0]]                         
+        }
         self.compute_percentages(variables_dict,True)
+        ## Now we add the 2t3 undicators. It could not be done with
+        ## the dictionary at the beginning because there is no ISCED23
+        ## information for Pupils.
+        values_dict={}
+        maximum_dict={}
+        minimum_dict={}
+        ## PTRHC.2t3.GPV
+        # numerator_list1=self.column_operation(["E.2.GPV",0])
+        # numerator_list2=self.column_operation(["E.3.GPV",0])
+        # numerator_list=list( map(lambda x,y: sum(x,y),numerator_list1,numerator_list2))
+        # denominator_list=self.column_operation(["T.23.GPV",0])
+        # values=list(map( lambda x,y: div(x,y), numerator_list,denominator_list))
+        # values_dict["PTRHC.2t3"]=values
+        # maximum_dict["PTRHC.2t3"]=max_sp(values)
+        # minimum_dict["PTRHC.2t3"]=min_sp(values)
+        ##
+        indicator_base="PTRHC.2t3"
+        for suffix in ['','.Pu','.Pr']:
+            numerator_list1=self.column_operation(["E.2.GPV" + suffix ,0])
+            numerator_list2=self.column_operation(["E.3.GPV" + suffix ,0])
+            numerator_list=list( map(lambda x,y: sum(x,y),numerator_list1,numerator_list2))
+            denominator_list=self.column_operation(["T.23.GPV" + suffix ,0])
+            values=list(map( lambda x,y: div(x,y), numerator_list,denominator_list))
+            values_dict["PTRHC.2t3" + suffix]=values
+            self.write_indic_sql_no_regions("PTRHC.2t3" + suffix + ".Max",max_sp(values))
+            self.write_indic_sql_no_regions("PTRHC.2t3" + suffix + ".Min",min_sp(values))
+#            maximum_dict["PTRHC.2t3" + suffix + ".Max" ]=max_sp(values)
+#            minimum_dict["PTRHC.2t3" + suffix + ".Min" ]=min_sp(values)
+        self.write_indic_sql(values_dict)
+            
+        #self.write_indic_sql(values_dict)
+        #print(values_dict)
+        #print(minimum_dict)
+        #print(maximum_dict)
+        
+        
+        
+        
+        
 
     def newly_recruited_teachers(self):
         """Computes the NTP indicators."""
@@ -395,6 +444,7 @@ class indicators():
                         "NTP.3.Pr" : [["NT.3.GPV.Pr",0],["T.3.GPV.Pr",0]],
                         "NTP.2t3.Pr" : [["NT.23.GPV.Pr",0],["T.23.GPV.Pr",0]]
         }
+        
         self.compute_percentages(variables_dict)
 
     def teachers_percentage_female(self):
@@ -419,11 +469,37 @@ class indicators():
 
     def percentage_trained_teachers(self):
         """Computes TRTP indicators. """
-        variables_dict1={"TRTP.1": [["T.1.trained",0 ],["T.1",0] ], "TRTP.2": [["T.2.GPV.trained",0 ],["T.2.GPV",0]],
+        variables_dict1={"TRTP.1": [["T.1.trained",0 ],["T.1",0] ],
+                         "TRTP.2": [["T.2.GPV.trained",0 ],["T.2.GPV",0]],
                          "TRTP.3" : [["T.3.GPV.trained",0],["T.3.GPV",0]],
-                         "TRTP.2t3": [["T.23.GPV.trained",0 ],["T.23.GPV",0] ]  }
-        variables_dict2={"TrNTP.1": [["NT.1.trained",0],["NT.1",0]],"TrNTP.2":[["NT.2.GPV.trained",0],["NT.2.GPV",0]],
-                         "TrNTP.3":[["NT.3.GPV.trained",0],["NT.3.GPV",0]],"TrNTP.2t3": [["NT.23.GPV.trained",0],["NT.23.GPV",0]]}
+                         "TRTP.2t3": [["T.23.GPV.trained",0 ],["T.23.GPV",0] ],
+
+                         "TRTP.1.Pu": [["T.1.Pu.trained",0 ],["T.1.Pu",0] ],
+                         "TRTP.2.Pu": [["T.2.GPV.Pu.trained",0 ],["T.2.GPV.Pu",0]],
+                         "TRTP.3.Pu" : [["T.3.GPV.Pu.trained",0],["T.3.GPV.Pu",0]],
+                         "TRTP.2t3.Pu": [["T.23.GPV.Pu.trained",0 ],["T.23.GPV.Pu",0] ],
+
+                         "TRTP.1.Pr": [["T.1.Pr.trained",0 ],["T.1.Pr",0] ],
+                         "TRTP.2.Pr": [["T.2.GPV.Pr.trained",0 ],["T.2.GPV.Pr",0]],
+                         "TRTP.3.Pr" : [["T.3.GPV.Pr.trained",0],["T.3.GPV.Pr",0]],
+                         "TRTP.2t3.Pr": [["T.23.GPV.Pr.trained",0 ],["T.23.GPV.Pr",0] ]                         
+        }
+        variables_dict2={"TrNTP.1": [["NT.1.trained",0],["NT.1",0]],
+                         "TrNTP.2":[["NT.2.GPV.trained",0],["NT.2.GPV",0]],
+                         "TrNTP.3":[["NT.3.GPV.trained",0],["NT.3.GPV",0]],
+                         "TrNTP.2t3": [["NT.23.GPV.trained",0],["NT.23.GPV",0]],
+
+                         "TrNTP.1.Pu": [["NT.1.Pu.trained",0],["NT.1.Pu",0]],
+                         "TrNTP.2.Pu":[["NT.2.GPV.Pu.trained",0],["NT.2.GPV.Pu",0]],
+                         "TrNTP.3.Pu":[["NT.3.GPV.Pu.trained",0],["NT.3.GPV.Pu",0]],
+                         "TrNTP.2t3.Pu": [["NT.23.GPV.Pu.trained",0],["NT.23.GPV.Pu",0]],
+
+                         "TrNTP.1.Pr": [["NT.1.Pr.trained",0],["NT.1.Pr",0]],
+                         "TrNTP.2.Pr":[["NT.2.GPV.Pr.trained",0],["NT.2.GPV.Pr",0]],
+                         "TrNTP.3.Pr":[["NT.3.GPV.Pr.trained",0],["NT.3.GPV.Pr",0]],
+                         "TrNTP.2t3.Pr": [["NT.23.GPV.Pr.trained",0],["NT.23.GPV.Pr",0]]
+
+        }
         self.compute_percentages(variables_dict1)
         self.compute_percentages(variables_dict2)
 
@@ -455,6 +531,34 @@ class indicators():
         ## Now we compute the one that includes both private and public
         priv_and_pu_dict={}
         for keys in [["FixTP.1.Pr","FixTP.1.Pu" ],["FixTP.2.GPV.Pr","FixTP.2.GPV.Pu"],["FixTP.3.GPV.Pr","FixTP.3.GPV.Pu"],["FixTP.2t3.GPV.Pr","FixTP.2t3.GPV.Pu"]]:
+            numerator=self.column_operation(variables_dict_private[keys[0]][0],variables_dict_public[keys[1]][0],sum  )
+            denominator=self.column_operation(variables_dict_private[keys[0]][1],variables_dict_public[keys[1]][1],sum  )
+            values=list(map(div,numerator,denominator))
+            indicator=keys[0]
+            indicator=indicator.replace(".Pr",'')
+            priv_and_pu_dict[indicator]=values
+        self.write_indic_sql(priv_and_pu_dict)
+
+    def percentage_permanent_teachers(self):
+        """Computes PermTP indicators."""
+        variables_dict_private={"PermTP.1.Pr":[["T.1.Pr.Perm",0],["T.1.Pr",0]],
+                                "PermTP.2.GPV.Pr": [["T.2.GPV.Pr.Perm",0],["T.2.GPV.Pr",0]],
+                                "PermTP.3.GPV.Pr": [["T.3.GPV.Pr.Perm",0],["T.3.GPV.Pr",0]],
+                                "PermTP.2t3.GPV.Pr" : [ ["T.23.GPV.Pr.Perm",0],["T.23.GPV.Pr",0] ]
+                            }
+                                    
+        variables_dict_public={"PermTP.1.Pu":[["T.1.Pu.Perm",0],["T.1.Pu",0]],
+                               "PermTP.2.GPV.Pu": [["T.2.GPV.Pu.Perm",0],["T.2.GPV.Pu",0]],
+                               "PermTP.3.GPV.Pu": [["T.3.GPV.Pu.Perm",0],["T.3.GPV.Pu",0]],
+                               "PermTP.2t3.GPV.Pu" : [ ["T.23.GPV.Pu.Perm",0],["T.23.GPV.Pu",0] ]
+                           }
+        
+        self.compute_percentages(variables_dict_public,False)
+        self.compute_percentages(variables_dict_private,False)
+                                    
+        ## Now we compute the one that includes both private and public
+        priv_and_pu_dict={}
+        for keys in [["PermTP.1.Pr","PermTP.1.Pu" ],["PermTP.2.GPV.Pr","PermTP.2.GPV.Pu"],["PermTP.3.GPV.Pr","PermTP.3.GPV.Pu"],["PermTP.2t3.GPV.Pr","PermTP.2t3.GPV.Pu"]]:
             numerator=self.column_operation(variables_dict_private[keys[0]][0],variables_dict_public[keys[1]][0],sum  )
             denominator=self.column_operation(variables_dict_private[keys[0]][1],variables_dict_public[keys[1]][1],sum  )
             values=list(map(div,numerator,denominator))
