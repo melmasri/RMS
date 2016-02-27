@@ -680,35 +680,35 @@ Some more specific technical notation exists for some of the subsections.
    + IND_IDS information ::
    #+latex: \\
    #+ATTR_LATEX:  :align |l|l|l|c|
-        |          | IND_ID  | FORMULA             | H & L |
-        |----------+---------+---------------------+-------|
-        | ISCED 1  | FTP.1   | T.1.F/T.1           | yes   |
-        | ISCED 2  | FTP.2   | T.2.GPV.F/T.2.GPV   | yes   |
-        | ISCED 3  | FTP.3   | T.3.GPV.F/T.3.GPV   | yes   |
-        | ISCED 23 | FTP.2t3 | T.23.GPV.F/T.23.GPV | yes   |
-        |----------+---------+---------------------+-------|
+        |          | IND_ID      | FORMULA               | H & L |
+        |----------+-------------+-----------------------+-------|
+        | ISCED 1  | FTP.1       | T.1.F/T.1             | yes   |
+        | ISCED 2  | FTP.2.GPV   | T.2.GPV.F/T.2.GPV     | yes   |
+        | ISCED 3  | FTP.3.GPV   | T.3.GPV.F/T.3.GPV     | yes   |
+        | ISCED 23 | FTP.2t3.GPV | T.2t3.GPV.F/T.2t3.GPV | yes   |
+        |----------+-------------+-----------------------+-------|
 
 	In this same method, there is the computation of female
 	teachers percentage in public and private institutions. Their
 	respective tables are the following:
 	#+latex: \\
 	#+ATTR_LATEX:  :align |l|l|l|c|
-        |          | IND_ID     | FORMULA                   | H & L |
-        |----------+------------+---------------------------+-------|
-        | ISCED 1  | FTP.1.Pu   | T.1.Pu.F/T.1.Pu           | yes   |
-        | ISCED 2  | FTP.2.Pu   | T.2.GPV.Pu.F/T.2.GPV.Pu   | yes   |
-        | ISCED 3  | FTP.3.Pu   | T.3.GPV.Pu.F/T.3.GPV.Pu   | yes   |
-        | ISCED 23 | FTP.2t3.Pu | T.23.GPV.Pu.F/T.23.GPV.Pu | yes   |
-        |----------+------------+---------------------------+-------|
+        |          | IND_ID         | FORMULA                     | H & L |
+        |----------+----------------+-----------------------------+-------|
+        | ISCED 1  | FTP.1.Pu       | T.1.Pu.F/T.1.Pu             | yes   |
+        | ISCED 2  | FTP.2.GPV.Pu   | T.2.GPV.Pu.F/T.2.GPV.Pu     | yes   |
+        | ISCED 3  | FTP.3.GPV.Pu   | T.3.GPV.Pu.F/T.3.GPV.Pu     | yes   |
+        | ISCED 23 | FTP.2t3.GPV.Pu | T.2t3.GPV.Pu.F/T.2t3.GPV.Pu | yes   |
+        |----------+----------------+-----------------------------+-------|
 	#+latex: \\
 	#+ATTR_LATEX:  :align |l|l|l|c|
-        |          | IND_ID     | FORMULA                   | H & L |
-        |----------+------------+---------------------------+-------|
-        | ISCED 1  | FTP.1.Pr   | T.1.Pr.F/T.1.Pr           | yes   |
-        | ISCED 2  | FTP.2.Pr   | T.2.GPV.Pr.F/T.2.GPV.Pr   | yes   |
-        | ISCED 3  | FTP.3.Pr   | T.3.GPV.Pr.F/T.3.GPV.Pr   | yes   |
-        | ISCED 23 | FTP.2t3.Pr | T.23.GPV.Pr.F/T.23.GPV.Pr | yes   |
-        |----------+------------+---------------------------+-------|
+        |          | IND_ID         | FORMULA                     | H & L |
+        |----------+----------------+-----------------------------+-------|
+        | ISCED 1  | FTP.1.Pr       | T.1.Pr.F/T.1.Pr             | yes   |
+        | ISCED 2  | FTP.2.GPV.Pr   | T.2.GPV.Pr.F/T.2.GPV.Pr     | yes   |
+        | ISCED 3  | FTP.3.GPV.Pr   | T.3.GPV.Pr.F/T.3.GPV.Pr     | yes   |
+        | ISCED 23 | FTP.2t3.GPV.Pr | T.2t3.GPV.Pr.F/T.2t3.GPV.Pr | yes   |
+        |----------+----------------+-----------------------------+-------|
 		
 	
 	
@@ -718,35 +718,35 @@ Some more specific technical notation exists for some of the subsections.
    + IND_IDS information :: 
    #+latex: \\
    #+ATTR_LATEX:  :align |l|l|l|c|
-        |          | IND_ID  | FORMULA            | H & L |
-        |----------+---------+--------------------+-------|
-        | ISCED 1  | NTP.1   | NT.1/T.1           | yes   |
-        | ISCED 2  | NTP.2   | NT.2.GPV/T.2.GPV   | yes   |
-        | ISCED 3  | NTP.3   | NT.3.GPV/T.3.GPV   | yes   |
-        | ISCED 23 | NTP.2t3 | NT.23.GPV/T.23.GPV | yes   |
-        |----------+---------+--------------------+-------|
+        |          | IND_ID      | FORMULA              | H & L |
+        |----------+-------------+----------------------+-------|
+        | ISCED 1  | NTP.1       | NT.1/T.1             | yes   |
+        | ISCED 2  | NTP.2.GPV   | NT.2.GPV/T.2.GPV     | yes   |
+        | ISCED 3  | NTP.3.GPV   | NT.3.GPV/T.3.GPV     | yes   |
+        | ISCED 23 | NTP.2t3.GPV | NT.2t3.GPV/T.2t3.GPV | yes   |
+        |----------+-------------+----------------------+-------|
 
 	In this same method, there is the computation of newly
 	recruited teachers percentage in public and private
 	institutions. Their respective tables are the following:
 	#+latex: \\
 	#+ATTR_LATEX:  :align |l|l|l|c|
-        |          | IND_ID     | FORMULA                  | H & L |
-        |----------+------------+--------------------------+-------|
-        | ISCED 1  | NTP.1.Pu   | NT.1.Pu/T.1.Pu           | yes   |
-        | ISCED 2  | NTP.2.Pu   | NT.2.GPV.Pu/T.2.GPV.Pu   | yes   |
-        | ISCED 3  | NTP.3.Pu   | NT.3.GPV.Pu/T.3.GPV.Pu   | yes   |
-        | ISCED 23 | NTP.2t3.Pu | NT.23.GPV.Pu/T.23.GPV.Pu | yes   |
-        |----------+------------+--------------------------+-------|
+        |          | IND_ID         | FORMULA                    | H & L |
+        |----------+----------------+----------------------------+-------|
+        | ISCED 1  | NTP.1.Pu       | NT.1.Pu/T.1.Pu             | yes   |
+        | ISCED 2  | NTP.2.GPV.Pu   | NT.2.GPV.Pu/T.2.GPV.Pu     | yes   |
+        | ISCED 3  | NTP.3.GPV.Pu   | NT.3.GPV.Pu/T.3.GPV.Pu     | yes   |
+        | ISCED 23 | NTP.2t3.GPV.Pu | NT.2t3.GPV.Pu/T.2t3.GPV.Pu | yes   |
+        |----------+----------------+----------------------------+-------|
 	#+latex: \\
 	#+ATTR_LATEX:  :align |l|l|l|c|
-        |          | IND_ID     | FORMULA                  | H & L |
-        |----------+------------+--------------------------+-------|
-        | ISCED 1  | NTP.1.Pr   | NT.1.Pr/T.1.Pr           | yes   |
-        | ISCED 2  | NTP.2.Pr   | NT.2.GPV.Pr/T.2.GPV.Pr   | yes   |
-        | ISCED 3  | NTP.3.Pr   | NT.3.GPV.Pr/T.3.GPV.Pr   | yes   |
-        | ISCED 23 | NTP.2t3.Pr | NT.23.GPV.Pr/T.23.GPV.Pr | yes   |
-        |----------+------------+--------------------------+-------|
+        |          | IND_ID         | FORMULA                    | H & L |
+        |----------+----------------+----------------------------+-------|
+        | ISCED 1  | NTP.1.Pr       | NT.1.Pr/T.1.Pr             | yes   |
+        | ISCED 2  | NTP.2.GPV.Pr   | NT.2.GPV.Pr/T.2.GPV.Pr     | yes   |
+        | ISCED 3  | NTP.3.GPV.Pr   | NT.3.GPV.Pr/T.3.GPV.Pr     | yes   |
+        | ISCED 23 | NTP.2t3.GPV.Pr | NT.2t3.GPV.Pr/T.2t3.GPV.Pr | yes   |
+        |----------+----------------+----------------------------+-------|
 
 
 
@@ -756,34 +756,34 @@ Some more specific technical notation exists for some of the subsections.
    + IND_IDS information :: 
    #+latex: \\
    #+ATTR_LATEX:  :align |l|l|l|c|
-        |          | IND_ID   | FORMULA           | H & L |
-        |----------+-----------+-------------------+-------|
-        | ISCED 1  | PTRHC.1   | E.1/T.1           | yes   |
-        | ISCED 2  | PTRHC.2   | E.2.GPV/T.2.GPV   | yes   |
-        | ISCED 3  | PTRHC.3   | E.3.GPV/T.3.GPV   | yes   |
-        | ISCED 23 | PTRHC.2t3 | E.23.GPV/T.23.GPV | yes   |
-        |----------+-----------+-------------------+-------|
+        |          | IND_ID        | FORMULA                     | H & L |
+        |----------+---------------+-----------------------------+-------|
+        | ISCED 1  | PTRHC.1       | E.1/T.1                     | yes   |
+        | ISCED 2  | PTRHC.2.GPV   | E.2.GPV/T.2.GPV             | yes   |
+        | ISCED 3  | PTRHC.3.GPV   | E.3.GPV/T.3.GPV             | yes   |
+        | ISCED 23 | PTRHC.2t3.GPV | (E.2.GPV+E.3.GPV)/T.2t3.GPV | yes   |
+        |----------+---------------+-----------------------------+-------|
 	In this same method, there is the computation of newly
 	recruited teachers percentage in public and private
 	institutions. Their respective tables are the following:
 	#+latex: \\
 	#+ATTR_LATEX:  :align |l|l|l|c|
-        |          | IND_ID       | FORMULA                 | H & L |
-        |----------+--------------+-------------------------+-------|
-        | ISCED 1  | PTRHC.1.Pu   | E.1.Pu/T.1.Pu           | yes   |
-        | ISCED 2  | PTRHC.2.Pu   | E.2.GPV.Pu/T.2.GPV.Pu   | yes   |
-        | ISCED 3  | PTRHC.3.Pu   | E.3.GPV.Pu/T.3.GPV.Pu   | yes   |
-        | ISCED 23 | PTRHC.2t3.Pu | E.23.GPV.Pu/T.23.GPV.Pu | yes   |
-        |----------+--------------+-------------------------+-------|
+        |          | IND_ID           | FORMULA                              | H & L |
+        |----------+------------------+--------------------------------------+-------|
+        | ISCED 1  | PTRHC.1.Pu       | E.1.Pu/T.1.Pu                        | yes   |
+        | ISCED 2  | PTRHC.2.GPV.Pu   | E.2.GPV.Pu/T.2.GPV.Pu                | yes   |
+        | ISCED 3  | PTRHC.3.GPV.Pu   | E.3.GPV.Pu/T.3.GPV.Pu                | yes   |
+        | ISCED 23 | PTRHC.2t3.GPV.Pu | (E.2.GPV.Pu+E.3.GPV.Pu)/T.2t3.GPV.Pu | yes   |
+        |----------+------------------+--------------------------------------+-------|
 	#+latex: \\
 	#+ATTR_LATEX:  :align |l|l|l|c|
-        |          | IND_ID       | FORMULA                 | H & L |
-        |----------+--------------+-------------------------+-------|
-        | ISCED 1  | PTRHC.1.Pr   | E.1.Pr/T.1.Pr           | yes   |
-        | ISCED 2  | PTRHC.2.Pr   | E.2.GPV.Pr/T.2.GPV.Pr   | yes   |
-        | ISCED 3  | PTRHC.3.Pr   | E.3.GPV.Pr/T.3.GPV.Pr   | yes   |
-        | ISCED 23 | PTRHC.2t3.Pr | E.23.GPV.Pr/T.23.GPV.Pr | yes   |
-        |----------+--------------+-------------------------+-------|
+        |          | IND_ID           | FORMULA                                | H & L |
+        |----------+------------------+----------------------------------------+-------|
+        | ISCED 1  | PTRHC.1.Pr       | E.1.Pr/T.1.Pr                          | yes   |
+        | ISCED 2  | PTRHC.2.GPV.Pr   | E.2.GPV.Pr/T.2.GPV.Pr                  | yes   |
+        | ISCED 3  | PTRHC.3.GPV.Pr   | E.3.GPV.Pr/T.3.GPV.Pr                  | yes   |
+        | ISCED 23 | PTRHC.2t3.GPV.Pr | (E.2.GPV.Pr + E.2.GPV.Pr)/T.2t3.GPV.Pr | yes   |
+        |----------+------------------+----------------------------------------+-------|
 
 ** Percentage of trained teachers
 
@@ -791,63 +791,63 @@ Some more specific technical notation exists for some of the subsections.
    + IND_IDS information ::
    #+latex: \\
    #+ATTR_LATEX:  :align |l|l|l|c|
-        |          | IND_ID   | FORMULA                   | H & L |
-        |----------+----------+---------------------------+-------|
-        | ISCED 1  | TRTP.1   | T.1.trained/T.1           | yes   |
-        | ISCED 2  | TRTP.2   | T.2.GPV.trained/T.2.GPV   | yes   |
-        | ISCED 3  | TRTP.3   | T.3.GPV.trained/T.3.GPV   | yes   |
-        | ISCED 23 | TRTP.2t3 | T.23.GPV.trained/T.23.GPV | yes   |
-        |----------+----------+---------------------------+-------|
+        |          | IND_ID       | FORMULA                     | H & L |
+        |----------+--------------+-----------------------------+-------|
+        | ISCED 1  | TRTP.1       | T.1.trained/T.1             | yes   |
+        | ISCED 2  | TRTP.2.GPV   | T.2.GPV.trained/T.2.GPV     | yes   |
+        | ISCED 3  | TRTP.3.GPV   | T.3.GPV.trained/T.3.GPV     | yes   |
+        | ISCED 23 | TRTP.2t3.GPV | T.2t3.GPV.trained/T.2t3.GPV | yes   |
+        |----------+--------------+-----------------------------+-------|
    In this same method, there is the computation of the percentage of
    trained newly recruited teachers.
    #+latex: \\
    #+ATTR_LATEX:  :align |l|l|l|c|
-   |          | IND_ID   | FORMULA                     | H & L |
-   |----------+-----------+-----------------------------+-------|
-   | ISCED 1  | TrNTP.1   | NT.1.trained/NT.1           | yes   |
-   | ISCED 2  | TrNTP.2   | NT.2.GPV.trained/NT.2.GPV   | yes   |
-   | ISCED 3  | TrNTP.3   | NT.3.GPV.trained/NT.3.GPV   | yes   |
-   | ISCED 23 | TrNTP.2t3 | NT.23.GPV.trained/NT.23.GPV | yes   |
-   |----------+-----------+-----------------------------+-------|
+   |          | IND_ID        | FORMULA                       | H & L |
+   |----------+---------------+-------------------------------+-------|
+   | ISCED 1  | TrNTP.1       | NT.1.trained/NT.1             | yes   |
+   | ISCED 2  | TrNTP.2.GPV   | NT.2.GPV.trained/NT.2.GPV     | yes   |
+   | ISCED 3  | TrNTP.3.GPV   | NT.3.GPV.trained/NT.3.GPV     | yes   |
+   | ISCED 23 | TrNTP.2t3.GPV | NT.2t3.GPV.trained/NT.2t3.GPV | yes   |
+   |----------+---------------+-------------------------------+-------|
    Finally, for the previous indicators this method also computes the
    previous indicators for public and private institutions. Their
    corresponding tables are the following:
    #+latex: \\
    #+ATTR_LATEX:  :align |l|l|l|c|
-        |          | IND_ID      | FORMULA                         | H & L |
-        |----------+-------------+---------------------------------+-------|
-        | ISCED 1  | TRTP.1.Pu   | T.1.Pu.trained/T.1.Pu           | yes   |
-        | ISCED 2  | TRTP.2.Pu   | T.2.GPV.Pu.trained/T.2.GPV.Pu   | yes   |
-        | ISCED 3  | TRTP.3.Pu   | T.3.GPV.Pu.trained/T.3.GPV.Pu   | yes   |
-        | ISCED 23 | TRTP.2t3.Pu | T.23.GPV.Pu.trained/T.23.GPV.Pu | yes   |
-        |----------+-------------+---------------------------------+-------|
+        |          | IND_ID          | FORMULA                           | H & L |
+        |----------+-----------------+-----------------------------------+-------|
+        | ISCED 1  | TRTP.1.Pu       | T.1.Pu.trained/T.1.Pu             | yes   |
+        | ISCED 2  | TRTP.2.GPV.Pu   | T.2.GPV.Pu.trained/T.2.GPV.Pu     | yes   |
+        | ISCED 3  | TRTP.3.GPV.Pu   | T.3.GPV.Pu.trained/T.3.GPV.Pu     | yes   |
+        | ISCED 23 | TRTP.2t3.GPV.Pu | T.2t3.GPV.Pu.trained/T.2t3.GPV.Pu | yes   |
+        |----------+-----------------+-----------------------------------+-------|
 	#+latex: \\
 	#+ATTR_LATEX:  :align |l|l|l|c|
-        |          | IND_ID      | FORMULA                         | H & L |
-        |----------+-------------+---------------------------------+-------|
-        | ISCED 1  | TRTP.1.Pr   | T.1.Pr.trained/T.1.Pr           | yes   |
-        | ISCED 2  | TRTP.2.Pr   | T.2.GPV.Pr.trained/T.2.GPV.Pr   | yes   |
-        | ISCED 3  | TRTP.3.Pr   | T.3.GPV.Pr.trained/T.3.GPV.Pr   | yes   |
-        | ISCED 23 | TRTP.2t3.Pr | T.23.GPV.Pr.trained/T.23.GPV.Pr | yes   |
-        |----------+-------------+---------------------------------+-------|
+        |          | IND_ID          | FORMULA                           | H & L |
+        |----------+-----------------+-----------------------------------+-------|
+        | ISCED 1  | TRTP.1.Pr       | T.1.Pr.trained/T.1.Pr             | yes   |
+        | ISCED 2  | TRTP.2.GPV.Pr   | T.2.GPV.Pr.trained/T.2.GPV.Pr     | yes   |
+        | ISCED 3  | TRTP.3.GPV.Pr   | T.3.GPV.Pr.trained/T.3.GPV.Pr     | yes   |
+        | ISCED 23 | TRTP.2t3.GPV.Pr | T.2t3.GPV.Pr.trained/T.2t3.GPV.Pr | yes   |
+        |----------+-----------------+-----------------------------------+-------|
 	#+latex: \\
 	#+ATTR_LATEX:  :align |l|l|l|c|
-   |          | IND_ID       | FORMULA                           | H & L |
-   |----------+--------------+-----------------------------------+-------|
-   | ISCED 1  | TrNTP.1.Pu   | NT.1.Pu.trained/NT.1.Pu           | yes   |
-   | ISCED 2  | TrNTP.2.Pu   | NT.2.GPV.Pu.trained/NT.2.GPV.Pu   | yes   |
-   | ISCED 3  | TrNTP.3.Pu   | NT.3.GPV.Pu.trained/NT.3.GPV.Pu   | yes   |
-   | ISCED 23 | TrNTP.2t3.Pu | NT.23.GPV.Pu.trained/NT.23.GPV.Pu | yes   |
-   |----------+--------------+-----------------------------------+-------|
+   |          | IND_ID           | FORMULA                             | H & L |
+   |----------+------------------+-------------------------------------+-------|
+   | ISCED 1  | TrNTP.1.Pu       | NT.1.Pu.trained/NT.1.Pu             | yes   |
+   | ISCED 2  | TrNTP.2.GPV.Pu   | NT.2.GPV.Pu.trained/NT.2.GPV.Pu     | yes   |
+   | ISCED 3  | TrNTP.3.GPV.Pu   | NT.3.GPV.Pu.trained/NT.3.GPV.Pu     | yes   |
+   | ISCED 23 | TrNTP.2t3.GPV.Pu | NT.2t3.GPV.Pu.trained/NT.2t3.GPV.Pu | yes   |
+   |----------+------------------+-------------------------------------+-------|
    #+latex: \\
    #+ATTR_LATEX:  :align |l|l|l|c|
-   |          | IND_ID       | FORMULA                           | H & L |
-   |----------+--------------+-----------------------------------+-------|
-   | ISCED 1  | TrNTP.1.Pr   | NT.1.Pr.trained/NT.1.Pr           | yes   |
-   | ISCED 2  | TrNTP.2.Pr   | NT.2.GPV.Pr.trained/NT.2.GPV.Pr   | yes   |
-   | ISCED 3  | TrNTP.3.Pr   | NT.3.GPV.Pr.trained/NT.3.GPV.Pr   | yes   |
-   | ISCED 23 | TrNTP.2t3.Pr | NT.23.GPV.Pr.trained/NT.23.GPV.Pr | yes   |
-   |----------+--------------+-----------------------------------+-------|
+   |          | IND_ID           | FORMULA                             | H & L |
+   |----------+------------------+-------------------------------------+-------|
+   | ISCED 1  | TrNTP.1.Pr       | NT.1.Pr.trained/NT.1.Pr             | yes   |
+   | ISCED 2  | TrNTP.2.GPV.Pr   | NT.2.GPV.Pr.trained/NT.2.GPV.Pr     | yes   |
+   | ISCED 3  | TrNTP.3.GPV.Pr   | NT.3.GPV.Pr.trained/NT.3.GPV.Pr     | yes   |
+   | ISCED 23 | TrNTP.2t3.GPV.Pr | NT.2t3.GPV.Pr.trained/NT.2t3.GPV.Pr | yes   |
+   |----------+------------------+-------------------------------------+-------|
 
 
    
@@ -857,13 +857,13 @@ Some more specific technical notation exists for some of the subsections.
    + IND_IDS information ::
 #+latex: \\
    #+ATTR_LATEX:  :align |l|l|l|c|
-        |          | IND_ID  | FORMULA              | H & L |
-        |----------+----------+----------------------+-------|
-        | ISCED 1  | PrTP.1   | T.1.Pr/T.1           | yes   |
-        | ISCED 2  | PrTP.2   | T.2.GPV.Pr/T.2.GPV   | yes   |
-        | ISCED 3  | PrTP.3   | T.3.GPV.Pr/T.3.GPV   | yes   |
-        | ISCED 23 | PrTP.2t3 | T.23.GPV.Pr/T.23.GPV | yes   |
-        |----------+----------+----------------------+-------|
+        |          | IND_ID       | FORMULA                | H & L |
+        |----------+--------------+------------------------+-------|
+        | ISCED 1  | PrTP.1       | T.1.Pr/T.1             | yes   |
+        | ISCED 2  | PrTP.2.GPV   | T.2.GPV.Pr/T.2.GPV     | yes   |
+        | ISCED 3  | PrTP.3.GPV   | T.3.GPV.Pr/T.3.GPV     | yes   |
+        | ISCED 23 | PrTP.2t3.GPV | T.2t3.GPV.Pr/T.2t3.GPV | yes   |
+        |----------+--------------+------------------------+-------|
 
 ** Percentage of non-permanent teachers
    This has three sets of symbols. One for the private sector, one
@@ -872,35 +872,35 @@ Some more specific technical notation exists for some of the subsections.
    + IND_IDS information Private ::
 #+latex: \\
    #+ATTR_LATEX:  :align |l|l|l|c| 
-        |          | IND_ID          | FORMULA                     | H & L |
-        |----------+------------------+-----------------------------+-------|
-        | ISCED 1  | FixTP.1.Pr       | T.1.Pr.Fix/T.1.Pr           | no    |
-        | ISCED 2  | FixTP.2.GPV.Pr   | T.2.GPV.Pr.Fix/T.2.GPV.Pr   | no    |
-        | ISCED 3  | FixTP.3.GPV.Pr   | T.3.GPV.Pr.Fix/T.3.GPV.Pr   | no    |
-        | ISCED 23 | FixTP.2t3.GPV.Pr | T.23.GPV.Pr.Fix/T.23.GPV.Pr | no    |
-        |----------+------------------+-----------------------------+-------|
+        |          | IND_ID           | FORMULA                       | H & L |
+        |----------+------------------+-------------------------------+-------|
+        | ISCED 1  | FixTP.1.Pr       | T.1.Pr.Fix/T.1.Pr             | no    |
+        | ISCED 2  | FixTP.2.GPV.Pr   | T.2.GPV.Pr.Fix/T.2.GPV.Pr     | no    |
+        | ISCED 3  | FixTP.3.GPV.Pr   | T.3.GPV.Pr.Fix/T.3.GPV.Pr     | no    |
+        | ISCED 23 | FixTP.2t3.GPV.Pr | T.2t3.GPV.Pr.Fix/T.2t3.GPV.Pr | no    |
+        |----------+------------------+-------------------------------+-------|
 
    + IND_IDS information Public ::
 #+latex: \\
    #+ATTR_LATEX:  :align |l|l|l|c| 
-        |          | IND_ID          | FORMULA                     | H & L |
-        |----------+------------------+-----------------------------+-------|
-        | ISCED 1  | FixTP.1.Pu       | T.1.Pu.Fix/T.1.Pu           | no    |
-        | ISCED 2  | FixTP.2.GPV.Pu   | T.2.GPV.Pu.Fix/T.2.GPV.Pu   | no    |
-        | ISCED 3  | FixTP.3.GPV.Pu   | T.3.GPV.Pu.Fix/T.3.GPV.Pu   | no    |
-        | ISCED 23 | FixTP.2t3.GPV.Pu | T.23.GPV.Pu.Fix/T.23.GPV.Pu | no    |
-        |----------+------------------+-----------------------------+-------|
+        |          | IND_ID           | FORMULA                       | H & L |
+        |----------+------------------+-------------------------------+-------|
+        | ISCED 1  | FixTP.1.Pu       | T.1.Pu.Fix/T.1.Pu             | no    |
+        | ISCED 2  | FixTP.2.GPV.Pu   | T.2.GPV.Pu.Fix/T.2.GPV.Pu     | no    |
+        | ISCED 3  | FixTP.3.GPV.Pu   | T.3.GPV.Pu.Fix/T.3.GPV.Pu     | no    |
+        | ISCED 23 | FixTP.2t3.GPV.Pu | T.2t3.GPV.Pu.Fix/T.2t3.GPV.Pu | no    |
+        |----------+------------------+-------------------------------+-------|
 
    + IND_IDS information Combined ::
 #+latex: \\
    #+ATTR_LATEX:  :align |l|l|l|c| 
-        |          | IND_ID       | FORMULA                                                     | H & L |
-        |----------+---------------+-------------------------------------------------------------+-------|
-        | ISCED 1  | FixTP.1       | (T.1.Pr.Fix+T.1.Pu.Fix)/(T.1.Pr+T.1.Pu)                     | no    |
-        | ISCED 2  | FixTP.2.GPV   | (T.2.GPV.Pr.Fix+T.2.GPV.Pu.Fix)/(T.2.GPV.Pr+T.2.GPV.Pu)     | no    |
-        | ISCED 3  | FixTP.3.GPV   | (T.3.GPV.Pu.Fix+T.3.GPV.Pr.Fix)/(T.3.GPV.Pr+T.3.GPV.Pu)     | no    |
-        | ISCED 23 | FixTP.2t3.GPV | (T.23.GPV.Pu.Fix+T.23.GPV.Pr.Fix)/(T.23.GPV.Pr+T.23.GPV.Pu) | no    |
-        |----------+---------------+-------------------------------------------------------------+-------|
+        |          | IND_ID        | FORMULA                                                         | H & L |
+        |----------+---------------+-----------------------------------------------------------------+-------|
+        | ISCED 1  | FixTP.1       | (T.1.Pr.Fix+T.1.Pu.Fix)/(T.1.Pr+T.1.Pu)                         | no    |
+        | ISCED 2  | FixTP.2.GPV   | (T.2.GPV.Pr.Fix+T.2.GPV.Pu.Fix)/(T.2.GPV.Pr+T.2.GPV.Pu)         | no    |
+        | ISCED 3  | FixTP.3.GPV   | (T.3.GPV.Pu.Fix+T.3.GPV.Pr.Fix)/(T.3.GPV.Pr+T.3.GPV.Pu)         | no    |
+        | ISCED 23 | FixTP.2t3.GPV | (T.2t3.GPV.Pu.Fix+T.2t3.GPV.Pr.Fix)/(T.2t3.GPV.Pr+T.2t3.GPV.Pu) | no    |
+        |----------+---------------+-----------------------------------------------------------------+-------|
 
 ** Percentage of permanent teachers
    This has three sets of symbols. One for the private sector, one
@@ -909,35 +909,35 @@ Some more specific technical notation exists for some of the subsections.
    + IND_IDS information Private ::
 #+latex: \\
    #+ATTR_LATEX:  :align |l|l|l|c| 
-        |          | IND_ID          | FORMULA                     | H & L |
-        |----------+------------------+-----------------------------+-------|
-        | ISCED 1  | PermTP.1.Pr       | T.1.Pr.Perm/T.1.Pr           | no    |
-        | ISCED 2  | PermTP.2.GPV.Pr   | T.2.GPV.Pr.Perm/T.2.GPV.Pr   | no    |
-        | ISCED 3  | PermTP.3.GPV.Pr   | T.3.GPV.Pr.Perm/T.3.GPV.Pr   | no    |
-        | ISCED 23 | PermTP.2t3.GPV.Pr | T.23.GPV.Pr.Perm/T.23.GPV.Pr | no    |
-        |----------+------------------+-----------------------------+-------|
+        |          | IND_ID            | FORMULA                        | H & L |
+        |----------+-------------------+--------------------------------+-------|
+        | ISCED 1  | PermTP.1.Pr       | T.1.Pr.Perm/T.1.Pr             | no    |
+        | ISCED 2  | PermTP.2.GPV.Pr   | T.2.GPV.Pr.Perm/T.2.GPV.Pr     | no    |
+        | ISCED 3  | PermTP.3.GPV.Pr   | T.3.GPV.Pr.Perm/T.3.GPV.Pr     | no    |
+        | ISCED 23 | PermTP.2t3.GPV.Pr | T.2t3.GPV.Pr.Perm/T.2t3.GPV.Pr | no    |
+        |----------+-------------------+--------------------------------+-------|
 
    + IND_IDS information Public ::
 #+latex: \\
    #+ATTR_LATEX:  :align |l|l|l|c| 
-        |          | IND_ID          | FORMULA                     | H & L |
-        |----------+------------------+-----------------------------+-------|
-        | ISCED 1  | PermTP.1.Pu       | T.1.Pu.Perm/T.1.Pu           | no    |
-        | ISCED 2  | PermTP.2.GPV.Pu   | T.2.GPV.Pu.Perm/T.2.GPV.Pu   | no    |
-        | ISCED 3  | PermTP.3.GPV.Pu   | T.3.GPV.Pu.Perm/T.3.GPV.Pu   | no    |
-        | ISCED 23 | PermTP.2t3.GPV.Pu | T.23.GPV.Pu.Perm/T.23.GPV.Pu | no    |
-        |----------+------------------+-----------------------------+-------|
+        |          | IND_ID            | FORMULA                        | H & L |
+        |----------+-------------------+--------------------------------+-------|
+        | ISCED 1  | PermTP.1.Pu       | T.1.Pu.Perm/T.1.Pu             | no    |
+        | ISCED 2  | PermTP.2.GPV.Pu   | T.2.GPV.Pu.Perm/T.2.GPV.Pu     | no    |
+        | ISCED 3  | PermTP.3.GPV.Pu   | T.3.GPV.Pu.Perm/T.3.GPV.Pu     | no    |
+        | ISCED 23 | PermTP.2t3.GPV.Pu | T.2t3.GPV.Pu.Perm/T.2t3.GPV.Pu | no    |
+        |----------+-------------------+--------------------------------+-------|
 
    + IND_IDS information Combined ::
 #+latex: \\
    #+ATTR_LATEX:  :align |l|l|l|c| 
-        |          | IND_ID       | FORMULA                                                     | H & L |
-        |----------+---------------+-------------------------------------------------------------+-------|
-        | ISCED 1  | PermTP.1       | (T.1.Pr.Perm+T.1.Pu.Perm)/(T.1.Pr+T.1.Pu)                     | no    |
-        | ISCED 2  | PermTP.2.GPV   | (T.2.GPV.Pr.Perm+T.2.GPV.Pu.Perm)/(T.2.GPV.Pr+T.2.GPV.Pu)     | no    |
-        | ISCED 3  | PermTP.3.GPV   | (T.3.GPV.Pu.Perm+T.3.GPV.Pr.Perm)/(T.3.GPV.Pr+T.3.GPV.Pu)     | no    |
-        | ISCED 23 | PermTP.2t3.GPV | (T.23.GPV.Pu.Perm+T.23.GPV.Pr.Perm)/(T.23.GPV.Pr+T.23.GPV.Pu) | no    |
-        |----------+---------------+-------------------------------------------------------------+-------|
+        |          | IND_ID         | FORMULA                                                           | H & L |
+        |----------+----------------+-------------------------------------------------------------------+-------|
+        | ISCED 1  | PermTP.1       | (T.1.Pr.Perm+T.1.Pu.Perm)/(T.1.Pr+T.1.Pu)                         | no    |
+        | ISCED 2  | PermTP.2.GPV   | (T.2.GPV.Pr.Perm+T.2.GPV.Pu.Perm)/(T.2.GPV.Pr+T.2.GPV.Pu)         | no    |
+        | ISCED 3  | PermTP.3.GPV   | (T.3.GPV.Pu.Perm+T.3.GPV.Pr.Perm)/(T.3.GPV.Pr+T.3.GPV.Pu)         | no    |
+        | ISCED 23 | PermTP.2t3.GPV | (T.2t3.GPV.Pu.Perm+T.2t3.GPV.Pr.Perm)/(T.2t3.GPV.Pr+T.2t3.GPV.Pu) | no    |
+        |----------+----------------+-------------------------------------------------------------------+-------|
     
 ** Attrition rate
 
@@ -945,27 +945,27 @@ Some more specific technical notation exists for some of the subsections.
    + IND_IDS information Private ::
 #+latex: \\
    #+ATTR_LATEX:  :align |l|l|l|c| 
-        |          | IND_ID         | FORMULA                                                | H & L |
-        |----------+----------------+--------------------------------------------------------+-------|
-        | ISCED 1  | TAttrR.1       | 100*(T.1^{L} + NT.1 - T.1)/T.1^{L}                     | no    |
-        | ISCED 2  | TAttrR.2.GPV   | 100*(T.2.GPV^{L} + NT.2.GPV - T.2.GPV)/T.2.GPV^{L}     | no    |
-        | ISCED 3  | TAttrR.3.GPV   | 100*(T.3.GPV^{L} + NT.3.GPV - T.3.GPV)/T.3.GPV^{L}     | no    |
-        | ISCED 23 | TAttrR.2t3.GPV | 100*(T.23.GPV^{L} + NT.23.GPV - T.23.GPV)/T.23.GPV^{L} | no    |
-        |----------+----------------+--------------------------------------------------------+-------|
+        |          | IND_ID         | FORMULA                                                    | H & L |
+        |----------+----------------+------------------------------------------------------------+-------|
+        | ISCED 1  | TAttrR.1       | 100*(T.1^{L} + NT.1 - T.1)/T.1^{L}                         | no    |
+        | ISCED 2  | TAttrR.2.GPV   | 100*(T.2.GPV^{L} + NT.2.GPV - T.2.GPV)/T.2.GPV^{L}         | no    |
+        | ISCED 3  | TAttrR.3.GPV   | 100*(T.3.GPV^{L} + NT.3.GPV - T.3.GPV)/T.3.GPV^{L}         | no    |
+        | ISCED 23 | TAttrR.2t3.GPV | 100*(T.2t3.GPV^{L} + NT.2t3.GPV - T.2t3.GPV)/T.2t3.GPV^{L} | no    |
+        |----------+----------------+------------------------------------------------------------+-------|
 
 ** Mean age 
 
-   + Python method :: mean_age_level(level in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV'])
+   + Python method :: mean_age_level(level in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.2t3.GPV'])
    + IND_IDS information :: 
 #+latex: \\
    #+ATTR_LATEX:  :align |l|l|l|c|
-        |          | IND_ID        | FORMULA                                                           | H & L |
-        |----------+---------------+-------------------------------------------------------------------+-------|
-        | ISCED 1  | MAge.T.1      | \sum_{y in cat} T.1.y \times MP.y / \sum_{y in cat} T.1.y         | No    |
-        | ISCED 2  | MAge.T.2.GPV  | \sum_{y in cat} T.2.GPV.y \times MP.y/ \sum_{y in cat} T.2.GPV.y  | No    |
-        | ISCED 3  | MAge.T.3.GPV  | \sum_{y in cat} T.3.GPV.y \times MP.y/\sum_{y in cat} T.3.GPV.y   | No    |
-        | ISCED 23 | MAge.T.23.GPV | \sum_{y in cat} T.23.GPV.y\times MP.y/ \sum_{y in cat} T.23.GPV.y | No    |
-        |----------+---------------+-------------------------------------------------------------------+-------|
+        |          | IND_ID         | FORMULA                                                             | H & L |
+        |----------+----------------+---------------------------------------------------------------------+-------|
+        | ISCED 1  | MAge.T.1       | \sum_{y in cat} T.1.y \times MP.y / \sum_{y in cat} T.1.y           | No    |
+        | ISCED 2  | MAge.T.2.GPV   | \sum_{y in cat} T.2.GPV.y \times MP.y/ \sum_{y in cat} T.2.GPV.y    | No    |
+        | ISCED 3  | MAge.T.3.GPV   | \sum_{y in cat} T.3.GPV.y \times MP.y/\sum_{y in cat} T.3.GPV.y     | No    |
+        | ISCED 23 | MAge.T.2t3.GPV | \sum_{y in cat} T.2t3.GPV.y\times MP.y/ \sum_{y in cat} T.2t3.GPV.y | No    |
+        |----------+----------------+---------------------------------------------------------------------+-------|
         where =cat= is =Ag20m=, =Ag20t29=, =Ag30t39=, =Ag40t49=, =Ag50t59= and =Ag60p=. Midpoints (MP) are based on the following:
 #+latex: \\
    #+ATTR_LATEX:  :align |l|c|c|c|c|c|c|
@@ -977,17 +977,17 @@ Some more specific technical notation exists for some of the subsections.
           
 ** Mean years of experience 
 
-   + Python method :: mean_exp_level(level in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV'])
+   + Python method :: mean_exp_level(level in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.2t3.GPV'])
    + IND_IDS information ::
 #+latex: \\
    #+ATTR_LATEX:  :align |l|l|l|c|
-        |          | IND_ID        | FORMULA                                                            | H & L |
-        |----------+---------------+--------------------------------------------------------------------+-------|
-        | ISCED 1  | MExp.T.1      | \sum_{y in cat} T.1.y \times \times MP.y/ \sum_{y in cat} T.1.y    | No    |
-        | ISCED 2  | MExp.T.2.GPV  | \sum_{y in cat} T.2.GPV.y\times MP.y / \sum_{y in cat} T.2.GPV.y   | No    |
-        | ISCED 3  | MExp.T.3.GPV  | \sum_{y in cat} T.3.GPV.y\times MP.y / \sum_{y in cat} T.3.GPV.y   | No    |
-        | ISCED 23 | MExp.T.23.GPV | \sum_{y in cat} T.23.GPV.y\times MP.y / \sum_{y in cat} T.23.GPV.y | No    |
-        |----------+---------------+--------------------------------------------------------------------+-------|
+        |          | IND_ID         | FORMULA                                                              | H & L |
+        |----------+----------------+----------------------------------------------------------------------+-------|
+        | ISCED 1  | MExp.T.1       | \sum_{y in cat} T.1.y \times \times MP.y/ \sum_{y in cat} T.1.y      | No    |
+        | ISCED 2  | MExp.T.2.GPV   | \sum_{y in cat} T.2.GPV.y\times MP.y / \sum_{y in cat} T.2.GPV.y     | No    |
+        | ISCED 3  | MExp.T.3.GPV   | \sum_{y in cat} T.3.GPV.y\times MP.y / \sum_{y in cat} T.3.GPV.y     | No    |
+        | ISCED 23 | MExp.T.2t3.GPV | \sum_{y in cat} T.2t3.GPV.y\times MP.y / \sum_{y in cat} T.2t3.GPV.y | No    |
+        |----------+----------------+----------------------------------------------------------------------+-------|
         where =cat= is  =Exp1t2=,  =Exp3t5=, =Exp6t10=,  =Exp11t15= and  =Exp15p=.  and Midpoints (MP) are based on the following:  
    #+latex: \\
    #+ATTR_LATEX:  :align |l|c|c|c|c|c|c|
@@ -1003,15 +1003,15 @@ Some more specific technical notation exists for some of the subsections.
    + IND_IDS information :: 
 #+latex: \\
    #+ATTR_LATEX:  :align |l|l|l|c|                       
-     | Highest educational attainment | IND_ID    | FORMULA                                        | H & L |
-     |--------------------------------+-----------+------------------------------------------------+-------|
-     | Lower secondary or Less        | EA2mPT.IS | T.IS.EA.2m / T.IS                              | No    |
-     | Upper secondary                | EA3PT.IS  | T.IS.EA.3 / T.IS                               | No    |
-     | Post secondary                 | EA4PT.IS  | T.IS.EA.4 / T.IS                               | No    |
-     | At least tertiary              | EA5pPT.IS | T.IS.EA.5 + T.IS.EA.6+T.IS.EA.7+T.IS.EA.8/T.IS | No    |
-     | Unknown                        | EAukPT.IS | T.IS.EA.uk / T.IS                              | No    |
-     |--------------------------------+-----------+------------------------------------------------+-------|
-        =IS= stands for ISCED level which are =[1, 2.GPV, 3.GPV, 23.GPV]=, combined with suffixes =['.Pu', '.Pr']= for public and private sub-category.
+     | Highest educational attainment | IND_ID    | FORMULA                                          | H & L |
+     |--------------------------------+-----------+--------------------------------------------------+-------|
+     | Lower secondary or Less        | EA2mPT.IS | T.IS.EA.2m / T.IS                                | No    |
+     | Upper secondary                | EA3PT.IS  | T.IS.EA.3 / T.IS                                 | No    |
+     | Post secondary                 | EA4PT.IS  | T.IS.EA.4 / T.IS                                 | No    |
+     | At least tertiary              | EA5pPT.IS | (T.IS.EA.5 + T.IS.EA.6+T.IS.EA.7+T.IS.EA.8)/T.IS | No    |
+     | Unknown                        | EAukPT.IS | T.IS.EA.uk / T.IS                                | No    |
+     |--------------------------------+-----------+--------------------------------------------------+-------|
+        =IS= stands for ISCED level which are =[1, 2.GPV, 3.GPV, 2t3.GPV]=, combined with suffixes =['.Pu', '.Pr']= for public and private sub-category.
        
         
    Note that all indicators are calculated for Total, Public and Private levels.    
@@ -1031,7 +1031,7 @@ Some more specific technical notation exists for some of the subsections.
        | more 15 than years | Exp15pPT.ISCED   | T.ISCED.Exp15p/T.ISCED   | No    |
        | Unknown            | ExpukPT.ISCED    | T.ISCED.Expuk/T.ISCED    | No    |
        |--------------------+------------------+--------------------------+-------|
-        =ISCED= is =['  1', '2.GPV', '3.GPV', '23.GPV']=, combined with suffixes =['.Pu', '.Pr']= for public and private sub-category.
+        =ISCED= is =['  1', '2.GPV', '3.GPV', '2t3.GPV']=, combined with suffixes =['.Pu', '.Pr']= for public and private sub-category.
         
    Note that all indicators are calculated for Total, Public and Private levels.    
 
@@ -1051,7 +1051,7 @@ Some more specific technical notation exists for some of the subsections.
         | 60 years or more   | Ag60pPT.ISCED   | T.ISCED.Ag60P/T.ISCED   | No    |
         | Unknown            | AgukPT.ISCED    | T.ISCED.Aguk/T.ISCED    | No    |
         |--------------------+-----------------+-------------------------+-------|
-        =ISCED= is =['  1', '2.GPV', '3.GPV', '23.GPV']=, combined with suffixes =['.Pu', '.Pr']= for public and private sub-category.
+        =ISCED= is =['  1', '2.GPV', '3.GPV', '2t3.GPV']=, combined with suffixes =['.Pu', '.Pr']= for public and private sub-category.
         
    Note that all indicators are calculated for Total, Public and Private levels.    
 
@@ -1081,9 +1081,9 @@ Some more specific technical notation exists for some of the subsections.
         | Non-permanent teachers, public          | DIndT.IS.Pu.Fix   | \(\frac{1}{2} \sum_a\mid \frac{T.IS.Pu.Fix_a}{T.IS.Pu.Fix} - \frac{E.IS.Pu_a}{E.IS.Pu} \mid\) |
         |-----------------------------------------+-------------------+-----------------------------------------------------------------------------------------------|
    Much notations are omitted for clearer presentation.
-           * =IS= stands for ISCED level which are =[1, 2.GPV, 3.GPV, 23.GPV]=.
+           * =IS= stands for ISCED level which are =[1, 2.GPV, 3.GPV, 2t3.GPV]=.
            * =a= stands for administrative division, on the denominators the =a= is omitted for national level data.
-           * =E.23.GPV= is not collected in the questionnaire, so it is =E.2.GPV + E.3.GPV=.
+           * =E.2t3.GPV= is not collected in the questionnaire, so it is =E.2.GPV + E.3.GPV=.
            * To compute age 50 plus, data in ages 50 to 59 and 60 plus are added. This notation is omitted in the formula for brevity.
            * =Math=, =Reading and Writing= are only calculated for ISCED level 2t3, total.
            * =ISp1m= reads as ISCED level which is 1 level above or less than the actual level, that is for ISCED 2 =ISp1m = 3m=, and for ISCED 2t3 =ISp1m =4m=. The levels are summed.
@@ -1679,7 +1679,7 @@ needs to be called for each desired sheet.
     export_var('Teachers ISCED 1', wb, co_code, year, var_type = "sheet",serie= 'REP')
     export_var('Teachers ISCED 2', wb, co_code, year, var_type = "sheet",serie= 'REP')
     export_var('Teachers ISCED 3', wb, co_code, year, var_type = "sheet",serie= 'REP')
-    export_var('Teachers ISCED 23', wb, co_code, year, var_type = "sheet",serie= 'REP')
+    export_var('Teachers ISCED 2t3', wb, co_code, year, var_type = "sheet",serie= 'REP')
     wb.close()
   #+END_SRC
 #+latex: \caption{Exporting data to an Excel file}\end{code}

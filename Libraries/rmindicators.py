@@ -359,7 +359,7 @@ class indicators():
         for indicator_AC in indexes_dict.keys():
             lista1=indexes_dict[indicator_AC][0]
             lista2=indexes_dict[indicator_AC][1]
-            values_dict[indicator_AC]=self.column_operation(lista1,lista2,div)
+            values_dict[indicator_AC]=self.column_operation(lista1,lista2,lambda x,y: prod(div(x,y),[100,'value'])  )
             
         self.write_indic_sql(values_dict)
         
@@ -375,16 +375,16 @@ class indicators():
     def pupils_teachers_ratio(self):
         """ Computes the PTRHC indicators."""
         variables_dict={ "PTRHC.1" : [["E.1",0],["T.1",0]],
-                         "PTRHC.2": [["E.2.GPV",0],["T.2.GPV",0]],
-                         "PTRHC.3": [["E.3.GPV",0],["T.3.GPV",0]],
+                         "PTRHC.2.GPV": [["E.2.GPV",0],["T.2.GPV",0]],
+                         "PTRHC.3.GPV": [["E.3.GPV",0],["T.3.GPV",0]],
 
                          "PTRHC.1.Pu" : [["E.1.Pu",0],["T.1.Pu",0]],
-                         "PTRHC.2.Pu": [["E.2.GPV.Pu",0],["T.2.GPV.Pu",0]],
-                         "PTRHC.3.Pu": [["E.3.GPV.Pu",0],["T.3.GPV.Pu",0]],
+                         "PTRHC.2.GPV.Pu": [["E.2.GPV.Pu",0],["T.2.GPV.Pu",0]],
+                         "PTRHC.3.GPV.Pu": [["E.3.GPV.Pu",0],["T.3.GPV.Pu",0]],
 
                          "PTRHC.1.Pr" : [["E.1.Pr",0],["T.1.Pr",0]],
-                         "PTRHC.2.Pr": [["E.2.GPV.Pr",0],["T.2.GPV.Pr",0]],
-                         "PTRHC.3.Pr": [["E.3.GPV.Pr",0],["T.3.GPV.Pr",0]]                         
+                         "PTRHC.2.GPV.Pr": [["E.2.GPV.Pr",0],["T.2.GPV.Pr",0]],
+                         "PTRHC.3.GPV.Pr": [["E.3.GPV.Pr",0],["T.3.GPV.Pr",0]]                         
         }
         self.compute_percentages(variables_dict,True)
         ## Now we add the 2t3 undicators. It could not be done with
@@ -409,7 +409,7 @@ class indicators():
             numerator_list2=self.column_operation(["E.3.GPV" + suffix ,0])
             numerator_list=list( map(lambda x,y: sum(x,y),numerator_list1,numerator_list2))
             denominator_list=self.column_operation(["T.23.GPV" + suffix ,0])
-            values=list(map( lambda x,y: div(x,y), numerator_list,denominator_list))
+            values=list(map( lambda x,y: prod(div(x,y),[100,'value']), numerator_list,denominator_list))
             values_dict["PTRHC.2t3" + suffix]=values
             self.write_indic_sql_no_regions("PTRHC.2t3" + suffix + ".Max",max_sp(values))
             self.write_indic_sql_no_regions("PTRHC.2t3" + suffix + ".Min",min_sp(values))
@@ -430,19 +430,19 @@ class indicators():
     def newly_recruited_teachers(self):
         """Computes the NTP indicators."""
         variables_dict={"NTP.1" : [["NT.1",0],["T.1",0]],
-                        "NTP.2":[["NT.2.GPV",0],["T.2.GPV",0]],
-                        "NTP.3" : [["NT.3.GPV",0],["T.3.GPV",0]],
-                        "NTP.2t3" : [["NT.23.GPV",0],["T.23.GPV",0]],
+                        "NTP.2.GPV":[["NT.2.GPV",0],["T.2.GPV",0]],
+                        "NTP.3.GPV" : [["NT.3.GPV",0],["T.3.GPV",0]],
+                        "NTP.2t3.GPV" : [["NT.23.GPV",0],["T.23.GPV",0]],
 
                         "NTP.1.Pu" : [["NT.1.Pu",0],["T.1.Pu",0]],
-                        "NTP.2.Pu":[["NT.2.GPV.Pu",0],["T.2.GPV.Pu",0]],
-                        "NTP.3.Pu" : [["NT.3.GPV.Pu",0],["T.3.GPV.Pu",0]],
-                        "NTP.2t3.Pu" : [["NT.23.GPV.Pu",0],["T.23.GPV.Pu",0]],
+                        "NTP.2.GPV.Pu":[["NT.2.GPV.Pu",0],["T.2.GPV.Pu",0]],
+                        "NTP.3.GPV.Pu" : [["NT.3.GPV.Pu",0],["T.3.GPV.Pu",0]],
+                        "NTP.2t3.GPV.Pu" : [["NT.23.GPV.Pu",0],["T.23.GPV.Pu",0]],
 
                         "NTP.1.Pr" : [["NT.1.Pr",0],["T.1.Pr",0]],
-                        "NTP.2.Pr":[["NT.2.GPV.Pr",0],["T.2.GPV.Pr",0]],
-                        "NTP.3.Pr" : [["NT.3.GPV.Pr",0],["T.3.GPV.Pr",0]],
-                        "NTP.2t3.Pr" : [["NT.23.GPV.Pr",0],["T.23.GPV.Pr",0]]
+                        "NTP.2.GPV.Pr":[["NT.2.GPV.Pr",0],["T.2.GPV.Pr",0]],
+                        "NTP.3.GPV.Pr" : [["NT.3.GPV.Pr",0],["T.3.GPV.Pr",0]],
+                        "NTP.2t3.GPV.Pr" : [["NT.23.GPV.Pr",0],["T.23.GPV.Pr",0]]
         }
         
         self.compute_percentages(variables_dict)
@@ -450,19 +450,19 @@ class indicators():
     def teachers_percentage_female(self):
         """Computes FTP indicators."""
         variables_dict={ "FTP.1":[["T.1.F",0],["T.1",0]],
-                         "FTP.2":[["T.2.GPV.F",0],["T.2.GPV",0]],
-                         "FTP.3" : [["T.3.GPV.F",0],["T.3.GPV",0]],
-                         "FTP.2t3" : [["T.23.GPV.F",0],["T.23.GPV",0]],
+                         "FTP.2.GPV":[["T.2.GPV.F",0],["T.2.GPV",0]],
+                         "FTP.3.GPV" : [["T.3.GPV.F",0],["T.3.GPV",0]],
+                         "FTP.2t3.GPV" : [["T.23.GPV.F",0],["T.23.GPV",0]],
                          
                          "FTP.1.Pu":[["T.1.Pu.F",0],["T.1.Pu",0]],
-                         "FTP.2.Pu":[["T.2.GPV.Pu.F",0],["T.2.GPV.Pu",0]],
-                         "FTP.3.Pu" : [["T.3.GPV.Pu.F",0],["T.3.GPV.Pu",0]],
-                         "FTP.2t3.Pu" : [["T.23.GPV.Pu.F",0],["T.23.GPV.Pu",0]],
+                         "FTP.2.GPV.Pu":[["T.2.GPV.Pu.F",0],["T.2.GPV.Pu",0]],
+                         "FTP.3.GPV.Pu" : [["T.3.GPV.Pu.F",0],["T.3.GPV.Pu",0]],
+                         "FTP.2t3.GPV.Pu" : [["T.23.GPV.Pu.F",0],["T.23.GPV.Pu",0]],
 
                          "FTP.1.Pr":[["T.1.Pr.F",0],["T.1.Pr",0]],
-                         "FTP.2.Pr":[["T.2.GPV.Pr.F",0],["T.2.GPV.Pr",0]],
-                         "FTP.3.Pr" : [["T.3.GPV.Pr.F",0],["T.3.GPV.Pr",0]],
-                         "FTP.2t3.Pr" : [["T.23.GPV.Pr.F",0],["T.23.GPV.Pr",0]]
+                         "FTP.2.GPV.Pr":[["T.2.GPV.Pr.F",0],["T.2.GPV.Pr",0]],
+                         "FTP.3.GPV.Pr" : [["T.3.GPV.Pr.F",0],["T.3.GPV.Pr",0]],
+                         "FTP.2t3.GPV.Pr" : [["T.23.GPV.Pr.F",0],["T.23.GPV.Pr",0]]
                          }
         
         self.compute_percentages(variables_dict)
@@ -470,34 +470,34 @@ class indicators():
     def percentage_trained_teachers(self):
         """Computes TRTP indicators. """
         variables_dict1={"TRTP.1": [["T.1.trained",0 ],["T.1",0] ],
-                         "TRTP.2": [["T.2.GPV.trained",0 ],["T.2.GPV",0]],
-                         "TRTP.3" : [["T.3.GPV.trained",0],["T.3.GPV",0]],
-                         "TRTP.2t3": [["T.23.GPV.trained",0 ],["T.23.GPV",0] ],
+                         "TRTP.2.GPV": [["T.2.GPV.trained",0 ],["T.2.GPV",0]],
+                         "TRTP.3.GPV" : [["T.3.GPV.trained",0],["T.3.GPV",0]],
+                         "TRTP.2t3.GPV": [["T.23.GPV.trained",0 ],["T.23.GPV",0] ],
 
                          "TRTP.1.Pu": [["T.1.Pu.trained",0 ],["T.1.Pu",0] ],
-                         "TRTP.2.Pu": [["T.2.GPV.Pu.trained",0 ],["T.2.GPV.Pu",0]],
-                         "TRTP.3.Pu" : [["T.3.GPV.Pu.trained",0],["T.3.GPV.Pu",0]],
-                         "TRTP.2t3.Pu": [["T.23.GPV.Pu.trained",0 ],["T.23.GPV.Pu",0] ],
+                         "TRTP.2.GPV.Pu": [["T.2.GPV.Pu.trained",0 ],["T.2.GPV.Pu",0]],
+                         "TRTP.3.GPV.Pu" : [["T.3.GPV.Pu.trained",0],["T.3.GPV.Pu",0]],
+                         "TRTP.2t3.GPV.Pu": [["T.23.GPV.Pu.trained",0 ],["T.23.GPV.Pu",0] ],
 
                          "TRTP.1.Pr": [["T.1.Pr.trained",0 ],["T.1.Pr",0] ],
-                         "TRTP.2.Pr": [["T.2.GPV.Pr.trained",0 ],["T.2.GPV.Pr",0]],
-                         "TRTP.3.Pr" : [["T.3.GPV.Pr.trained",0],["T.3.GPV.Pr",0]],
-                         "TRTP.2t3.Pr": [["T.23.GPV.Pr.trained",0 ],["T.23.GPV.Pr",0] ]                         
+                         "TRTP.2.GPV.Pr": [["T.2.GPV.Pr.trained",0 ],["T.2.GPV.Pr",0]],
+                         "TRTP.3.GPV.Pr" : [["T.3.GPV.Pr.trained",0],["T.3.GPV.Pr",0]],
+                         "TRTP.2t3.GPV.Pr": [["T.23.GPV.Pr.trained",0 ],["T.23.GPV.Pr",0] ]                         
         }
         variables_dict2={"TrNTP.1": [["NT.1.trained",0],["NT.1",0]],
-                         "TrNTP.2":[["NT.2.GPV.trained",0],["NT.2.GPV",0]],
-                         "TrNTP.3":[["NT.3.GPV.trained",0],["NT.3.GPV",0]],
-                         "TrNTP.2t3": [["NT.23.GPV.trained",0],["NT.23.GPV",0]],
+                         "TrNTP.2.GPV":[["NT.2.GPV.trained",0],["NT.2.GPV",0]],
+                         "TrNTP.3.GPV":[["NT.3.GPV.trained",0],["NT.3.GPV",0]],
+                         "TrNTP.2t3.GPV": [["NT.23.GPV.trained",0],["NT.23.GPV",0]],
 
                          "TrNTP.1.Pu": [["NT.1.Pu.trained",0],["NT.1.Pu",0]],
-                         "TrNTP.2.Pu":[["NT.2.GPV.Pu.trained",0],["NT.2.GPV.Pu",0]],
-                         "TrNTP.3.Pu":[["NT.3.GPV.Pu.trained",0],["NT.3.GPV.Pu",0]],
-                         "TrNTP.2t3.Pu": [["NT.23.GPV.Pu.trained",0],["NT.23.GPV.Pu",0]],
+                         "TrNTP.2.GPV.Pu":[["NT.2.GPV.Pu.trained",0],["NT.2.GPV.Pu",0]],
+                         "TrNTP.3.GPV.Pu":[["NT.3.GPV.Pu.trained",0],["NT.3.GPV.Pu",0]],
+                         "TrNTP.2t3.GPV.Pu": [["NT.23.GPV.Pu.trained",0],["NT.23.GPV.Pu",0]],
 
                          "TrNTP.1.Pr": [["NT.1.Pr.trained",0],["NT.1.Pr",0]],
-                         "TrNTP.2.Pr":[["NT.2.GPV.Pr.trained",0],["NT.2.GPV.Pr",0]],
-                         "TrNTP.3.Pr":[["NT.3.GPV.Pr.trained",0],["NT.3.GPV.Pr",0]],
-                         "TrNTP.2t3.Pr": [["NT.23.GPV.Pr.trained",0],["NT.23.GPV.Pr",0]]
+                         "TrNTP.2.GPV.Pr":[["NT.2.GPV.Pr.trained",0],["NT.2.GPV.Pr",0]],
+                         "TrNTP.3.GPV.Pr":[["NT.3.GPV.Pr.trained",0],["NT.3.GPV.Pr",0]],
+                         "TrNTP.2t3.GPV.Pr": [["NT.23.GPV.Pr.trained",0],["NT.23.GPV.Pr",0]]
 
         }
         self.compute_percentages(variables_dict1)
@@ -506,9 +506,9 @@ class indicators():
     def percentage_private_teachers(self):
         """Computes PrTP indicators. """
         variables_dict={"PrTP.1":[["T.1.Pr",0],["T.1",0]],
-                        "PrTP.2":[["T.2.GPV.Pr",0],["T.2.GPV",0]],
-                        "PrTP.3":[["T.3.GPV.Pr",0],["T.3.GPV",0]],
-                        "PrTP.2t3": [["T.23.GPV.Pr",0],["T.23.GPV",0]], }
+                        "PrTP.2.GPV":[["T.2.GPV.Pr",0],["T.2.GPV",0]],
+                        "PrTP.3.GPV":[["T.3.GPV.Pr",0],["T.3.GPV",0]],
+                        "PrTP.2t3.GPV": [["T.23.GPV.Pr",0],["T.23.GPV",0]], }
         self.compute_percentages(variables_dict)
 
     def percentage_non_permanent_teachers(self):
@@ -533,7 +533,7 @@ class indicators():
         for keys in [["FixTP.1.Pr","FixTP.1.Pu" ],["FixTP.2.GPV.Pr","FixTP.2.GPV.Pu"],["FixTP.3.GPV.Pr","FixTP.3.GPV.Pu"],["FixTP.2t3.GPV.Pr","FixTP.2t3.GPV.Pu"]]:
             numerator=self.column_operation(variables_dict_private[keys[0]][0],variables_dict_public[keys[1]][0],sum  )
             denominator=self.column_operation(variables_dict_private[keys[0]][1],variables_dict_public[keys[1]][1],sum  )
-            values=list(map(div,numerator,denominator))
+            values=list(map(lambda x,y: prod(div(x,y),[100,'value']),numerator,denominator))
             indicator=keys[0]
             indicator=indicator.replace(".Pr",'')
             priv_and_pu_dict[indicator]=values
@@ -561,7 +561,7 @@ class indicators():
         for keys in [["PermTP.1.Pr","PermTP.1.Pu" ],["PermTP.2.GPV.Pr","PermTP.2.GPV.Pu"],["PermTP.3.GPV.Pr","PermTP.3.GPV.Pu"],["PermTP.2t3.GPV.Pr","PermTP.2t3.GPV.Pu"]]:
             numerator=self.column_operation(variables_dict_private[keys[0]][0],variables_dict_public[keys[1]][0],sum  )
             denominator=self.column_operation(variables_dict_private[keys[0]][1],variables_dict_public[keys[1]][1],sum  )
-            values=list(map(div,numerator,denominator))
+            values=list(map(lambda x,y: prod(div(x,y),[100,'value']),numerator,denominator))
             indicator=keys[0]
             indicator=indicator.replace(".Pr",'')
             priv_and_pu_dict[indicator]=values
@@ -841,8 +841,9 @@ class indicators():
         self.teachers_percentage_female()
         self.percentage_trained_teachers()
         self.percentage_private_teachers()
-        #self.attrition_rate()
         self.percentage_non_permanent_teachers()
+        self.percentage_permanent_teachers()
+        self.attrition_rate()
         self.percentage_teachers_attainment()
         self.percentage_teachers_exp()
         self.percentage_teachers_age()
