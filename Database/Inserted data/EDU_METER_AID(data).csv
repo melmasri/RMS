@@ -72,12 +72,12 @@ EMC_ID,AC,LABEL_INT_EN,LABEL_INT_FR,LABEL_EXT_EN,LABEL_EXT_FR
 20019,E.4.GPV.Pu.F,"Enrolment in ISCED 4, General&Pre-Voc, Public, initial education, Female",NULL,NULL,NULL
 20020,E.4.V.Pu,"Enrolment in ISCED 4, Vocational, Public, initial education",NULL,NULL,NULL
 20021,E.4.V.Pu.F,"Enrolment in ISCED 4, Vocational, Public, initial education, Female",NULL,NULL,NULL
-20022,E.23.Pu,"Enrolment in ISCED 2+3, Public, initial education",NULL,NULL,NULL
-20023,E.23.Pu.F,"Enrolment in ISCED 2+3, Public, initial education, Female",NULL,NULL,NULL
-20024,E.23.GPV.Pu,"Enrolment in ISCED 2+3, General&Pre-Voc, Public, initial education",NULL,NULL,NULL
-20025,E.23.GPV.Pu.F,"Enrolment in ISCED 2+3, General&Pre-Voc, Public, initial education, Female",NULL,NULL,NULL
-20026,E.23.V.Pu,"Enrolment in ISCED 2+3, Vocational, Public, initial education",NULL,NULL,NULL
-20027,E.23.V.Pu.F,"Enrolment in ISCED 2+3, Vocational, Public, initial education, Female",NULL,NULL,NULL
+20022,E.2t3.Pu,"Enrolment in ISCED 2+3, Public, initial education",NULL,NULL,NULL
+20023,E.2t3.Pu.F,"Enrolment in ISCED 2+3, Public, initial education, Female",NULL,NULL,NULL
+20024,E.2t3.GPV.Pu,"Enrolment in ISCED 2+3, General&Pre-Voc, Public, initial education",NULL,NULL,NULL
+20025,E.2t3.GPV.Pu.F,"Enrolment in ISCED 2+3, General&Pre-Voc, Public, initial education, Female",NULL,NULL,NULL
+20026,E.2t3.V.Pu,"Enrolment in ISCED 2+3, Vocational, Public, initial education",NULL,NULL,NULL
+20027,E.2t3.V.Pu.F,"Enrolment in ISCED 2+3, Vocational, Public, initial education, Female",NULL,NULL,NULL
 20030,E.0.Pr,"Enrolment in ISCED 0, Private, initial education, Priority 2",NULL,NULL,NULL
 20031,E.0.Pr.F,"Enrolment in ISCED 0, Private, initial education, Female, Priority 2",NULL,NULL,NULL
 20032,E.1.Pr,"Enrolment in ISCED 1, Private, initial education",NULL,NULL,NULL
@@ -100,12 +100,12 @@ EMC_ID,AC,LABEL_INT_EN,LABEL_INT_FR,LABEL_EXT_EN,LABEL_EXT_FR
 20049,E.4.GPV.Pr.F,"Enrolment in ISCED 4, General&Pre-Voc, Private, initial education, Female",NULL,NULL,NULL
 20050,E.4.V.Pr,"Enrolment in ISCED 4, Vocational, Private, initial education",NULL,NULL,NULL
 20051,E.4.V.Pr.F,"Enrolment in ISCED 4, Vocational, Private, initial education, Female",NULL,NULL,NULL
-20052,E.23.Pr,"Enrolment in ISCED 2+3, Private, initial education",NULL,NULL,NULL
-20053,E.23.Pr.F,"Enrolment in ISCED 2+3, Private, initial education, Female",NULL,NULL,NULL
-20054,E.23.GPV.Pr,"Enrolment in ISCED 2+3, General&Pre-Voc, Private, initial education",NULL,NULL,NULL
-20055,E.23.GPV.Pr.F,"Enrolment in ISCED 2+3, General&Pre-Voc, Private, initial education, Female",NULL,NULL,NULL
-20056,E.23.V.Pr,"Enrolment in ISCED 2+3, Vocational, Private, initial education",NULL,NULL,NULL
-20057,E.23.V.Pr.F,"Enrolment in ISCED 2+3, Vocational, Private, initial education, Female",NULL,NULL,NULL
+20052,E.2t3.Pr,"Enrolment in ISCED 2+3, Private, initial education",NULL,NULL,NULL
+20053,E.2t3.Pr.F,"Enrolment in ISCED 2+3, Private, initial education, Female",NULL,NULL,NULL
+20054,E.2t3.GPV.Pr,"Enrolment in ISCED 2+3, General&Pre-Voc, Private, initial education",NULL,NULL,NULL
+20055,E.2t3.GPV.Pr.F,"Enrolment in ISCED 2+3, General&Pre-Voc, Private, initial education, Female",NULL,NULL,NULL
+20056,E.2t3.V.Pr,"Enrolment in ISCED 2+3, Vocational, Private, initial education",NULL,NULL,NULL
+20057,E.2t3.V.Pr.F,"Enrolment in ISCED 2+3, Vocational, Private, initial education, Female",NULL,NULL,NULL
 20060,E.0,"Enrolment in ISCED 0, initial education, Priority 2",NULL,NULL,NULL
 20061,E.0.F,"Enrolment in ISCED 0, initial education, Female, Priority 2",NULL,NULL,NULL
 20062,E.1,"Enrolment in ISCED 1, initial education, Priority 2",NULL,NULL,NULL
@@ -129,7 +129,7 @@ EMC_ID,AC,LABEL_INT_EN,LABEL_INT_FR,LABEL_EXT_EN,LABEL_EXT_FR
 20080,E.4.V,"Enrolment in ISCED 4, Vocational, initial education, Priority 2",NULL,NULL,NULL
 20081,E.4.V.F,"Enrolment in ISCED 4, Vocational, initial education, Female, Priority 2",NULL,NULL,NULL
 20082,E.23,"Enrolment in ISCED 2+3, initial education",NULL,NULL,NULL
-20083,E.23.F,"Enrolment in ISCED 2+3, initial education, Female",NULL,NULL,NULL
+20083,E.2t3.F,"Enrolment in ISCED 2+3, initial education, Female",NULL,NULL,NULL
 20100,T.0.Pu,"Education staff in ISCED 0, Public, initial education",NULL,NULL,NULL
 20101,T.0.Pu.F,"Education staff in ISCED 0, Public, initial education, Female",NULL,NULL,NULL
 20102,T.1.Pu,"Education staff in ISCED 1, Public, initial education",NULL,NULL,NULL
@@ -152,12 +152,12 @@ EMC_ID,AC,LABEL_INT_EN,LABEL_INT_FR,LABEL_EXT_EN,LABEL_EXT_FR
 20119,T.4.GPV.Pu.F,"Education staff in ISCED 4, General&Pre-Voc, Public, initial education, Female",NULL,NULL,NULL
 20120,T.4.V.Pu,"Education staff in ISCED 4, Vocational, Public, initial education",NULL,NULL,NULL
 20121,T.4.V.Pu.F,"Education staff in ISCED 4, Vocational, Public, initial education, Female",NULL,NULL,NULL
-20122,T.23.Pu,"Education staff in ISCED 2+3, Public, initial education",NULL,NULL,NULL
-20123,T.23.Pu.F,"Education staff in ISCED 2+3, Public, initial education, Female",NULL,NULL,NULL
-20124,T.23.GPV.Pu,"Education staff in ISCED 2+3, General&Pre-Voc, Public, initial education",NULL,NULL,NULL
-20125,T.23.GPV.Pu.F,"Education staff in ISCED 2+3, General&Pre-Voc, Public, initial education, Female",NULL,NULL,NULL
-20126,T.23.V.Pu,"Education staff in ISCED 2+3, Vocational, Public, initial education",NULL,NULL,NULL
-20127,T.23.V.Pu.F,"Education staff in ISCED 2+3, Vocational, Public, initial education, Female",NULL,NULL,NULL
+20122,T.2t3.Pu,"Education staff in ISCED 2+3, Public, initial education",NULL,NULL,NULL
+20123,T.2t3.Pu.F,"Education staff in ISCED 2+3, Public, initial education, Female",NULL,NULL,NULL
+20124,T.2t3.GPV.Pu,"Education staff in ISCED 2+3, General&Pre-Voc, Public, initial education",NULL,NULL,NULL
+20125,T.2t3.GPV.Pu.F,"Education staff in ISCED 2+3, General&Pre-Voc, Public, initial education, Female",NULL,NULL,NULL
+20126,T.2t3.V.Pu,"Education staff in ISCED 2+3, Vocational, Public, initial education",NULL,NULL,NULL
+20127,T.2t3.V.Pu.F,"Education staff in ISCED 2+3, Vocational, Public, initial education, Female",NULL,NULL,NULL
 20130,T.0.Pr,"Education staff in ISCED 0, Private, initial education",NULL,NULL,NULL
 20131,T.0.Pr.F,"Education staff in ISCED 0, Private, initial education, Female",NULL,NULL,NULL
 20132,T.1.Pr,"Education staff in ISCED 1, Private, initial education",NULL,NULL,NULL
@@ -180,12 +180,12 @@ EMC_ID,AC,LABEL_INT_EN,LABEL_INT_FR,LABEL_EXT_EN,LABEL_EXT_FR
 20149,T.4.GPV.Pr.F,"Education staff in ISCED 4, General&Pre-Voc, Private, initial education, Female",NULL,NULL,NULL
 20150,T.4.V.Pr,"Education staff in ISCED 4, Vocational, Private, initial education",NULL,NULL,NULL
 20151,T.4.V.Pr.F,"Education staff in ISCED 4, Vocational, Private, initial education, Female",NULL,NULL,NULL
-20152,T.23.Pr,"Education staff in ISCED 2+3, Private, initial education",NULL,NULL,NULL
-20153,T.23.Pr.F,"Education staff in ISCED 2+3, Private, initial education, Female",NULL,NULL,NULL
-20154,T.23.GPV.Pr,"Education staff in ISCED 2+3, General&Pre-Voc, Private, initial education",NULL,NULL,NULL
-20155,T.23.GPV.Pr.F,"Education staff in ISCED 2+3, General&Pre-Voc, Private, initial education, Female",NULL,NULL,NULL
-20156,T.23.V.Pr,"Education staff in ISCED 2+3, Vocational, Private, initial education",NULL,NULL,NULL
-20157,T.23.V.Pr.F,"Education staff in ISCED 2+3, Vocational, Private, initial education, Female",NULL,NULL,NULL
+20152,T.2t3.Pr,"Education staff in ISCED 2+3, Private, initial education",NULL,NULL,NULL
+20153,T.2t3.Pr.F,"Education staff in ISCED 2+3, Private, initial education, Female",NULL,NULL,NULL
+20154,T.2t3.GPV.Pr,"Education staff in ISCED 2+3, General&Pre-Voc, Private, initial education",NULL,NULL,NULL
+20155,T.2t3.GPV.Pr.F,"Education staff in ISCED 2+3, General&Pre-Voc, Private, initial education, Female",NULL,NULL,NULL
+20156,T.2t3.V.Pr,"Education staff in ISCED 2+3, Vocational, Private, initial education",NULL,NULL,NULL
+20157,T.2t3.V.Pr.F,"Education staff in ISCED 2+3, Vocational, Private, initial education, Female",NULL,NULL,NULL
 20160,T.0,"Education staff in ISCED 0, initial education",NULL,NULL,NULL
 20161,T.0.F,"Education staff in ISCED 0, initial education, Female",NULL,NULL,NULL
 20162,T.1,"Education staff in ISCED 1, initial education",NULL,NULL,NULL
@@ -209,11 +209,11 @@ EMC_ID,AC,LABEL_INT_EN,LABEL_INT_FR,LABEL_EXT_EN,LABEL_EXT_FR
 20180,T.4.V,"Education staff in ISCED 4, Vocational, initial education",NULL,NULL,NULL
 20181,T.4.V.F,"Education staff in ISCED 4, Vocational, initial education, Female",NULL,NULL,NULL
 20182,T.23,"Education staff in ISCED 2+3, initial education",NULL,NULL,NULL
-20183,T.23.F,"Education staff in ISCED 2+3, initial education, Female",NULL,NULL,NULL
-20184,T.23.GPV,"Education staff in ISCED 2+3, General&Pre-Voc, initial education",NULL,NULL,NULL
-20185,T.23.GPV.F,"Education staff in ISCED 2+3, General&Pre-Voc, initial education, Female",NULL,NULL,NULL
-20186,T.23.V,"Education staff in ISCED 2+3, Vocational, initial education",NULL,NULL,NULL
-20187,T.23.V.F,"Education staff in ISCED 2+3, Vocational, initial education, Female",NULL,NULL,NULL
+20183,T.2t3.F,"Education staff in ISCED 2+3, initial education, Female",NULL,NULL,NULL
+20184,T.2t3.GPV,"Education staff in ISCED 2+3, General&Pre-Voc, initial education",NULL,NULL,NULL
+20185,T.2t3.GPV.F,"Education staff in ISCED 2+3, General&Pre-Voc, initial education, Female",NULL,NULL,NULL
+20186,T.2t3.V,"Education staff in ISCED 2+3, Vocational, initial education",NULL,NULL,NULL
+20187,T.2t3.V.F,"Education staff in ISCED 2+3, Vocational, initial education, Female",NULL,NULL,NULL
 20190,T.0.Pu.PT,"Education staff in ISCED 0, Public, initial education, Part-Time",NULL,NULL,NULL
 20191,T.0.Pu.PT.F,"Education staff in ISCED 0, Public, initial education, Part-Time, Female",NULL,NULL,NULL
 20192,T.1.Pu.PT,"Education staff in ISCED 1, Public, initial education, Part-Time",NULL,NULL,NULL
@@ -236,12 +236,12 @@ EMC_ID,AC,LABEL_INT_EN,LABEL_INT_FR,LABEL_EXT_EN,LABEL_EXT_FR
 20209,T.4.GPV.Pu.PT.F,"Education staff in ISCED 4, General&Pre-Voc, Public, initial education, Part-Time, Female",NULL,NULL,NULL
 20210,T.4.V.Pu.PT,"Education staff in ISCED 4, Vocational, Public, initial education, Part-Time",NULL,NULL,NULL
 20211,T.4.V.Pu.PT.F,"Education staff in ISCED 4, Vocational, Public, initial education, Part-Time, Female",NULL,NULL,NULL
-20212,T.23.Pu.PT,"Education staff in ISCED 2+3, Public, initial education, Part-Time",NULL,NULL,NULL
-20213,T.23.Pu.PT.F,"Education staff in ISCED 2+3, Public, initial education, Part-Time, Female",NULL,NULL,NULL
-20214,T.23.GPV.Pu.PT,"Education staff in ISCED 2+3, General&Pre-Voc, Public, initial education, Part-Time",NULL,NULL,NULL
-20215,T.23.GPV.Pu.PT.F,"Education staff in ISCED 2+3, General&Pre-Voc, Public, initial education, Part-Time, Female",NULL,NULL,NULL
-20216,T.23.V.Pu.PT,"Education staff in ISCED 2+3, Vocational, Public, initial education, Part-Time",NULL,NULL,NULL
-20217,T.23.V.Pu.PT.F,"Education staff in ISCED 2+3, Vocational, Public, initial education, Part-Time, Female",NULL,NULL,NULL
+20212,T.2t3.Pu.PT,"Education staff in ISCED 2+3, Public, initial education, Part-Time",NULL,NULL,NULL
+20213,T.2t3.Pu.PT.F,"Education staff in ISCED 2+3, Public, initial education, Part-Time, Female",NULL,NULL,NULL
+20214,T.2t3.GPV.Pu.PT,"Education staff in ISCED 2+3, General&Pre-Voc, Public, initial education, Part-Time",NULL,NULL,NULL
+20215,T.2t3.GPV.Pu.PT.F,"Education staff in ISCED 2+3, General&Pre-Voc, Public, initial education, Part-Time, Female",NULL,NULL,NULL
+20216,T.2t3.V.Pu.PT,"Education staff in ISCED 2+3, Vocational, Public, initial education, Part-Time",NULL,NULL,NULL
+20217,T.2t3.V.Pu.PT.F,"Education staff in ISCED 2+3, Vocational, Public, initial education, Part-Time, Female",NULL,NULL,NULL
 20220,T.0.Pr.PT,"Education staff in ISCED 0, Private, initial education, Part-Time",NULL,NULL,NULL
 20221,T.0.Pr.PT.F,"Education staff in ISCED 0, Private, initial education, Part-Time, Female",NULL,NULL,NULL
 20222,T.1.Pr.PT,"Education staff in ISCED 1, Private, initial education, Part-Time",NULL,NULL,NULL
@@ -264,12 +264,12 @@ EMC_ID,AC,LABEL_INT_EN,LABEL_INT_FR,LABEL_EXT_EN,LABEL_EXT_FR
 20239,T.4.GPV.Pr.PT.F,"Education staff in ISCED 4, General&Pre-Voc, Private, initial education, Part-Time, Female",NULL,NULL,NULL
 20240,T.4.V.Pr.PT,"Education staff in ISCED 4, Vocational, Private, initial education, Part-Time",NULL,NULL,NULL
 20241,T.4.V.Pr.PT.F,"Education staff in ISCED 4, Vocational, Private, initial education, Part-Time, Female",NULL,NULL,NULL
-20242,T.23.Pr.PT,"Education staff in ISCED 2+3, Private, initial education, Part-Time",NULL,NULL,NULL
-20243,T.23.Pr.PT.F,"Education staff in ISCED 2+3, Private, initial education, Part-Time, Female",NULL,NULL,NULL
-20244,T.23.GPV.Pr.PT,"Education staff in ISCED 2+3, General&Pre-Voc, Private, initial education, Part-Time",NULL,NULL,NULL
-20245,T.23.GPV.Pr.PT.F,"Education staff in ISCED 2+3, General&Pre-Voc, Private, initial education, Part-Time, Female",NULL,NULL,NULL
-20246,T.23.V.Pr.PT,"Education staff in ISCED 2+3, Vocational, Private, initial education, Part-Time",NULL,NULL,NULL
-20247,T.23.V.Pr.PT.F,"Education staff in ISCED 2+3, Vocational, Private, initial education, Part-Time, Female",NULL,NULL,NULL
+20242,T.2t3.Pr.PT,"Education staff in ISCED 2+3, Private, initial education, Part-Time",NULL,NULL,NULL
+20243,T.2t3.Pr.PT.F,"Education staff in ISCED 2+3, Private, initial education, Part-Time, Female",NULL,NULL,NULL
+20244,T.2t3.GPV.Pr.PT,"Education staff in ISCED 2+3, General&Pre-Voc, Private, initial education, Part-Time",NULL,NULL,NULL
+20245,T.2t3.GPV.Pr.PT.F,"Education staff in ISCED 2+3, General&Pre-Voc, Private, initial education, Part-Time, Female",NULL,NULL,NULL
+20246,T.2t3.V.Pr.PT,"Education staff in ISCED 2+3, Vocational, Private, initial education, Part-Time",NULL,NULL,NULL
+20247,T.2t3.V.Pr.PT.F,"Education staff in ISCED 2+3, Vocational, Private, initial education, Part-Time, Female",NULL,NULL,NULL
 20250,T.0.PT,"Education staff in ISCED 0, initial education, Part-Time",NULL,NULL,NULL
 20251,T.0.PT.F,"Education staff in ISCED 0, initial education, Part-Time, Female",NULL,NULL,NULL
 20252,T.1.PT,"Education staff in ISCED 1, initial education, Part-Time",NULL,NULL,NULL
@@ -292,12 +292,12 @@ EMC_ID,AC,LABEL_INT_EN,LABEL_INT_FR,LABEL_EXT_EN,LABEL_EXT_FR
 20269,T.4.GPV.PT.F,"Education staff in ISCED 4, General&Pre-Voc, initial education, Part-Time, Female",NULL,NULL,NULL
 20270,T.4.V.PT,"Education staff in ISCED 4, Vocational, initial education, Part-Time",NULL,NULL,NULL
 20271,T.4.V.PT.F,"Education staff in ISCED 4, Vocational, initial education, Part-Time, Female",NULL,NULL,NULL
-20272,T.23.PT,"Education staff in ISCED 2+3, initial education, Part-Time",NULL,NULL,NULL
-20273,T.23.PT.F,"Education staff in ISCED 2+3, initial education, Part-Time, Female",NULL,NULL,NULL
-20274,T.23.GPV.PT,"Education staff in ISCED 2+3, General&Pre-Voc, initial education, Part-Time",NULL,NULL,NULL
-20275,T.23.GPV.PT.F,"Education staff in ISCED 2+3, General&Pre-Voc, initial education, Part-Time, Female",NULL,NULL,NULL
-20276,T.23.V.PT,"Education staff in ISCED 2+3, Vocational, initial education, Part-Time",NULL,NULL,NULL
-20277,T.23.V.PT.F,"Education staff in ISCED 2+3, Vocational, initial education, Part-Time, Female",NULL,NULL,NULL
+20272,T.2t3.PT,"Education staff in ISCED 2+3, initial education, Part-Time",NULL,NULL,NULL
+20273,T.2t3.PT.F,"Education staff in ISCED 2+3, initial education, Part-Time, Female",NULL,NULL,NULL
+20274,T.2t3.GPV.PT,"Education staff in ISCED 2+3, General&Pre-Voc, initial education, Part-Time",NULL,NULL,NULL
+20275,T.2t3.GPV.PT.F,"Education staff in ISCED 2+3, General&Pre-Voc, initial education, Part-Time, Female",NULL,NULL,NULL
+20276,T.2t3.V.PT,"Education staff in ISCED 2+3, Vocational, initial education, Part-Time",NULL,NULL,NULL
+20277,T.2t3.V.PT.F,"Education staff in ISCED 2+3, Vocational, initial education, Part-Time, Female",NULL,NULL,NULL
 20280,T.0.Pu.FTE,"Education staff in ISCED 0, Public, initial education, Full-Time Equivalent",NULL,NULL,NULL
 20281,T.1.Pu.FTE,"Education staff in ISCED 1, Public, initial education, Full-Time Equivalent",NULL,NULL,NULL
 20282,T.2.Pu.FTE,"Education staff in ISCED 2, Public, initial education, Full-Time Equivalent",NULL,NULL,NULL
@@ -309,9 +309,9 @@ EMC_ID,AC,LABEL_INT_EN,LABEL_INT_FR,LABEL_EXT_EN,LABEL_EXT_FR
 20288,T.4.Pu.FTE,"Education staff in ISCED 4, Public, initial education, Full-Time Equivalent",NULL,NULL,NULL
 20289,T.4.GPV.Pu.FTE,"Education staff in ISCED 4, General&Pre-Voc, Public, initial education, Full-Time Equivalent",NULL,NULL,NULL
 20290,T.4.V.Pu.FTE,"Education staff in ISCED 4, Vocational, Public, initial education, Full-Time Equivalent",NULL,NULL,NULL
-20291,T.23.Pu.FTE,"Education staff in ISCED 2+3, Public, initial education, Full-Time Equivalent",NULL,NULL,NULL
-20292,T.23.GPV.Pu.FTE,"Education staff in ISCED 2+3, General&Pre-Voc, Public, initial education, Full-Time Equivalent",NULL,NULL,NULL
-20293,T.23.V.Pu.FTE,"Education staff in ISCED 2+3, Vocational, Public, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20291,T.2t3.Pu.FTE,"Education staff in ISCED 2+3, Public, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20292,T.2t3.GPV.Pu.FTE,"Education staff in ISCED 2+3, General&Pre-Voc, Public, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20293,T.2t3.V.Pu.FTE,"Education staff in ISCED 2+3, Vocational, Public, initial education, Full-Time Equivalent",NULL,NULL,NULL
 20300,T.0.Pr.FTE,"Education staff in ISCED 0, Private, initial education, Full-Time Equivalent",NULL,NULL,NULL
 20301,T.1.Pr.FTE,"Education staff in ISCED 1, Private, initial education, Full-Time Equivalent",NULL,NULL,NULL
 20302,T.2.Pr.FTE,"Education staff in ISCED 2, Private, initial education, Full-Time Equivalent",NULL,NULL,NULL
@@ -323,9 +323,9 @@ EMC_ID,AC,LABEL_INT_EN,LABEL_INT_FR,LABEL_EXT_EN,LABEL_EXT_FR
 20308,T.4.Pr.FTE,"Education staff in ISCED 4, Private, initial education, Full-Time Equivalent",NULL,NULL,NULL
 20309,T.4.GPV.Pr.FTE,"Education staff in ISCED 4, General&Pre-Voc, Private, initial education, Full-Time Equivalent",NULL,NULL,NULL
 20310,T.4.V.Pr.FTE,"Education staff in ISCED 4, Vocational, Private, initial education, Full-Time Equivalent",NULL,NULL,NULL
-20311,T.23.Pr.FTE,"Education staff in ISCED 2+3, Private, initial education, Full-Time Equivalent",NULL,NULL,NULL
-20312,T.23.GPV.Pr.FTE,"Education staff in ISCED 2+3, General&Pre-Voc, Private, initial education, Full-Time Equivalent",NULL,NULL,NULL
-20313,T.23.V.Pr.FTE,"Education staff in ISCED 2+3, Vocational, Private, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20311,T.2t3.Pr.FTE,"Education staff in ISCED 2+3, Private, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20312,T.2t3.GPV.Pr.FTE,"Education staff in ISCED 2+3, General&Pre-Voc, Private, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20313,T.2t3.V.Pr.FTE,"Education staff in ISCED 2+3, Vocational, Private, initial education, Full-Time Equivalent",NULL,NULL,NULL
 20320,T.0.FTE,"Education staff in ISCED 0, initial education, Full-Time Equivalent",NULL,NULL,NULL
 20321,T.1.FTE,"Education staff in ISCED 1, initial education, Full-Time Equivalent",NULL,NULL,NULL
 20322,T.2.FTE,"Education staff in ISCED 2, initial education, Full-Time Equivalent",NULL,NULL,NULL
@@ -337,9 +337,9 @@ EMC_ID,AC,LABEL_INT_EN,LABEL_INT_FR,LABEL_EXT_EN,LABEL_EXT_FR
 20328,T.4.FTE,"Education staff in ISCED 4, initial education, Full-Time Equivalent",NULL,NULL,NULL
 20329,T.4.GPV.FTE,"Education staff in ISCED 4, General&Pre-Voc, initial education, Full-Time Equivalent",NULL,NULL,NULL
 20330,T.4.V.FTE,"Education staff in ISCED 4, Vocational, initial education, Full-Time Equivalent",NULL,NULL,NULL
-20331,T.23.FTE,"Education staff in ISCED 2+3, initial education, Full-Time Equivalent",NULL,NULL,NULL
-20332,T.23.GPV.FTE,"Education staff in ISCED 2+3, General&Pre-Voc, initial education, Full-Time Equivalent",NULL,NULL,NULL
-20333,T.23.V.FTE,"Education staff in ISCED 2+3, Vocational, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20331,T.2t3.FTE,"Education staff in ISCED 2+3, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20332,T.2t3.GPV.FTE,"Education staff in ISCED 2+3, General&Pre-Voc, initial education, Full-Time Equivalent",NULL,NULL,NULL
+20333,T.2t3.V.FTE,"Education staff in ISCED 2+3, Vocational, initial education, Full-Time Equivalent",NULL,NULL,NULL
 20340,T.0.Pu.trained,"Education staff in ISCED 0, Public, initial education, Trained teacher",NULL,NULL,NULL
 20341,T.0.Pu.trained.F,"Education staff in ISCED 0, Public, initial education, Trained teacher, Female",NULL,NULL,NULL
 20342,T.1.Pu.trained,"Education staff in ISCED 1, Public, initial education, Trained teacher",NULL,NULL,NULL
@@ -362,12 +362,12 @@ EMC_ID,AC,LABEL_INT_EN,LABEL_INT_FR,LABEL_EXT_EN,LABEL_EXT_FR
 20359,T.4.GPV.Pu.trained.F,"Education staff in ISCED 4, General&Pre-Voc, Public, initial education, Trained teacher, Female",NULL,NULL,NULL
 20360,T.4.V.Pu.trained,"Education staff in ISCED 4, Vocational, Public, initial education, Trained teacher",NULL,NULL,NULL
 20361,T.4.V.Pu.trained.F,"Education staff in ISCED 4, Vocational, Public, initial education, Trained teacher, Female",NULL,NULL,NULL
-20362,T.23.Pu.trained,"Education staff in ISCED 2+3, Public, initial education, Trained teacher",NULL,NULL,NULL
-20363,T.23.Pu.trained.F,"Education staff in ISCED 2+3, Public, initial education, Trained teacher, Female",NULL,NULL,NULL
-20364,T.23.GPV.Pu.trained,"Education staff in ISCED 2+3, General&Pre-Voc, Public, initial education, Trained teacher",NULL,NULL,NULL
-20365,T.23.GPV.Pu.trained.F,"Education staff in ISCED 2+3, General&Pre-Voc, Public, initial education, Trained teacher, Female",NULL,NULL,NULL
-20366,T.23.V.Pu.trained,"Education staff in ISCED 2+3, Vocational, Public, initial education, Trained teacher",NULL,NULL,NULL
-20367,T.23.V.Pu.trained.F,"Education staff in ISCED 2+3, Vocational, Public, initial education, Trained teacher, Female",NULL,NULL,NULL
+20362,T.2t3.Pu.trained,"Education staff in ISCED 2+3, Public, initial education, Trained teacher",NULL,NULL,NULL
+20363,T.2t3.Pu.trained.F,"Education staff in ISCED 2+3, Public, initial education, Trained teacher, Female",NULL,NULL,NULL
+20364,T.2t3.GPV.Pu.trained,"Education staff in ISCED 2+3, General&Pre-Voc, Public, initial education, Trained teacher",NULL,NULL,NULL
+20365,T.2t3.GPV.Pu.trained.F,"Education staff in ISCED 2+3, General&Pre-Voc, Public, initial education, Trained teacher, Female",NULL,NULL,NULL
+20366,T.2t3.V.Pu.trained,"Education staff in ISCED 2+3, Vocational, Public, initial education, Trained teacher",NULL,NULL,NULL
+20367,T.2t3.V.Pu.trained.F,"Education staff in ISCED 2+3, Vocational, Public, initial education, Trained teacher, Female",NULL,NULL,NULL
 20370,T.0.Pr.trained,"Education staff in ISCED 0, Private, initial education, Trained teacher",NULL,NULL,NULL
 20371,T.0.Pr.trained.F,"Education staff in ISCED 0, Private, initial education, Trained teacher, Female",NULL,NULL,NULL
 20372,T.1.Pr.trained,"Education staff in ISCED 1, Private, initial education, Trained teacher",NULL,NULL,NULL
@@ -390,12 +390,12 @@ EMC_ID,AC,LABEL_INT_EN,LABEL_INT_FR,LABEL_EXT_EN,LABEL_EXT_FR
 20389,T.4.GPV.Pr.trained.F,"Education staff in ISCED 4, General&Pre-Voc, Private, initial education, Trained teacher, Female",NULL,NULL,NULL
 20390,T.4.V.Pr.trained,"Education staff in ISCED 4, Vocational, Private, initial education, Trained teacher",NULL,NULL,NULL
 20391,T.4.V.Pr.trained.F,"Education staff in ISCED 4, Vocational, Private, initial education, Trained teacher, Female",NULL,NULL,NULL
-20392,T.23.Pr.trained,"Education staff in ISCED 2+3, Private, initial education, Trained teacher",NULL,NULL,NULL
-20393,T.23.Pr.trained.F,"Education staff in ISCED 2+3, Private, initial education, Trained teacher, Female",NULL,NULL,NULL
-20394,T.23.GPV.Pr.trained,"Education staff in ISCED 2+3, General&Pre-Voc, Private, initial education, Trained teacher",NULL,NULL,NULL
-20395,T.23.GPV.Pr.trained.F,"Education staff in ISCED 2+3, General&Pre-Voc, Private, initial education, Trained teacher, Female",NULL,NULL,NULL
-20396,T.23.V.Pr.trained,"Education staff in ISCED 2+3, Vocational, Private, initial education, Trained teacher",NULL,NULL,NULL
-20397,T.23.V.Pr.trained.F,"Education staff in ISCED 2+3, Vocational, Private, initial education, Trained teacher, Female",NULL,NULL,NULL
+20392,T.2t3.Pr.trained,"Education staff in ISCED 2+3, Private, initial education, Trained teacher",NULL,NULL,NULL
+20393,T.2t3.Pr.trained.F,"Education staff in ISCED 2+3, Private, initial education, Trained teacher, Female",NULL,NULL,NULL
+20394,T.2t3.GPV.Pr.trained,"Education staff in ISCED 2+3, General&Pre-Voc, Private, initial education, Trained teacher",NULL,NULL,NULL
+20395,T.2t3.GPV.Pr.trained.F,"Education staff in ISCED 2+3, General&Pre-Voc, Private, initial education, Trained teacher, Female",NULL,NULL,NULL
+20396,T.2t3.V.Pr.trained,"Education staff in ISCED 2+3, Vocational, Private, initial education, Trained teacher",NULL,NULL,NULL
+20397,T.2t3.V.Pr.trained.F,"Education staff in ISCED 2+3, Vocational, Private, initial education, Trained teacher, Female",NULL,NULL,NULL
 20400,T.0.trained,"Education staff in ISCED 0, initial education, Trained teacher",NULL,NULL,NULL
 20401,T.0.trained.F,"Education staff in ISCED 0, initial education, Trained teacher, Female",NULL,NULL,NULL
 20402,T.1.trained,"Education staff in ISCED 1, initial education, Trained teacher",NULL,NULL,NULL
@@ -418,12 +418,12 @@ EMC_ID,AC,LABEL_INT_EN,LABEL_INT_FR,LABEL_EXT_EN,LABEL_EXT_FR
 20419,T.4.GPV.trained.F,"Education staff in ISCED 4, General&Pre-Voc, initial education, Trained teacher, Female",NULL,NULL,NULL
 20420,T.4.V.trained,"Education staff in ISCED 4, Vocational, initial education, Trained teacher",NULL,NULL,NULL
 20421,T.4.V.trained.F,"Education staff in ISCED 4, Vocational, initial education, Trained teacher, Female",NULL,NULL,NULL
-20422,T.23.trained,"Education staff in ISCED 2+3, initial education, Trained teacher",NULL,NULL,NULL
-20423,T.23.trained.F,"Education staff in ISCED 2+3, initial education, Trained teacher, Female",NULL,NULL,NULL
-20424,T.23.GPV.trained,"Education staff in ISCED 2+3, General&Pre-Voc, initial education, Trained teacher",NULL,NULL,NULL
-20425,T.23.GPV.trained.F,"Education staff in ISCED 2+3, General&Pre-Voc, initial education, Trained teacher, Female",NULL,NULL,NULL
-20426,T.23.V.trained,"Education staff in ISCED 2+3, Vocational, initial education, Trained teacher",NULL,NULL,NULL
-20427,T.23.V.trained.F,"Education staff in ISCED 2+3, Vocational, initial education, Trained teacher, Female",NULL,NULL,NULL
+20422,T.2t3.trained,"Education staff in ISCED 2+3, initial education, Trained teacher",NULL,NULL,NULL
+20423,T.2t3.trained.F,"Education staff in ISCED 2+3, initial education, Trained teacher, Female",NULL,NULL,NULL
+20424,T.2t3.GPV.trained,"Education staff in ISCED 2+3, General&Pre-Voc, initial education, Trained teacher",NULL,NULL,NULL
+20425,T.2t3.GPV.trained.F,"Education staff in ISCED 2+3, General&Pre-Voc, initial education, Trained teacher, Female",NULL,NULL,NULL
+20426,T.2t3.V.trained,"Education staff in ISCED 2+3, Vocational, initial education, Trained teacher",NULL,NULL,NULL
+20427,T.2t3.V.trained.F,"Education staff in ISCED 2+3, Vocational, initial education, Trained teacher, Female",NULL,NULL,NULL
 20430,T.0.Pu.PT.trained,"Education staff in ISCED 0, Public, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
 20431,T.0.Pu.PT.trained.F,"Education staff in ISCED 0, Public, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
 20432,T.1.Pu.PT.trained,"Education staff in ISCED 1, Public, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
@@ -446,12 +446,12 @@ EMC_ID,AC,LABEL_INT_EN,LABEL_INT_FR,LABEL_EXT_EN,LABEL_EXT_FR
 20449,T.4.GPV.Pu.PT.trained.F,"Education staff in ISCED 4, General&Pre-Voc, Public, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
 20450,T.4.V.Pu.PT.trained,"Education staff in ISCED 4, Vocational, Public, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
 20451,T.4.V.Pu.PT.trained.F,"Education staff in ISCED 4, Vocational, Public, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
-20452,T.23.Pu.PT.trained,"Education staff in ISCED 2+3, Public, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
-20453,T.23.Pu.PT.trained.F,"Education staff in ISCED 2+3, Public, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
-20454,T.23.GPV.Pu.PT.trained,"Education staff in ISCED 2+3, General&Pre-Voc, Public, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
-20455,T.23.GPV.Pu.PT.trained.F,"Education staff in ISCED 2+3, General&Pre-Voc, Public, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
-20456,T.23.V.Pu.PT.trained,"Education staff in ISCED 2+3, Vocational, Public, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
-20457,T.23.V.Pu.PT.trained.F,"Education staff in ISCED 2+3, Vocational, Public, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20452,T.2t3.Pu.PT.trained,"Education staff in ISCED 2+3, Public, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20453,T.2t3.Pu.PT.trained.F,"Education staff in ISCED 2+3, Public, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20454,T.2t3.GPV.Pu.PT.trained,"Education staff in ISCED 2+3, General&Pre-Voc, Public, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20455,T.2t3.GPV.Pu.PT.trained.F,"Education staff in ISCED 2+3, General&Pre-Voc, Public, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20456,T.2t3.V.Pu.PT.trained,"Education staff in ISCED 2+3, Vocational, Public, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20457,T.2t3.V.Pu.PT.trained.F,"Education staff in ISCED 2+3, Vocational, Public, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
 20460,T.0.Pr.PT.trained,"Education staff in ISCED 0, Private, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
 20461,T.0.Pr.PT.trained.F,"Education staff in ISCED 0, Private, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
 20462,T.1.Pr.PT.trained,"Education staff in ISCED 1, Private, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
@@ -474,12 +474,12 @@ EMC_ID,AC,LABEL_INT_EN,LABEL_INT_FR,LABEL_EXT_EN,LABEL_EXT_FR
 20479,T.4.GPV.Pr.PT.trained.F,"Education staff in ISCED 4, General&Pre-Voc, Private, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
 20480,T.4.V.Pr.PT.trained,"Education staff in ISCED 4, Vocational, Private, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
 20481,T.4.V.Pr.PT.trained.F,"Education staff in ISCED 4, Vocational, Private, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
-20482,T.23.Pr.PT.trained,"Education staff in ISCED 2+3, Private, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
-20483,T.23.Pr.PT.trained.F,"Education staff in ISCED 2+3, Private, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
-20484,T.23.GPV.Pr.PT.trained,"Education staff in ISCED 2+3, General&Pre-Voc, Private, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
-20485,T.23.GPV.Pr.PT.trained.F,"Education staff in ISCED 2+3, General&Pre-Voc, Private, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
-20486,T.23.V.Pr.PT.trained,"Education staff in ISCED 2+3, Vocational, Private, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
-20487,T.23.V.Pr.PT.trained.F,"Education staff in ISCED 2+3, Vocational, Private, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20482,T.2t3.Pr.PT.trained,"Education staff in ISCED 2+3, Private, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20483,T.2t3.Pr.PT.trained.F,"Education staff in ISCED 2+3, Private, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20484,T.2t3.GPV.Pr.PT.trained,"Education staff in ISCED 2+3, General&Pre-Voc, Private, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20485,T.2t3.GPV.Pr.PT.trained.F,"Education staff in ISCED 2+3, General&Pre-Voc, Private, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20486,T.2t3.V.Pr.PT.trained,"Education staff in ISCED 2+3, Vocational, Private, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20487,T.2t3.V.Pr.PT.trained.F,"Education staff in ISCED 2+3, Vocational, Private, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
 20490,T.0.PT.trained,"Education staff in ISCED 0, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
 20491,T.0.PT.trained.F,"Education staff in ISCED 0, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
 20492,T.1.PT.trained,"Education staff in ISCED 1, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
@@ -502,12 +502,12 @@ EMC_ID,AC,LABEL_INT_EN,LABEL_INT_FR,LABEL_EXT_EN,LABEL_EXT_FR
 20509,T.4.GPV.PT.trained.F,"Education staff in ISCED 4, General&Pre-Voc, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
 20510,T.4.V.PT.trained,"Education staff in ISCED 4, Vocational, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
 20511,T.4.V.PT.trained.F,"Education staff in ISCED 4, Vocational, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
-20512,T.23.PT.trained,"Education staff in ISCED 2+3, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
-20513,T.23.PT.trained.F,"Education staff in ISCED 2+3, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
-20514,T.23.GPV.PT.trained,"Education staff in ISCED 2+3, General&Pre-Voc, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
-20515,T.23.GPV.PT.trained.F,"Education staff in ISCED 2+3, General&Pre-Voc, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
-20516,T.23.V.PT.trained,"Education staff in ISCED 2+3, Vocational, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
-20517,T.23.V.PT.trained.F,"Education staff in ISCED 2+3, Vocational, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20512,T.2t3.PT.trained,"Education staff in ISCED 2+3, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20513,T.2t3.PT.trained.F,"Education staff in ISCED 2+3, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20514,T.2t3.GPV.PT.trained,"Education staff in ISCED 2+3, General&Pre-Voc, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20515,T.2t3.GPV.PT.trained.F,"Education staff in ISCED 2+3, General&Pre-Voc, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
+20516,T.2t3.V.PT.trained,"Education staff in ISCED 2+3, Vocational, initial education, Part-Time, Trained teacher",NULL,NULL,NULL
+20517,T.2t3.V.PT.trained.F,"Education staff in ISCED 2+3, Vocational, initial education, Part-Time, Trained teacher, Female",NULL,NULL,NULL
 20520,I.0.Pu,"Institutions in ISCED 0, Public, initial education",NULL,NULL,NULL
 20521,I.1.Pu,"Institutions in ISCED 1, Public, initial education",NULL,NULL,NULL
 20522,I.2.Pu,"Institutions in ISCED 2, Public, initial education",NULL,NULL,NULL
@@ -519,9 +519,9 @@ EMC_ID,AC,LABEL_INT_EN,LABEL_INT_FR,LABEL_EXT_EN,LABEL_EXT_FR
 20528,I.4.Pu,"Institutions in ISCED 4, Public, initial education",NULL,NULL,NULL
 20529,I.4.GPV.Pu,"Institutions in ISCED 4, General&Pre-Voc, Public, initial education",NULL,NULL,NULL
 20530,I.4.V.Pu,"Institutions in ISCED 4, Vocational, Public, initial education",NULL,NULL,NULL
-20531,I.23.Pu,"Institutions in ISCED 2+3, Public, initial education",NULL,NULL,NULL
-20532,I.23.GPV.Pu,"Institutions in ISCED 2+3, General&Pre-Voc, Public, initial education",NULL,NULL,NULL
-20533,I.23.V.Pu,"Institutions in ISCED 2+3, Vocational, Public, initial education",NULL,NULL,NULL
+20531,I.2t3.Pu,"Institutions in ISCED 2+3, Public, initial education",NULL,NULL,NULL
+20532,I.2t3.GPV.Pu,"Institutions in ISCED 2+3, General&Pre-Voc, Public, initial education",NULL,NULL,NULL
+20533,I.2t3.V.Pu,"Institutions in ISCED 2+3, Vocational, Public, initial education",NULL,NULL,NULL
 20540,I.0.Pr,"Institutions in ISCED 0, Private, initial education",NULL,NULL,NULL
 20541,I.1.Pr,"Institutions in ISCED 1, Private, initial education",NULL,NULL,NULL
 20542,I.2.Pr,"Institutions in ISCED 2, Private, initial education",NULL,NULL,NULL
@@ -533,9 +533,9 @@ EMC_ID,AC,LABEL_INT_EN,LABEL_INT_FR,LABEL_EXT_EN,LABEL_EXT_FR
 20548,I.4.Pr,"Institutions in ISCED 4, Private, initial education",NULL,NULL,NULL
 20549,I.4.GPV.Pr,"Institutions in ISCED 4, General&Pre-Voc, Private, initial education",NULL,NULL,NULL
 20550,I.4.V.Pr,"Institutions in ISCED 4, Vocational, Private, initial education",NULL,NULL,NULL
-20551,I.23.Pr,"Institutions in ISCED 2+3, Private, initial education",NULL,NULL,NULL
-20552,I.23.GPV.Pr,"Institutions in ISCED 2+3, General&Pre-Voc, Private, initial education",NULL,NULL,NULL
-20553,I.23.V.Pr,"Institutions in ISCED 2+3, Vocational, Private, initial education",NULL,NULL,NULL
+20551,I.2t3.Pr,"Institutions in ISCED 2+3, Private, initial education",NULL,NULL,NULL
+20552,I.2t3.GPV.Pr,"Institutions in ISCED 2+3, General&Pre-Voc, Private, initial education",NULL,NULL,NULL
+20553,I.2t3.V.Pr,"Institutions in ISCED 2+3, Vocational, Private, initial education",NULL,NULL,NULL
 20560,I.0,"Institutions in ISCED 0, initial education",NULL,NULL,NULL
 20561,I.1,"Institutions in ISCED 1, initial education",NULL,NULL,NULL
 20562,I.2,"Institutions in ISCED 2, initial education",NULL,NULL,NULL
@@ -548,8 +548,8 @@ EMC_ID,AC,LABEL_INT_EN,LABEL_INT_FR,LABEL_EXT_EN,LABEL_EXT_FR
 20569,I.4.GPV,"Institutions in ISCED 4, General&Pre-Voc, initial education",NULL,NULL,NULL
 20570,I.4.V,"Institutions in ISCED 4, Vocational, initial education",NULL,NULL,NULL
 20571,I.23,"Institutions in ISCED 2+3, initial education",NULL,NULL,NULL
-20572,I.23.GPV,"Institutions in ISCED 2+3, General&Pre-Voc, initial education",NULL,NULL,NULL
-20573,I.23.V,"Institutions in ISCED 2+3, Vocational, initial education",NULL,NULL,NULL
+20572,I.2t3.GPV,"Institutions in ISCED 2+3, General&Pre-Voc, initial education",NULL,NULL,NULL
+20573,I.2t3.V,"Institutions in ISCED 2+3, Vocational, initial education",NULL,NULL,NULL
 20600,E.0.Ag0t2,"Enrolment in ISCED 0, aged 0 -2 years old, initial education",NULL,NULL,NULL
 20601,E.0.Ag3,"Enrolment in ISCED 0, aged 3 years old, initial education",NULL,NULL,NULL
 20602,E.0.Ag4,"Enrolment in ISCED 0, aged 4 years old, initial education",NULL,NULL,NULL

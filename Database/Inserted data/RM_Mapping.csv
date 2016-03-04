@@ -306,100 +306,100 @@ Teachers ISCED 3,Table 3.4,Number of teachers by ADM1 type of institution and ag
 Teachers ISCED 3,Table 3.4,Number of teachers by ADM1 type of institution and age. ISCED 34,22,T.3.GPV.Ag60p,DU19,0
 Teachers ISCED 3,Table 3.4,Number of teachers by ADM1 type of institution and age. ISCED 34,23,T.3.GPV.Aguk,DV19,0
 Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",2,ADM_NAME,I19,0
-Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",3,T.23.GPV.Pu,J19,0
-Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",4,T.23.GPV.Pu.F,K19,0
-Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",5,T.23.GPV.Pu.trained,L19,0
-Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",6,T.23.GPV.Pu.trained.F,M19,0
-Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",7,T.23.GPV.Pr,N19,0
-Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",8,T.23.GPV.Pr.F,O19,0
-Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",9,T.23.GPV.Pr.trained,P19,0
-Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",10,T.23.GPV.Pr.trained.F,Q19,0
-Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",11,T.23.GPV,R19,0
-Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",12,T.23.GPV.F,S19,0
-Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",13,T.23.GPV.trained,T19,0
-Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",14,T.23.GPV.trained.F,U19,0
-Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",15,T.23.GPV.m1,V19,0
-Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",20,T.23.GPV.Pu.Math,X19,0
-Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",21,T.23.GPV.Pu.Read,Y19,0
-Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",22,T.23.GPV.Pr.Math,Z19,0
-Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",23,T.23.GPV.Pr.Read,AA19,0
-Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",24,T.23.GPV.Math,AB19,0
-Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",25,T.23.GPV.Read,AC19,0
-Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",26,T.23.GPV.Pu.Perm,AE19,0
-Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",27,T.23.GPV.Pu.Fix,AF19,0
-Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",28,T.23.GPV.Pu.uk,AG19,0
-Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",29,T.23.GPV.Pr.Perm,AH19,0
-Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",30,T.23.GPV.Pr.Fix,AI19,0
-Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",31,T.23.GPV.Pr.uk,AJ19,0
+Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",3,T.2t3.GPV.Pu,J19,0
+Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",4,T.2t3.GPV.Pu.F,K19,0
+Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",5,T.2t3.GPV.Pu.trained,L19,0
+Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",6,T.2t3.GPV.Pu.trained.F,M19,0
+Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",7,T.2t3.GPV.Pr,N19,0
+Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",8,T.2t3.GPV.Pr.F,O19,0
+Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",9,T.2t3.GPV.Pr.trained,P19,0
+Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",10,T.2t3.GPV.Pr.trained.F,Q19,0
+Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",11,T.2t3.GPV,R19,0
+Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",12,T.2t3.GPV.F,S19,0
+Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",13,T.2t3.GPV.trained,T19,0
+Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",14,T.2t3.GPV.trained.F,U19,0
+Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",15,T.2t3.GPV.m1,V19,0
+Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",20,T.2t3.GPV.Pu.Math,X19,0
+Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",21,T.2t3.GPV.Pu.Read,Y19,0
+Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",22,T.2t3.GPV.Pr.Math,Z19,0
+Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",23,T.2t3.GPV.Pr.Read,AA19,0
+Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",24,T.2t3.GPV.Math,AB19,0
+Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",25,T.2t3.GPV.Read,AC19,0
+Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",26,T.2t3.GPV.Pu.Perm,AE19,0
+Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",27,T.2t3.GPV.Pu.Fix,AF19,0
+Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",28,T.2t3.GPV.Pu.uk,AG19,0
+Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",29,T.2t3.GPV.Pr.Perm,AH19,0
+Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",30,T.2t3.GPV.Pr.Fix,AI19,0
+Teachers ISCED 23,Table 4.1,"Number of teachers by ADM1, type of institution, subject matter taught and professional status. ISCED 24 and 34",31,T.2t3.GPV.Pr.uk,AJ19,0
 Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",2,ADM_NAME,AQ19,0
-Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",3,T.23.GPV.Pu.EA.2m,AR19,0
-Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",4,T.23.GPV.Pu.EA.3,AS19,0
-Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",5,T.23.GPV.Pu.EA.4,AT19,0
-Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",6,T.23.GPV.Pu.EA.5,AU19,0
-Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",7,T.23.GPV.Pu.EA.6,AV19,0
-Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",8,T.23.GPV.Pu.EA.7,AW19,0
-Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",9,T.23.GPV.Pu.EA.8,AX19,0
-Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",10,T.23.GPV.Pu.EA.uk,AY19,0
-Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",11,T.23.GPV.Pr.EA.2m,AZ19,0
-Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",12,T.23.GPV.Pr.EA.3,BA19,0
-Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",13,T.23.GPV.Pr.EA.4,BB19,0
-Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",14,T.23.GPV.Pr.EA.5,BC19,0
-Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",15,T.23.GPV.Pr.EA.6,BD19,0
-Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",16,T.23.GPV.Pr.EA.7,BE19,0
-Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",17,T.23.GPV.Pr.EA.8,BF19,0
-Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",18,T.23.GPV.Pr.EA.uk,BG19,0
-Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",19,T.23.GPV.EA.2m,BH19,0
-Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",20,T.23.GPV.EA.3,BI19,0
-Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",21,T.23.GPV.EA.4,BJ19,0
-Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",22,T.23.GPV.EA.5,BK19,0
-Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",23,T.23.GPV.EA.6,BL19,0
-Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",24,T.23.GPV.EA.7,BM19,0
-Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",25,T.23.GPV.EA.8,BN19,0
-Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",26,T.23.GPV.EA.uk,BO19,0
+Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",3,T.2t3.GPV.Pu.EA.2m,AR19,0
+Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",4,T.2t3.GPV.Pu.EA.3,AS19,0
+Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",5,T.2t3.GPV.Pu.EA.4,AT19,0
+Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",6,T.2t3.GPV.Pu.EA.5,AU19,0
+Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",7,T.2t3.GPV.Pu.EA.6,AV19,0
+Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",8,T.2t3.GPV.Pu.EA.7,AW19,0
+Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",9,T.2t3.GPV.Pu.EA.8,AX19,0
+Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",10,T.2t3.GPV.Pu.EA.uk,AY19,0
+Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",11,T.2t3.GPV.Pr.EA.2m,AZ19,0
+Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",12,T.2t3.GPV.Pr.EA.3,BA19,0
+Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",13,T.2t3.GPV.Pr.EA.4,BB19,0
+Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",14,T.2t3.GPV.Pr.EA.5,BC19,0
+Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",15,T.2t3.GPV.Pr.EA.6,BD19,0
+Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",16,T.2t3.GPV.Pr.EA.7,BE19,0
+Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",17,T.2t3.GPV.Pr.EA.8,BF19,0
+Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",18,T.2t3.GPV.Pr.EA.uk,BG19,0
+Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",19,T.2t3.GPV.EA.2m,BH19,0
+Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",20,T.2t3.GPV.EA.3,BI19,0
+Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",21,T.2t3.GPV.EA.4,BJ19,0
+Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",22,T.2t3.GPV.EA.5,BK19,0
+Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",23,T.2t3.GPV.EA.6,BL19,0
+Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",24,T.2t3.GPV.EA.7,BM19,0
+Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",25,T.2t3.GPV.EA.8,BN19,0
+Teachers ISCED 23,Table 4.2,"Number of teachers by ADM1, type of institution and highest level of education completed. ISCED 24 and 34",26,T.2t3.GPV.EA.uk,BO19,0
 Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",2,ADM_NAME,BV19,0
-Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",3,NT.23.GPV.Pu,BW19,0
-Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",4,NT.23.GPV.Pu.trained,BX19,0
-Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",5,T.23.GPV.Pu.Exp1t2,BY19,0
-Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",6,T.23.GPV.Pu.Exp3t5,BZ19,0
-Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",7,T.23.GPV.Pu.Exp6t10,CA19,0
-Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",8,T.23.GPV.Pu.Exp11t15,CB19,0
-Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",9,T.23.GPV.Pu.Exp15p,CC19,0
-Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",10,T.23.GPV.Pu.Expuk,CD19,0
-Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",11,NT.23.GPV.Pr,CE19,0
-Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",12,NT.23.GPV.Pr.trained,CF19,0
-Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",13,T.23.GPV.Pr.Exp1t2,CG19,0
-Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",14,T.23.GPV.Pr.Exp3t5,CH19,0
-Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",15,T.23.GPV.Pr.Exp6t10,CI19,0
-Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",16,T.23.GPV.Pr.Exp11t15,CJ19,0
-Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",17,T.23.GPV.Pr.Exp15p,CK19,0
-Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",18,T.23.GPV.Pr.Expuk,CL19,0
-Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",19,NT.23.GPV,CM19,0
-Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",20,NT.23.GPV.trained,CN19,0
-Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",21,T.23.GPV.Exp1t2,CO19,0
-Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",22,T.23.GPV.Exp3t5,CP19,0
-Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",23,T.23.GPV.Exp6t10,CQ19,0
-Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",24,T.23.GPV.Exp11t15,CR19,0
-Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",25,T.23.GPV.Exp15p,CS19,0
-Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",26,T.23.GPV.Expuk,CT19,0
+Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",3,NT.2t3.GPV.Pu,BW19,0
+Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",4,NT.2t3.GPV.Pu.trained,BX19,0
+Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",5,T.2t3.GPV.Pu.Exp1t2,BY19,0
+Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",6,T.2t3.GPV.Pu.Exp3t5,BZ19,0
+Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",7,T.2t3.GPV.Pu.Exp6t10,CA19,0
+Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",8,T.2t3.GPV.Pu.Exp11t15,CB19,0
+Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",9,T.2t3.GPV.Pu.Exp15p,CC19,0
+Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",10,T.2t3.GPV.Pu.Expuk,CD19,0
+Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",11,NT.2t3.GPV.Pr,CE19,0
+Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",12,NT.2t3.GPV.Pr.trained,CF19,0
+Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",13,T.2t3.GPV.Pr.Exp1t2,CG19,0
+Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",14,T.2t3.GPV.Pr.Exp3t5,CH19,0
+Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",15,T.2t3.GPV.Pr.Exp6t10,CI19,0
+Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",16,T.2t3.GPV.Pr.Exp11t15,CJ19,0
+Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",17,T.2t3.GPV.Pr.Exp15p,CK19,0
+Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",18,T.2t3.GPV.Pr.Expuk,CL19,0
+Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",19,NT.2t3.GPV,CM19,0
+Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",20,NT.2t3.GPV.trained,CN19,0
+Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",21,T.2t3.GPV.Exp1t2,CO19,0
+Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",22,T.2t3.GPV.Exp3t5,CP19,0
+Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",23,T.2t3.GPV.Exp6t10,CQ19,0
+Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",24,T.2t3.GPV.Exp11t15,CR19,0
+Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",25,T.2t3.GPV.Exp15p,CS19,0
+Teachers ISCED 23,Table 4.3,"Number of teachers by ADM1, type of institution and number of years of teaching experience. ISCED 24 and 34",26,T.2t3.GPV.Expuk,CT19,0
 Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,2,ADM_NAME,DA19,0
-Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,3,T.23.GPV.Pu.Ag20m,DB19,0
-Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,4,T.23.GPV.Pu.Ag20t29,DC19,0
-Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,5,T.23.GPV.Pu.Ag30t39,DD19,0
-Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,6,T.23.GPV.Pu.Ag40t49,DE19,0
-Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,7,T.23.GPV.Pu.Ag50t59,DF19,0
-Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,8,T.23.GPV.Pu.Ag60p,DG19,0
-Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,9,T.23.GPV.Pu.Aguk,DH19,0
-Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,10,T.23.GPV.Pr.Ag20m,DI19,0
-Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,11,T.23.GPV.Pr.Ag20t29,DJ19,0
-Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,12,T.23.GPV.Pr.Ag30t39,DK19,0
-Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,13,T.23.GPV.Pr.Ag40t49,DL19,0
-Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,14,T.23.GPV.Pr.Ag50t59,DM19,0
-Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,15,T.23.GPV.Pr.Ag60p,DN19,0
-Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,16,T.23.GPV.Pr.Aguk,DO19,0
-Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,17,T.23.GPV.Ag20m,DP19,0
-Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,18,T.23.GPV.Ag20t29,DQ19,0
-Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,19,T.23.GPV.Ag30t39,DR19,0
-Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,20,T.23.GPV.Ag40t49,DS19,0
-Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,21,T.23.GPV.Ag50t59,DT19,0
-Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,22,T.23.GPV.Ag60p,DU19,0
-Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,23,T.23.GPV.Aguk,DV19,0
+Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,3,T.2t3.GPV.Pu.Ag20m,DB19,0
+Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,4,T.2t3.GPV.Pu.Ag20t29,DC19,0
+Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,5,T.2t3.GPV.Pu.Ag30t39,DD19,0
+Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,6,T.2t3.GPV.Pu.Ag40t49,DE19,0
+Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,7,T.2t3.GPV.Pu.Ag50t59,DF19,0
+Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,8,T.2t3.GPV.Pu.Ag60p,DG19,0
+Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,9,T.2t3.GPV.Pu.Aguk,DH19,0
+Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,10,T.2t3.GPV.Pr.Ag20m,DI19,0
+Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,11,T.2t3.GPV.Pr.Ag20t29,DJ19,0
+Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,12,T.2t3.GPV.Pr.Ag30t39,DK19,0
+Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,13,T.2t3.GPV.Pr.Ag40t49,DL19,0
+Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,14,T.2t3.GPV.Pr.Ag50t59,DM19,0
+Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,15,T.2t3.GPV.Pr.Ag60p,DN19,0
+Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,16,T.2t3.GPV.Pr.Aguk,DO19,0
+Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,17,T.2t3.GPV.Ag20m,DP19,0
+Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,18,T.2t3.GPV.Ag20t29,DQ19,0
+Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,19,T.2t3.GPV.Ag30t39,DR19,0
+Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,20,T.2t3.GPV.Ag40t49,DS19,0
+Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,21,T.2t3.GPV.Ag50t59,DT19,0
+Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,22,T.2t3.GPV.Ag60p,DU19,0
+Teachers ISCED 23,Table 4.4,Number of teachers by ADM1 type of institution and age. ISCED 24 and 34,23,T.2t3.GPV.Aguk,DV19,0

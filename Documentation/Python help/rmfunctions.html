@@ -110,6 +110,8 @@ number&nbsp;(the&nbsp;second&nbsp;element&nbsp;in&nbsp;the&nbsp;pair).</tt></dd>
 This&nbsp;functions&nbsp;checks&nbsp;that&nbsp;the&nbsp;information&nbsp;table&nbsp;in&nbsp;the&nbsp;top<br>
 left&nbsp;corner&nbsp;of&nbsp;the&nbsp;sheet&nbsp;exists&nbsp;and&nbsp;is&nbsp;an&nbsp;edited&nbsp;<a href="#questionnaire">questionnaire</a>.</tt></dd></dl>
 
+<dl><dt><a name="questionnaire-check_front_page_year"><strong>check_front_page_year</strong></a>(self)</dt><dd><tt>Checks&nbsp;that&nbsp;the&nbsp;reference&nbsp;year&nbsp;is&nbsp;filled&nbsp;with&nbsp;the&nbsp;right&nbsp;value.</tt></dd></dl>
+
 <dl><dt><a name="questionnaire-check_less"><strong>check_less</strong></a>(self)</dt><dd><tt>Checks&nbsp;that&nbsp;certain&nbsp;columns&nbsp;are&nbsp;less&nbsp;or&nbsp;equal&nbsp;than&nbsp;others.<br>
 &nbsp;<br>
 Checks&nbsp;that&nbsp;the&nbsp;list&nbsp;of&nbsp;pairs&nbsp;in&nbsp;each&nbsp;each&nbsp;key&nbsp;in<br>
@@ -273,9 +275,9 @@ Data descriptors defined here:<br>
 <font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
     
 <tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><dl><dt><a name="-ec_td_id"><strong>ec_td_id</strong></a>(sheet_name)</dt><dd><tt>Returns&nbsp;the&nbsp;EC_TD_ID&nbsp;given&nbsp;the&nbsp;sheet&nbsp;name.</tt></dd></dl>
- <dl><dt><a name="-getADM_CODE"><strong>getADM_CODE</strong></a>(co_code)</dt><dd><tt>SQL&nbsp;extract&nbsp;of&nbsp;ADM&nbsp;codes.</tt></dd></dl>
- <dl><dt><a name="-getADM_DISTINCT"><strong>getADM_DISTINCT</strong></a>(co_code)</dt><dd><tt>SQL&nbsp;extract&nbsp;distinct&nbsp;number&nbsp;of&nbsp;ADM(s).</tt></dd></dl>
+<td width="100%"><dl><dt><a name="-delete_questionnaire"><strong>delete_questionnaire</strong></a>(co_code, year)</dt><dd><tt>Delete&nbsp;all&nbsp;<a href="#questionnaire">questionnaire</a>&nbsp;data&nbsp;and&nbsp;indicators</tt></dd></dl>
+ <dl><dt><a name="-ec_td_id"><strong>ec_td_id</strong></a>(sheet_name)</dt><dd><tt>Returns&nbsp;the&nbsp;EC_TD_ID&nbsp;given&nbsp;the&nbsp;sheet&nbsp;name.</tt></dd></dl>
+ <dl><dt><a name="-getADM_DISTINCT"><strong>getADM_DISTINCT</strong></a>(co_code, year)</dt><dd><tt>SQL&nbsp;extract&nbsp;distinct&nbsp;number&nbsp;of&nbsp;ADM(s).</tt></dd></dl>
  <dl><dt><a name="-getAvailable_countries"><strong>getAvailable_countries</strong></a>()</dt><dd><tt>SQL&nbsp;extract&nbsp;the&nbsp;tuple&nbsp;of&nbsp;the&nbsp;available&nbsp;countries.</tt></dd></dl>
  <dl><dt><a name="-getAvailable_year"><strong>getAvailable_year</strong></a>(co_name)</dt><dd><tt>SQL&nbsp;extract&nbsp;data&nbsp;year(s)&nbsp;of&nbsp;the&nbsp;submitted&nbsp;questionnaires.</tt></dd></dl>
  <dl><dt><a name="-getCO_CODE"><strong>getCO_CODE</strong></a>(country_name)</dt><dd><tt>SQL&nbsp;extract&nbsp;a&nbsp;country&nbsp;code&nbsp;given&nbsp;the&nbsp;long&nbsp;or&nbsp;short&nbsp;name.<br>

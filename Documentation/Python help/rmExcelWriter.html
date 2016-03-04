@@ -26,7 +26,22 @@
 <font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
     
 <tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><dl><dt><a name="-export_indc"><strong>export_indc</strong></a>(ind, wb, co_code, year, serie='EST')</dt><dd><tt>Exports&nbsp;to&nbsp;an&nbsp;xlsx&nbsp;file&nbsp;a&nbsp;list&nbsp;of&nbsp;indicator(s).<br>
+<td width="100%"><dl><dt><a name="-direct_extraction"><strong>direct_extraction</strong></a>(s, loc)</dt><dd><tt>Writes&nbsp;record&nbsp;format&nbsp;to&nbsp;Excel.<br>
+&nbsp;<br>
+s&nbsp;must&nbsp;be&nbsp;in&nbsp;the&nbsp;format&nbsp;TYPE-SERIES[co_code1(adm1,&nbsp;adm2,..);co_code2;..;year;AC]<br>
+where&nbsp;<br>
+TYPE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;raw&nbsp;of&nbsp;indic<br>
+year&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'yyyy'&nbsp;for&nbsp;a&nbsp;specific&nbsp;year<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'yyyy:yyyy'&nbsp;for&nbsp;a&nbsp;range&nbsp;of&nbsp;years<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;''&nbsp;left&nbsp;empty&nbsp;for&nbsp;all&nbsp;years<br>
+co_code&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;xxx&nbsp;for&nbsp;a&nbsp;specific&nbsp;country&nbsp;and&nbsp;all&nbsp;regions<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;xxx(x1,x2,..)&nbsp;for&nbsp;a&nbsp;specific&nbsp;country&nbsp;and&nbsp;a&nbsp;list&nbsp;of&nbsp;regions,&nbsp;x1,&nbsp;x2,&nbsp;..<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;''&nbsp;empty&nbsp;for&nbsp;all&nbsp;countries&nbsp;and&nbsp;regions<br>
+AC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;a&nbsp;specific&nbsp;indicator&nbsp;or&nbsp;AC,&nbsp;wildcards&nbsp;of&nbsp;%&nbsp;and&nbsp;_&nbsp;are&nbsp;accepted.<br>
+SERIES&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;rep,&nbsp;obs,&nbsp;or&nbsp;est,&nbsp;by&nbsp;default&nbsp;is&nbsp;est.<br>
+&nbsp;<br>
+loc&nbsp;is&nbsp;where&nbsp;the&nbsp;file&nbsp;location&nbsp;should&nbsp;be.</tt></dd></dl>
+ <dl><dt><a name="-export_indc"><strong>export_indc</strong></a>(ind, wb, co_code, year, serie='EST')</dt><dd><tt>Exports&nbsp;to&nbsp;an&nbsp;xlsx&nbsp;file&nbsp;a&nbsp;list&nbsp;of&nbsp;indicator(s).<br>
 &nbsp;<br>
 ind:&nbsp;&nbsp;&nbsp;&nbsp;is&nbsp;either&nbsp;'All'&nbsp;for&nbsp;all&nbsp;indicators&nbsp;or&nbsp;an&nbsp;IND_ID&nbsp;as&nbsp;'NTP.1'.<br>
 wb:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is&nbsp;the&nbsp;workbook&nbsp;object&nbsp;from&nbsp;xlsxwriter.<br>

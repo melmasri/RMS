@@ -221,7 +221,7 @@ When any data is exported, they are exported based on two viewing modes, an =Edi
        software will reject it. 
 #+end_important
 
-*** Exporting and calculating indicators
+*** Calculating indicators and exporting
 
 Before exporting any indicators, we need to calculate them. For the
 selected country and year the =Calculate= button in the indicator
@@ -287,6 +287,52 @@ For the current version of the software, these are the list of calculated indica
 
 For more details about the computational methods refer to [[Indicators][Indicators]] section.
 
+*** Record format exporting
+
+Record format exporting, in the frame =Direct SQL extraction:=, allows an easy access to the SQL database, for raw data and indicators. Basically, each data figure will appear in its own row, with the corresponding dimensions, 
+    + CO_SHORT_NAME: the country short name,
+    + CO_CODE: the country code,
+    + ADM_NAME: the administrative division name,
+    + YEAR: data reference year,
+    + MC_ID: the numerical version of the AC code, only for raw data,
+    + AC: the alphanumeric code of the raw data or indicator,
+    + FIG: the actual figure.
+
+To extract data, you need to use the following input format in the given text box of the  =Direct SQL extraction:= frame: 
+
+#+begin_src
+type-series[co_code1(adm1, adm2, ...); co_code2(adm1, adm2, ...); ...; YEAR; AC]
+#+end_src
+
+where 
+    + type :: is either =raw= to extract raw data, or =indic= to extract indicators.
+    + series (optional) :: is either =rep=, =obs= or =est=, the default is =est= as in the case for indicators.
+    + co_code (optional) :: you can pass a series of country codes with the following possible formats:
+      + co_code      := for all administrative divisions for this country. 
+      + co_code(1)   := for administrative division code 1 for this country.
+      + co_code(0)   := for the national level data only for this country.
+      + co_code(0,1) := for the national level data and administrative division code 1 for this country.
+      + leave empty  := as indicated by (optional), it will extract all countries and administrative  divisions in the database.
+      + any wrong co_code is ignored.
+    + YEAR (optional) :: you can pass years in the following formats:
+      + yyyy         := for a specific year, as 2014 or 2015.
+      + yyyy:yyyy    := for a range of years, as 2013:2015, would extract all data between 2013 and 2015, inclusive.
+      + leave empty  := for all years.
+    + AC :: an exact alphanumeric code or with a wildcard must be passed. Users can extract groups of indicators or raw data using name patterns, where % substitutes for zero or more characters and _ substitutes for a single character. For examples see section [[Calculating indicators and exporting][Calculating indicators and exporting]] on wildcards. 
+  
+#+begin_note
+Exported data are saved in the =Export= folder if no other folder is specified, under the naming convention =record_format_type-series_AC.xlsx=, where in the case of wildcards, % is replaced with =xx=. This is indicated in the Status panel as well.
+#+end_note
+
+For example: 
+    + =raw-obs[4180; 2014; T.1]= to extract all =T.1= raw data for all administrative divisions from the /Observed/ series for 2014, country 4180. If no data exist, the file would be empty.
+    + =raw[4180(2,3,0); ; T.1]= to extract all =T.1= raw data from the /Estimated/ series for all administrative divisions code 2, 3 and national level for 0, for country 4180, for all years.
+    + =indic[; ; %T.2%]= to extract all indicators with the pattern =T.2= in their alphanumeric code, for all countries, administrative divisions and years.
+    + =indic[;2011:2015;%T.2%]= to extract all indicators with the pattern =T.2= in their alphanumeric code, for all countries and administrative divisions, for years between 2011 and 2015, inclusive.
+
+*** Deleting data 
+By selecting a country and year from the drop-down list and clicking =Delete questionnaire=, this would delete all data and indicators associated with that specific country and year. The drop-down list should not show the deleted data after a refresh.
+
 ** Validation report
 A validation report is created and saved in the =Log= sub-folder
 every time the user attempts to insert a questionnaire by clicking on
@@ -336,7 +382,7 @@ For more technical information, see [[Preprocessing][Preprocessing]] section.
      * if ADM names exists in database they must equal the ones in
       the questionnaire, otherwise prints an error. This mean you
       can only change ADM names after they have been created by
-      accessing the database directly, and if you try to reinsert the original questionnaire with reordered or changed region names, it will fail.
+      accessing the database directly, and if you try to reinsert the original questionnaire for the same year with reordered or changed region names, it will fail.
   + In General :: checks are
      * all columns must sum to the national level total.
      * all sub-category must sum to the total. For example, public
@@ -673,7 +719,6 @@ The file should also automatically open up and in this example it looks like thi
     the AC code A.
 
 Some more specific technical notation exists for some of the subsections.
-
 ** Percentage of female teachers
 
    + Python method :: teachers_percentage_female
@@ -710,8 +755,6 @@ Some more specific technical notation exists for some of the subsections.
         | ISCED 23 | FTP.2t3.GPV.Pr | T.2t3.GPV.Pr.F/T.2t3.GPV.Pr | yes   |
         |----------+----------------+-----------------------------+-------|
 		
-	
-	
 ** Percentage of newly recruited teachers
 
    + Python method :: newly_recruited_teachers
@@ -747,7 +790,6 @@ Some more specific technical notation exists for some of the subsections.
         | ISCED 3  | NTP.3.GPV.Pr   | NT.3.GPV.Pr/T.3.GPV.Pr     | yes   |
         | ISCED 23 | NTP.2t3.GPV.Pr | NT.2t3.GPV.Pr/T.2t3.GPV.Pr | yes   |
         |----------+----------------+----------------------------+-------|
-
 
 
 ** Pupils teachers ratio
@@ -851,7 +893,6 @@ Some more specific technical notation exists for some of the subsections.
 
 
    
-
 ** Percentage of private teachers
    + Python method ::  percentage_private_teachers
    + IND_IDS information ::
@@ -952,6 +993,7 @@ Some more specific technical notation exists for some of the subsections.
         | ISCED 3  | TAttrR.3.GPV   | 100*(T.3.GPV^{L} + NT.3.GPV - T.3.GPV)/T.3.GPV^{L}         | no    |
         | ISCED 23 | TAttrR.2t3.GPV | 100*(T.2t3.GPV^{L} + NT.2t3.GPV - T.2t3.GPV)/T.2t3.GPV^{L} | no    |
         |----------+----------------+------------------------------------------------------------+-------|
+        When using a previous year data, as T.1^{L}, if the data is available it is used, otherwise we use the =.m1= extension as  =T.1m1=, which is collected from this years questionnaire.
 
 ** Mean age 
 
@@ -1024,7 +1066,7 @@ Some more specific technical notation exists for some of the subsections.
    #+ATTR_LATEX:  :align |l|l|l|c|
        | Experience         | IND_ID           | FORMULA                  | H & L |
        |--------------------+------------------+--------------------------+-------|
-       | 1 to 2 years       | Exp1t2mPT.ISCED  | T.ISCED.Exp1t2/T.ISCED   | No    |
+       | 1 to 2 years       | Exp1t2PT.ISCED   | T.ISCED.Exp1t2/T.ISCED   | No    |
        | 3 to 5 years       | Exp3t5PT.ISCED   | T.ISCED.Exp3t5/T.ISCED   | No    |
        | 5 to 10 years      | Exp6t10PT.ISCED  | T.ISCED.Exp6t10/T.ISCED  | No    |
        | 11 to 15 years     | Exp11t15PT.ISCED | T.ISCED.Exp11t15/T.ISCED | No    |
@@ -1092,7 +1134,6 @@ Some more specific technical notation exists for some of the subsections.
 #  LocalWords:  emco
 
 
-         
 * Adding  Indicators
 ** The indicators class
    To deal with indicator calculations, a Python class named

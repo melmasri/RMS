@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Regional Module User Manual</title>
-<!-- 2016-02-17 mié 21:33 -->
+<!-- 2016-03-03 Thu 11:55 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Mohamad Elmasri and Oscar Quijano" />
@@ -199,7 +199,9 @@ for the JavaScript code in this tag.
 <li><a href="#sec-1-3-2">1.3.2. Moving data between series</a></li>
 <li><a href="#sec-1-3-3">1.3.3. Exporting data options</a></li>
 <li><a href="#sec-1-3-4">1.3.4. Viewing modes</a></li>
-<li><a href="#sec-1-3-5">1.3.5. Exporting and calculating indicators</a></li>
+<li><a href="#sec-1-3-5">1.3.5. Calculating indicators and exporting</a></li>
+<li><a href="#sec-1-3-6">1.3.6. Record format exporting</a></li>
+<li><a href="#sec-1-3-7">1.3.7. Deleting data</a></li>
 </ul>
 </li>
 <li><a href="#sec-1-4">1.4. Validation report</a></li>
@@ -610,7 +612,7 @@ software will reject it.
 </div>
 
 <div id="outline-container-sec-1-3-5" class="outline-4">
-<h4 id="sec-1-3-5"><span class="section-number-4">1.3.5</span> Exporting and calculating indicators</h4>
+<h4 id="sec-1-3-5"><span class="section-number-4">1.3.5</span> Calculating indicators and exporting</h4>
 <div class="outline-text-4" id="text-1-3-5">
 <p>
 Before exporting any indicators, we need to calculate them. For the
@@ -718,6 +720,107 @@ For more details about the computational methods refer to <a href="#sec-2">Indic
 </p>
 </div>
 </div>
+
+<div id="outline-container-sec-1-3-6" class="outline-4">
+<h4 id="sec-1-3-6"><span class="section-number-4">1.3.6</span> Record format exporting</h4>
+<div class="outline-text-4" id="text-1-3-6">
+<p>
+Record format exporting, in the frame <code>Direct SQL extraction:</code>, allows an easy access to the SQL database, for raw data and indicators. Basically, each data figure will appear in its own row, with the corresponding dimensions, 
+</p>
+<ul class="org-ul">
+<li>CO_SHORT_NAME: the country short name,
+</li>
+<li>CO_CODE: the country code,
+</li>
+<li>ADM_NAME: the administrative division name,
+</li>
+<li>YEAR: data reference year,
+</li>
+<li>MC_ID: the numerical version of the AC code, only for raw data,
+</li>
+<li>AC: the alphanumeric code of the raw data or indicator,
+</li>
+<li>FIG: the actual figure.
+</li>
+</ul>
+
+<p>
+To extract data, you need to use the following input format in the given text box of the  <code>Direct SQL extraction:</code> frame: 
+</p>
+
+<pre class="example">
+type-series[co_code1(adm1, adm2, ...); co_code2(adm1, adm2, ...); ...; YEAR; AC]
+</pre>
+
+<p>
+where 
+</p>
+<dl class="org-dl">
+<dt> type </dt><dd>is either <code>raw</code> to extract raw data, or <code>indic</code> to extract indicators.
+</dd>
+<dt> series (optional) </dt><dd>is either <code>rep</code>, <code>obs</code> or <code>est</code>, the default is <code>est</code> as in the case for indicators.
+</dd>
+<dt> co_code (optional) </dt><dd>you can pass a series of country codes with the following possible formats:
+<ul class="org-ul">
+<li>co_code      := for all administrative divisions for this country. 
+</li>
+<li>co_code(1)   := for administrative division code 1 for this country.
+</li>
+<li>co_code(0)   := for the national level data only for this country.
+</li>
+<li>co_code(0,1) := for the national level data and administrative division code 1 for this country.
+</li>
+<li>leave empty  := as indicated by (optional), it will extract all countries and administrative  divisions in the database.
+</li>
+<li>any wrong co_code is ignored.
+</li>
+</ul>
+</dd>
+<dt> YEAR (optional) </dt><dd>you can pass years in the following formats:
+<ul class="org-ul">
+<li>yyyy         := for a specific year, as 2014 or 2015.
+</li>
+<li>yyyy:yyyy    := for a range of years, as 2013:2015, would extract all data between 2013 and 2015, inclusive.
+</li>
+<li>leave empty  := for all years.
+</li>
+</ul>
+</dd>
+<dt> AC </dt><dd>an exact alphanumeric code or with a wildcard must be passed. Users can extract groups of indicators or raw data using name patterns, where % substitutes for zero or more characters and _ substitutes for a single character. For examples see section <a href="#sec-1-3-5">Calculating indicators and exporting</a> on wildcards. 
+</dd>
+</dl>
+
+<div class="note">
+<p>
+Exported data are saved in the <code>Export</code> folder if no other folder is specified, under the naming convention <code>record_format_type-series_AC.xlsx</code>, where in the case of wildcards, % is replaced with <code>xx</code>. This is indicated in the Status panel as well.
+</p>
+
+</div>
+
+<p>
+For example: 
+</p>
+<ul class="org-ul">
+<li><code>raw-obs[4180; 2014; T.1]</code> to extract all <code>T.1</code> raw data for all administrative divisions from the <i>Observed</i> series for 2014, country 4180. If no data exist, the file would be empty.
+</li>
+<li><code>raw[4180(2,3,0); ; T.1]</code> to extract all <code>T.1</code> raw data from the <i>Estimated</i> series for all administrative divisions code 2, 3 and national level for 0, for country 4180, for all years.
+</li>
+<li><code>indic[; ; %T.2%]</code> to extract all indicators with the pattern <code>T.2</code> in their alphanumeric code, for all countries, administrative divisions and years.
+</li>
+<li><code>indic[;2011:2015;%T.2%]</code> to extract all indicators with the pattern <code>T.2</code> in their alphanumeric code, for all countries and administrative divisions, for years between 2011 and 2015, inclusive.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-3-7" class="outline-4">
+<h4 id="sec-1-3-7"><span class="section-number-4">1.3.7</span> Deleting data</h4>
+<div class="outline-text-4" id="text-1-3-7">
+<p>
+By selecting a country and year from the drop-down list and clicking <code>Delete questionnaire</code>, this would delete all data and indicators associated with that specific country and year. The drop-down list should not show the deleted data after a refresh.
+</p>
+</div>
+</div>
 </div>
 
 <div id="outline-container-sec-1-4" class="outline-3">
@@ -818,7 +921,7 @@ The data report checks the following and lists any issues:
 <li>if ADM names exists in database they must equal the ones in
 the questionnaire, otherwise prints an error. This mean you
 can only change ADM names after they have been created by
-accessing the database directly, and if you try to reinsert the original questionnaire with reordered or changed region names, it will fail.
+accessing the database directly, and if you try to reinsert the original questionnaire for the same year with reordered or changed region names, it will fail.
 </li>
 </ul>
 </dd>
@@ -892,24 +995,24 @@ The following is the schema of the SQL table, where
 </ul>
 <div class="org-src-container">
 
-<pre class="src src-sql"><span style="color: #00bfff;">CREATE</span> <span style="color: #00bfff;">TABLE</span> <span style="color: #daa520;">METER_AUDIT_TRAIL</span>(
-        Audit_ID <span style="color: #98f5ff;">Integer</span> , <span style="color: #7f7f7f;">-- auto-increment ID</span>
-        MC_ID <span style="color: #98f5ff;">decimal</span>(6, 0) <span style="color: #00bfff;">NOT</span> <span style="color: #00bfff;">NULL</span>, <span style="color: #7f7f7f;">--numeric reference of the data</span>
-    CO_CODE <span style="color: #98f5ff;">decimal</span>(6, 0) <span style="color: #00bfff;">NOT</span> <span style="color: #00bfff;">NULL</span>, <span style="color: #7f7f7f;">-- country code</span>
-    ADM_CODE <span style="color: #98f5ff;">INT</span> <span style="color: #00bfff;">NOT</span> <span style="color: #00bfff;">NULL</span>, <span style="color: #7f7f7f;">-- Administrative Division code.</span>
-        MC_YEAR <span style="color: #98f5ff;">decimal</span>(4, 0) <span style="color: #00bfff;">NOT</span> <span style="color: #00bfff;">NULL</span>, <span style="color: #7f7f7f;">-- data year</span>
-        EM_FIG_NEW <span style="color: #98f5ff;">varchar</span>(4000) <span style="color: #00bfff;">NULL</span>, <span style="color: #7f7f7f;">-- new figure</span>
-        EM_FIG_OLD <span style="color: #98f5ff;">varchar</span>(4000) <span style="color: #00bfff;">NULL</span>,  <span style="color: #7f7f7f;">-- old figure</span>
-        MQ_ID_NEW <span style="color: #98f5ff;">char</span>(1) <span style="color: #00bfff;">NULL</span>, <span style="color: #7f7f7f;">-- new qualifier</span>
-        MQ_ID_OLD <span style="color: #98f5ff;">char</span>(1) <span style="color: #00bfff;">NULL</span>, <span style="color: #7f7f7f;">-- old qualifier</span>
-        MG_ID_NEW <span style="color: #98f5ff;">char</span>(1) <span style="color: #00bfff;">NULL</span>, <span style="color: #7f7f7f;">-- new magnitude</span>
-        MG_ID_OLD <span style="color: #98f5ff;">char</span>(1) <span style="color: #00bfff;">NULL</span>, <span style="color: #7f7f7f;">-- old magnitude</span>
-        TYPE_MOD <span style="color: #98f5ff;">char</span>(1) <span style="color: #00bfff;">NULL</span>, 
-        USER_NAME <span style="color: #98f5ff;">varchar</span>(20) <span style="color: #00bfff;">NOT</span> <span style="color: #00bfff;">NULL</span>, <span style="color: #7f7f7f;">-- user name</span>
-        SYS_DATE datetime <span style="color: #00bfff;">DEFAULT</span> (datetime(<span style="color: #deb887;">'now'</span>,<span style="color: #deb887;">'localtime'</span>)), <span style="color: #7f7f7f;">--local timestamp</span>
-        SERIES <span style="color: #98f5ff;">varchar</span>(10) <span style="color: #00bfff;">NOT</span> <span style="color: #00bfff;">NULL</span>, <span style="color: #7f7f7f;">-- data series</span>
-        SURVEY_ID <span style="color: #98f5ff;">char</span>(2) <span style="color: #00bfff;">NULL</span>, <span style="color: #7f7f7f;">--- Regional model default is set to 'RM'</span>
-    <span style="color: #00bfff;">PRIMARY</span> <span style="color: #00bfff;">KEY</span> (Audit_ID <span style="color: #00bfff;">ASC</span>));
+<pre class="src src-sql"><span style="color: #F92672;">CREATE</span> <span style="color: #F92672;">TABLE</span> <span style="color: #A6E22E;">METER_AUDIT_TRAIL</span>(
+    Audit_ID <span style="color: #66D9EF;">Integer</span> , <span style="color: #75715E;">-- auto-increment ID</span>
+    MC_ID <span style="color: #66D9EF;">decimal</span>(6, 0) <span style="color: #F92672;">NOT</span> <span style="color: #F92672;">NULL</span>, <span style="color: #75715E;">--numeric reference of the data</span>
+    CO_CODE <span style="color: #66D9EF;">decimal</span>(6, 0) <span style="color: #F92672;">NOT</span> <span style="color: #F92672;">NULL</span>, <span style="color: #75715E;">-- country code</span>
+    ADM_CODE <span style="color: #66D9EF;">INT</span> <span style="color: #F92672;">NOT</span> <span style="color: #F92672;">NULL</span>, <span style="color: #75715E;">-- Administrative Division code.</span>
+    MC_YEAR <span style="color: #66D9EF;">decimal</span>(4, 0) <span style="color: #F92672;">NOT</span> <span style="color: #F92672;">NULL</span>, <span style="color: #75715E;">-- data year</span>
+    EM_FIG_NEW <span style="color: #66D9EF;">varchar</span>(4000) <span style="color: #F92672;">NULL</span>, <span style="color: #75715E;">-- new figure</span>
+    EM_FIG_OLD <span style="color: #66D9EF;">varchar</span>(4000) <span style="color: #F92672;">NULL</span>,  <span style="color: #75715E;">-- old figure</span>
+    MQ_ID_NEW <span style="color: #66D9EF;">char</span>(1) <span style="color: #F92672;">NULL</span>, <span style="color: #75715E;">-- new qualifier</span>
+    MQ_ID_OLD <span style="color: #66D9EF;">char</span>(1) <span style="color: #F92672;">NULL</span>, <span style="color: #75715E;">-- old qualifier</span>
+    MG_ID_NEW <span style="color: #66D9EF;">char</span>(1) <span style="color: #F92672;">NULL</span>, <span style="color: #75715E;">-- new magnitude</span>
+    MG_ID_OLD <span style="color: #66D9EF;">char</span>(1) <span style="color: #F92672;">NULL</span>, <span style="color: #75715E;">-- old magnitude</span>
+    TYPE_MOD <span style="color: #66D9EF;">char</span>(1) <span style="color: #F92672;">NULL</span>, 
+    USER_NAME <span style="color: #66D9EF;">varchar</span>(20) <span style="color: #F92672;">NOT</span> <span style="color: #F92672;">NULL</span>, <span style="color: #75715E;">-- user name</span>
+    SYS_DATE datetime <span style="color: #F92672;">DEFAULT</span> (datetime(<span style="color: #E6DB74;">'now'</span>,<span style="color: #E6DB74;">'localtime'</span>)), <span style="color: #75715E;">--local timestamp</span>
+    SERIES <span style="color: #66D9EF;">varchar</span>(10) <span style="color: #F92672;">NOT</span> <span style="color: #F92672;">NULL</span>, <span style="color: #75715E;">-- data series</span>
+    SURVEY_ID <span style="color: #66D9EF;">char</span>(2) <span style="color: #F92672;">NULL</span>, <span style="color: #75715E;">--- Regional model default is set to 'RM'</span>
+    <span style="color: #F92672;">PRIMARY</span> <span style="color: #F92672;">KEY</span> (Audit_ID <span style="color: #F92672;">ASC</span>));
 </pre>
 </div>
 
@@ -918,7 +1021,7 @@ To read from the table, using <code>sqlite3</code> connect to <code>Prod.db</cod
 </p>
 <div class="org-src-container">
 
-<pre class="src src-sql"><span style="color: #00bfff;">SELECT</span> * <span style="color: #00bfff;">from</span> METER_AUDIT_TRAIL <span style="color: #00bfff;">LIMIT</span> 5;
+<pre class="src src-sql"><span style="color: #F92672;">SELECT</span> * <span style="color: #F92672;">from</span> METER_AUDIT_TRAIL <span style="color: #F92672;">LIMIT</span> 5;
 </pre>
 </div>
 <p>
@@ -926,9 +1029,9 @@ to see the first 5 rows of the table, and
 </p>
 <div class="org-src-container">
 
-<pre class="src src-sql"><span style="color: #00bfff;">SELECT</span> a.* <span style="color: #00bfff;">from</span> METER_AUDIT_TRAIL <span style="color: #00bfff;">AS</span> a
-<span style="color: #00bfff;">LEFT</span> <span style="color: #00bfff;">JOIN</span> EDU_METER_AID <span style="color: #00bfff;">AS</span> b <span style="color: #00bfff;">ON</span> a.MC_ID = b.EMC_ID
-<span style="color: #00bfff;">WHERE</span> b.AC =<span style="color: #deb887;">'NT.1'</span> <span style="color: #00bfff;">AND</span> a.CO_CODE = 4180 <span style="color: #00bfff;">AND</span> a.MC_YEAR = 2014;
+<pre class="src src-sql"><span style="color: #F92672;">SELECT</span> a.* <span style="color: #F92672;">from</span> METER_AUDIT_TRAIL <span style="color: #F92672;">AS</span> a
+<span style="color: #F92672;">LEFT</span> <span style="color: #F92672;">JOIN</span> EDU_METER_AID <span style="color: #F92672;">AS</span> b <span style="color: #F92672;">ON</span> a.MC_ID = b.EMC_ID
+<span style="color: #F92672;">WHERE</span> b.AC =<span style="color: #E6DB74;">'NT.1'</span> <span style="color: #F92672;">AND</span> a.CO_CODE = 4180 <span style="color: #F92672;">AND</span> a.MC_YEAR = 2014;
 </pre>
 </div>
 <p>
@@ -970,22 +1073,22 @@ The following is the schema of the SQL table, where
 
 <div class="org-src-container">
 
-<pre class="src src-sql"><span style="color: #00bfff;">CREATE</span> <span style="color: #00bfff;">TABLE</span> <span style="color: #daa520;">INDICATOR_AUDIT_TRAIL</span>(
-        Audit_ID <span style="color: #98f5ff;">Integer</span> , <span style="color: #7f7f7f;">-- auto-increment ID</span>
-        IND_ID <span style="color: #98f5ff;">varchar</span>(50) <span style="color: #00bfff;">NOT</span> <span style="color: #00bfff;">NULL</span>, <span style="color: #7f7f7f;">-- indicator ID</span>
-    CO_CODE <span style="color: #98f5ff;">decimal</span>(6, 0) <span style="color: #00bfff;">NOT</span> <span style="color: #00bfff;">NULL</span>, <span style="color: #7f7f7f;">-- country code</span>
-    ADM_CODE <span style="color: #98f5ff;">INT</span> <span style="color: #00bfff;">NOT</span> <span style="color: #00bfff;">NULL</span>, <span style="color: #7f7f7f;">-- Administrative Division code.</span>
-        IND_YEAR <span style="color: #98f5ff;">decimal</span>(4, 0) <span style="color: #00bfff;">NOT</span> <span style="color: #00bfff;">NULL</span>, <span style="color: #7f7f7f;">-- indicator data year</span>
-        FIG_NEW <span style="color: #98f5ff;">varchar</span>(4000) <span style="color: #00bfff;">NULL</span>, <span style="color: #7f7f7f;">-- new figure</span>
-        FIG_OLD <span style="color: #98f5ff;">varchar</span>(4000) <span style="color: #00bfff;">NULL</span>, <span style="color: #7f7f7f;">-- old figure</span>
-        QUAL_NEW <span style="color: #98f5ff;">char</span>(1) <span style="color: #00bfff;">NULL</span>,  <span style="color: #7f7f7f;">-- new qualifier</span>
-        QUAL_OLD <span style="color: #98f5ff;">char</span>(1) <span style="color: #00bfff;">NULL</span>,  <span style="color: #7f7f7f;">-- old qualifier</span>
-        MAGN_NEW <span style="color: #98f5ff;">char</span>(1) <span style="color: #00bfff;">NULL</span>,  <span style="color: #7f7f7f;">-- new magnitude</span>
-        MAGN_OLD <span style="color: #98f5ff;">char</span>(1) <span style="color: #00bfff;">NULL</span>,  <span style="color: #7f7f7f;">-- old magnitude</span>
-        USER_NAME <span style="color: #98f5ff;">varchar</span>(20) <span style="color: #00bfff;">NOT</span> <span style="color: #00bfff;">NULL</span>, 
-        SYS_DATE datetime <span style="color: #00bfff;">DEFAULT</span> (datetime(<span style="color: #deb887;">'now'</span>,<span style="color: #deb887;">'localtime'</span>)), <span style="color: #7f7f7f;">-- local change time</span>
-        SERIES <span style="color: #98f5ff;">varchar</span>(10) <span style="color: #00bfff;">NOT</span> <span style="color: #00bfff;">NULL</span>, <span style="color: #7f7f7f;">-- series is always EST</span>
-    <span style="color: #00bfff;">PRIMARY</span> <span style="color: #00bfff;">KEY</span> (Audit_ID <span style="color: #00bfff;">ASC</span>));
+<pre class="src src-sql"><span style="color: #F92672;">CREATE</span> <span style="color: #F92672;">TABLE</span> <span style="color: #A6E22E;">INDICATOR_AUDIT_TRAIL</span>(
+        Audit_ID <span style="color: #66D9EF;">Integer</span> , <span style="color: #75715E;">-- auto-increment ID</span>
+        IND_ID <span style="color: #66D9EF;">varchar</span>(50) <span style="color: #F92672;">NOT</span> <span style="color: #F92672;">NULL</span>, <span style="color: #75715E;">-- indicator ID</span>
+    CO_CODE <span style="color: #66D9EF;">decimal</span>(6, 0) <span style="color: #F92672;">NOT</span> <span style="color: #F92672;">NULL</span>, <span style="color: #75715E;">-- country code</span>
+    ADM_CODE <span style="color: #66D9EF;">INT</span> <span style="color: #F92672;">NOT</span> <span style="color: #F92672;">NULL</span>, <span style="color: #75715E;">-- Administrative Division code.</span>
+        IND_YEAR <span style="color: #66D9EF;">decimal</span>(4, 0) <span style="color: #F92672;">NOT</span> <span style="color: #F92672;">NULL</span>, <span style="color: #75715E;">-- indicator data year</span>
+        FIG_NEW <span style="color: #66D9EF;">varchar</span>(4000) <span style="color: #F92672;">NULL</span>, <span style="color: #75715E;">-- new figure</span>
+        FIG_OLD <span style="color: #66D9EF;">varchar</span>(4000) <span style="color: #F92672;">NULL</span>, <span style="color: #75715E;">-- old figure</span>
+        QUAL_NEW <span style="color: #66D9EF;">char</span>(1) <span style="color: #F92672;">NULL</span>,  <span style="color: #75715E;">-- new qualifier</span>
+        QUAL_OLD <span style="color: #66D9EF;">char</span>(1) <span style="color: #F92672;">NULL</span>,  <span style="color: #75715E;">-- old qualifier</span>
+        MAGN_NEW <span style="color: #66D9EF;">char</span>(1) <span style="color: #F92672;">NULL</span>,  <span style="color: #75715E;">-- new magnitude</span>
+        MAGN_OLD <span style="color: #66D9EF;">char</span>(1) <span style="color: #F92672;">NULL</span>,  <span style="color: #75715E;">-- old magnitude</span>
+        USER_NAME <span style="color: #66D9EF;">varchar</span>(20) <span style="color: #F92672;">NOT</span> <span style="color: #F92672;">NULL</span>, 
+        SYS_DATE datetime <span style="color: #F92672;">DEFAULT</span> (datetime(<span style="color: #E6DB74;">'now'</span>,<span style="color: #E6DB74;">'localtime'</span>)), <span style="color: #75715E;">-- local change time</span>
+        SERIES <span style="color: #66D9EF;">varchar</span>(10) <span style="color: #F92672;">NOT</span> <span style="color: #F92672;">NULL</span>, <span style="color: #75715E;">-- series is always EST</span>
+    <span style="color: #F92672;">PRIMARY</span> <span style="color: #F92672;">KEY</span> (Audit_ID <span style="color: #F92672;">ASC</span>));
 </pre>
 </div>
 
@@ -994,7 +1097,7 @@ To read from the table, using <code>sqlite3</code> connect to <code>Prod.db</cod
 </p>
 <div class="org-src-container">
 
-<pre class="src src-sql"><span style="color: #00bfff;">SELECT</span> * <span style="color: #00bfff;">from</span> INDICATOR_AUDIT_TRAIL <span style="color: #00bfff;">LIMIT</span> 5;
+<pre class="src src-sql"><span style="color: #F92672;">SELECT</span> * <span style="color: #F92672;">from</span> INDICATOR_AUDIT_TRAIL <span style="color: #F92672;">LIMIT</span> 5;
 </pre>
 </div>
 <p>
@@ -1002,8 +1105,8 @@ to see the first 5 rows of the table, and
 </p>
 <div class="org-src-container">
 
-<pre class="src src-sql"><span style="color: #00bfff;">SELECT</span> * <span style="color: #00bfff;">from</span> INDICATOR_AUDIT_TRAIL
-<span style="color: #00bfff;">WHERE</span> IND_ID =<span style="color: #deb887;">'FTP.1'</span> <span style="color: #00bfff;">AND</span> CO_CODE = 4180 <span style="color: #00bfff;">AND</span> IND_YEAR = 2014;
+<pre class="src src-sql"><span style="color: #F92672;">SELECT</span> * <span style="color: #F92672;">from</span> INDICATOR_AUDIT_TRAIL
+<span style="color: #F92672;">WHERE</span> IND_ID =<span style="color: #E6DB74;">'FTP.1'</span> <span style="color: #F92672;">AND</span> CO_CODE = 4180 <span style="color: #F92672;">AND</span> IND_YEAR = 2014;
 </pre>
 </div>
 <p>
@@ -1333,7 +1436,6 @@ the AC code A.
 Some more specific technical notation exists for some of the subsections.
 </p>
 </div>
-
 <div id="outline-container-sec-2-1" class="outline-3">
 <h3 id="sec-2-1"><span class="section-number-3">2.1</span> Percentage of female teachers</h3>
 <div class="outline-text-3" id="text-2-1">
@@ -1372,22 +1474,22 @@ Some more specific technical notation exists for some of the subsections.
 
 <tr>
 <td class="left">ISCED 2</td>
-<td class="left">FTP.2</td>
+<td class="left">FTP.2.GPV</td>
 <td class="left">T.2.GPV.F/T.2.GPV</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 3</td>
-<td class="left">FTP.3</td>
+<td class="left">FTP.3.GPV</td>
 <td class="left">T.3.GPV.F/T.3.GPV</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 23</td>
-<td class="left">FTP.2t3</td>
-<td class="left">T.23.GPV.F/T.23.GPV</td>
+<td class="left">FTP.2t3.GPV</td>
+<td class="left">T.2t3.GPV.F/T.2t3.GPV</td>
 <td class="left">yes</td>
 </tr>
 </tbody>
@@ -1428,22 +1530,22 @@ respective tables are the following:
 
 <tr>
 <td class="left">ISCED 2</td>
-<td class="left">FTP.2.Pu</td>
+<td class="left">FTP.2.GPV.Pu</td>
 <td class="left">T.2.GPV.Pu.F/T.2.GPV.Pu</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 3</td>
-<td class="left">FTP.3.Pu</td>
+<td class="left">FTP.3.GPV.Pu</td>
 <td class="left">T.3.GPV.Pu.F/T.3.GPV.Pu</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 23</td>
-<td class="left">FTP.2t3.Pu</td>
-<td class="left">T.23.GPV.Pu.F/T.23.GPV.Pu</td>
+<td class="left">FTP.2t3.GPV.Pu</td>
+<td class="left">T.2t3.GPV.Pu.F/T.2t3.GPV.Pu</td>
 <td class="left">yes</td>
 </tr>
 </tbody>
@@ -1478,30 +1580,28 @@ respective tables are the following:
 
 <tr>
 <td class="left">ISCED 2</td>
-<td class="left">FTP.2.Pr</td>
+<td class="left">FTP.2.GPV.Pr</td>
 <td class="left">T.2.GPV.Pr.F/T.2.GPV.Pr</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 3</td>
-<td class="left">FTP.3.Pr</td>
+<td class="left">FTP.3.GPV.Pr</td>
 <td class="left">T.3.GPV.Pr.F/T.3.GPV.Pr</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 23</td>
-<td class="left">FTP.2t3.Pr</td>
-<td class="left">T.23.GPV.Pr.F/T.23.GPV.Pr</td>
+<td class="left">FTP.2t3.GPV.Pr</td>
+<td class="left">T.2t3.GPV.Pr.F/T.2t3.GPV.Pr</td>
 <td class="left">yes</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-
-
 
 <div id="outline-container-sec-2-2" class="outline-3">
 <h3 id="sec-2-2"><span class="section-number-3">2.2</span> Percentage of newly recruited teachers</h3>
@@ -1541,22 +1641,22 @@ respective tables are the following:
 
 <tr>
 <td class="left">ISCED 2</td>
-<td class="left">NTP.2</td>
+<td class="left">NTP.2.GPV</td>
 <td class="left">NT.2.GPV/T.2.GPV</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 3</td>
-<td class="left">NTP.3</td>
+<td class="left">NTP.3.GPV</td>
 <td class="left">NT.3.GPV/T.3.GPV</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 23</td>
-<td class="left">NTP.2t3</td>
-<td class="left">NT.23.GPV/T.23.GPV</td>
+<td class="left">NTP.2t3.GPV</td>
+<td class="left">NT.2t3.GPV/T.2t3.GPV</td>
 <td class="left">yes</td>
 </tr>
 </tbody>
@@ -1597,22 +1697,22 @@ institutions. Their respective tables are the following:
 
 <tr>
 <td class="left">ISCED 2</td>
-<td class="left">NTP.2.Pu</td>
+<td class="left">NTP.2.GPV.Pu</td>
 <td class="left">NT.2.GPV.Pu/T.2.GPV.Pu</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 3</td>
-<td class="left">NTP.3.Pu</td>
+<td class="left">NTP.3.GPV.Pu</td>
 <td class="left">NT.3.GPV.Pu/T.3.GPV.Pu</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 23</td>
-<td class="left">NTP.2t3.Pu</td>
-<td class="left">NT.23.GPV.Pu/T.23.GPV.Pu</td>
+<td class="left">NTP.2t3.GPV.Pu</td>
+<td class="left">NT.2t3.GPV.Pu/T.2t3.GPV.Pu</td>
 <td class="left">yes</td>
 </tr>
 </tbody>
@@ -1647,29 +1747,28 @@ institutions. Their respective tables are the following:
 
 <tr>
 <td class="left">ISCED 2</td>
-<td class="left">NTP.2.Pr</td>
+<td class="left">NTP.2.GPV.Pr</td>
 <td class="left">NT.2.GPV.Pr/T.2.GPV.Pr</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 3</td>
-<td class="left">NTP.3.Pr</td>
+<td class="left">NTP.3.GPV.Pr</td>
 <td class="left">NT.3.GPV.Pr/T.3.GPV.Pr</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 23</td>
-<td class="left">NTP.2t3.Pr</td>
-<td class="left">NT.23.GPV.Pr/T.23.GPV.Pr</td>
+<td class="left">NTP.2t3.GPV.Pr</td>
+<td class="left">NT.2t3.GPV.Pr/T.2t3.GPV.Pr</td>
 <td class="left">yes</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-
 
 
 <div id="outline-container-sec-2-3" class="outline-3">
@@ -1710,22 +1809,22 @@ institutions. Their respective tables are the following:
 
 <tr>
 <td class="left">ISCED 2</td>
-<td class="left">PTRHC.2</td>
+<td class="left">PTRHC.2.GPV</td>
 <td class="left">E.2.GPV/T.2.GPV</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 3</td>
-<td class="left">PTRHC.3</td>
+<td class="left">PTRHC.3.GPV</td>
 <td class="left">E.3.GPV/T.3.GPV</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 23</td>
-<td class="left">PTRHC.2t3</td>
-<td class="left">E.23.GPV/T.23.GPV</td>
+<td class="left">PTRHC.2t3.GPV</td>
+<td class="left">(E.2.GPV+E.3.GPV)/T.2t3.GPV</td>
 <td class="left">yes</td>
 </tr>
 </tbody>
@@ -1765,22 +1864,22 @@ institutions. Their respective tables are the following:
 
 <tr>
 <td class="left">ISCED 2</td>
-<td class="left">PTRHC.2.Pu</td>
+<td class="left">PTRHC.2.GPV.Pu</td>
 <td class="left">E.2.GPV.Pu/T.2.GPV.Pu</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 3</td>
-<td class="left">PTRHC.3.Pu</td>
+<td class="left">PTRHC.3.GPV.Pu</td>
 <td class="left">E.3.GPV.Pu/T.3.GPV.Pu</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 23</td>
-<td class="left">PTRHC.2t3.Pu</td>
-<td class="left">E.23.GPV.Pu/T.23.GPV.Pu</td>
+<td class="left">PTRHC.2t3.GPV.Pu</td>
+<td class="left">(E.2.GPV.Pu+E.3.GPV.Pu)/T.2t3.GPV.Pu</td>
 <td class="left">yes</td>
 </tr>
 </tbody>
@@ -1815,22 +1914,22 @@ institutions. Their respective tables are the following:
 
 <tr>
 <td class="left">ISCED 2</td>
-<td class="left">PTRHC.2.Pr</td>
+<td class="left">PTRHC.2.GPV.Pr</td>
 <td class="left">E.2.GPV.Pr/T.2.GPV.Pr</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 3</td>
-<td class="left">PTRHC.3.Pr</td>
+<td class="left">PTRHC.3.GPV.Pr</td>
 <td class="left">E.3.GPV.Pr/T.3.GPV.Pr</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 23</td>
-<td class="left">PTRHC.2t3.Pr</td>
-<td class="left">E.23.GPV.Pr/T.23.GPV.Pr</td>
+<td class="left">PTRHC.2t3.GPV.Pr</td>
+<td class="left">(E.2.GPV.Pr + E.2.GPV.Pr)/T.2t3.GPV.Pr</td>
 <td class="left">yes</td>
 </tr>
 </tbody>
@@ -1876,22 +1975,22 @@ institutions. Their respective tables are the following:
 
 <tr>
 <td class="left">ISCED 2</td>
-<td class="left">TRTP.2</td>
+<td class="left">TRTP.2.GPV</td>
 <td class="left">T.2.GPV.trained/T.2.GPV</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 3</td>
-<td class="left">TRTP.3</td>
+<td class="left">TRTP.3.GPV</td>
 <td class="left">T.3.GPV.trained/T.3.GPV</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 23</td>
-<td class="left">TRTP.2t3</td>
-<td class="left">T.23.GPV.trained/T.23.GPV</td>
+<td class="left">TRTP.2t3.GPV</td>
+<td class="left">T.2t3.GPV.trained/T.2t3.GPV</td>
 <td class="left">yes</td>
 </tr>
 </tbody>
@@ -1930,22 +2029,22 @@ trained newly recruited teachers.
 
 <tr>
 <td class="left">ISCED 2</td>
-<td class="left">TrNTP.2</td>
+<td class="left">TrNTP.2.GPV</td>
 <td class="left">NT.2.GPV.trained/NT.2.GPV</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 3</td>
-<td class="left">TrNTP.3</td>
+<td class="left">TrNTP.3.GPV</td>
 <td class="left">NT.3.GPV.trained/NT.3.GPV</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 23</td>
-<td class="left">TrNTP.2t3</td>
-<td class="left">NT.23.GPV.trained/NT.23.GPV</td>
+<td class="left">TrNTP.2t3.GPV</td>
+<td class="left">NT.2t3.GPV.trained/NT.2t3.GPV</td>
 <td class="left">yes</td>
 </tr>
 </tbody>
@@ -1985,22 +2084,22 @@ corresponding tables are the following:
 
 <tr>
 <td class="left">ISCED 2</td>
-<td class="left">TRTP.2.Pu</td>
+<td class="left">TRTP.2.GPV.Pu</td>
 <td class="left">T.2.GPV.Pu.trained/T.2.GPV.Pu</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 3</td>
-<td class="left">TRTP.3.Pu</td>
+<td class="left">TRTP.3.GPV.Pu</td>
 <td class="left">T.3.GPV.Pu.trained/T.3.GPV.Pu</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 23</td>
-<td class="left">TRTP.2t3.Pu</td>
-<td class="left">T.23.GPV.Pu.trained/T.23.GPV.Pu</td>
+<td class="left">TRTP.2t3.GPV.Pu</td>
+<td class="left">T.2t3.GPV.Pu.trained/T.2t3.GPV.Pu</td>
 <td class="left">yes</td>
 </tr>
 </tbody>
@@ -2035,22 +2134,22 @@ corresponding tables are the following:
 
 <tr>
 <td class="left">ISCED 2</td>
-<td class="left">TRTP.2.Pr</td>
+<td class="left">TRTP.2.GPV.Pr</td>
 <td class="left">T.2.GPV.Pr.trained/T.2.GPV.Pr</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 3</td>
-<td class="left">TRTP.3.Pr</td>
+<td class="left">TRTP.3.GPV.Pr</td>
 <td class="left">T.3.GPV.Pr.trained/T.3.GPV.Pr</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 23</td>
-<td class="left">TRTP.2t3.Pr</td>
-<td class="left">T.23.GPV.Pr.trained/T.23.GPV.Pr</td>
+<td class="left">TRTP.2t3.GPV.Pr</td>
+<td class="left">T.2t3.GPV.Pr.trained/T.2t3.GPV.Pr</td>
 <td class="left">yes</td>
 </tr>
 </tbody>
@@ -2085,22 +2184,22 @@ corresponding tables are the following:
 
 <tr>
 <td class="left">ISCED 2</td>
-<td class="left">TrNTP.2.Pu</td>
+<td class="left">TrNTP.2.GPV.Pu</td>
 <td class="left">NT.2.GPV.Pu.trained/NT.2.GPV.Pu</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 3</td>
-<td class="left">TrNTP.3.Pu</td>
+<td class="left">TrNTP.3.GPV.Pu</td>
 <td class="left">NT.3.GPV.Pu.trained/NT.3.GPV.Pu</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 23</td>
-<td class="left">TrNTP.2t3.Pu</td>
-<td class="left">NT.23.GPV.Pu.trained/NT.23.GPV.Pu</td>
+<td class="left">TrNTP.2t3.GPV.Pu</td>
+<td class="left">NT.2t3.GPV.Pu.trained/NT.2t3.GPV.Pu</td>
 <td class="left">yes</td>
 </tr>
 </tbody>
@@ -2135,29 +2234,28 @@ corresponding tables are the following:
 
 <tr>
 <td class="left">ISCED 2</td>
-<td class="left">TrNTP.2.Pr</td>
+<td class="left">TrNTP.2.GPV.Pr</td>
 <td class="left">NT.2.GPV.Pr.trained/NT.2.GPV.Pr</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 3</td>
-<td class="left">TrNTP.3.Pr</td>
+<td class="left">TrNTP.3.GPV.Pr</td>
 <td class="left">NT.3.GPV.Pr.trained/NT.3.GPV.Pr</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 23</td>
-<td class="left">TrNTP.2t3.Pr</td>
-<td class="left">NT.23.GPV.Pr.trained/NT.23.GPV.Pr</td>
+<td class="left">TrNTP.2t3.GPV.Pr</td>
+<td class="left">NT.2t3.GPV.Pr.trained/NT.2t3.GPV.Pr</td>
 <td class="left">yes</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-
 
 
 
@@ -2199,22 +2297,22 @@ corresponding tables are the following:
 
 <tr>
 <td class="left">ISCED 2</td>
-<td class="left">PrTP.2</td>
+<td class="left">PrTP.2.GPV</td>
 <td class="left">T.2.GPV.Pr/T.2.GPV</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 3</td>
-<td class="left">PrTP.3</td>
+<td class="left">PrTP.3.GPV</td>
 <td class="left">T.3.GPV.Pr/T.3.GPV</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 23</td>
-<td class="left">PrTP.2t3</td>
-<td class="left">T.23.GPV.Pr/T.23.GPV</td>
+<td class="left">PrTP.2t3.GPV</td>
+<td class="left">T.2t3.GPV.Pr/T.2t3.GPV</td>
 <td class="left">yes</td>
 </tr>
 </tbody>
@@ -2279,7 +2377,7 @@ for the public sector and one combined.
 <tr>
 <td class="left">ISCED 23</td>
 <td class="left">FixTP.2t3.GPV.Pr</td>
-<td class="left">T.23.GPV.Pr.Fix/T.23.GPV.Pr</td>
+<td class="left">T.2t3.GPV.Pr.Fix/T.2t3.GPV.Pr</td>
 <td class="left">no</td>
 </tr>
 </tbody>
@@ -2333,7 +2431,7 @@ for the public sector and one combined.
 <tr>
 <td class="left">ISCED 23</td>
 <td class="left">FixTP.2t3.GPV.Pu</td>
-<td class="left">T.23.GPV.Pu.Fix/T.23.GPV.Pu</td>
+<td class="left">T.2t3.GPV.Pu.Fix/T.2t3.GPV.Pu</td>
 <td class="left">no</td>
 </tr>
 </tbody>
@@ -2387,7 +2485,7 @@ for the public sector and one combined.
 <tr>
 <td class="left">ISCED 23</td>
 <td class="left">FixTP.2t3.GPV</td>
-<td class="left">(T.23.GPV.Pu.Fix+T.23.GPV.Pr.Fix)/(T.23.GPV.Pr+T.23.GPV.Pu)</td>
+<td class="left">(T.2t3.GPV.Pu.Fix+T.2t3.GPV.Pr.Fix)/(T.2t3.GPV.Pr+T.2t3.GPV.Pu)</td>
 <td class="left">no</td>
 </tr>
 </tbody>
@@ -2452,7 +2550,7 @@ for the public sector and one combined.
 <tr>
 <td class="left">ISCED 23</td>
 <td class="left">PermTP.2t3.GPV.Pr</td>
-<td class="left">T.23.GPV.Pr.Perm/T.23.GPV.Pr</td>
+<td class="left">T.2t3.GPV.Pr.Perm/T.2t3.GPV.Pr</td>
 <td class="left">no</td>
 </tr>
 </tbody>
@@ -2506,7 +2604,7 @@ for the public sector and one combined.
 <tr>
 <td class="left">ISCED 23</td>
 <td class="left">PermTP.2t3.GPV.Pu</td>
-<td class="left">T.23.GPV.Pu.Perm/T.23.GPV.Pu</td>
+<td class="left">T.2t3.GPV.Pu.Perm/T.2t3.GPV.Pu</td>
 <td class="left">no</td>
 </tr>
 </tbody>
@@ -2560,7 +2658,7 @@ for the public sector and one combined.
 <tr>
 <td class="left">ISCED 23</td>
 <td class="left">PermTP.2t3.GPV</td>
-<td class="left">(T.23.GPV.Pu.Perm+T.23.GPV.Pr.Perm)/(T.23.GPV.Pr+T.23.GPV.Pu)</td>
+<td class="left">(T.2t3.GPV.Pu.Perm+T.2t3.GPV.Pr.Perm)/(T.2t3.GPV.Pr+T.2t3.GPV.Pu)</td>
 <td class="left">no</td>
 </tr>
 </tbody>
@@ -2621,11 +2719,14 @@ for the public sector and one combined.
 <tr>
 <td class="left">ISCED 23</td>
 <td class="left">TAttrR.2t3.GPV</td>
-<td class="left">100*(T.23.GPV<sup>L</sup> + NT.23.GPV - T.23.GPV)/T.23.GPV<sup>L</sup></td>
+<td class="left">100*(T.2t3.GPV<sup>L</sup> + NT.2t3.GPV - T.2t3.GPV)/T.2t3.GPV<sup>L</sup></td>
 <td class="left">no</td>
 </tr>
 </tbody>
 </table>
+<p>
+When using a previous year data, as T.1<sup>L</sup>, if the data is available it is used, otherwise we use the <code>.m1</code> extension as  <code>T.1m1</code>, which is collected from this years questionnaire.
+</p>
 </div>
 </div>
 
@@ -2633,7 +2734,7 @@ for the public sector and one combined.
 <h3 id="sec-2-9"><span class="section-number-3">2.9</span> Mean age</h3>
 <div class="outline-text-3" id="text-2-9">
 <dl class="org-dl">
-<dt> Python method </dt><dd>mean_age_level(level in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV'])
+<dt> Python method </dt><dd>mean_age_level(level in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.2t3.GPV'])
 </dd>
 <dt> IND_IDS information </dt><dd></dd>
 </dl>
@@ -2681,8 +2782,8 @@ for the public sector and one combined.
 
 <tr>
 <td class="left">ISCED 23</td>
-<td class="left">MAge.T.23.GPV</td>
-<td class="left">&sum;<sub>y in cat</sub> T.23.GPV.y&times; MP.y/ &sum;<sub>y in cat</sub> T.23.GPV.y</td>
+<td class="left">MAge.T.2t3.GPV</td>
+<td class="left">&sum;<sub>y in cat</sub> T.2t3.GPV.y&times; MP.y/ &sum;<sub>y in cat</sub> T.2t3.GPV.y</td>
 <td class="left">No</td>
 </tr>
 </tbody>
@@ -2741,7 +2842,7 @@ Note that all indicators are calculated for Total, Public and Private levels.
 <h3 id="sec-2-10"><span class="section-number-3">2.10</span> Mean years of experience</h3>
 <div class="outline-text-3" id="text-2-10">
 <dl class="org-dl">
-<dt> Python method </dt><dd>mean_exp_level(level in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV'])
+<dt> Python method </dt><dd>mean_exp_level(level in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.2t3.GPV'])
 </dd>
 <dt> IND_IDS information </dt><dd></dd>
 </dl>
@@ -2789,8 +2890,8 @@ Note that all indicators are calculated for Total, Public and Private levels.
 
 <tr>
 <td class="left">ISCED 23</td>
-<td class="left">MExp.T.23.GPV</td>
-<td class="left">&sum;<sub>y in cat</sub> T.23.GPV.y&times; MP.y / &sum;<sub>y in cat</sub> T.23.GPV.y</td>
+<td class="left">MExp.T.2t3.GPV</td>
+<td class="left">&sum;<sub>y in cat</sub> T.2t3.GPV.y&times; MP.y / &sum;<sub>y in cat</sub> T.2t3.GPV.y</td>
 <td class="left">No</td>
 </tr>
 </tbody>
@@ -2898,7 +2999,7 @@ Note that all indicators are calculated for Total, Public and Private levels.
 <tr>
 <td class="left">At least tertiary</td>
 <td class="left">EA5pPT.IS</td>
-<td class="left">T.IS.EA.5 + T.IS.EA.6+T.IS.EA.7+T.IS.EA.8/T.IS</td>
+<td class="left">(T.IS.EA.5 + T.IS.EA.6+T.IS.EA.7+T.IS.EA.8)/T.IS</td>
 <td class="left">No</td>
 </tr>
 
@@ -2911,7 +3012,7 @@ Note that all indicators are calculated for Total, Public and Private levels.
 </tbody>
 </table>
 <p>
-<code>IS</code> stands for ISCED level which are <code>[1, 2.GPV, 3.GPV, 23.GPV]</code>, combined with suffixes <code>['.Pu', '.Pr']</code> for public and private sub-category.
+<code>IS</code> stands for ISCED level which are <code>[1, 2.GPV, 3.GPV, 2t3.GPV]</code>, combined with suffixes <code>['.Pu', '.Pr']</code> for public and private sub-category.
 </p>
 
 
@@ -2952,7 +3053,7 @@ Note that all indicators are calculated for Total, Public and Private levels.
 <tbody>
 <tr>
 <td class="left">1 to 2 years</td>
-<td class="left">Exp1t2mPT.ISCED</td>
+<td class="left">Exp1t2PT.ISCED</td>
 <td class="left">T.ISCED.Exp1t2/T.ISCED</td>
 <td class="left">No</td>
 </tr>
@@ -2994,7 +3095,7 @@ Note that all indicators are calculated for Total, Public and Private levels.
 </tbody>
 </table>
 <p>
-<code>ISCED</code> is <code>['  1', '2.GPV', '3.GPV', '23.GPV']</code>, combined with suffixes <code>['.Pu', '.Pr']</code> for public and private sub-category.
+<code>ISCED</code> is <code>['  1', '2.GPV', '3.GPV', '2t3.GPV']</code>, combined with suffixes <code>['.Pu', '.Pr']</code> for public and private sub-category.
 </p>
 
 <p>
@@ -3083,7 +3184,7 @@ Note that all indicators are calculated for Total, Public and Private levels.
 </tbody>
 </table>
 <p>
-<code>ISCED</code> is <code>['  1', '2.GPV', '3.GPV', '23.GPV']</code>, combined with suffixes <code>['.Pu', '.Pr']</code> for public and private sub-category.
+<code>ISCED</code> is <code>['  1', '2.GPV', '3.GPV', '2t3.GPV']</code>, combined with suffixes <code>['.Pu', '.Pr']</code> for public and private sub-category.
 </p>
 
 <p>
@@ -3219,11 +3320,11 @@ Note that all indicators are calculated for Total, Public and Private levels.
 Much notations are omitted for clearer presentation.
 </p>
 <ul class="org-ul">
-<li><code>IS</code> stands for ISCED level which are <code>[1, 2.GPV, 3.GPV, 23.GPV]</code>.
+<li><code>IS</code> stands for ISCED level which are <code>[1, 2.GPV, 3.GPV, 2t3.GPV]</code>.
 </li>
 <li><code>a</code> stands for administrative division, on the denominators the <code>a</code> is omitted for national level data.
 </li>
-<li><code>E.23.GPV</code> is not collected in the questionnaire, so it is <code>E.2.GPV + E.3.GPV</code>.
+<li><code>E.2t3.GPV</code> is not collected in the questionnaire, so it is <code>E.2.GPV + E.3.GPV</code>.
 </li>
 <li>To compute age 50 plus, data in ages 50 to 59 and 60 plus are added. This notation is omitted in the formula for brevity.
 </li>
@@ -3237,7 +3338,6 @@ Much notations are omitted for clearer presentation.
 </div>
 </div>
 </div>
-
 
 
 <div id="outline-container-sec-3" class="outline-2">
@@ -3299,28 +3399,28 @@ is called.
 
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #00bfff;">def</span> <span style="color: #daa520;">compute_all_indicators</span>(<span style="color: #00bfff;">self</span>):
-        <span style="color: #deb887;">""" Execute functions to calculate indicators."""</span>
-        <span style="color: #7f7f7f;">### </span><span style="color: #7f7f7f;">Moving data to Audit Temp</span>
-        <span style="color: #00bfff;">self</span>.audit_trail()
+<pre class="src src-python"><span style="color: #F92672;">def</span> <span style="color: #A6E22E;">compute_all_indicators</span>(<span style="color: #F92672;">self</span>):
+        <span style="color: #E6DB74;">""" Execute functions to calculate indicators."""</span>
+        <span style="color: #75715E;">### </span><span style="color: #75715E;">Moving data to Audit Temp</span>
+        <span style="color: #F92672;">self</span>.audit_trail()
 
-        <span style="color: #7f7f7f;">##### </span><span style="color: #7f7f7f;">Calculating indicators</span>
-        <span style="color: #00bfff;">self</span>.pupils_teachers_ratio()
-        <span style="color: #00bfff;">self</span>.newly_recruited_teachers()
-        <span style="color: #00bfff;">self</span>.teachers_percentage_female()
-        <span style="color: #00bfff;">self</span>.percentage_trained_teachers()
-        <span style="color: #00bfff;">self</span>.percentage_private_teachers()
-        <span style="color: #00bfff;">self</span>.attrition_rate()
-        <span style="color: #00bfff;">self</span>.percentage_non_permanent_teachers()
-        <span style="color: #00bfff;">self</span>.percentage_teachers_attainment()
-        <span style="color: #00bfff;">self</span>.percentage_teachers_exp()
-        <span style="color: #00bfff;">self</span>.percentage_teachers_age()
-        <span style="color: #00bfff;">self</span>.mean_level(<span style="color: #00bfff;">self</span>.mean_exp_level)
-        <span style="color: #00bfff;">self</span>.mean_level(<span style="color: #00bfff;">self</span>.mean_age_level)
-        <span style="color: #00bfff;">self</span>.dissimilarity_index()
+        <span style="color: #75715E;">##### </span><span style="color: #75715E;">Calculating indicators</span>
+        <span style="color: #F92672;">self</span>.pupils_teachers_ratio()
+        <span style="color: #F92672;">self</span>.newly_recruited_teachers()
+        <span style="color: #F92672;">self</span>.teachers_percentage_female()
+        <span style="color: #F92672;">self</span>.percentage_trained_teachers()
+        <span style="color: #F92672;">self</span>.percentage_private_teachers()
+        <span style="color: #F92672;">self</span>.attrition_rate()
+        <span style="color: #F92672;">self</span>.percentage_non_permanent_teachers()
+        <span style="color: #F92672;">self</span>.percentage_teachers_attainment()
+        <span style="color: #F92672;">self</span>.percentage_teachers_exp()
+        <span style="color: #F92672;">self</span>.percentage_teachers_age()
+        <span style="color: #F92672;">self</span>.mean_level(<span style="color: #F92672;">self</span>.mean_exp_level)
+        <span style="color: #F92672;">self</span>.mean_level(<span style="color: #F92672;">self</span>.mean_age_level)
+        <span style="color: #F92672;">self</span>.dissimilarity_index()
 
-        <span style="color: #7f7f7f;">## </span><span style="color: #7f7f7f;">Moving changed values to Audit trail</span>
-        <span style="color: #00bfff;">self</span>.audit_trail(<span style="color: #a2cd5a;">False</span>)
+        <span style="color: #75715E;">## </span><span style="color: #75715E;">Moving changed values to Audit trail</span>
+        <span style="color: #F92672;">self</span>.audit_trail(<span style="color: #AE81FF;">False</span>)
 </pre>
 </div>
 
@@ -3335,12 +3435,12 @@ library. This can be achieved with the following code:
 
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #00bfff;">import</span> sys, os
+<pre class="src src-python"><span style="color: #F92672;">import</span> sys, os
 
-os.chdir(path_to_main_RMS_folder) <span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">modify here.</span>
-sys.path.append(<span style="color: #deb887;">'Libraries'</span>)
+os.chdir(path_to_main_RMS_folder) <span style="color: #75715E;"># </span><span style="color: #75715E;">modify here.</span>
+sys.path.append(<span style="color: #E6DB74;">'Libraries'</span>)
 
-<span style="color: #00bfff;">from</span> rmquestionnaire <span style="color: #00bfff;">import</span> *
+<span style="color: #F92672;">from</span> rmquestionnaire <span style="color: #F92672;">import</span> *
 </pre>
 </div>
 
@@ -3354,7 +3454,7 @@ using the following code.
 
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #00bfff;">class</span> <span style="color: #98f5ff;">tests_indicators</span>(indicators):
+<pre class="src src-python"><span style="color: #F92672;">class</span> <span style="color: #66D9EF;">tests_indicators</span>(indicators):
 </pre>
 </div>
 
@@ -3370,24 +3470,24 @@ indicator and function names.
 
 <div class="org-src-container">
 
-<pre class="src src-python"> <span style="color: #00bfff;">import</span> sys, os
- os.chdir(path_to_main_RMS_folder)  <span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">Path to main directory</span>
- sys.path.append(<span style="color: #deb887;">'Libraries'</span>)
- <span style="color: #00bfff;">from</span> rmquestionnaire <span style="color: #00bfff;">import</span> *
+<pre class="src src-python"> <span style="color: #F92672;">import</span> sys, os
+ os.chdir(path_to_main_RMS_folder)  <span style="color: #75715E;"># </span><span style="color: #75715E;">Path to main directory</span>
+ sys.path.append(<span style="color: #E6DB74;">'Libraries'</span>)
+ <span style="color: #F92672;">from</span> rmquestionnaire <span style="color: #F92672;">import</span> *
 
-<span style="color: #00bfff;">class</span> <span style="color: #98f5ff;">tests_indicators</span>(indicators):
-     <span style="color: #00bfff;">def</span> <span style="color: #daa520;">function_indicator_name</span>(<span style="color: #00bfff;">self</span>):
-         <span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">The following is a dictionary used for inserting the value in the database</span>
-         <span style="color: #4eee94;">ind_dict</span>={}
-         <span style="color: #4eee94;">indicator_name</span>=<span style="color: #deb887;">"MyIndicator"</span>
-         <span style="color: #7f7f7f;">### </span><span style="color: #7f7f7f;">Start of indicator calculation method</span>
+<span style="color: #F92672;">class</span> <span style="color: #66D9EF;">tests_indicators</span>(indicators):
+     <span style="color: #F92672;">def</span> <span style="color: #A6E22E;">function_indicator_name</span>(<span style="color: #F92672;">self</span>):
+         <span style="color: #75715E;"># </span><span style="color: #75715E;">The following is a dictionary used for inserting the value in the database</span>
+         <span style="color: #FD971F;">ind_dict</span>={}
+         <span style="color: #FD971F;">indicator_name</span>=<span style="color: #E6DB74;">"MyIndicator"</span>
+         <span style="color: #75715E;">### </span><span style="color: #75715E;">Start of indicator calculation method</span>
 
-         <span style="color: #4eee94;">indicator_values</span>= = ....... <span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">attach indicator values to this variable</span>
-         <span style="color: #7f7f7f;">### </span><span style="color: #7f7f7f;">End of indicator calculation method</span>
+         <span style="color: #FD971F;">indicator_values</span>= = ....... <span style="color: #75715E;"># </span><span style="color: #75715E;">attach indicator values to this variable</span>
+         <span style="color: #75715E;">### </span><span style="color: #75715E;">End of indicator calculation method</span>
 
-         <span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">We prepare a dictionary for the function write_indic_sql</span>
-         <span style="color: #4eee94;">ind_dict</span>[indicator_name]=indicator_values
-         <span style="color: #00bfff;">self</span>.write_indic_sql(ind_dict)
+         <span style="color: #75715E;"># </span><span style="color: #75715E;">We prepare a dictionary for the function write_indic_sql</span>
+         <span style="color: #FD971F;">ind_dict</span>[indicator_name]=indicator_values
+         <span style="color: #F92672;">self</span>.write_indic_sql(ind_dict)
 </pre>
 </div>
 
@@ -3549,7 +3649,7 @@ In Python this looks like:
 
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #f08080;">sum</span>([10, <span style="color: #deb887;">'value], ['', '</span>m<span style="color: #deb887;">']) = ['', '</span>m<span style="color: #deb887;">']</span>
+<pre class="src src-python"><span style="color: #F92672;">sum</span>([10, <span style="color: #E6DB74;">'value], ['', '</span>m<span style="color: #E6DB74;">']) = ['', '</span>m<span style="color: #E6DB74;">']</span>
 </pre>
 </div>
 
@@ -3560,7 +3660,7 @@ While if <code>E.1.Pr=5</code> then the cell that corresponds to <code>(value, v
 
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #f08080;">sum</span>([10, <span style="color: #deb887;">'value], [5, '</span>value<span style="color: #deb887;">']) = [15, '</span>value<span style="color: #deb887;">']</span>
+<pre class="src src-python"><span style="color: #F92672;">sum</span>([10, <span style="color: #E6DB74;">'value], [5, '</span>value<span style="color: #E6DB74;">']) = [15, '</span>value<span style="color: #E6DB74;">']</span>
 </pre>
 </div>
 
@@ -3748,7 +3848,7 @@ Now to sum any two ACs, or columns, of the RM questionnaire, one can use the <co
 
 <div class="org-src-container">
 
-<pre class="src src-python">column_operation([<span style="color: #deb887;">'E.1.Pr'</span>, 0], [<span style="color: #deb887;">'E.1.Pu'</span>, 0], <span style="color: #f08080;">sum</span>)
+<pre class="src src-python">column_operation([<span style="color: #E6DB74;">'E.1.Pr'</span>, 0], [<span style="color: #E6DB74;">'E.1.Pu'</span>, 0], <span style="color: #F92672;">sum</span>)
 </pre>
 </div>
 <p>
@@ -3774,15 +3874,15 @@ We define the function name as <code>proportion_public_teachers_1t2exp_isced1(se
 
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #00bfff;">class</span> <span style="color: #98f5ff;">tests_indicators</span>(indicators):
-    <span style="color: #00bfff;">def</span> <span style="color: #daa520;">proportion_public_teachers_1t2exp_isced1</span>(<span style="color: #00bfff;">self</span>):
-        <span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">The following is a dictionary used for inserting the value in the database</span>
-        <span style="color: #4eee94;">ind_dict</span>={}
-        <span style="color: #4eee94;">indicator_name</span>=<span style="color: #deb887;">"PT.1.Pu.Exp1t2"</span>
-        <span style="color: #4eee94;">indicator_values</span>=<span style="color: #00bfff;">self</span>.column_operation([<span style="color: #deb887;">"T.1.Pu.Exp1t2"</span>,0],[<span style="color: #deb887;">"T.1.Pu"</span>,0],div)
-        <span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">We prepare a dictionary for the function write_indic_sql</span>
-        <span style="color: #4eee94;">ind_dict</span>[indicator_name]=indicator_values
-        <span style="color: #00bfff;">self</span>.write_indic_sql(ind_dict)
+<pre class="src src-python"><span style="color: #F92672;">class</span> <span style="color: #66D9EF;">tests_indicators</span>(indicators):
+    <span style="color: #F92672;">def</span> <span style="color: #A6E22E;">proportion_public_teachers_1t2exp_isced1</span>(<span style="color: #F92672;">self</span>):
+        <span style="color: #75715E;"># </span><span style="color: #75715E;">The following is a dictionary used for inserting the value in the database</span>
+        <span style="color: #FD971F;">ind_dict</span>={}
+        <span style="color: #FD971F;">indicator_name</span>=<span style="color: #E6DB74;">"PT.1.Pu.Exp1t2"</span>
+        <span style="color: #FD971F;">indicator_values</span>=<span style="color: #F92672;">self</span>.column_operation([<span style="color: #E6DB74;">"T.1.Pu.Exp1t2"</span>,0],[<span style="color: #E6DB74;">"T.1.Pu"</span>,0],div)
+        <span style="color: #75715E;"># </span><span style="color: #75715E;">We prepare a dictionary for the function write_indic_sql</span>
+        <span style="color: #FD971F;">ind_dict</span>[indicator_name]=indicator_values
+        <span style="color: #F92672;">self</span>.write_indic_sql(ind_dict)
 </pre>
 </div>
 
@@ -3793,7 +3893,7 @@ We can test the new indicator with the following code
 
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #4eee94;">test_object</span>=tests_indicators(path_to_database,year,country_name,<span style="color: #deb887;">'test_user'</span>)
+<pre class="src src-python"><span style="color: #FD971F;">test_object</span>=tests_indicators(path_to_database,year,country_name,<span style="color: #E6DB74;">'test_user'</span>)
 test_object.proportion_public_teachers_1t2exp_isced1()
 </pre>
 </div>
@@ -3815,9 +3915,9 @@ open the database with sqlite and run the following command:
 
 <div class="org-src-container">
 
-<pre class="src src-sqlite"><span style="color: #00bfff;">SELECT</span> IND_ID ,ADM_CODE, FIG <span style="color: #00bfff;">FROM</span>  EDU_INDICATOR_EST <span style="color: #00bfff;">AS</span> A 
-<span style="color: #00bfff;">JOIN</span> COUNTRY <span style="color: #00bfff;">AS</span> B <span style="color: #00bfff;">ON</span> A.CO_CODE = B.CO_CODE 
-<span style="color: #00bfff;">WHERE</span> B.CO_LONG_NAME= country_name ;
+<pre class="src src-sqlite"><span style="color: #F92672;">SELECT</span> IND_ID ,ADM_CODE, FIG <span style="color: #F92672;">FROM</span>  EDU_INDICATOR_EST <span style="color: #F92672;">AS</span> A 
+<span style="color: #F92672;">JOIN</span> COUNTRY <span style="color: #F92672;">AS</span> B <span style="color: #F92672;">ON</span> A.CO_CODE = B.CO_CODE 
+<span style="color: #F92672;">WHERE</span> B.CO_LONG_NAME= country_name ;
 </pre>
 </div>
 
@@ -3842,14 +3942,14 @@ In our example, we copy the following code from the <code>tests_indicators</code
 
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #00bfff;">def</span> <span style="color: #daa520;">proportion_public_teachers_1t2exp_isced1</span>(<span style="color: #00bfff;">self</span>):
-          <span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">The following is a dictionary used for inserting the value in the database</span>
-          <span style="color: #4eee94;">ind_dict</span>={}
-          <span style="color: #4eee94;">indicator_name</span>=<span style="color: #deb887;">"PT.1.Pu.Exp1t2"</span>
-          <span style="color: #4eee94;">indicator_values</span>=<span style="color: #00bfff;">self</span>.column_operation([<span style="color: #deb887;">"T.1.Pu.Exp1t2"</span>,0],[<span style="color: #deb887;">"T.1.Pu"</span>,0],div)
-          <span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">We prepare a dictionary for the function write_indic_sql</span>
-          <span style="color: #4eee94;">ind_dict</span>[indicator_name]=indicator_values
-          <span style="color: #00bfff;">self</span>.write_indic_sql(ind_dict)
+<pre class="src src-python"><span style="color: #F92672;">def</span> <span style="color: #A6E22E;">proportion_public_teachers_1t2exp_isced1</span>(<span style="color: #F92672;">self</span>):
+          <span style="color: #75715E;"># </span><span style="color: #75715E;">The following is a dictionary used for inserting the value in the database</span>
+          <span style="color: #FD971F;">ind_dict</span>={}
+          <span style="color: #FD971F;">indicator_name</span>=<span style="color: #E6DB74;">"PT.1.Pu.Exp1t2"</span>
+          <span style="color: #FD971F;">indicator_values</span>=<span style="color: #F92672;">self</span>.column_operation([<span style="color: #E6DB74;">"T.1.Pu.Exp1t2"</span>,0],[<span style="color: #E6DB74;">"T.1.Pu"</span>,0],div)
+          <span style="color: #75715E;"># </span><span style="color: #75715E;">We prepare a dictionary for the function write_indic_sql</span>
+          <span style="color: #FD971F;">ind_dict</span>[indicator_name]=indicator_values
+          <span style="color: #F92672;">self</span>.write_indic_sql(ind_dict)
 </pre>
 </div>
 
@@ -3858,7 +3958,7 @@ and paste it after the line
 </p>
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #00bfff;">class</span> <span style="color: #98f5ff;">indicators</span>():
+<pre class="src src-python"><span style="color: #F92672;">class</span> <span style="color: #66D9EF;">indicators</span>():
 </pre>
 </div>
 <p>
@@ -3867,7 +3967,7 @@ in the file <code>RMS/Libraries/rmindicators.py</code>. Finally add the line
 
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #00bfff;">self</span>.proportion_public_teachers_1t2exp_isced1()
+<pre class="src src-python"><span style="color: #F92672;">self</span>.proportion_public_teachers_1t2exp_isced1()
 </pre>
 </div>
 
@@ -3894,10 +3994,10 @@ example.
 
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #00bfff;">import</span> sys,os
-os.chdir(path_to_main_RMS_folder)    <span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">replace path_to_main_RMS_folder</span>
-sys.path.append(<span style="color: #deb887;">'Libraries'</span>)
-<span style="color: #00bfff;">from</span> rmquestionnaire <span style="color: #00bfff;">import</span> *
+<pre class="src src-python"><span style="color: #F92672;">import</span> sys,os
+os.chdir(path_to_main_RMS_folder)    <span style="color: #75715E;"># </span><span style="color: #75715E;">replace path_to_main_RMS_folder</span>
+sys.path.append(<span style="color: #E6DB74;">'Libraries'</span>)
+<span style="color: #F92672;">from</span> rmquestionnaire <span style="color: #F92672;">import</span> *
 </pre>
 </div>
 
@@ -3919,11 +4019,11 @@ log folder path and a user name. The following is an example.
 
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #4eee94;">Excel_file</span>=<span style="color: #deb887;">"Regional_Survey_2015.xlsx"</span>
-<span style="color: #4eee94;">database_file</span>= <span style="color: #deb887;">"Database/Prod.db"</span>
-<span style="color: #4eee94;">log_folder</span>=<span style="color: #deb887;">"/tmp/log/"</span>
-<span style="color: #4eee94;">username</span>=<span style="color: #deb887;">"user"</span>
-<span style="color: #4eee94;">qobject</span>=questionnaire(Excel_file,database_file,log_folder,username)
+<pre class="src src-python"><span style="color: #FD971F;">Excel_file</span>=<span style="color: #E6DB74;">"Regional_Survey_2015.xlsx"</span>
+<span style="color: #FD971F;">database_file</span>= <span style="color: #E6DB74;">"Database/Prod.db"</span>
+<span style="color: #FD971F;">log_folder</span>=<span style="color: #E6DB74;">"/tmp/log/"</span>
+<span style="color: #FD971F;">username</span>=<span style="color: #E6DB74;">"user"</span>
+<span style="color: #FD971F;">qobject</span>=questionnaire(Excel_file,database_file,log_folder,username)
 </pre>
 </div>
 <p>
@@ -4076,7 +4176,7 @@ the example we have been developing.
 
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #00bfff;">if</span> qobject.validation():
+<pre class="src src-python"><span style="color: #F92672;">if</span> qobject.validation():
     qobject.check_region_totals()
     qobject.check_less()
     qobject.check_column_sums()
@@ -4142,11 +4242,11 @@ without importing a questionnaire. The following code moves the data and comment
 
 <div class="org-src-container">
 
-<pre class="src src-python">set_database_file(<span style="color: #deb887;">'Database/Prod.db'</span>)
-<span style="color: #4eee94;">co_code</span> = qobject.country_code
-<span style="color: #4eee94;">year</span> = qobject.emco_year
-<span style="color: #4eee94;">from_serie</span>=<span style="color: #deb887;">'REP'</span>
-<span style="color: #4eee94;">to_serie</span>=<span style="color: #deb887;">'EST'</span>
+<pre class="src src-python">set_database_file(<span style="color: #E6DB74;">'Database/Prod.db'</span>)
+<span style="color: #FD971F;">co_code</span> = qobject.country_code
+<span style="color: #FD971F;">year</span> = qobject.emco_year
+<span style="color: #FD971F;">from_serie</span>=<span style="color: #E6DB74;">'REP'</span>
+<span style="color: #FD971F;">to_serie</span>=<span style="color: #E6DB74;">'EST'</span>
 moveSerie(co_code, year, from_serie, to_serie)
 </pre>
 </div>
@@ -4163,10 +4263,10 @@ section.
 
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #4eee94;">database</span>=<span style="color: #deb887;">"Database/Prod.db"</span>
-<span style="color: #4eee94;">emco_year</span>=2015
-<span style="color: #4eee94;">country_name</span>=<span style="color: #deb887;">"Lao People's Democratic Republic"</span>
-<span style="color: #4eee94;">ind_object</span>=indicators(<span style="color: #deb887;">"Database/Prod.db"</span>,2015,<span style="color: #deb887;">"Lao People's Democratic Republic"</span>,username)
+<pre class="src src-python"><span style="color: #FD971F;">database</span>=<span style="color: #E6DB74;">"Database/Prod.db"</span>
+<span style="color: #FD971F;">emco_year</span>=2015
+<span style="color: #FD971F;">country_name</span>=<span style="color: #E6DB74;">"Lao People's Democratic Republic"</span>
+<span style="color: #FD971F;">ind_object</span>=indicators(<span style="color: #E6DB74;">"Database/Prod.db"</span>,2015,<span style="color: #E6DB74;">"Lao People's Democratic Republic"</span>,username)
 ind_object.compute_all_indicators()
 </pre>
 </div>
@@ -4189,19 +4289,19 @@ needs to be called for each desired sheet.
 
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #00bfff;">import</span> xlsxwriter
+<pre class="src src-python"><span style="color: #F92672;">import</span> xlsxwriter
 
-<span style="color: #4eee94;">co_name</span> = qobject.country_name    
-<span style="color: #4eee94;">filename</span> = <span style="color: #deb887;">"{0}_{1}.xlsx"</span>.<span style="color: #f08080;">format</span>(co_name, 2015)
+<span style="color: #FD971F;">co_name</span> = qobject.country_name    
+<span style="color: #FD971F;">filename</span> = <span style="color: #E6DB74;">"{0}_{1}.xlsx"</span>.<span style="color: #F92672;">format</span>(co_name, 2015)
 
-<span style="color: #4eee94;">wb</span> = xlsxwriter.Workbook(filename)
+<span style="color: #FD971F;">wb</span> = xlsxwriter.Workbook(filename)
 
-export_var(<span style="color: #deb887;">'Administrative divisions'</span>, wb, co_code, year, var_type = <span style="color: #deb887;">"sheet"</span>)
-export_var(<span style="color: #deb887;">'Pupils'</span>, wb, co_code, year, var_type = <span style="color: #deb887;">"sheet"</span>)
-export_var(<span style="color: #deb887;">'Teachers ISCED 1'</span>, wb, co_code, year, var_type = <span style="color: #deb887;">"sheet"</span>,serie= <span style="color: #deb887;">'REP'</span>)
-export_var(<span style="color: #deb887;">'Teachers ISCED 2'</span>, wb, co_code, year, var_type = <span style="color: #deb887;">"sheet"</span>,serie= <span style="color: #deb887;">'REP'</span>)
-export_var(<span style="color: #deb887;">'Teachers ISCED 3'</span>, wb, co_code, year, var_type = <span style="color: #deb887;">"sheet"</span>,serie= <span style="color: #deb887;">'REP'</span>)
-export_var(<span style="color: #deb887;">'Teachers ISCED 23'</span>, wb, co_code, year, var_type = <span style="color: #deb887;">"sheet"</span>,serie= <span style="color: #deb887;">'REP'</span>)
+export_var(<span style="color: #E6DB74;">'Administrative divisions'</span>, wb, co_code, year, var_type = <span style="color: #E6DB74;">"sheet"</span>)
+export_var(<span style="color: #E6DB74;">'Pupils'</span>, wb, co_code, year, var_type = <span style="color: #E6DB74;">"sheet"</span>)
+export_var(<span style="color: #E6DB74;">'Teachers ISCED 1'</span>, wb, co_code, year, var_type = <span style="color: #E6DB74;">"sheet"</span>,serie= <span style="color: #E6DB74;">'REP'</span>)
+export_var(<span style="color: #E6DB74;">'Teachers ISCED 2'</span>, wb, co_code, year, var_type = <span style="color: #E6DB74;">"sheet"</span>,serie= <span style="color: #E6DB74;">'REP'</span>)
+export_var(<span style="color: #E6DB74;">'Teachers ISCED 3'</span>, wb, co_code, year, var_type = <span style="color: #E6DB74;">"sheet"</span>,serie= <span style="color: #E6DB74;">'REP'</span>)
+export_var(<span style="color: #E6DB74;">'Teachers ISCED 2t3'</span>, wb, co_code, year, var_type = <span style="color: #E6DB74;">"sheet"</span>,serie= <span style="color: #E6DB74;">'REP'</span>)
 wb.close()
 </pre>
 </div>
@@ -4234,9 +4334,9 @@ indicator ID of the desired indicator (e.g. 'NTP.1'), or a wildcard of an ID, as
 
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #4eee94;">indicators_filename</span>=<span style="color: #deb887;">"{0}_{1}_indicators.xlsx"</span>.<span style="color: #f08080;">format</span>(co_name, 2015)
-<span style="color: #4eee94;">indicators_wb</span> = xlsxwriter.Workbook(indicators_filename)
-export_indc(<span style="color: #deb887;">"All"</span>, indicators_wb, co_code, year)
+<pre class="src src-python"><span style="color: #FD971F;">indicators_filename</span>=<span style="color: #E6DB74;">"{0}_{1}_indicators.xlsx"</span>.<span style="color: #F92672;">format</span>(co_name, 2015)
+<span style="color: #FD971F;">indicators_wb</span> = xlsxwriter.Workbook(indicators_filename)
+export_indc(<span style="color: #E6DB74;">"All"</span>, indicators_wb, co_code, year)
 indicators_wb.close()
 </pre>
 </div>
@@ -4256,17 +4356,17 @@ individual files.
 
 <pre class="src src-sh">RMS/
 |-- Database
-|   <span style="color: #fa8072;">`-- Inserted data</span>
-<span style="color: #fa8072;">|-- Documentation</span>
-<span style="color: #fa8072;">|   |-- css</span>
-<span style="color: #fa8072;">|   |-- img</span>
-<span style="color: #fa8072;">|   `</span>-- Python help
+|   <span style="color: #AE81FF; font-weight: bold;">`-- Inserted data</span>
+<span style="color: #AE81FF; font-weight: bold;">|-- Documentation</span>
+<span style="color: #AE81FF; font-weight: bold;">|   |-- css</span>
+<span style="color: #AE81FF; font-weight: bold;">|   |-- img</span>
+<span style="color: #AE81FF; font-weight: bold;">|   `</span>-- Python help
 |-- Export
 |-- Import
 |-- Libraries
-<span style="color: #fa8072;">`-- Log</span>
+<span style="color: #AE81FF; font-weight: bold;">`-- Log</span>
 
-<span style="color: #fa8072;">10 directories</span>
+<span style="color: #AE81FF; font-weight: bold;">10 directories</span>
 </pre>
 </div>
 
@@ -4282,19 +4382,19 @@ individual files.
 |   |   |-- EDU_INDICATOR_AID_full.xlsx
 |   |   |-- EDU_METER_AID(data).csv
 |   |   |-- Magnitude(data).csv
-|   |   |-- NEW AC CODES inserted<span style="color: #00bfff;"> in</span> EDU_METER_AID.csv
+|   |   |-- NEW AC CODES inserted<span style="color: #F92672;"> in</span> EDU_METER_AID.csv
 |   |   |-- Qualifier.csv
 |   |   |-- RM_Mapping.csv
-|   |   <span style="color: #fa8072;">`-- RM_Mapping_NonNumeric.csv</span>
-<span style="color: #fa8072;">|   |-- create_database.bat</span>
-<span style="color: #fa8072;">|   |-- create_tables.sql</span>
-<span style="color: #fa8072;">|   |-- insert_data.sql</span>
-<span style="color: #fa8072;">|   |-- insert_indic_labels.sql</span>
-<span style="color: #fa8072;">|   |-- library.sql</span>
-<span style="color: #fa8072;">|   |-- main.sql</span>
-<span style="color: #fa8072;">|   |-- migration_to_DB_with_indic.sql</span>
-<span style="color: #fa8072;">|   |-- Prod.db</span>
-<span style="color: #fa8072;">|   `</span>-- README.md
+|   |   <span style="color: #AE81FF; font-weight: bold;">`-- RM_Mapping_NonNumeric.csv</span>
+<span style="color: #AE81FF; font-weight: bold;">|   |-- create_database.bat</span>
+<span style="color: #AE81FF; font-weight: bold;">|   |-- create_tables.sql</span>
+<span style="color: #AE81FF; font-weight: bold;">|   |-- insert_data.sql</span>
+<span style="color: #AE81FF; font-weight: bold;">|   |-- insert_indic_labels.sql</span>
+<span style="color: #AE81FF; font-weight: bold;">|   |-- library.sql</span>
+<span style="color: #AE81FF; font-weight: bold;">|   |-- main.sql</span>
+<span style="color: #AE81FF; font-weight: bold;">|   |-- migration_to_DB_with_indic.sql</span>
+<span style="color: #AE81FF; font-weight: bold;">|   |-- Prod.db</span>
+<span style="color: #AE81FF; font-weight: bold;">|   `</span>-- README.md
 |-- Documentation
 |   |-- css
 |   |-- img
@@ -4303,16 +4403,16 @@ individual files.
 |   |   |-- rmfunctions.html
 |   |   |-- RM_GUI.html
 |   |   |-- rmindicators.html
-|   |   <span style="color: #fa8072;">`-- rmsqlfunctions.html</span>
-<span style="color: #fa8072;">|   |-- README.md</span>
-<span style="color: #fa8072;">|   |-- user-manual.html</span>
-<span style="color: #fa8072;">|   |-- user-manual.org</span>
-<span style="color: #fa8072;">|   |-- user-manual.pdf</span>
-<span style="color: #fa8072;">|   `</span>-- user-manual.tex
+|   |   <span style="color: #AE81FF; font-weight: bold;">`-- rmsqlfunctions.html</span>
+<span style="color: #AE81FF; font-weight: bold;">|   |-- README.md</span>
+<span style="color: #AE81FF; font-weight: bold;">|   |-- user-manual.html</span>
+<span style="color: #AE81FF; font-weight: bold;">|   |-- user-manual.org</span>
+<span style="color: #AE81FF; font-weight: bold;">|   |-- user-manual.pdf</span>
+<span style="color: #AE81FF; font-weight: bold;">|   `</span>-- user-manual.tex
 |-- Export
-|   <span style="color: #fa8072;">`-- README.md</span>
-<span style="color: #fa8072;">|-- Import</span>
-<span style="color: #fa8072;">|   `</span>-- README.md
+|   <span style="color: #AE81FF; font-weight: bold;">`-- README.md</span>
+<span style="color: #AE81FF; font-weight: bold;">|-- Import</span>
+<span style="color: #AE81FF; font-weight: bold;">|   `</span>-- README.md
 |-- Libraries
 |   |-- algebra-div.csv
 |   |-- algebra-prod.csv
@@ -4324,13 +4424,13 @@ individual files.
 |   |-- rmindicators.py
 |   |-- rmquestionnaire.py
 |   |-- rmsqlfunctions.py
-|   <span style="color: #fa8072;">`-- variables_for_preprocessing.json</span>
-<span style="color: #fa8072;">|-- Log</span>
-<span style="color: #fa8072;">|   `</span>-- README.md
+|   <span style="color: #AE81FF; font-weight: bold;">`-- variables_for_preprocessing.json</span>
+<span style="color: #AE81FF; font-weight: bold;">|-- Log</span>
+<span style="color: #AE81FF; font-weight: bold;">|   `</span>-- README.md
 |-- README.md
-<span style="color: #fa8072;">`-- RM_GUI.py</span>
+<span style="color: #AE81FF; font-weight: bold;">`-- RM_GUI.py</span>
 
-<span style="color: #fa8072;">10 directories, 46 files</span>
+<span style="color: #AE81FF; font-weight: bold;">10 directories, 46 files</span>
 </pre>
 </div>
 </div>
@@ -4367,7 +4467,7 @@ the Python help files of each.
 <div id="postamble" class="status">
 <p class="date">Date: February 2016</p>
 <p class="author">Author: Mohamad Elmasri and Oscar Quijano</p>
-<p class="date">Created: 2016-02-17 mié 21:33</p>
+<p class="date">Created: 2016-03-03 Thu 11:55</p>
 <p class="creator">Emacs 24.4.1 (Org mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

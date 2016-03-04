@@ -394,37 +394,19 @@ class indicators():
         maximum_dict={}
         minimum_dict={}
         ## PTRHC.2t3.GPV
-        # numerator_list1=self.column_operation(["E.2.GPV",0])
-        # numerator_list2=self.column_operation(["E.3.GPV",0])
-        # numerator_list=list( map(lambda x,y: sum(x,y),numerator_list1,numerator_list2))
-        # denominator_list=self.column_operation(["T.23.GPV",0])
-        # values=list(map( lambda x,y: div(x,y), numerator_list,denominator_list))
-        # values_dict["PTRHC.2t3"]=values
-        # maximum_dict["PTRHC.2t3"]=max_sp(values)
-        # minimum_dict["PTRHC.2t3"]=min_sp(values)
-        ##
-        indicator_base="PTRHC.2t3"
+        indicator_base="PTRHC.2t3.GPV"
         for suffix in ['','.Pu','.Pr']:
             numerator_list1=self.column_operation(["E.2.GPV" + suffix ,0])
             numerator_list2=self.column_operation(["E.3.GPV" + suffix ,0])
             numerator_list=list( map(lambda x,y: sum(x,y),numerator_list1,numerator_list2))
-            denominator_list=self.column_operation(["T.23.GPV" + suffix ,0])
+            denominator_list=self.column_operation(["T.2t3.GPV" + suffix ,0])
             values=list(map( lambda x,y: prod(div(x,y),[100,'value']), numerator_list,denominator_list))
-            values_dict["PTRHC.2t3" + suffix]=values
-            self.write_indic_sql_no_regions("PTRHC.2t3" + suffix + ".Max",max_sp(values))
-            self.write_indic_sql_no_regions("PTRHC.2t3" + suffix + ".Min",min_sp(values))
-#            maximum_dict["PTRHC.2t3" + suffix + ".Max" ]=max_sp(values)
-#            minimum_dict["PTRHC.2t3" + suffix + ".Min" ]=min_sp(values)
+            values_dict[indicator_base + suffix]=values
+            self.write_indic_sql_no_regions(indicator_base + suffix + ".Max",max_sp(values))
+            self.write_indic_sql_no_regions(indicator_base + suffix + ".Min",min_sp(values))
         self.write_indic_sql(values_dict)
             
-        #self.write_indic_sql(values_dict)
-        #print(values_dict)
-        #print(minimum_dict)
-        #print(maximum_dict)
-        
-        
-        
-        
+
         
 
     def newly_recruited_teachers(self):
@@ -432,17 +414,17 @@ class indicators():
         variables_dict={"NTP.1" : [["NT.1",0],["T.1",0]],
                         "NTP.2.GPV":[["NT.2.GPV",0],["T.2.GPV",0]],
                         "NTP.3.GPV" : [["NT.3.GPV",0],["T.3.GPV",0]],
-                        "NTP.2t3.GPV" : [["NT.23.GPV",0],["T.23.GPV",0]],
+                        "NTP.2t3.GPV" : [["NT.2t3.GPV",0],["T.2t3.GPV",0]],
 
                         "NTP.1.Pu" : [["NT.1.Pu",0],["T.1.Pu",0]],
                         "NTP.2.GPV.Pu":[["NT.2.GPV.Pu",0],["T.2.GPV.Pu",0]],
                         "NTP.3.GPV.Pu" : [["NT.3.GPV.Pu",0],["T.3.GPV.Pu",0]],
-                        "NTP.2t3.GPV.Pu" : [["NT.23.GPV.Pu",0],["T.23.GPV.Pu",0]],
+                        "NTP.2t3.GPV.Pu" : [["NT.2t3.GPV.Pu",0],["T.2t3.GPV.Pu",0]],
 
                         "NTP.1.Pr" : [["NT.1.Pr",0],["T.1.Pr",0]],
                         "NTP.2.GPV.Pr":[["NT.2.GPV.Pr",0],["T.2.GPV.Pr",0]],
                         "NTP.3.GPV.Pr" : [["NT.3.GPV.Pr",0],["T.3.GPV.Pr",0]],
-                        "NTP.2t3.GPV.Pr" : [["NT.23.GPV.Pr",0],["T.23.GPV.Pr",0]]
+                        "NTP.2t3.GPV.Pr" : [["NT.2t3.GPV.Pr",0],["T.2t3.GPV.Pr",0]]
         }
         
         self.compute_percentages(variables_dict)
@@ -452,17 +434,17 @@ class indicators():
         variables_dict={ "FTP.1":[["T.1.F",0],["T.1",0]],
                          "FTP.2.GPV":[["T.2.GPV.F",0],["T.2.GPV",0]],
                          "FTP.3.GPV" : [["T.3.GPV.F",0],["T.3.GPV",0]],
-                         "FTP.2t3.GPV" : [["T.23.GPV.F",0],["T.23.GPV",0]],
+                         "FTP.2t3.GPV" : [["T.2t3.GPV.F",0],["T.2t3.GPV",0]],
                          
                          "FTP.1.Pu":[["T.1.Pu.F",0],["T.1.Pu",0]],
                          "FTP.2.GPV.Pu":[["T.2.GPV.Pu.F",0],["T.2.GPV.Pu",0]],
                          "FTP.3.GPV.Pu" : [["T.3.GPV.Pu.F",0],["T.3.GPV.Pu",0]],
-                         "FTP.2t3.GPV.Pu" : [["T.23.GPV.Pu.F",0],["T.23.GPV.Pu",0]],
+                         "FTP.2t3.GPV.Pu" : [["T.2t3.GPV.Pu.F",0],["T.2t3.GPV.Pu",0]],
 
                          "FTP.1.Pr":[["T.1.Pr.F",0],["T.1.Pr",0]],
                          "FTP.2.GPV.Pr":[["T.2.GPV.Pr.F",0],["T.2.GPV.Pr",0]],
                          "FTP.3.GPV.Pr" : [["T.3.GPV.Pr.F",0],["T.3.GPV.Pr",0]],
-                         "FTP.2t3.GPV.Pr" : [["T.23.GPV.Pr.F",0],["T.23.GPV.Pr",0]]
+                         "FTP.2t3.GPV.Pr" : [["T.2t3.GPV.Pr.F",0],["T.2t3.GPV.Pr",0]]
                          }
         
         self.compute_percentages(variables_dict)
@@ -472,32 +454,32 @@ class indicators():
         variables_dict1={"TRTP.1": [["T.1.trained",0 ],["T.1",0] ],
                          "TRTP.2.GPV": [["T.2.GPV.trained",0 ],["T.2.GPV",0]],
                          "TRTP.3.GPV" : [["T.3.GPV.trained",0],["T.3.GPV",0]],
-                         "TRTP.2t3.GPV": [["T.23.GPV.trained",0 ],["T.23.GPV",0] ],
+                         "TRTP.2t3.GPV": [["T.2t3.GPV.trained",0 ],["T.2t3.GPV",0] ],
 
                          "TRTP.1.Pu": [["T.1.Pu.trained",0 ],["T.1.Pu",0] ],
                          "TRTP.2.GPV.Pu": [["T.2.GPV.Pu.trained",0 ],["T.2.GPV.Pu",0]],
                          "TRTP.3.GPV.Pu" : [["T.3.GPV.Pu.trained",0],["T.3.GPV.Pu",0]],
-                         "TRTP.2t3.GPV.Pu": [["T.23.GPV.Pu.trained",0 ],["T.23.GPV.Pu",0] ],
+                         "TRTP.2t3.GPV.Pu": [["T.2t3.GPV.Pu.trained",0 ],["T.2t3.GPV.Pu",0] ],
 
                          "TRTP.1.Pr": [["T.1.Pr.trained",0 ],["T.1.Pr",0] ],
                          "TRTP.2.GPV.Pr": [["T.2.GPV.Pr.trained",0 ],["T.2.GPV.Pr",0]],
                          "TRTP.3.GPV.Pr" : [["T.3.GPV.Pr.trained",0],["T.3.GPV.Pr",0]],
-                         "TRTP.2t3.GPV.Pr": [["T.23.GPV.Pr.trained",0 ],["T.23.GPV.Pr",0] ]                         
+                         "TRTP.2t3.GPV.Pr": [["T.2t3.GPV.Pr.trained",0 ],["T.2t3.GPV.Pr",0] ]                         
         }
         variables_dict2={"TrNTP.1": [["NT.1.trained",0],["NT.1",0]],
                          "TrNTP.2.GPV":[["NT.2.GPV.trained",0],["NT.2.GPV",0]],
                          "TrNTP.3.GPV":[["NT.3.GPV.trained",0],["NT.3.GPV",0]],
-                         "TrNTP.2t3.GPV": [["NT.23.GPV.trained",0],["NT.23.GPV",0]],
+                         "TrNTP.2t3.GPV": [["NT.2t3.GPV.trained",0],["NT.2t3.GPV",0]],
 
                          "TrNTP.1.Pu": [["NT.1.Pu.trained",0],["NT.1.Pu",0]],
                          "TrNTP.2.GPV.Pu":[["NT.2.GPV.Pu.trained",0],["NT.2.GPV.Pu",0]],
                          "TrNTP.3.GPV.Pu":[["NT.3.GPV.Pu.trained",0],["NT.3.GPV.Pu",0]],
-                         "TrNTP.2t3.GPV.Pu": [["NT.23.GPV.Pu.trained",0],["NT.23.GPV.Pu",0]],
+                         "TrNTP.2t3.GPV.Pu": [["NT.2t3.GPV.Pu.trained",0],["NT.2t3.GPV.Pu",0]],
 
                          "TrNTP.1.Pr": [["NT.1.Pr.trained",0],["NT.1.Pr",0]],
                          "TrNTP.2.GPV.Pr":[["NT.2.GPV.Pr.trained",0],["NT.2.GPV.Pr",0]],
                          "TrNTP.3.GPV.Pr":[["NT.3.GPV.Pr.trained",0],["NT.3.GPV.Pr",0]],
-                         "TrNTP.2t3.GPV.Pr": [["NT.23.GPV.Pr.trained",0],["NT.23.GPV.Pr",0]]
+                         "TrNTP.2t3.GPV.Pr": [["NT.2t3.GPV.Pr.trained",0],["NT.2t3.GPV.Pr",0]]
 
         }
         self.compute_percentages(variables_dict1)
@@ -508,7 +490,7 @@ class indicators():
         variables_dict={"PrTP.1":[["T.1.Pr",0],["T.1",0]],
                         "PrTP.2.GPV":[["T.2.GPV.Pr",0],["T.2.GPV",0]],
                         "PrTP.3.GPV":[["T.3.GPV.Pr",0],["T.3.GPV",0]],
-                        "PrTP.2t3.GPV": [["T.23.GPV.Pr",0],["T.23.GPV",0]], }
+                        "PrTP.2t3.GPV": [["T.2t3.GPV.Pr",0],["T.2t3.GPV",0]], }
         self.compute_percentages(variables_dict)
 
     def percentage_non_permanent_teachers(self):
@@ -516,13 +498,13 @@ class indicators():
         variables_dict_private={"FixTP.1.Pr":[["T.1.Pr.Fix",0],["T.1.Pr",0]],
                                 "FixTP.2.GPV.Pr": [["T.2.GPV.Pr.Fix",0],["T.2.GPV.Pr",0]],
                                 "FixTP.3.GPV.Pr": [["T.3.GPV.Pr.Fix",0],["T.3.GPV.Pr",0]],
-                                "FixTP.2t3.GPV.Pr" : [ ["T.23.GPV.Pr.Fix",0],["T.23.GPV.Pr",0] ]
+                                "FixTP.2t3.GPV.Pr" : [ ["T.2t3.GPV.Pr.Fix",0],["T.2t3.GPV.Pr",0] ]
                             }
                                     
         variables_dict_public={"FixTP.1.Pu":[["T.1.Pu.Fix",0],["T.1.Pu",0]],
                                "FixTP.2.GPV.Pu": [["T.2.GPV.Pu.Fix",0],["T.2.GPV.Pu",0]],
                                "FixTP.3.GPV.Pu": [["T.3.GPV.Pu.Fix",0],["T.3.GPV.Pu",0]],
-                               "FixTP.2t3.GPV.Pu" : [ ["T.23.GPV.Pu.Fix",0],["T.23.GPV.Pu",0] ]
+                               "FixTP.2t3.GPV.Pu" : [ ["T.2t3.GPV.Pu.Fix",0],["T.2t3.GPV.Pu",0] ]
                            }
         
         self.compute_percentages(variables_dict_public,False)
@@ -544,13 +526,13 @@ class indicators():
         variables_dict_private={"PermTP.1.Pr":[["T.1.Pr.Perm",0],["T.1.Pr",0]],
                                 "PermTP.2.GPV.Pr": [["T.2.GPV.Pr.Perm",0],["T.2.GPV.Pr",0]],
                                 "PermTP.3.GPV.Pr": [["T.3.GPV.Pr.Perm",0],["T.3.GPV.Pr",0]],
-                                "PermTP.2t3.GPV.Pr" : [ ["T.23.GPV.Pr.Perm",0],["T.23.GPV.Pr",0] ]
+                                "PermTP.2t3.GPV.Pr" : [ ["T.2t3.GPV.Pr.Perm",0],["T.2t3.GPV.Pr",0] ]
                             }
                                     
         variables_dict_public={"PermTP.1.Pu":[["T.1.Pu.Perm",0],["T.1.Pu",0]],
                                "PermTP.2.GPV.Pu": [["T.2.GPV.Pu.Perm",0],["T.2.GPV.Pu",0]],
                                "PermTP.3.GPV.Pu": [["T.3.GPV.Pu.Perm",0],["T.3.GPV.Pu",0]],
-                               "PermTP.2t3.GPV.Pu" : [ ["T.23.GPV.Pu.Perm",0],["T.23.GPV.Pu",0] ]
+                               "PermTP.2t3.GPV.Pu" : [ ["T.2t3.GPV.Pu.Perm",0],["T.2t3.GPV.Pu",0] ]
                            }
         
         self.compute_percentages(variables_dict_public,False)
@@ -571,7 +553,7 @@ class indicators():
         """Copmutes TAttrR indicators."""
         ind_dict={}
         indicator_name_base="TAttrR"        
-        for indicator_suffix in [".1",".2.GPV",".3.GPV",".23.GPV"]:
+        for indicator_suffix in [".1",".2.GPV",".3.GPV",".2t3.GPV"]:
             number_of_teachers_previous_year=self.column_operation(["T" + indicator_suffix,-1])
             if not number_of_teachers_previous_year:
                 number_of_teachers_previous_year=self.column_operation(["T" + indicator_suffix + ".m1",0])
@@ -582,7 +564,7 @@ class indicators():
                                                                           newly_recruited_teachers,
                                                                           number_of_teachers_current_year) )
         self.write_indic_sql(ind_dict)
-        print(ind_dict)
+        ## print(ind_dict)
 
 
     def mean_category(self, codes, midpoints, ac_pop, DivBySum = False):
@@ -608,14 +590,14 @@ class indicators():
 
     def mean_age_level(self,level):
         """ 
-        Given a level in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV'], returns mean age (MAge) for total, public and private.
+        Given a level in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.2t3.GPV'], returns mean age (MAge) for total, public and private.
 
         Return is a dictionary format, with indicator names as key of the dictionary.
         The average is calculated by using the midpoint ages 
         defined in the midpoint variable below in a ascending order. 
         """
-        if level not in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']:
-            print("The only levels allowed are ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']")
+        if level not in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.2t3.GPV']:
+            print("The only levels allowed are ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.2t3.GPV']")
             return
         midpoints = [[20,'value'], [24.5,'value'], [34.5,'value'], [44.5,'value'],[54.5,'value'], [60,'value']]
         levelsExt = ['x.Ag20m','x.Ag20t29','x.Ag30t39','x.Ag40t49','x.Ag50t59','x.Ag60p']
@@ -630,14 +612,14 @@ class indicators():
         
     def mean_exp_level(self, level):
         """ 
-        Given a level in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV'], returns mean expireince (MExp) for total, public and private.
+        Given a level in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.2t3.GPV'], returns mean expireince (MExp) for total, public and private.
 
         Return is a dictionary format, with indicator names as key of the dictionary.
         The average is calculated by using the midpoint ages 
         defined in the midpoint variable below in a ascending order. 
         """
-        if level not in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']:
-            print("The only levels allowed are ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']")
+        if level not in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.2t3.GPV']:
+            print("The only levels allowed are ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.2t3.GPV']")
             return
 
         midpoints = [[0.5,'value'],[1.5,'value'], [4,'value'], [8,'value'], [13,'value'],[17,'value']] ## midpoint years of experience for each level.
@@ -653,10 +635,10 @@ class indicators():
 
     def mean_level(self, levelFun,ret= False):
         """
-        Calculates the mean of age/exp/... for the following levels ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV'],by passing levelFun(indic, level) as in mean_age_level or mean_exp_level. 
+        Calculates the mean of age/exp/... for the following levels ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.2t3.GPV'],by passing levelFun(indic, level) as in mean_age_level or mean_exp_level. 
         
         """
-        isced = ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']       
+        isced = ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.2t3.GPV']       
         if ret:
             M = {}
             for s in isced:
@@ -668,7 +650,7 @@ class indicators():
 
     def percentage_teachers_attainment(self):
         """ ComputesEA2mPT, EA3PT, EA4PT, EA5pPT, EAukPT indicators."""
-        isced = ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']
+        isced = ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.2t3.GPV']
         suffix1 = ['', '.Pu', '.Pr']
         temp = {"EA2mPX": ['X.EA.2m'], "EA3PX": ['X.EA.3'],
                 "EA4PX": ['X.EA.4'],"EAukPX": ['X.EA.uk']}
@@ -688,7 +670,7 @@ class indicators():
 
     def percentage_teachers_exp(self):
         """ Computes Exp1t2, Exp3t5, Exp6t10, Exp11t15, Exp15p, Expuk indicators. """
-        isced = ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']
+        isced = ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.2t3.GPV']
         suffix1 = ['', '.Pu', '.Pr']
         temp = {"Exp1t2PY": ['Y.Exp1t2'], "Exp3t5PY": ['Y.Exp3t5'],
                 "Exp6t10PY": ['Y.Exp6t10'],"Exp11t15PY": ['Y.Exp11t15'],
@@ -705,7 +687,7 @@ class indicators():
 
     def percentage_teachers_age(self):
         """Computes Ag20mPT, Ag20t29PT, Ag30t39PT, Ag40t49PT, Ag50t59PT, Ag60pPT, AgukPT indicators."""
-        isced = ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV']
+        isced = ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.2t3.GPV']
         suffix1 = ['', '.Pu', '.Pr']
         temp ={"Ag20mPY":['Y.Ag20m'],"Ag20t29PY":['Y.Ag20t29'],
                "Ag30t39PY":['Y.Ag30t39'],"Ag40t49PY":['Y.Ag40t49'],
@@ -786,19 +768,19 @@ class indicators():
         self.dissimilarity_index_single('T.3.GPV.Pr.Fix', benchAC = 'E.3.GPV.Pr')
         self.dissimilarity_index_single('T.3.GPV.Pu.Fix', benchAC = 'E.3.GPV.Pu')
         
-        tb23 = ['T.23.GPV', 'T.23.GPV.F',
-                {'T.23.GPV.Ag50p':['T.23.GPV.Ag50t59', 'T.23.GPV.Ag60p']},
-                'NT.23.GPV','T.23.GPV.Math', 'T.23.GPV.Read',
-                'T.23.GPV.trained', 'NT.23.GPV.trained',
-                {'T.23.GPV.EA.4m':['T.23.GPV.EA.2m', 'T.23.GPV.EA.3', 'T.23.GPV.EA.4']},
-                {'T.23.GPV.EA.5p':['T.23.GPV.EA.5','T.23.GPV.EA.6','T.23.GPV.EA.7','T.23.GPV.EA.8' ]},
-                {'T.23.GPV.Exp2m':['NT.23.GPV','T.23.GPV.Exp1t2']},
-                {'T.23.GPV.Exp10p':['T.23.GPV.Exp11t15', 'T.23.GPV.Exp15p']},
-                'T.23.GPV.Pr',{'T.23.GPV.Fix':['T.23.GPV.Pr.Fix', 'T.23.GPV.Pu.Fix']},
-                'T.23.GPV.Pr.Fix', 'T.23.GPV.Pu.Fix']
+        tb23 = ['T.2t3.GPV', 'T.2t3.GPV.F',
+                {'T.2t3.GPV.Ag50p':['T.2t3.GPV.Ag50t59', 'T.2t3.GPV.Ag60p']},
+                'NT.2t3.GPV','T.2t3.GPV.Math', 'T.2t3.GPV.Read',
+                'T.2t3.GPV.trained', 'NT.2t3.GPV.trained',
+                {'T.2t3.GPV.EA.4m':['T.2t3.GPV.EA.2m', 'T.2t3.GPV.EA.3', 'T.2t3.GPV.EA.4']},
+                {'T.2t3.GPV.EA.5p':['T.2t3.GPV.EA.5','T.2t3.GPV.EA.6','T.2t3.GPV.EA.7','T.2t3.GPV.EA.8' ]},
+                {'T.2t3.GPV.Exp2m':['NT.2t3.GPV','T.2t3.GPV.Exp1t2']},
+                {'T.2t3.GPV.Exp10p':['T.2t3.GPV.Exp11t15', 'T.2t3.GPV.Exp15p']},
+                'T.2t3.GPV.Pr',{'T.2t3.GPV.Fix':['T.2t3.GPV.Pr.Fix', 'T.2t3.GPV.Pu.Fix']},
+                'T.2t3.GPV.Pr.Fix', 'T.2t3.GPV.Pu.Fix']
         list(map(lambda x: self.dissimilarity_index_single(x, benchAC = ['E.2.GPV','E.3.GPV']), tb23))
-        self.dissimilarity_index_single('T.23.GPV.Pr.Fix', benchAC = ['E.2.GPV.Pr','E.3.GPV.Pr'])
-        self.dissimilarity_index_single('T.23.GPV.Pu.Fix', benchAC = ['E.2.GPV.Pu','E.3.GPV.Pu'])
+        self.dissimilarity_index_single('T.2t3.GPV.Pr.Fix', benchAC = ['E.2.GPV.Pr','E.3.GPV.Pr'])
+        self.dissimilarity_index_single('T.2t3.GPV.Pu.Fix', benchAC = ['E.2.GPV.Pu','E.3.GPV.Pu'])
         
 
     def audit_trail(self,temp_table = True):
