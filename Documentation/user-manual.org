@@ -160,7 +160,7 @@ The series drop-down list has three options:
        *since the indicators are calculated from this series only*.
 
 *** Moving data between series
-An original questionnaire is always inserted to the /Reported/ series, to move it the /Observed/ or /Estimated/ series, choose first the country and then year, and then click on the buttons in the =Move between databases= frame.
+An original questionnaire is always inserted to the /Reported/ series, to move it the /Observed/ or /Estimated/ series, choose first the country and then year, and then click on the buttons in the =Move databases= frame.
 
     * =REP to OBS= would move the data from /Reported/ to /Observed/ series.
     * =OBS to EST= would move the data from /Observed/ to /Estimated/ series.

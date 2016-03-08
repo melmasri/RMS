@@ -64,7 +64,7 @@ class RM():
         self.output_folder_var = ''
         self.master.title('Regional module Survey: main dir ' + self.main_dir)
         # width x height + x_offset + y_offset:
-        self.master.geometry("730x900+50+50")
+        self.master.geometry("700x900+0+0")
         self.status = StringVar()
         self.createWidgets()
         self.setFormating()
@@ -114,13 +114,13 @@ class RM():
         ## Import into rep
         self.rep_import = tk.IntVar()
         self.checkbox =   ttk.Checkbutton(self.lf_impOptions, text="Import to REP", variable= self.rep_import)
-        self.checkbox.grid(row=1, column = 3, sticky = 'W', columnspan=3)
+        self.checkbox.grid(row=1, column = 1, sticky = 'W', columnspan=3)
 
         ## Auto open log file
         self.open_log = tk.IntVar()
         self.open_log.set(1)
         self.OpenLogCB =  ttk.Checkbutton(self.lf_impOptions, text="Open validation report", variable= self.open_log)
-        self.OpenLogCB.grid(row=2, column = 3, sticky = 'W', columnspan=3)
+        self.OpenLogCB.grid(row=1, column = 2, sticky = 'W', columnspan=3)
         ## Auto open data report
         self.open_data_report = tk.IntVar()
         self.open_data_report.set(1)
@@ -176,25 +176,34 @@ class RM():
         ttk.Button(self.lf_exOptions, text ='Extract', command = lambda x='AC': self.export(x)).grid(row=2, column=3, sticky='W')
 
         # Migrating options
-        self.lf_migrate = ttk.LabelFrame(pane , text="Move between databases")
+        self.lf_migrate = ttk.LabelFrame(pane , text="Move databases")
         self.lf_migrate.grid(row=1, columnspan=2, sticky='WE', padx=5, pady=5, ipadx=5, ipady=5)
         ttk.Button(self.lf_migrate, text ='REP to OBS', command= lambda x = 'REP', y = 'OBS': self.migrate_serie(x,y)).grid(row=0, column=0, sticky='W',padx=5,pady=5)
-        ttk.Button(self.lf_migrate, text ='OBS to EST', command = lambda x ='OBS', y = 'EST': self.migrate_serie(x,y)).grid(row=0, column=1, sticky='W')
+        ttk.Button(self.lf_migrate, text ='OBS to EST', command = lambda x ='OBS', y = 'EST': self.migrate_serie(x,y)).grid(row=1, column=0, sticky='W',padx=5,pady=5)
 
-        pane.add(self.lf_exOptions,weight=50)
-        pane.add(self.lf_migrate,weight=50)
-
-
-        # # Indicators options
-        self.lf_IndicOptions = ttk.LabelFrame(self.writeframe , text="Extract by:")
-        self.lf_IndicOptions.grid(row=6, columnspan = 3, sticky='W', padx=5, pady=5, ipadx=5, ipady=5)
+       # # Indicators options
+        self.lf_IndicOptions = ttk.LabelFrame(pane , text="Extract by:")
+        self.lf_IndicOptions.grid(row=3, columnspan = 3, sticky='W', padx=5, pady=5, ipadx=5, ipady=5)
         ttk.Label(self.lf_IndicOptions, text='Indicator ').grid(row=0, column=0, sticky='W')
         
         self.cbox_indic = ttk.Combobox(self.lf_IndicOptions, postcommand= self.getIndic, width=20)
         self.cbox_indic.grid(row=0, column=1, sticky='W')
         ttk.Button(self.lf_IndicOptions, text ='Extract', command = self.export_indic).grid(row=0, column=2, sticky='W',padx=5,pady=5)
-        ttk.Button(self.lf_IndicOptions, text ='Calculate', command = self.indic_calc).grid(row=0, column=3, sticky='W',padx=5,pady=5)
-        ttk.Label(self.lf_IndicOptions, text="Wildcards: % sub for zero or more characters, _ for a single character.").grid(row=1, column=0, sticky='W', columnspan = 5)
+        ttk.Button(self.lf_IndicOptions, text ='Calculate', command = self.indic_calc).grid(row=1, column=2, sticky='W', padx=5, pady=5)
+        ttk.Label(self.lf_IndicOptions, text="Wildcards: _ for a single character,\n % for zero or more.").grid(row=1, column=0, sticky='W', columnspan = 2, padx=5,pady=5)
+        pane.add(self.lf_exOptions,weight=50)
+        pane.add(self.lf_IndicOptions, weight=50)
+        pane.add(self.lf_migrate,weight=50)
+        # # Indicators options
+        # self.lf_IndicOptions = ttk.LabelFrame(self.writeframe , text="Extract by:")
+        # self.lf_IndicOptions.grid(row=6, columnspan = 3, sticky='W', padx=5, pady=5, ipadx=5, ipady=5)
+        # ttk.Label(self.lf_IndicOptions, text='Indicator ').grid(row=0, column=0, sticky='W')
+        
+        # self.cbox_indic = ttk.Combobox(self.lf_IndicOptions, postcommand= self.getIndic, width=20)
+        # self.cbox_indic.grid(row=0, column=1, sticky='W')
+        # ttk.Button(self.lf_IndicOptions, text ='Extract', command = self.export_indic).grid(row=0, column=2, sticky='W',padx=5,pady=5)
+        # ttk.Button(self.lf_IndicOptions, text ='Calculate', command = self.indic_calc).grid(row=0, column=3, sticky='W',padx=5,pady=5)
+        # ttk.Label(self.lf_IndicOptions, text="Wildcards: % sub for zero or more characters, _ for a single character.").grid(row=1, column=0, sticky='W', columnspan = 5)
 
         ## Direct SQL extraction
         self.lf_SQLOptions = ttk.LabelFrame(self.writeframe , text="Direct SQL extraction:")
@@ -204,7 +213,7 @@ class RM():
         ttk.Button(self.lf_SQLOptions, text ='Extract', command = self.getDirectSQL).grid(row=0, column=3, sticky='W',padx=5,pady=5)
         ttk.Label(self.lf_SQLOptions, text=("Format:= type-series[co_code1(adm1,adm2,...);co_code2;...;YEAR;AC]\n"
                                             "type:= raw OR indic, series:=rep, obs or est (default), YEAR:= yyyy OR yyyy:yyyy for range.\n"
-                                            "Wildcards allowed for AC, empty co_code or AC for ALL.")).grid(row=1, column=0, sticky='W', columnspan = 8)
+                                            "for co_code and AC empty implies all, wildcards allowed for AC.")).grid(row=1, column=0, sticky='W', columnspan = 8)
         
         # # Output folder
         ttk.Label(self.writeframe, text='Select output folder ').grid(row=10, column=0, sticky='EW')    
