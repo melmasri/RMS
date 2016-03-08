@@ -64,7 +64,7 @@ class RM():
         self.output_folder_var = ''
         self.master.title('Regional module Survey: main dir ' + self.main_dir)
         # width x height + x_offset + y_offset:
-        self.master.geometry("700x900+0+0")
+        self.master.geometry("800x900+0+0")
         self.status = StringVar()
         self.createWidgets()
         self.setFormating()
@@ -155,7 +155,7 @@ class RM():
         ttk.Button(self.writeframe, text ='Delete questionnaire', command=self.del_quest).grid(row=1, column=2, sticky='W')
 
         pane = ttk.Panedwindow(self.writeframe, orient='horizontal')
-        pane.grid(row=5, columnspan=6,padx=5, pady=5, ipadx=5, ipady=5, sticky='W')
+        pane.grid(row=5, columnspan=10,padx=5, pady=5, ipadx=5, ipady=5, sticky='W')
         # Exporting options
         self.lf_exOptions = ttk.LabelFrame(pane , text="Extract by:")
         self.lf_exOptions.grid(row=3, columnspan=3, sticky='W', padx=5, pady=5, ipadx=5, ipady=5)
@@ -216,10 +216,10 @@ class RM():
                                             "for co_code and AC empty implies all, wildcards allowed for AC.")).grid(row=1, column=0, sticky='W', columnspan = 8)
         
         # # Output folder
-        ttk.Label(self.writeframe, text='Select output folder ').grid(row=10, column=0, sticky='EW')    
-        self.output_folder = ttk.Entry(self.writeframe, textvariable= self.output_folder_var)
-        self.output_folder.grid(row=10, column=1, columnspan =3, sticky='WE', padx=3, pady=3)
-        ttk.Button(self.writeframe, text= 'Browse..', command = lambda x='out_folder': self.select_file(x)).grid(row=10, column=5, sticky='W')
+        ttk.Label(self.writeframe, text='Select output folder ').grid(row=10, column=0, sticky='W')    
+        self.output_folder = ttk.Entry(self.writeframe, textvariable= self.output_folder_var, width=40)
+        self.output_folder.grid(row=10, column=1, sticky='W')
+        ttk.Button(self.writeframe, text= 'Browse..', command = lambda x='out_folder': self.select_file(x)).grid(row=10, column=2, sticky='W')
 
         ### Status frame
         self.StatusLabelFrame = ttk.LabelFrame(self.master, text="Status:")
