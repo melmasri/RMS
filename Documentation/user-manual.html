@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Regional Module User Manual</title>
-<!-- 2016-02-05 Fri 11:43 -->
+<!-- 2016-03-08 Tue 08:52 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Mohamad Elmasri and Oscar Quijano" />
@@ -199,7 +199,9 @@ for the JavaScript code in this tag.
 <li><a href="#sec-1-3-2">1.3.2. Moving data between series</a></li>
 <li><a href="#sec-1-3-3">1.3.3. Exporting data options</a></li>
 <li><a href="#sec-1-3-4">1.3.4. Viewing modes</a></li>
-<li><a href="#sec-1-3-5">1.3.5. Exporting and calculating indicators</a></li>
+<li><a href="#sec-1-3-5">1.3.5. Calculating indicators and exporting</a></li>
+<li><a href="#sec-1-3-6">1.3.6. Record format exporting</a></li>
+<li><a href="#sec-1-3-7">1.3.7. Deleting data</a></li>
 </ul>
 </li>
 <li><a href="#sec-1-4">1.4. Validation report</a></li>
@@ -228,13 +230,14 @@ for the JavaScript code in this tag.
 <li><a href="#sec-2-4">2.4. Percentage of trained teachers</a></li>
 <li><a href="#sec-2-5">2.5. Percentage of private teachers</a></li>
 <li><a href="#sec-2-6">2.6. Percentage of non-permanent teachers</a></li>
-<li><a href="#sec-2-7">2.7. Attrition rate</a></li>
-<li><a href="#sec-2-8">2.8. Mean age</a></li>
-<li><a href="#sec-2-9">2.9. Mean years of experience</a></li>
-<li><a href="#sec-2-10">2.10. Highest level of educational attainment</a></li>
-<li><a href="#sec-2-11">2.11. Percentage of teachers by years of experience</a></li>
-<li><a href="#sec-2-12">2.12. Percentage of teachers by age</a></li>
-<li><a href="#sec-2-13">2.13. Dissimilarity index</a></li>
+<li><a href="#sec-2-7">2.7. Percentage of permanent teachers</a></li>
+<li><a href="#sec-2-8">2.8. Attrition rate</a></li>
+<li><a href="#sec-2-9">2.9. Mean age</a></li>
+<li><a href="#sec-2-10">2.10. Mean years of experience</a></li>
+<li><a href="#sec-2-11">2.11. Highest level of educational attainment</a></li>
+<li><a href="#sec-2-12">2.12. Percentage of teachers by years of experience</a></li>
+<li><a href="#sec-2-13">2.13. Percentage of teachers by age</a></li>
+<li><a href="#sec-2-14">2.14. Dissimilarity index</a></li>
 </ul>
 </li>
 <li><a href="#sec-3">3. Adding  Indicators</a>
@@ -505,7 +508,7 @@ data.
 <h4 id="sec-1-3-2"><span class="section-number-4">1.3.2</span> Moving data between series</h4>
 <div class="outline-text-4" id="text-1-3-2">
 <p>
-An original questionnaire is always inserted to the <i>Reported</i> series, to move it the <i>Observed</i> or <i>Estimated</i> series, choose first the country and then year, and then click on the buttons in the <code>Move between databases</code> frame.
+An original questionnaire is always inserted to the <i>Reported</i> series, to move it the <i>Observed</i> or <i>Estimated</i> series, choose first the country and then year, and then click on the buttons in the <code>Move databases</code> frame.
 </p>
 
 <ul class="org-ul">
@@ -609,7 +612,7 @@ software will reject it.
 </div>
 
 <div id="outline-container-sec-1-3-5" class="outline-4">
-<h4 id="sec-1-3-5"><span class="section-number-4">1.3.5</span> Exporting and calculating indicators</h4>
+<h4 id="sec-1-3-5"><span class="section-number-4">1.3.5</span> Calculating indicators and exporting</h4>
 <div class="outline-text-4" id="text-1-3-5">
 <p>
 Before exporting any indicators, we need to calculate them. For the
@@ -717,6 +720,107 @@ For more details about the computational methods refer to <a href="#sec-2">Indic
 </p>
 </div>
 </div>
+
+<div id="outline-container-sec-1-3-6" class="outline-4">
+<h4 id="sec-1-3-6"><span class="section-number-4">1.3.6</span> Record format exporting</h4>
+<div class="outline-text-4" id="text-1-3-6">
+<p>
+Record format exporting, in the frame <code>Direct SQL extraction:</code>, allows an easy access to the SQL database, for raw data and indicators. Basically, each data figure will appear in its own row, with the corresponding dimensions, 
+</p>
+<ul class="org-ul">
+<li>CO_SHORT_NAME: the country short name,
+</li>
+<li>CO_CODE: the country code,
+</li>
+<li>ADM_NAME: the administrative division name,
+</li>
+<li>YEAR: data reference year,
+</li>
+<li>MC_ID: the numerical version of the AC code, only for raw data,
+</li>
+<li>AC: the alphanumeric code of the raw data or indicator,
+</li>
+<li>FIG: the actual figure.
+</li>
+</ul>
+
+<p>
+To extract data, you need to use the following input format in the given text box of the  <code>Direct SQL extraction:</code> frame: 
+</p>
+
+<pre class="example">
+type-series[co_code1(adm1, adm2, ...); co_code2(adm1, adm2, ...); ...; YEAR; AC]
+</pre>
+
+<p>
+where 
+</p>
+<dl class="org-dl">
+<dt> type </dt><dd>is either <code>raw</code> to extract raw data, or <code>indic</code> to extract indicators.
+</dd>
+<dt> series (optional) </dt><dd>is either <code>rep</code>, <code>obs</code> or <code>est</code>, the default is <code>est</code> as in the case for indicators.
+</dd>
+<dt> co_code (optional) </dt><dd>you can pass a series of country codes with the following possible formats:
+<ul class="org-ul">
+<li>co_code      := for all administrative divisions for this country. 
+</li>
+<li>co_code(1)   := for administrative division code 1 for this country.
+</li>
+<li>co_code(0)   := for the national level data only for this country.
+</li>
+<li>co_code(0,1) := for the national level data and administrative division code 1 for this country.
+</li>
+<li>leave empty  := as indicated by (optional), it will extract all countries and administrative  divisions in the database.
+</li>
+<li>any wrong co_code is ignored.
+</li>
+</ul>
+</dd>
+<dt> YEAR (optional) </dt><dd>you can pass years in the following formats:
+<ul class="org-ul">
+<li>yyyy         := for a specific year, as 2014 or 2015.
+</li>
+<li>yyyy:yyyy    := for a range of years, as 2013:2015, would extract all data between 2013 and 2015, inclusive.
+</li>
+<li>leave empty  := for all years.
+</li>
+</ul>
+</dd>
+<dt> AC </dt><dd>an exact alphanumeric code or with a wildcard must be passed. Users can extract groups of indicators or raw data using name patterns, where % substitutes for zero or more characters and _ substitutes for a single character. For examples see section <a href="#sec-1-3-5">Calculating indicators and exporting</a> on wildcards. 
+</dd>
+</dl>
+
+<div class="note">
+<p>
+Exported data are saved in the <code>Export</code> folder if no other folder is specified, under the naming convention <code>record_format_type-series_AC.xlsx</code>, where in the case of wildcards, % is replaced with <code>xx</code>. This is indicated in the Status panel as well.
+</p>
+
+</div>
+
+<p>
+For example: 
+</p>
+<ul class="org-ul">
+<li><code>raw-obs[4180; 2014; T.1]</code> to extract all <code>T.1</code> raw data for all administrative divisions from the <i>Observed</i> series for 2014, country 4180. If no data exist, the file would be empty.
+</li>
+<li><code>raw[4180(2,3,0); ; T.1]</code> to extract all <code>T.1</code> raw data from the <i>Estimated</i> series for all administrative divisions code 2, 3 and national level for 0, for country 4180, for all years.
+</li>
+<li><code>indic[; ; %T.2%]</code> to extract all indicators with the pattern <code>T.2</code> in their alphanumeric code, for all countries, administrative divisions and years.
+</li>
+<li><code>indic[;2011:2015;%T.2%]</code> to extract all indicators with the pattern <code>T.2</code> in their alphanumeric code, for all countries and administrative divisions, for years between 2011 and 2015, inclusive.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-3-7" class="outline-4">
+<h4 id="sec-1-3-7"><span class="section-number-4">1.3.7</span> Deleting data</h4>
+<div class="outline-text-4" id="text-1-3-7">
+<p>
+By selecting a country and year from the drop-down list and clicking <code>Delete questionnaire</code>, this would delete all data and indicators associated with that specific country and year. The drop-down list should not show the deleted data after a refresh.
+</p>
+</div>
+</div>
 </div>
 
 <div id="outline-container-sec-1-4" class="outline-3">
@@ -817,7 +921,7 @@ The data report checks the following and lists any issues:
 <li>if ADM names exists in database they must equal the ones in
 the questionnaire, otherwise prints an error. This mean you
 can only change ADM names after they have been created by
-accessing the database directly, and if you try to reinsert the original questionnaire with reordered or changed region names, it will fail.
+accessing the database directly, and if you try to reinsert the original questionnaire for the same year with reordered or changed region names, it will fail.
 </li>
 </ul>
 </dd>
@@ -1332,7 +1436,6 @@ the AC code A.
 Some more specific technical notation exists for some of the subsections.
 </p>
 </div>
-
 <div id="outline-container-sec-2-1" class="outline-3">
 <h3 id="sec-2-1"><span class="section-number-3">2.1</span> Percentage of female teachers</h3>
 <div class="outline-text-3" id="text-2-1">
@@ -1365,28 +1468,134 @@ Some more specific technical notation exists for some of the subsections.
 <tr>
 <td class="left">ISCED 1</td>
 <td class="left">FTP.1</td>
-<td class="left">NT.1.F/T.1</td>
+<td class="left">T.1.F/T.1</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 2</td>
-<td class="left">FTP.2</td>
-<td class="left">NT.2.GPV/T.2.GPV</td>
+<td class="left">FTP.2.GPV</td>
+<td class="left">T.2.GPV.F/T.2.GPV</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 3</td>
-<td class="left">FTP.3</td>
-<td class="left">NT.3.GPV/T.3.GPV</td>
+<td class="left">FTP.3.GPV</td>
+<td class="left">T.3.GPV.F/T.3.GPV</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 23</td>
-<td class="left">FTP.2t3</td>
-<td class="left">NT.23.GPV/T.23.GPV</td>
+<td class="left">FTP.2t3.GPV</td>
+<td class="left">T.2t3.GPV.F/T.2t3.GPV</td>
+<td class="left">yes</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+In this same method, there is the computation of female
+teachers percentage in public and private institutions. Their
+respective tables are the following:
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">&#xa0;</th>
+<th scope="col" class="left">IND_ID</th>
+<th scope="col" class="left">FORMULA</th>
+<th scope="col" class="left">H &amp; L</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">ISCED 1</td>
+<td class="left">FTP.1.Pu</td>
+<td class="left">T.1.Pu.F/T.1.Pu</td>
+<td class="left">yes</td>
+</tr>
+
+<tr>
+<td class="left">ISCED 2</td>
+<td class="left">FTP.2.GPV.Pu</td>
+<td class="left">T.2.GPV.Pu.F/T.2.GPV.Pu</td>
+<td class="left">yes</td>
+</tr>
+
+<tr>
+<td class="left">ISCED 3</td>
+<td class="left">FTP.3.GPV.Pu</td>
+<td class="left">T.3.GPV.Pu.F/T.3.GPV.Pu</td>
+<td class="left">yes</td>
+</tr>
+
+<tr>
+<td class="left">ISCED 23</td>
+<td class="left">FTP.2t3.GPV.Pu</td>
+<td class="left">T.2t3.GPV.Pu.F/T.2t3.GPV.Pu</td>
+<td class="left">yes</td>
+</tr>
+</tbody>
+</table>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">&#xa0;</th>
+<th scope="col" class="left">IND_ID</th>
+<th scope="col" class="left">FORMULA</th>
+<th scope="col" class="left">H &amp; L</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">ISCED 1</td>
+<td class="left">FTP.1.Pr</td>
+<td class="left">T.1.Pr.F/T.1.Pr</td>
+<td class="left">yes</td>
+</tr>
+
+<tr>
+<td class="left">ISCED 2</td>
+<td class="left">FTP.2.GPV.Pr</td>
+<td class="left">T.2.GPV.Pr.F/T.2.GPV.Pr</td>
+<td class="left">yes</td>
+</tr>
+
+<tr>
+<td class="left">ISCED 3</td>
+<td class="left">FTP.3.GPV.Pr</td>
+<td class="left">T.3.GPV.Pr.F/T.3.GPV.Pr</td>
+<td class="left">yes</td>
+</tr>
+
+<tr>
+<td class="left">ISCED 23</td>
+<td class="left">FTP.2t3.GPV.Pr</td>
+<td class="left">T.2t3.GPV.Pr.F/T.2t3.GPV.Pr</td>
 <td class="left">yes</td>
 </tr>
 </tbody>
@@ -1427,33 +1636,140 @@ Some more specific technical notation exists for some of the subsections.
 <td class="left">ISCED 1</td>
 <td class="left">NTP.1</td>
 <td class="left">NT.1/T.1</td>
-<td class="left">no</td>
+<td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 2</td>
-<td class="left">NTP.2</td>
+<td class="left">NTP.2.GPV</td>
 <td class="left">NT.2.GPV/T.2.GPV</td>
-<td class="left">no</td>
+<td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 3</td>
-<td class="left">NTP.3</td>
+<td class="left">NTP.3.GPV</td>
 <td class="left">NT.3.GPV/T.3.GPV</td>
-<td class="left">no</td>
+<td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 23</td>
-<td class="left">NTP.2t3</td>
-<td class="left">NT.23.GPV/T.23.GPV</td>
-<td class="left">no</td>
+<td class="left">NTP.2t3.GPV</td>
+<td class="left">NT.2t3.GPV/T.2t3.GPV</td>
+<td class="left">yes</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+In this same method, there is the computation of newly
+recruited teachers percentage in public and private
+institutions. Their respective tables are the following:
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">&#xa0;</th>
+<th scope="col" class="left">IND_ID</th>
+<th scope="col" class="left">FORMULA</th>
+<th scope="col" class="left">H &amp; L</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">ISCED 1</td>
+<td class="left">NTP.1.Pu</td>
+<td class="left">NT.1.Pu/T.1.Pu</td>
+<td class="left">yes</td>
+</tr>
+
+<tr>
+<td class="left">ISCED 2</td>
+<td class="left">NTP.2.GPV.Pu</td>
+<td class="left">NT.2.GPV.Pu/T.2.GPV.Pu</td>
+<td class="left">yes</td>
+</tr>
+
+<tr>
+<td class="left">ISCED 3</td>
+<td class="left">NTP.3.GPV.Pu</td>
+<td class="left">NT.3.GPV.Pu/T.3.GPV.Pu</td>
+<td class="left">yes</td>
+</tr>
+
+<tr>
+<td class="left">ISCED 23</td>
+<td class="left">NTP.2t3.GPV.Pu</td>
+<td class="left">NT.2t3.GPV.Pu/T.2t3.GPV.Pu</td>
+<td class="left">yes</td>
+</tr>
+</tbody>
+</table>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">&#xa0;</th>
+<th scope="col" class="left">IND_ID</th>
+<th scope="col" class="left">FORMULA</th>
+<th scope="col" class="left">H &amp; L</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">ISCED 1</td>
+<td class="left">NTP.1.Pr</td>
+<td class="left">NT.1.Pr/T.1.Pr</td>
+<td class="left">yes</td>
+</tr>
+
+<tr>
+<td class="left">ISCED 2</td>
+<td class="left">NTP.2.GPV.Pr</td>
+<td class="left">NT.2.GPV.Pr/T.2.GPV.Pr</td>
+<td class="left">yes</td>
+</tr>
+
+<tr>
+<td class="left">ISCED 3</td>
+<td class="left">NTP.3.GPV.Pr</td>
+<td class="left">NT.3.GPV.Pr/T.3.GPV.Pr</td>
+<td class="left">yes</td>
+</tr>
+
+<tr>
+<td class="left">ISCED 23</td>
+<td class="left">NTP.2t3.GPV.Pr</td>
+<td class="left">NT.2t3.GPV.Pr/T.2t3.GPV.Pr</td>
+<td class="left">yes</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
+
 
 <div id="outline-container-sec-2-3" class="outline-3">
 <h3 id="sec-2-3"><span class="section-number-3">2.3</span> Pupils teachers ratio</h3>
@@ -1493,22 +1809,127 @@ Some more specific technical notation exists for some of the subsections.
 
 <tr>
 <td class="left">ISCED 2</td>
-<td class="left">PTRHC.2</td>
+<td class="left">PTRHC.2.GPV</td>
 <td class="left">E.2.GPV/T.2.GPV</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 3</td>
-<td class="left">PTRHC.3</td>
+<td class="left">PTRHC.3.GPV</td>
 <td class="left">E.3.GPV/T.3.GPV</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 23</td>
-<td class="left">PTRHC.2t3</td>
-<td class="left">E.23.GPV/T.23.GPV</td>
+<td class="left">PTRHC.2t3.GPV</td>
+<td class="left">(E.2.GPV+E.3.GPV)/T.2t3.GPV</td>
+<td class="left">yes</td>
+</tr>
+</tbody>
+</table>
+<p>
+In this same method, there is the computation of newly
+recruited teachers percentage in public and private
+institutions. Their respective tables are the following:
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">&#xa0;</th>
+<th scope="col" class="left">IND_ID</th>
+<th scope="col" class="left">FORMULA</th>
+<th scope="col" class="left">H &amp; L</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">ISCED 1</td>
+<td class="left">PTRHC.1.Pu</td>
+<td class="left">E.1.Pu/T.1.Pu</td>
+<td class="left">yes</td>
+</tr>
+
+<tr>
+<td class="left">ISCED 2</td>
+<td class="left">PTRHC.2.GPV.Pu</td>
+<td class="left">E.2.GPV.Pu/T.2.GPV.Pu</td>
+<td class="left">yes</td>
+</tr>
+
+<tr>
+<td class="left">ISCED 3</td>
+<td class="left">PTRHC.3.GPV.Pu</td>
+<td class="left">E.3.GPV.Pu/T.3.GPV.Pu</td>
+<td class="left">yes</td>
+</tr>
+
+<tr>
+<td class="left">ISCED 23</td>
+<td class="left">PTRHC.2t3.GPV.Pu</td>
+<td class="left">(E.2.GPV.Pu+E.3.GPV.Pu)/T.2t3.GPV.Pu</td>
+<td class="left">yes</td>
+</tr>
+</tbody>
+</table>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">&#xa0;</th>
+<th scope="col" class="left">IND_ID</th>
+<th scope="col" class="left">FORMULA</th>
+<th scope="col" class="left">H &amp; L</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">ISCED 1</td>
+<td class="left">PTRHC.1.Pr</td>
+<td class="left">E.1.Pr/T.1.Pr</td>
+<td class="left">yes</td>
+</tr>
+
+<tr>
+<td class="left">ISCED 2</td>
+<td class="left">PTRHC.2.GPV.Pr</td>
+<td class="left">E.2.GPV.Pr/T.2.GPV.Pr</td>
+<td class="left">yes</td>
+</tr>
+
+<tr>
+<td class="left">ISCED 3</td>
+<td class="left">PTRHC.3.GPV.Pr</td>
+<td class="left">E.3.GPV.Pr/T.3.GPV.Pr</td>
+<td class="left">yes</td>
+</tr>
+
+<tr>
+<td class="left">ISCED 23</td>
+<td class="left">PTRHC.2t3.GPV.Pr</td>
+<td class="left">(E.2.GPV.Pr + E.2.GPV.Pr)/T.2t3.GPV.Pr</td>
 <td class="left">yes</td>
 </tr>
 </tbody>
@@ -1554,29 +1975,29 @@ Some more specific technical notation exists for some of the subsections.
 
 <tr>
 <td class="left">ISCED 2</td>
-<td class="left">TRTP.2</td>
+<td class="left">TRTP.2.GPV</td>
 <td class="left">T.2.GPV.trained/T.2.GPV</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 3</td>
-<td class="left">TRTP.3</td>
+<td class="left">TRTP.3.GPV</td>
 <td class="left">T.3.GPV.trained/T.3.GPV</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 23</td>
-<td class="left">TRTP.2t3</td>
-<td class="left">T.23.GPV.trained/T.23.GPV</td>
+<td class="left">TRTP.2t3.GPV</td>
+<td class="left">T.2t3.GPV.trained/T.2t3.GPV</td>
 <td class="left">yes</td>
 </tr>
 </tbody>
 </table>
 <p>
 In this same method, there is the computation of the percentage of
-trained newly recruited teachers, which has the following table
+trained newly recruited teachers.
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -1608,28 +2029,235 @@ trained newly recruited teachers, which has the following table
 
 <tr>
 <td class="left">ISCED 2</td>
-<td class="left">TrNTP.2</td>
+<td class="left">TrNTP.2.GPV</td>
 <td class="left">NT.2.GPV.trained/NT.2.GPV</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 3</td>
-<td class="left">TrNTP.3</td>
+<td class="left">TrNTP.3.GPV</td>
 <td class="left">NT.3.GPV.trained/NT.3.GPV</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 23</td>
-<td class="left">TrNTP.2t3</td>
-<td class="left">NT.23.GPV.trained/NT.23.GPV</td>
+<td class="left">TrNTP.2t3.GPV</td>
+<td class="left">NT.2t3.GPV.trained/NT.2t3.GPV</td>
+<td class="left">yes</td>
+</tr>
+</tbody>
+</table>
+<p>
+Finally, for the previous indicators this method also computes the
+previous indicators for public and private institutions. Their
+corresponding tables are the following:
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">&#xa0;</th>
+<th scope="col" class="left">IND_ID</th>
+<th scope="col" class="left">FORMULA</th>
+<th scope="col" class="left">H &amp; L</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">ISCED 1</td>
+<td class="left">TRTP.1.Pu</td>
+<td class="left">T.1.Pu.trained/T.1.Pu</td>
+<td class="left">yes</td>
+</tr>
+
+<tr>
+<td class="left">ISCED 2</td>
+<td class="left">TRTP.2.GPV.Pu</td>
+<td class="left">T.2.GPV.Pu.trained/T.2.GPV.Pu</td>
+<td class="left">yes</td>
+</tr>
+
+<tr>
+<td class="left">ISCED 3</td>
+<td class="left">TRTP.3.GPV.Pu</td>
+<td class="left">T.3.GPV.Pu.trained/T.3.GPV.Pu</td>
+<td class="left">yes</td>
+</tr>
+
+<tr>
+<td class="left">ISCED 23</td>
+<td class="left">TRTP.2t3.GPV.Pu</td>
+<td class="left">T.2t3.GPV.Pu.trained/T.2t3.GPV.Pu</td>
+<td class="left">yes</td>
+</tr>
+</tbody>
+</table>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">&#xa0;</th>
+<th scope="col" class="left">IND_ID</th>
+<th scope="col" class="left">FORMULA</th>
+<th scope="col" class="left">H &amp; L</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">ISCED 1</td>
+<td class="left">TRTP.1.Pr</td>
+<td class="left">T.1.Pr.trained/T.1.Pr</td>
+<td class="left">yes</td>
+</tr>
+
+<tr>
+<td class="left">ISCED 2</td>
+<td class="left">TRTP.2.GPV.Pr</td>
+<td class="left">T.2.GPV.Pr.trained/T.2.GPV.Pr</td>
+<td class="left">yes</td>
+</tr>
+
+<tr>
+<td class="left">ISCED 3</td>
+<td class="left">TRTP.3.GPV.Pr</td>
+<td class="left">T.3.GPV.Pr.trained/T.3.GPV.Pr</td>
+<td class="left">yes</td>
+</tr>
+
+<tr>
+<td class="left">ISCED 23</td>
+<td class="left">TRTP.2t3.GPV.Pr</td>
+<td class="left">T.2t3.GPV.Pr.trained/T.2t3.GPV.Pr</td>
+<td class="left">yes</td>
+</tr>
+</tbody>
+</table>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">&#xa0;</th>
+<th scope="col" class="left">IND_ID</th>
+<th scope="col" class="left">FORMULA</th>
+<th scope="col" class="left">H &amp; L</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">ISCED 1</td>
+<td class="left">TrNTP.1.Pu</td>
+<td class="left">NT.1.Pu.trained/NT.1.Pu</td>
+<td class="left">yes</td>
+</tr>
+
+<tr>
+<td class="left">ISCED 2</td>
+<td class="left">TrNTP.2.GPV.Pu</td>
+<td class="left">NT.2.GPV.Pu.trained/NT.2.GPV.Pu</td>
+<td class="left">yes</td>
+</tr>
+
+<tr>
+<td class="left">ISCED 3</td>
+<td class="left">TrNTP.3.GPV.Pu</td>
+<td class="left">NT.3.GPV.Pu.trained/NT.3.GPV.Pu</td>
+<td class="left">yes</td>
+</tr>
+
+<tr>
+<td class="left">ISCED 23</td>
+<td class="left">TrNTP.2t3.GPV.Pu</td>
+<td class="left">NT.2t3.GPV.Pu.trained/NT.2t3.GPV.Pu</td>
+<td class="left">yes</td>
+</tr>
+</tbody>
+</table>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">&#xa0;</th>
+<th scope="col" class="left">IND_ID</th>
+<th scope="col" class="left">FORMULA</th>
+<th scope="col" class="left">H &amp; L</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">ISCED 1</td>
+<td class="left">TrNTP.1.Pr</td>
+<td class="left">NT.1.Pr.trained/NT.1.Pr</td>
+<td class="left">yes</td>
+</tr>
+
+<tr>
+<td class="left">ISCED 2</td>
+<td class="left">TrNTP.2.GPV.Pr</td>
+<td class="left">NT.2.GPV.Pr.trained/NT.2.GPV.Pr</td>
+<td class="left">yes</td>
+</tr>
+
+<tr>
+<td class="left">ISCED 3</td>
+<td class="left">TrNTP.3.GPV.Pr</td>
+<td class="left">NT.3.GPV.Pr.trained/NT.3.GPV.Pr</td>
+<td class="left">yes</td>
+</tr>
+
+<tr>
+<td class="left">ISCED 23</td>
+<td class="left">TrNTP.2t3.GPV.Pr</td>
+<td class="left">NT.2t3.GPV.Pr.trained/NT.2t3.GPV.Pr</td>
 <td class="left">yes</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
+
+
 
 <div id="outline-container-sec-2-5" class="outline-3">
 <h3 id="sec-2-5"><span class="section-number-3">2.5</span> Percentage of private teachers</h3>
@@ -1669,22 +2297,22 @@ trained newly recruited teachers, which has the following table
 
 <tr>
 <td class="left">ISCED 2</td>
-<td class="left">PrTP.2</td>
+<td class="left">PrTP.2.GPV</td>
 <td class="left">T.2.GPV.Pr/T.2.GPV</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 3</td>
-<td class="left">PrTP.3</td>
+<td class="left">PrTP.3.GPV</td>
 <td class="left">T.3.GPV.Pr/T.3.GPV</td>
 <td class="left">yes</td>
 </tr>
 
 <tr>
 <td class="left">ISCED 23</td>
-<td class="left">PrTP.2t3</td>
-<td class="left">T.23.GPV.Pr/T.23.GPV</td>
+<td class="left">PrTP.2t3.GPV</td>
+<td class="left">T.2t3.GPV.Pr/T.2t3.GPV</td>
 <td class="left">yes</td>
 </tr>
 </tbody>
@@ -1749,7 +2377,7 @@ for the public sector and one combined.
 <tr>
 <td class="left">ISCED 23</td>
 <td class="left">FixTP.2t3.GPV.Pr</td>
-<td class="left">T.23.GPV.Pr.Fix/T.23.GPV.Pr</td>
+<td class="left">T.2t3.GPV.Pr.Fix/T.2t3.GPV.Pr</td>
 <td class="left">no</td>
 </tr>
 </tbody>
@@ -1803,7 +2431,7 @@ for the public sector and one combined.
 <tr>
 <td class="left">ISCED 23</td>
 <td class="left">FixTP.2t3.GPV.Pu</td>
-<td class="left">T.23.GPV.Pu.Fix/T.23.GPV.Pu</td>
+<td class="left">T.2t3.GPV.Pu.Fix/T.2t3.GPV.Pu</td>
 <td class="left">no</td>
 </tr>
 </tbody>
@@ -1857,7 +2485,7 @@ for the public sector and one combined.
 <tr>
 <td class="left">ISCED 23</td>
 <td class="left">FixTP.2t3.GPV</td>
-<td class="left">(T.23.GPV.Pu.Fix+T.23.GPV.Pr.Fix)/(T.23.GPV.Pr+T.23.GPV.Pu)</td>
+<td class="left">(T.2t3.GPV.Pu.Fix+T.2t3.GPV.Pr.Fix)/(T.2t3.GPV.Pr+T.2t3.GPV.Pu)</td>
 <td class="left">no</td>
 </tr>
 </tbody>
@@ -1866,8 +2494,181 @@ for the public sector and one combined.
 </div>
 
 <div id="outline-container-sec-2-7" class="outline-3">
-<h3 id="sec-2-7"><span class="section-number-3">2.7</span> Attrition rate</h3>
+<h3 id="sec-2-7"><span class="section-number-3">2.7</span> Percentage of permanent teachers</h3>
 <div class="outline-text-3" id="text-2-7">
+<p>
+This has three sets of symbols. One for the private sector, one
+for the public sector and one combined.
+</p>
+<dl class="org-dl">
+<dt> Python method </dt><dd>percentage_non_permanent_teachers
+</dd>
+<dt> IND_IDS information Private </dt><dd></dd>
+</dl>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">&#xa0;</th>
+<th scope="col" class="left">IND_ID</th>
+<th scope="col" class="left">FORMULA</th>
+<th scope="col" class="left">H &amp; L</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">ISCED 1</td>
+<td class="left">PermTP.1.Pr</td>
+<td class="left">T.1.Pr.Perm/T.1.Pr</td>
+<td class="left">no</td>
+</tr>
+
+<tr>
+<td class="left">ISCED 2</td>
+<td class="left">PermTP.2.GPV.Pr</td>
+<td class="left">T.2.GPV.Pr.Perm/T.2.GPV.Pr</td>
+<td class="left">no</td>
+</tr>
+
+<tr>
+<td class="left">ISCED 3</td>
+<td class="left">PermTP.3.GPV.Pr</td>
+<td class="left">T.3.GPV.Pr.Perm/T.3.GPV.Pr</td>
+<td class="left">no</td>
+</tr>
+
+<tr>
+<td class="left">ISCED 23</td>
+<td class="left">PermTP.2t3.GPV.Pr</td>
+<td class="left">T.2t3.GPV.Pr.Perm/T.2t3.GPV.Pr</td>
+<td class="left">no</td>
+</tr>
+</tbody>
+</table>
+
+<dl class="org-dl">
+<dt> IND_IDS information Public </dt><dd></dd>
+</dl>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">&#xa0;</th>
+<th scope="col" class="left">IND_ID</th>
+<th scope="col" class="left">FORMULA</th>
+<th scope="col" class="left">H &amp; L</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">ISCED 1</td>
+<td class="left">PermTP.1.Pu</td>
+<td class="left">T.1.Pu.Perm/T.1.Pu</td>
+<td class="left">no</td>
+</tr>
+
+<tr>
+<td class="left">ISCED 2</td>
+<td class="left">PermTP.2.GPV.Pu</td>
+<td class="left">T.2.GPV.Pu.Perm/T.2.GPV.Pu</td>
+<td class="left">no</td>
+</tr>
+
+<tr>
+<td class="left">ISCED 3</td>
+<td class="left">PermTP.3.GPV.Pu</td>
+<td class="left">T.3.GPV.Pu.Perm/T.3.GPV.Pu</td>
+<td class="left">no</td>
+</tr>
+
+<tr>
+<td class="left">ISCED 23</td>
+<td class="left">PermTP.2t3.GPV.Pu</td>
+<td class="left">T.2t3.GPV.Pu.Perm/T.2t3.GPV.Pu</td>
+<td class="left">no</td>
+</tr>
+</tbody>
+</table>
+
+<dl class="org-dl">
+<dt> IND_IDS information Combined </dt><dd></dd>
+</dl>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">&#xa0;</th>
+<th scope="col" class="left">IND_ID</th>
+<th scope="col" class="left">FORMULA</th>
+<th scope="col" class="left">H &amp; L</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">ISCED 1</td>
+<td class="left">PermTP.1</td>
+<td class="left">(T.1.Pr.Perm+T.1.Pu.Perm)/(T.1.Pr+T.1.Pu)</td>
+<td class="left">no</td>
+</tr>
+
+<tr>
+<td class="left">ISCED 2</td>
+<td class="left">PermTP.2.GPV</td>
+<td class="left">(T.2.GPV.Pr.Perm+T.2.GPV.Pu.Perm)/(T.2.GPV.Pr+T.2.GPV.Pu)</td>
+<td class="left">no</td>
+</tr>
+
+<tr>
+<td class="left">ISCED 3</td>
+<td class="left">PermTP.3.GPV</td>
+<td class="left">(T.3.GPV.Pu.Perm+T.3.GPV.Pr.Perm)/(T.3.GPV.Pr+T.3.GPV.Pu)</td>
+<td class="left">no</td>
+</tr>
+
+<tr>
+<td class="left">ISCED 23</td>
+<td class="left">PermTP.2t3.GPV</td>
+<td class="left">(T.2t3.GPV.Pu.Perm+T.2t3.GPV.Pr.Perm)/(T.2t3.GPV.Pr+T.2t3.GPV.Pu)</td>
+<td class="left">no</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-sec-2-8" class="outline-3">
+<h3 id="sec-2-8"><span class="section-number-3">2.8</span> Attrition rate</h3>
+<div class="outline-text-3" id="text-2-8">
 <dl class="org-dl">
 <dt> Python method </dt><dd>percentage_non_permanent_teachers
 </dd>
@@ -1918,19 +2719,22 @@ for the public sector and one combined.
 <tr>
 <td class="left">ISCED 23</td>
 <td class="left">TAttrR.2t3.GPV</td>
-<td class="left">100*(T.23.GPV<sup>L</sup> + NT.23.GPV - T.23.GPV)/T.23.GPV<sup>L</sup></td>
+<td class="left">100*(T.2t3.GPV<sup>L</sup> + NT.2t3.GPV - T.2t3.GPV)/T.2t3.GPV<sup>L</sup></td>
 <td class="left">no</td>
 </tr>
 </tbody>
 </table>
+<p>
+When using a previous year data, as T.1<sup>L</sup>, if the data is available it is used, otherwise we use the <code>.m1</code> extension as  <code>T.1m1</code>, which is collected from this years questionnaire.
+</p>
 </div>
 </div>
 
-<div id="outline-container-sec-2-8" class="outline-3">
-<h3 id="sec-2-8"><span class="section-number-3">2.8</span> Mean age</h3>
-<div class="outline-text-3" id="text-2-8">
+<div id="outline-container-sec-2-9" class="outline-3">
+<h3 id="sec-2-9"><span class="section-number-3">2.9</span> Mean age</h3>
+<div class="outline-text-3" id="text-2-9">
 <dl class="org-dl">
-<dt> Python method </dt><dd>mean_age_level(level in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV'])
+<dt> Python method </dt><dd>mean_age_level(level in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.2t3.GPV'])
 </dd>
 <dt> IND_IDS information </dt><dd></dd>
 </dl>
@@ -1978,8 +2782,8 @@ for the public sector and one combined.
 
 <tr>
 <td class="left">ISCED 23</td>
-<td class="left">MAge.T.23.GPV</td>
-<td class="left">&sum;<sub>y in cat</sub> T.23.GPV.y&times; MP.y/ &sum;<sub>y in cat</sub> T.23.GPV.y</td>
+<td class="left">MAge.T.2t3.GPV</td>
+<td class="left">&sum;<sub>y in cat</sub> T.2t3.GPV.y&times; MP.y/ &sum;<sub>y in cat</sub> T.2t3.GPV.y</td>
 <td class="left">No</td>
 </tr>
 </tbody>
@@ -2034,11 +2838,11 @@ Note that all indicators are calculated for Total, Public and Private levels.
 </div>
 </div>
 
-<div id="outline-container-sec-2-9" class="outline-3">
-<h3 id="sec-2-9"><span class="section-number-3">2.9</span> Mean years of experience</h3>
-<div class="outline-text-3" id="text-2-9">
+<div id="outline-container-sec-2-10" class="outline-3">
+<h3 id="sec-2-10"><span class="section-number-3">2.10</span> Mean years of experience</h3>
+<div class="outline-text-3" id="text-2-10">
 <dl class="org-dl">
-<dt> Python method </dt><dd>mean_exp_level(level in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.23.GPV'])
+<dt> Python method </dt><dd>mean_exp_level(level in ['T.1', 'T.2.GPV', 'T.3.GPV', 'T.2t3.GPV'])
 </dd>
 <dt> IND_IDS information </dt><dd></dd>
 </dl>
@@ -2086,14 +2890,14 @@ Note that all indicators are calculated for Total, Public and Private levels.
 
 <tr>
 <td class="left">ISCED 23</td>
-<td class="left">MExp.T.23.GPV</td>
-<td class="left">&sum;<sub>y in cat</sub> T.23.GPV.y&times; MP.y / &sum;<sub>y in cat</sub> T.23.GPV.y</td>
+<td class="left">MExp.T.2t3.GPV</td>
+<td class="left">&sum;<sub>y in cat</sub> T.2t3.GPV.y&times; MP.y / &sum;<sub>y in cat</sub> T.2t3.GPV.y</td>
 <td class="left">No</td>
 </tr>
 </tbody>
 </table>
 <p>
-where <code>cat</code> is  <code>Exp1t2</code>,  <code>Exp3t5</code>, <code>Exp6t10</code>,  <code>Exp11t15</code> and  <code>Exp15p</code>.  and Midpoints (MP) are <code>[Exp1t2 = 1.5, Exp3t5 = 4, Exp6t10 = 8, Exp11t15 = 13, Exp15p = 15]</code>, and based on the following:  
+where <code>cat</code> is  <code>Exp1t2</code>,  <code>Exp3t5</code>, <code>Exp6t10</code>,  <code>Exp11t15</code> and  <code>Exp15p</code>.  and Midpoints (MP) are based on the following:  
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -2142,9 +2946,9 @@ Note that all indicators are calculated for Total, Public and Private levels.
 </div>
 </div>
 
-<div id="outline-container-sec-2-10" class="outline-3">
-<h3 id="sec-2-10"><span class="section-number-3">2.10</span> Highest level of educational attainment</h3>
-<div class="outline-text-3" id="text-2-10">
+<div id="outline-container-sec-2-11" class="outline-3">
+<h3 id="sec-2-11"><span class="section-number-3">2.11</span> Highest level of educational attainment</h3>
+<div class="outline-text-3" id="text-2-11">
 <dl class="org-dl">
 <dt> Python method </dt><dd>percentage_teachers_attainment
 </dd>
@@ -2173,42 +2977,42 @@ Note that all indicators are calculated for Total, Public and Private levels.
 <tbody>
 <tr>
 <td class="left">Lower secondary or Less</td>
-<td class="left">EA.2mPT.IS</td>
+<td class="left">EA2mPT.IS</td>
 <td class="left">T.IS.EA.2m / T.IS</td>
 <td class="left">No</td>
 </tr>
 
 <tr>
 <td class="left">Upper secondary</td>
-<td class="left">EA.3PT.IS</td>
+<td class="left">EA3PT.IS</td>
 <td class="left">T.IS.EA.3 / T.IS</td>
 <td class="left">No</td>
 </tr>
 
 <tr>
 <td class="left">Post secondary</td>
-<td class="left">EA.4PT.IS</td>
+<td class="left">EA4PT.IS</td>
 <td class="left">T.IS.EA.4 / T.IS</td>
 <td class="left">No</td>
 </tr>
 
 <tr>
 <td class="left">At least tertiary</td>
-<td class="left">EA.5pPT.IS</td>
-<td class="left">T.IS.EA.5 + T.IS.EA.6+T.IS.EA.7+T.IS.EA.8/T.IS</td>
+<td class="left">EA5pPT.IS</td>
+<td class="left">(T.IS.EA.5 + T.IS.EA.6+T.IS.EA.7+T.IS.EA.8)/T.IS</td>
 <td class="left">No</td>
 </tr>
 
 <tr>
 <td class="left">Unknown</td>
-<td class="left">EA.ukPT.IS</td>
+<td class="left">EAukPT.IS</td>
 <td class="left">T.IS.EA.uk / T.IS</td>
 <td class="left">No</td>
 </tr>
 </tbody>
 </table>
 <p>
-<code>IS</code> stands for ISCED level which are <code>[1, 2.GPV, 3.GPV, 23.GPV]</code>, combined with suffixes <code>['.Pu', '.Pr']</code> for public and private sub-category.
+<code>IS</code> stands for ISCED level which are <code>[1, 2.GPV, 3.GPV, 2t3.GPV]</code>, combined with suffixes <code>['.Pu', '.Pr']</code> for public and private sub-category.
 </p>
 
 
@@ -2218,9 +3022,9 @@ Note that all indicators are calculated for Total, Public and Private levels.
 </div>
 </div>
 
-<div id="outline-container-sec-2-11" class="outline-3">
-<h3 id="sec-2-11"><span class="section-number-3">2.11</span> Percentage of teachers by years of experience</h3>
-<div class="outline-text-3" id="text-2-11">
+<div id="outline-container-sec-2-12" class="outline-3">
+<h3 id="sec-2-12"><span class="section-number-3">2.12</span> Percentage of teachers by years of experience</h3>
+<div class="outline-text-3" id="text-2-12">
 <dl class="org-dl">
 <dt> Python method </dt><dd>percentage_teachers_exp
 </dd>
@@ -2249,7 +3053,7 @@ Note that all indicators are calculated for Total, Public and Private levels.
 <tbody>
 <tr>
 <td class="left">1 to 2 years</td>
-<td class="left">Exp1t2mPT.ISCED</td>
+<td class="left">Exp1t2PT.ISCED</td>
 <td class="left">T.ISCED.Exp1t2/T.ISCED</td>
 <td class="left">No</td>
 </tr>
@@ -2291,7 +3095,7 @@ Note that all indicators are calculated for Total, Public and Private levels.
 </tbody>
 </table>
 <p>
-<code>ISCED</code> is <code>['  1', '2.GPV', '3.GPV', '23.GPV']</code>, combined with suffixes <code>['.Pu', '.Pr']</code> for public and private sub-category.
+<code>ISCED</code> is <code>['  1', '2.GPV', '3.GPV', '2t3.GPV']</code>, combined with suffixes <code>['.Pu', '.Pr']</code> for public and private sub-category.
 </p>
 
 <p>
@@ -2300,9 +3104,9 @@ Note that all indicators are calculated for Total, Public and Private levels.
 </div>
 </div>
 
-<div id="outline-container-sec-2-12" class="outline-3">
-<h3 id="sec-2-12"><span class="section-number-3">2.12</span> Percentage of teachers by age</h3>
-<div class="outline-text-3" id="text-2-12">
+<div id="outline-container-sec-2-13" class="outline-3">
+<h3 id="sec-2-13"><span class="section-number-3">2.13</span> Percentage of teachers by age</h3>
+<div class="outline-text-3" id="text-2-13">
 <dl class="org-dl">
 <dt> Python method </dt><dd>percentage_teachers_age
 </dd>
@@ -2380,7 +3184,7 @@ Note that all indicators are calculated for Total, Public and Private levels.
 </tbody>
 </table>
 <p>
-<code>ISCED</code> is <code>['  1', '2.GPV', '3.GPV', '23.GPV']</code>, combined with suffixes <code>['.Pu', '.Pr']</code> for public and private sub-category.
+<code>ISCED</code> is <code>['  1', '2.GPV', '3.GPV', '2t3.GPV']</code>, combined with suffixes <code>['.Pu', '.Pr']</code> for public and private sub-category.
 </p>
 
 <p>
@@ -2389,9 +3193,9 @@ Note that all indicators are calculated for Total, Public and Private levels.
 </div>
 </div>
 
-<div id="outline-container-sec-2-13" class="outline-3">
-<h3 id="sec-2-13"><span class="section-number-3">2.13</span> Dissimilarity index</h3>
-<div class="outline-text-3" id="text-2-13">
+<div id="outline-container-sec-2-14" class="outline-3">
+<h3 id="sec-2-14"><span class="section-number-3">2.14</span> Dissimilarity index</h3>
+<div class="outline-text-3" id="text-2-14">
 <dl class="org-dl">
 <dt> Python method </dt><dd>dissimilarity_index
 </dd>
@@ -2516,17 +3320,17 @@ Note that all indicators are calculated for Total, Public and Private levels.
 Much notations are omitted for clearer presentation.
 </p>
 <ul class="org-ul">
-<li><code>IS</code> stands for ISCED level which are <code>[1, 2.GPV, 3.GPV, 23.GPV]</code>.
+<li><code>IS</code> stands for ISCED level which are <code>[1, 2.GPV, 3.GPV, 2t3.GPV]</code>.
 </li>
 <li><code>a</code> stands for administrative division, on the denominators the <code>a</code> is omitted for national level data.
 </li>
-<li><code>E.23.GPV</code> is not collected in the questionnaire, so it is <code>E.2.GPV + E.3.GPV</code>.
+<li><code>E.2t3.GPV</code> is not collected in the questionnaire, so it is <code>E.2.GPV + E.3.GPV</code>.
 </li>
 <li>To compute age 50 plus, data in ages 50 to 59 and 60 plus are added. This notation is omitted in the formula for brevity.
 </li>
 <li><code>Math</code>, <code>Reading and Writing</code> are only calculated for ISCED level 2t3, total.
 </li>
-<li><code>ISp1m</code> reads as ISCED level which is 1 level above or less than the actual level, that is for ISCED 2 <code>ISp1m = 3m</code>, and for ISCED 2t3 <code>ISp1m =3m</code>. The levels are summed.
+<li><code>ISp1m</code> reads as ISCED level which is 1 level above or less than the actual level, that is for ISCED 2 <code>ISp1m = 3m</code>, and for ISCED 2t3 <code>ISp1m =4m</code>. The levels are summed.
 </li>
 <li><code>ISp2p</code> reads as ISCED level which is 2 level above or more than the actual level, that is for ISCED 2 <code>ISp2p = 4pm</code>, and for ISCED 2t3 <code>ISp2p =5p</code>. The levels are summed.
 </li>
@@ -2534,7 +3338,6 @@ Much notations are omitted for clearer presentation.
 </div>
 </div>
 </div>
-
 
 
 <div id="outline-container-sec-3" class="outline-2">
@@ -3498,7 +4301,7 @@ export_var(<span style="color: #E6DB74;">'Pupils'</span>, wb, co_code, year, var
 export_var(<span style="color: #E6DB74;">'Teachers ISCED 1'</span>, wb, co_code, year, var_type = <span style="color: #E6DB74;">"sheet"</span>,serie= <span style="color: #E6DB74;">'REP'</span>)
 export_var(<span style="color: #E6DB74;">'Teachers ISCED 2'</span>, wb, co_code, year, var_type = <span style="color: #E6DB74;">"sheet"</span>,serie= <span style="color: #E6DB74;">'REP'</span>)
 export_var(<span style="color: #E6DB74;">'Teachers ISCED 3'</span>, wb, co_code, year, var_type = <span style="color: #E6DB74;">"sheet"</span>,serie= <span style="color: #E6DB74;">'REP'</span>)
-export_var(<span style="color: #E6DB74;">'Teachers ISCED 23'</span>, wb, co_code, year, var_type = <span style="color: #E6DB74;">"sheet"</span>,serie= <span style="color: #E6DB74;">'REP'</span>)
+export_var(<span style="color: #E6DB74;">'Teachers ISCED 2t3'</span>, wb, co_code, year, var_type = <span style="color: #E6DB74;">"sheet"</span>,serie= <span style="color: #E6DB74;">'REP'</span>)
 wb.close()
 </pre>
 </div>
@@ -3664,7 +4467,7 @@ the Python help files of each.
 <div id="postamble" class="status">
 <p class="date">Date: February 2016</p>
 <p class="author">Author: Mohamad Elmasri and Oscar Quijano</p>
-<p class="date">Created: 2016-02-05 Fri 11:43</p>
+<p class="date">Created: 2016-03-08 Tue 08:52</p>
 <p class="creator">Emacs 24.4.1 (Org mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

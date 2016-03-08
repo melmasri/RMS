@@ -55,7 +55,7 @@
 
 <dl><dt><a name="indicators-check_est_values"><strong>check_est_values</strong></a>(self)</dt><dd><tt>Checks&nbsp;if&nbsp;any&nbsp;values&nbsp;exist&nbsp;in&nbsp;the&nbsp;Est&nbsp;series&nbsp;before&nbsp;computing&nbsp;<a href="#indicators">indicators</a>.</tt></dd></dl>
 
-<dl><dt><a name="indicators-column_operation"><strong>column_operation</strong></a>(self, info1, info2=[], operation=<function indicators.<lambda> at 0x7efe11f2b950>)</dt><dd><tt>Perform&nbsp;column&nbsp;operations&nbsp;given&nbsp;ACs&nbsp;and&nbsp;year.<br>
+<dl><dt><a name="indicators-column_operation"><strong>column_operation</strong></a>(self, info1, info2=[], operation=<function indicators.<lambda> at 0x7fed3990e950>)</dt><dd><tt>Perform&nbsp;column&nbsp;operations&nbsp;given&nbsp;ACs&nbsp;and&nbsp;year.<br>
 &nbsp;<br>
 This&nbsp;function&nbsp;returns&nbsp;a&nbsp;vector&nbsp;with&nbsp;an&nbsp;operation&nbsp;applied&nbsp;to<br>
 two&nbsp;columns.&nbsp;infoi&nbsp;is&nbsp;a&nbsp;vector&nbsp;[ACi,yeari],&nbsp;where&nbsp;ACi&nbsp;is&nbsp;an<br>
@@ -65,7 +65,8 @@ function&nbsp;that&nbsp;receives&nbsp;two&nbsp;arguments.&nbsp;This&nbsp;is&nbsp
 that&nbsp;is&nbsp;going&nbsp;to&nbsp;be&nbsp;applied&nbsp;element&nbsp;by&nbsp;element&nbsp;to&nbsp;both&nbsp;colums.<br>
 The&nbsp;years&nbsp;should&nbsp;be&nbsp;zero&nbsp;or&nbsp;-1.&nbsp;If&nbsp;info2&nbsp;and&nbsp;operation&nbsp;are<br>
 omited,&nbsp;it&nbsp;returns&nbsp;the&nbsp;values&nbsp;of&nbsp;the&nbsp;columns&nbsp;corresponding&nbsp;to<br>
-[AC1,year1].</tt></dd></dl>
+[AC1,year1].&nbsp;If&nbsp;data&nbsp;for&nbsp;one&nbsp;of&nbsp;the&nbsp;selected&nbsp;year&nbsp;and&nbsp;AC&nbsp;has<br>
+not&nbsp;been&nbsp;entered&nbsp;in&nbsp;the&nbsp;database,&nbsp;an&nbsp;empty&nbsp;list&nbsp;is&nbsp;returned.</tt></dd></dl>
 
 <dl><dt><a name="indicators-compute_all_indicators"><strong>compute_all_indicators</strong></a>(self)</dt><dd><tt>Excute&nbsp;functions&nbsp;to&nbsp;calculate&nbsp;<a href="#indicators">indicators</a>.</tt></dd></dl>
 
@@ -93,7 +94,7 @@ the&nbsp;case&nbsp;it&nbsp;returns&nbsp;None.</tt></dd></dl>
 
 <dl><dt><a name="indicators-get_nadm1"><strong>get_nadm1</strong></a>(self)</dt><dd><tt>Gets&nbsp;the&nbsp;number&nbsp;of&nbsp;regions.</tt></dd></dl>
 
-<dl><dt><a name="indicators-mean_age_level"><strong>mean_age_level</strong></a>(self, level)</dt><dd><tt>Given&nbsp;a&nbsp;level&nbsp;in&nbsp;['T.1',&nbsp;'T.2.GPV',&nbsp;'T.3.GPV',&nbsp;'T.23.GPV'],&nbsp;returns&nbsp;mean&nbsp;age&nbsp;(MAge)&nbsp;for&nbsp;total,&nbsp;public&nbsp;and&nbsp;private.<br>
+<dl><dt><a name="indicators-mean_age_level"><strong>mean_age_level</strong></a>(self, level)</dt><dd><tt>Given&nbsp;a&nbsp;level&nbsp;in&nbsp;['T.1',&nbsp;'T.2.GPV',&nbsp;'T.3.GPV',&nbsp;'T.2t3.GPV'],&nbsp;returns&nbsp;mean&nbsp;age&nbsp;(MAge)&nbsp;for&nbsp;total,&nbsp;public&nbsp;and&nbsp;private.<br>
 &nbsp;<br>
 Return&nbsp;is&nbsp;a&nbsp;dictionary&nbsp;format,&nbsp;with&nbsp;indicator&nbsp;names&nbsp;as&nbsp;key&nbsp;of&nbsp;the&nbsp;dictionary.<br>
 The&nbsp;average&nbsp;is&nbsp;calculated&nbsp;by&nbsp;using&nbsp;the&nbsp;midpoint&nbsp;ages&nbsp;<br>
@@ -105,17 +106,19 @@ Returns&nbsp;the&nbsp;mean&nbsp;category&nbsp;by&nbsp;ADM.<br>
 If&nbsp;DivBySum&nbsp;=&nbsp;True&nbsp;is&nbsp;divides&nbsp;by&nbsp;the&nbsp;sum&nbsp;of&nbsp;the&nbsp;category,&nbsp;otherwise&nbsp;by&nbsp;ac_pop.<br>
 length&nbsp;of&nbsp;AC&nbsp;codes&nbsp;an&nbsp;midpoints&nbsp;should&nbsp;be&nbsp;the&nbsp;same.</tt></dd></dl>
 
-<dl><dt><a name="indicators-mean_exp_level"><strong>mean_exp_level</strong></a>(self, level)</dt><dd><tt>Given&nbsp;a&nbsp;level&nbsp;in&nbsp;['T.1',&nbsp;'T.2.GPV',&nbsp;'T.3.GPV',&nbsp;'T.23.GPV'],&nbsp;returns&nbsp;mean&nbsp;expireince&nbsp;(MExp)&nbsp;for&nbsp;total,&nbsp;public&nbsp;and&nbsp;private.<br>
+<dl><dt><a name="indicators-mean_exp_level"><strong>mean_exp_level</strong></a>(self, level)</dt><dd><tt>Given&nbsp;a&nbsp;level&nbsp;in&nbsp;['T.1',&nbsp;'T.2.GPV',&nbsp;'T.3.GPV',&nbsp;'T.2t3.GPV'],&nbsp;returns&nbsp;mean&nbsp;expireince&nbsp;(MExp)&nbsp;for&nbsp;total,&nbsp;public&nbsp;and&nbsp;private.<br>
 &nbsp;<br>
 Return&nbsp;is&nbsp;a&nbsp;dictionary&nbsp;format,&nbsp;with&nbsp;indicator&nbsp;names&nbsp;as&nbsp;key&nbsp;of&nbsp;the&nbsp;dictionary.<br>
 The&nbsp;average&nbsp;is&nbsp;calculated&nbsp;by&nbsp;using&nbsp;the&nbsp;midpoint&nbsp;ages&nbsp;<br>
 defined&nbsp;in&nbsp;the&nbsp;midpoint&nbsp;variable&nbsp;below&nbsp;in&nbsp;a&nbsp;ascending&nbsp;order.</tt></dd></dl>
 
-<dl><dt><a name="indicators-mean_level"><strong>mean_level</strong></a>(self, levelFun, ret=False)</dt><dd><tt>Calculates&nbsp;the&nbsp;mean&nbsp;of&nbsp;age/exp/...&nbsp;for&nbsp;the&nbsp;following&nbsp;levels&nbsp;['T.1',&nbsp;'T.2.GPV',&nbsp;'T.3.GPV',&nbsp;'T.23.GPV'],by&nbsp;passing&nbsp;levelFun(indic,&nbsp;level)&nbsp;as&nbsp;in&nbsp;mean_age_level&nbsp;or&nbsp;mean_exp_level.</tt></dd></dl>
+<dl><dt><a name="indicators-mean_level"><strong>mean_level</strong></a>(self, levelFun, ret=False)</dt><dd><tt>Calculates&nbsp;the&nbsp;mean&nbsp;of&nbsp;age/exp/...&nbsp;for&nbsp;the&nbsp;following&nbsp;levels&nbsp;['T.1',&nbsp;'T.2.GPV',&nbsp;'T.3.GPV',&nbsp;'T.2t3.GPV'],by&nbsp;passing&nbsp;levelFun(indic,&nbsp;level)&nbsp;as&nbsp;in&nbsp;mean_age_level&nbsp;or&nbsp;mean_exp_level.</tt></dd></dl>
 
 <dl><dt><a name="indicators-newly_recruited_teachers"><strong>newly_recruited_teachers</strong></a>(self)</dt><dd><tt>Computes&nbsp;the&nbsp;NTP&nbsp;<a href="#indicators">indicators</a>.</tt></dd></dl>
 
 <dl><dt><a name="indicators-percentage_non_permanent_teachers"><strong>percentage_non_permanent_teachers</strong></a>(self)</dt><dd><tt>Computes&nbsp;FixTP&nbsp;<a href="#indicators">indicators</a>.</tt></dd></dl>
+
+<dl><dt><a name="indicators-percentage_permanent_teachers"><strong>percentage_permanent_teachers</strong></a>(self)</dt><dd><tt>Computes&nbsp;PermTP&nbsp;<a href="#indicators">indicators</a>.</tt></dd></dl>
 
 <dl><dt><a name="indicators-percentage_private_teachers"><strong>percentage_private_teachers</strong></a>(self)</dt><dd><tt>Computes&nbsp;PrTP&nbsp;<a href="#indicators">indicators</a>.</tt></dd></dl>
 
@@ -238,7 +241,7 @@ value,&nbsp;value,&nbsp;m,&nbsp;value,x,&nbsp;value</tt></dd></dl>
 <font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
     
 <tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><strong>__warningregistry__</strong> = {("unclosed file &lt;_io.TextIOWrapper name='Libraries/algebra-sum.csv' mode='r' encoding='UTF-8'&gt;", &lt;class 'ResourceWarning'&gt;, 41): True, ("unclosed file &lt;_io.TextIOWrapper name='Libraries/algebra-prod.csv' mode='r' encoding='UTF-8'&gt;", &lt;class 'ResourceWarning'&gt;, 46): True, ("unclosed file &lt;_io.TextIOWrapper name='Libraries/algebra-div.csv' mode='r' encoding='UTF-8'&gt;", &lt;class 'ResourceWarning'&gt;, 65): True, 'version': 0}<br>
+<td width="100%"><strong>__warningregistry__</strong> = {("unclosed file &lt;_io.TextIOWrapper name='Libraries/algebra-prod.csv' mode='r' encoding='UTF-8'&gt;", &lt;class 'ResourceWarning'&gt;, 46): True, ("unclosed file &lt;_io.TextIOWrapper name='Libraries/algebra-sum.csv' mode='r' encoding='UTF-8'&gt;", &lt;class 'ResourceWarning'&gt;, 41): True, 'version': 0, ("unclosed file &lt;_io.TextIOWrapper name='Libraries/algebra-div.csv' mode='r' encoding='UTF-8'&gt;", &lt;class 'ResourceWarning'&gt;, 65): True}<br>
 <strong>algebra_div</strong> = {'a': {'a': 'a', 'm': 'a', 'n': 'a', 'value': 'a', 'x': 'a'}, 'm': {'a': 'a', 'm': 'm', 'n': 'm', 'value': 'm', 'x': 'm'}, 'n': {'a': 'a', 'm': 'm', 'n': 'm', 'value': 'n', 'x': 'm'}, 'value': {'a': 'a', 'm': 'm', 'n': 'm', 'value': 'value', 'x': 'm'}, 'x': {'a': 'a', 'm': 'm', 'n': 'm', 'value': 'm', 'x': 'm'}}<br>
 <strong>algebra_prod</strong> = {'a': {'a': 'a', 'm': 'a', 'n': 'a', 'value': 'a', 'x': 'a'}, 'm': {'a': 'a', 'm': 'm', 'n': 'm', 'value': 'm', 'x': 'm'}, 'n': {'a': 'a', 'm': 'm', 'n': 'n', 'value': 'n', 'x': 'n'}, 'value': {'a': 'a', 'm': 'm', 'n': 'n', 'value': 'value', 'x': 'm'}, 'x': {'a': 'a', 'm': 'm', 'n': 'm', 'value': 'm', 'x': 'm'}}<br>
 <strong>algebra_sum</strong> = {'a': {'a': 'a', 'm': 'a', 'n': 'a', 'value': 'a', 'x': 'a'}, 'm': {'a': 'a', 'm': 'm', 'n': 'm', 'value': 'm', 'x': 'm'}, 'n': {'a': 'a', 'm': 'm', 'n': 'n', 'value': 'value', 'x': 'm'}, 'value': {'a': 'a', 'm': 'm', 'n': 'value', 'value': 'value', 'x': 'm'}, 'x': {'a': 'a', 'm': 'm', 'n': 'm', 'value': 'm', 'x': 'm'}}</td></tr></table>

@@ -1,7 +1,6 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html><head><title>Python: module RM_GUI</title>
-<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head><body bgcolor="#f0f0f8">
 
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
@@ -18,11 +17,16 @@
 <font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
     
 <tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="getpass.html">getpass</a><br>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="tkinter.filedialog.html">tkinter.filedialog</a><br>
+<a href="getpass.html">getpass</a><br>
+<a href="tkinter.messagebox.html">tkinter.messagebox</a><br>
 </td><td width="25%" valign=top><a href="os.html">os</a><br>
-</td><td width="25%" valign=top><a href="re.html">re</a><br>
+<a href="re.html">re</a><br>
+<a href="tkinter.scrolledtext.html">tkinter.scrolledtext</a><br>
 </td><td width="25%" valign=top><a href="sys.html">sys</a><br>
-</td></tr></table></td></tr></table><p>
+<a href="tkinter.html">tkinter</a><br>
+<a href="tkinter.ttk.html">tkinter.ttk</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#ee77aa">
 <td colspan=3 valign=bottom>&nbsp;<br>
@@ -30,11 +34,11 @@
     
 <tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
 <td width="100%"><dl>
-<dt><font face="helvetica, arial"><a href="RM_GUI.html#RM">RM</a>
-</font></dt><dt><font face="helvetica, arial"><a href="__builtin__.html#object">__builtin__.object</a>
+<dt><font face="helvetica, arial"><a href="builtins.html#object">builtins.object</a>
 </font></dt><dd>
 <dl>
-<dt><font face="helvetica, arial"><a href="RM_GUI.html#StdoutRedirector">StdoutRedirector</a>
+<dt><font face="helvetica, arial"><a href="RM_GUI.html#RM">RM</a>
+</font></dt><dt><font face="helvetica, arial"><a href="RM_GUI.html#StdoutRedirector">StdoutRedirector</a>
 </font></dt></dl>
 </dd>
 </dl>
@@ -42,7 +46,7 @@
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#ffc8d8">
 <td colspan=3 valign=bottom>&nbsp;<br>
-<font color="#000000" face="helvetica, arial"><a name="RM">class <strong>RM</strong></a></font></td></tr>
+<font color="#000000" face="helvetica, arial"><a name="RM">class <strong>RM</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
     
 <tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
 <td colspan=2><tt>Defines&nbsp;the&nbsp;<a href="#RM">RM</a>&nbsp;module&nbsp;GUI&nbsp;using&nbsp;tkinter&nbsp;class.<br>
@@ -50,7 +54,7 @@
 Attributes:<br>
 &nbsp;<br>
 Arguments<br>
-&nbsp;&nbsp;&nbsp;&nbsp;master&nbsp;:=&nbsp;an&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;of&nbsp;tk.TK().<br>
+&nbsp;&nbsp;&nbsp;&nbsp;master&nbsp;:=&nbsp;an&nbsp;<a href="builtins.html#object">object</a>&nbsp;of&nbsp;tk.TK().<br>
 &nbsp;&nbsp;&nbsp;&nbsp;database&nbsp;:=&nbsp;location&nbsp;of&nbsp;the&nbsp;database&nbsp;file,&nbsp;here&nbsp;it&nbsp;is&nbsp;set&nbsp;to&nbsp;'Database/Prod.db'.<br>
 &nbsp;&nbsp;&nbsp;&nbsp;log_folder&nbsp;:=&nbsp;A&nbsp;folder&nbsp;where&nbsp;validation&nbsp;and&nbsp;data&nbsp;reports&nbsp;are&nbsp;saved,&nbsp;by&nbsp;default&nbsp;it&nbsp;is&nbsp;'/Log'.<br>
 output_folder&nbsp;:=&nbsp;A&nbsp;folder&nbsp;where&nbsp;all&nbsp;excel&nbsp;data&nbsp;or&nbsp;indicator&nbsp;extraction&nbsp;are&nbsp;saved,&nbsp;default&nbsp;is&nbsp;'/Export'.<br>
@@ -61,17 +65,21 @@ Initiated<br>
 &nbsp;&nbsp;&nbsp;&nbsp;username&nbsp;:=&nbsp;the&nbsp;system&nbsp;user&nbsp;name&nbsp;of&nbsp;the&nbsp;user,&nbsp;works&nbsp;on&nbsp;windows&nbsp;and&nbsp;linux.<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%">Methods defined here:<br>
-<dl><dt><a name="RM-MsgBox"><strong>MsgBox</strong></a>(self, header<font color="#909090">='Default header'</font>, msg<font color="#909090">='Generic.'</font>)</dt><dd><tt>A&nbsp;pop-up&nbsp;message&nbsp;box&nbsp;to&nbsp;confirm&nbsp;an&nbsp;action.</tt></dd></dl>
+<dl><dt><a name="RM-MsgBox"><strong>MsgBox</strong></a>(self, header='Default header', msg='Generic.')</dt><dd><tt>A&nbsp;pop-up&nbsp;message&nbsp;box&nbsp;to&nbsp;confirm&nbsp;an&nbsp;action.</tt></dd></dl>
 
-<dl><dt><a name="RM-__init__"><strong>__init__</strong></a>(self, master, database, log_folder<font color="#909090">='Log'</font>, output_folder_default<font color="#909090">='Export'</font>)</dt><dd><tt>Main&nbsp;initialization&nbsp;of&nbsp;the&nbsp;GUI.</tt></dd></dl>
+<dl><dt><a name="RM-__init__"><strong>__init__</strong></a>(self, master, database, log_folder='Log', output_folder_default='Export')</dt><dd><tt>Main&nbsp;initialization&nbsp;of&nbsp;the&nbsp;GUI.</tt></dd></dl>
 
 <dl><dt><a name="RM-check_file"><strong>check_file</strong></a>(self)</dt><dd><tt>Creates&nbsp;a&nbsp;data&nbsp;report&nbsp;without&nbsp;validation&nbsp;or&nbsp;inserting&nbsp;to&nbsp;SQL.</tt></dd></dl>
 
 <dl><dt><a name="RM-createWidgets"><strong>createWidgets</strong></a>(self)</dt><dd><tt>Creating&nbsp;all&nbsp;widgets&nbsp;in&nbsp;the&nbsp;GUI.</tt></dd></dl>
 
+<dl><dt><a name="RM-del_quest"><strong>del_quest</strong></a>(self)</dt></dl>
+
 <dl><dt><a name="RM-export"><strong>export</strong></a>(self, x)</dt><dd><tt>Exports&nbsp;a&nbsp;whole&nbsp;questionnaire,&nbsp;sheet&nbsp;or&nbsp;AC&nbsp;to&nbsp;an&nbsp;excel&nbsp;workbook.</tt></dd></dl>
 
 <dl><dt><a name="RM-export_indic"><strong>export_indic</strong></a>(self)</dt><dd><tt>Exporting&nbsp;an&nbsp;indicator&nbsp;to&nbsp;an&nbsp;excel&nbsp;workbook</tt></dd></dl>
+
+<dl><dt><a name="RM-getDirectSQL"><strong>getDirectSQL</strong></a>(self)</dt><dd><tt>Direct&nbsp;SQL&nbsp;extraction&nbsp;using&nbsp;the&nbsp;format&nbsp;type-series[co_code1(adm1,adm2,...);co_code2;...;YEAR;AC].</tt></dd></dl>
 
 <dl><dt><a name="RM-getIndic"><strong>getIndic</strong></a>(self)</dt><dd><tt>Returns&nbsp;a&nbsp;list&nbsp;of&nbsp;indicators&nbsp;from&nbsp;EDU_INDICATOR_EST.</tt></dd></dl>
 
@@ -96,6 +104,14 @@ Initiated<br>
 <dl><dt><a name="RM-validate_file"><strong>validate_file</strong></a>(self)</dt><dd><tt>Validating&nbsp;the&nbsp;file&nbsp;for&nbsp;processing.</tt></dd></dl>
 
 <hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
 Data and other attributes defined here:<br>
 <dl><dt><strong>series</strong> = {'Estimated': 'EST', 'Observed': 'OBS', 'Reported': 'REP'}</dl>
 
@@ -103,7 +119,7 @@ Data and other attributes defined here:<br>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#ffc8d8">
 <td colspan=3 valign=bottom>&nbsp;<br>
-<font color="#000000" face="helvetica, arial"><a name="StdoutRedirector">class <strong>StdoutRedirector</strong></a>(<a href="__builtin__.html#object">__builtin__.object</a>)</font></td></tr>
+<font color="#000000" face="helvetica, arial"><a name="StdoutRedirector">class <strong>StdoutRedirector</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
     
 <tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
 <td colspan=2><tt>A&nbsp;class&nbsp;to&nbsp;write&nbsp;out&nbsp;the&nbsp;standard&nbsp;output&nbsp;to&nbsp;a&nbsp;tkinter&nbsp;Text&nbsp;widget.<br>&nbsp;</tt></td></tr>
