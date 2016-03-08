@@ -726,7 +726,7 @@ class indicators():
         value = value[1:]
         disInd = list(map(lambda x: neg(div(x[0],national[0]),div(x[1],national[1])),value))
         disInd = list(map(lambda x: [abs(x[0]),x[1]] if x[1]=='value' else x, disInd))
-        disInd = prod(reduce(sum, disInd), [0.5, 'value'])
+        disInd = prod(reduce(sum, disInd), [100*0.5, 'value'])
     
         self.write_indic_sql_no_regions(IndicName, disInd)
 
