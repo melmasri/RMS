@@ -68,7 +68,7 @@ def getAvailable_countries():
     """ SQL extract the tuple of the available countries."""
     sql_str = ("SELECT DISTINCT b.CO_SHORT_NAME FROM REGIONS as a "
                "left join COUNTRY as b on a.CO_CODE = b.CO_CODE "
-               "where a.ADM_CODE >0")
+               "where a.ADM_CODE >0 order by b.CO_SHORT_NAME")
     res = sql_query(sql_str)
     if res:
         return(res)
@@ -79,7 +79,7 @@ def getAvailable_year(co_name):
 
     sql_str = ("SELECT DISTINCT A.EMCO_YEAR FROM EDU_METER97_REP AS A "
                "LEFT JOIN COUNTRY AS B ON B.CO_CODE = A.CO_CODE "
-               "WHERE UPPER(B.CO_SHORT_NAME) IS UPPER('{0}')".format(name)) #900001 == Pop.Ag0t99
+               "WHERE UPPER(B.CO_SHORT_NAME) IS UPPER('{0}') order by A.EMCO_YEAR".format(name)) #900001 == Pop.Ag0t99
     code = sql_query(sql_str)
     if code:
         return(list(chain.from_iterable(code)))

@@ -1,0 +1,194 @@
+CO_CODE,ADM_CODE,ADM_NAME,MC_YEAR
+1560,0,National level,2014
+1560,1,  Beijing,2014
+1560,2,  Tianjin,2014
+1560,3,  Hebei,2014
+1560,4,  Shanxi,2014
+1560,5,  Inner Mongolia,2014
+1560,6,  Liaoning,2014
+1560,7,  Jilin,2014
+1560,8,  Heilongjiang,2014
+1560,9,  Shanghai,2014
+1560,10,  Jiangsu,2014
+1560,11,  Zhejiang,2014
+1560,12,  Anhui,2014
+1560,13,  Fujian,2014
+1560,14,  Jiangxi,2014
+1560,15,  Shandong,2014
+1560,16,  Henan,2014
+1560,17,  Hubei,2014
+1560,18,  Hunan,2014
+1560,19,  Guangdong,2014
+1560,20,  Guangxi,2014
+1560,21,  Hainan,2014
+1560,22,  Chongqing,2014
+1560,23,  Sichuan,2014
+1560,24,  Guizhou,2014
+1560,25,  Yunnan,2014
+1560,26,  Tibet,2014
+1560,27,  Shaanxi,2014
+1560,28,  Gansu,2014
+1560,29,  Qinghai,2014
+1560,30,  Ningxia,2014
+1560,31,  Xinjiang,2014
+3560,0,National level,2014
+3560,1,ANDAMAN & NICOBAR ISLANDS,2014
+3560,2,ANDHRA PRADESH,2014
+3560,3,ARUNACHAL PRADESH,2014
+3560,4,ASSAM,2014
+3560,5,BIHAR,2014
+3560,6,CHANDIGARH,2014
+3560,7,CHHATTISGARH,2014
+3560,8,DADRA & NAGAR HAVELI,2014
+3560,9,DAMAN & DIU,2014
+3560,10,DELHI,2014
+3560,11,GOA,2014
+3560,12,GUJARAT,2014
+3560,13,HARYANA,2014
+3560,14,HIMACHAL PRADESH,2014
+3560,15,JAMMU & KASHMIR,2014
+3560,16,JHARKHAND,2014
+3560,17,KARNATAKA,2014
+3560,18,KERALA,2014
+3560,19,LAKSHDWEEP,2014
+3560,20,MADHYA PRADESH,2014
+3560,21,MAHARASHTRA,2014
+3560,22,MANIPUR,2014
+3560,23,MEGHALAYA,2014
+3560,24,MIZORAM,2014
+3560,25,NAGALAND,2014
+3560,26,ODISHA,2014
+3560,27,PUDUCHERRY,2014
+3560,28,PUNJAB,2014
+3560,29,RAJASTHAN,2014
+3560,30,SIKKIM,2014
+3560,31,TAMIL NADU,2014
+3560,32,TELANGANA,2014
+3560,33,TRIPURA,2014
+3560,34,UTTAR PRADESH,2014
+3560,35,UTTARAKHAND,2014
+3560,36,WEST BENGAL,2014
+3600,0,National level,2014
+3600,1,DKI Jakarta,2014
+3600,2,Jawa Barat,2014
+3600,3,Banten,2014
+3600,4,Jawa Tengah,2014
+3600,5,DI Yogyakarta,2014
+3600,6,Jawa Timur,2014
+3600,7,Aceh,2014
+3600,8,Sumatera Utara,2014
+3600,9,Sumatera Barat,2014
+3600,10,Riau,2014
+3600,11,Kepulauan Riau,2014
+3600,12,Jambi,2014
+3600,13,Sumatera Selatan,2014
+3600,14,Kepulauan Bangka Belitung,2014
+3600,15,Bengkulu,2014
+3600,16,Lampung,2014
+3600,17,Kalimantan Barat,2014
+3600,18,Kalimantan Tengah,2014
+3600,19,Kalimantan Selatan,2014
+3600,20,Kalimantan Timur,2014
+3600,21,Sulawesi Utara,2014
+3600,22,Gorontalo,2014
+3600,23,Sulawesi Tengah,2014
+3600,24,Sulawesi Selatan,2014
+3600,25,Sulawesi Barat,2014
+3600,26,Sulawesi Tenggara,2014
+3600,27,Maluku,2014
+3600,28,Maluku Utara,2014
+3600,29,Bali,2014
+3600,30,Nusa Tenggara Barat,2014
+3600,31,Nusa Tenggara Timur,2014
+3600,32,Papua,2014
+3600,33,Papua Barat,2014
+4060,0,National level,2015
+4060,1,Banteay Meanchey,2015
+4060,2,Battambang,2015
+4060,3,Kampong Cham,2015
+4060,4,Kampong Chhnang,2015
+4060,5,Kampong Speu,2015
+4060,6,Kampong Thom,2015
+4060,7,Kampot,2015
+4060,8,Kandal,2015
+4060,9,Kep,2015
+4060,10,Koh Kong,2015
+4060,11,Kratie,2015
+4060,12,Mondul Kiri,2015
+4060,13,Otdar Meanchey,2015
+4060,14,Pailin,2015
+4060,15,Phnom Penh,2015
+4060,16,Preah Sihanouk,2015
+4060,17,Preah Vihear,2015
+4060,18,Prey Veng,2015
+4060,19,Pursat,2015
+4060,20,Ratanak Kiri,2015
+4060,21,Siemreap,2015
+4060,22,Stung Treng,2015
+4060,23,Svay Rieng,2015
+4060,24,Takeo,2015
+4060,25,Tbaung Khmum,2015
+4180,0,National level,2012
+4180,1,Vientiane Capital,2012
+4180,2,Phongsaly,2012
+4180,3,Luangnamtha,2012
+4180,4,Oudomxay,2012
+4180,5,Bokeo,2012
+4180,6,Luangprabang,2012
+4180,7,Houaphan,2012
+4180,8,Sayaboury,2012
+4180,9,Xiengkhoang,2012
+4180,10,Vientiane Province,2012
+4180,11,Borikhamxay,2012
+4180,12,Khammouan,2012
+4180,13,Savannakhet,2012
+4180,14,Saravan,2012
+4180,15,Sekong,2012
+4180,16,Champasak,2012
+4180,17,Attapeu,2012
+4180,18,Xaysomboun,2012
+4580,0,National level,2014
+4580,1,Johor State Education Department,2014
+4580,2,Kedah State Education Department,2014
+4580,3,Kelantan State Education Department,2014
+4580,4,Melaka State Education Department,2014
+4580,5,Negeri Sembilan State Education Department,2014
+4580,6,Pahang State Education Department,2014
+4580,7,Perak State Education Department,2014
+4580,8,Perlis State Education Department,2014
+4580,9,Pulau Pinang State Education Department,2014
+4580,10,Sabah State Education Department,2014
+4580,11,Sarawak State Education Department,2014
+4580,12,Selangor State Education Department,2014
+4580,13,Terengganu State Education Department,2014
+4580,14,WP Kuala Lumpur State Education Department,2014
+4580,15,WP Labuan State Education Department,2014
+4580,16,WP Putrajaya State Education Department,2014
+5860,0,National level,2014
+5860,1,Punjab,2014
+5860,2,Balochistan,2014
+5860,3,khyber pakhtunkhwa,2014
+5860,4,Sindh,2014
+5860,5,Islamabad Capital Territory (ICT),2014
+5860,6,Gilgit-Baltistan,2014
+5860,7,Federally Administered Tribal Areas (FATA),2014
+5860,8,Azad Jammu and Kashmir (AJ&K),2014
+4180,0,National level,2014
+4180,1,Vientiane Capital,2014
+4180,2,Phongsaly,2014
+4180,3,Luangnamtha,2014
+4180,4,Oudomxay,2014
+4180,5,Bokeo,2014
+4180,6,Luangprabang,2014
+4180,7,Houaphan,2014
+4180,8,Sayaboury,2014
+4180,9,Xiengkhoang,2014
+4180,10,Vientiane Province,2014
+4180,11,Borikhamxay,2014
+4180,12,Khammouan,2014
+4180,13,Savannakhet,2014
+4180,14,Saravan,2014
+4180,15,Sekong,2014
+4180,16,Champasak,2014
+4180,17,Attapeu,2014
+4180,18,Xaysomboun,2014
