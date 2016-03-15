@@ -345,7 +345,7 @@ class indicators():
     
         
  
-    def compute_percentages(self,indexes_dict,highest_and_lowest=True):
+    def compute_percentages(self,indexes_dict,highest_and_lowest=True, On100=True):
         """Generic function for computing percentages of columns and computing
         the maximum and minimum if necessary.
 
@@ -359,7 +359,10 @@ class indicators():
         for indicator_AC in indexes_dict.keys():
             lista1=indexes_dict[indicator_AC][0]
             lista2=indexes_dict[indicator_AC][1]
-            values_dict[indicator_AC]=self.column_operation(lista1,lista2,lambda x,y: prod(div(x,y),[100,'value'])  )
+            if On100:
+                values_dict[indicator_AC]=self.column_operation(lista1,lista2,lambda x,y: prod(div(x,y),[100,'value'])  )
+            else:
+                values_dict[indicator_AC]=self.column_operation(lista1,lista2,lambda x,y: div(x,y))
             
         self.write_indic_sql(values_dict)
         
@@ -386,7 +389,7 @@ class indicators():
                          "PTRHC.2.GPV.Pr": [["E.2.GPV.Pr",0],["T.2.GPV.Pr",0]],
                          "PTRHC.3.GPV.Pr": [["E.3.GPV.Pr",0],["T.3.GPV.Pr",0]]                         
         }
-        self.compute_percentages(variables_dict,True)
+        self.compute_percentages(variables_dict,True, False)
         ## Now we add the 2t3 undicators. It could not be done with
         ## the dictionary at the beginning because there is no ISCED23
         ## information for Pupils.
