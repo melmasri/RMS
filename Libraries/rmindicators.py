@@ -403,7 +403,7 @@ class indicators():
             numerator_list2=self.column_operation(["E.3.GPV" + suffix ,0])
             numerator_list=list( map(lambda x,y: sum(x,y),numerator_list1,numerator_list2))
             denominator_list=self.column_operation(["T.2t3.GPV" + suffix ,0])
-            values=list(map( lambda x,y: prod(div(x,y),[100,'value']), numerator_list,denominator_list))
+            values=list(map( lambda x,y: div(x,y), numerator_list,denominator_list))
             values_dict[indicator_base + suffix]=values
             self.write_indic_sql_no_regions(indicator_base + suffix + ".Max",max_sp(values))
             self.write_indic_sql_no_regions(indicator_base + suffix + ".Min",min_sp(values))
