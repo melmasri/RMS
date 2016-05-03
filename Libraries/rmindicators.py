@@ -356,6 +356,7 @@ class indicators():
         values_dict={}
         maximum_dict={}
         minimum_dict={}
+        max_min_dict = {}
         for indicator_AC in indexes_dict.keys():
             lista1=indexes_dict[indicator_AC][0]
             lista2=indexes_dict[indicator_AC][1]
@@ -368,11 +369,14 @@ class indicators():
         
         if highest_and_lowest:
             for indicator_AC in indexes_dict.keys():
-                maximum_dict[indicator_AC]=max_sp(values_dict[indicator_AC])
-                minimum_dict[indicator_AC]=min_sp(values_dict[indicator_AC])
+                max_values = max_sp(values_dict[indicator_AC])
+                min_values = min_sp(values_dict[indicator_AC])
+                maximum_dict[indicator_AC]=max_values
+                minimum_dict[indicator_AC]=min_values
+                max_min_dict[indicator_AC] = div(max_values, min_values)
                 self.write_indic_sql_no_regions(indicator_AC + ".Max",maximum_dict[indicator_AC])
                 self.write_indic_sql_no_regions(indicator_AC + ".Min",minimum_dict[indicator_AC])
-           
+                self.write_indic_sql_no_regions(indicator_AC + ".Max.Min",max_min_dict[indicator_AC])
 
                 
     def pupils_teachers_ratio(self):
