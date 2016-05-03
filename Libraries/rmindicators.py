@@ -158,7 +158,7 @@ def min_sp(lala):
     def auxf(x,y):
         if ( (type(x[0]) in [int,float]) and (type(y[0]) in [int,float]) ):
             return ( [min(x[0],y[0]),x[1]] )
-        elif (type(x) in [int,float]):
+        elif (type(x[0]) in [int,float]):
             return (y)
         else:
             return(x)
@@ -175,7 +175,7 @@ def max_sp(lala):
     def auxf(x,y):
         if ( (type(x[0]) in [int,float]) and (type(y[0]) in [int,float]) ):
             return ( [max(x[0],y[0]),x[1]] )
-        elif (type(x) in [int,float]):
+        elif (type(x[0]) in [int,float]):
             return (y)
         else:
             return(x)
