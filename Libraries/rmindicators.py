@@ -409,8 +409,11 @@ class indicators():
             denominator_list=self.column_operation(["T.2t3.GPV" + suffix ,0])
             values=list(map( lambda x,y: div(x,y), numerator_list,denominator_list))
             values_dict[indicator_base + suffix]=values
-            self.write_indic_sql_no_regions(indicator_base + suffix + ".Max",max_sp(values))
-            self.write_indic_sql_no_regions(indicator_base + suffix + ".Min",min_sp(values))
+            amax = max_sp(values)
+            amin = min_sp(values)
+            self.write_indic_sql_no_regions(indicator_base + suffix + ".Max",amax)
+            self.write_indic_sql_no_regions(indicator_base + suffix + ".Min",amin)
+            self.write_indic_sql_no_regions(indicator_base + suffix + ".Max.Min",div(amax,amin))
         self.write_indic_sql(values_dict)
             
 
