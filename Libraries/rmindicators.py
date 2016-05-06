@@ -156,12 +156,13 @@ def min_sp(lala):
     Used in computing min indicators.
     """
     def auxf(x,y):
+        if(x[1]=='m' or y[1]=='m'): return(['', 'm'])
         if ( (type(x[0]) in [int,float]) and (type(y[0]) in [int,float]) ):
             return ( [min(x[0],y[0]),x[1]] )
         elif (type(x[0]) in [int,float]):
-            return (y)
+            return (x)
         else:
-            return(x)
+            return(y)
     return(reduce(auxf,lala[1:])) # lala[1:] because the first element
                                   # corresponds to the country value
                                   # and we only want it for the
@@ -173,13 +174,13 @@ def max_sp(lala):
     Used in computing max indicators.
     """
     def auxf(x,y):
+        if(x[1]=='m' or y[1]=='m'): return(['', 'm'])
         if ( (type(x[0]) in [int,float]) and (type(y[0]) in [int,float]) ):
             return ( [max(x[0],y[0]),x[1]] )
         elif (type(x[0]) in [int,float]):
-            return (y)
+            return (x)
         else:
-            return(x)
-
+            return(y)
     return(reduce(auxf,lala[1:]))
 
 
