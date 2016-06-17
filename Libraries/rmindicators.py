@@ -675,8 +675,9 @@ class indicators():
                 ## Writing 5p indicator
                 l5p = op2col(self.column_operation([l + '.EA.5', 0], [l + '.EA.6',0], lambda x, y: sum(x, y)),
                              self.column_operation([l + '.EA.7', 0], [l + '.EA.8',0], lambda x, y: sum(x, y)), sum)
-                denom = self.column_operation(l5p, [l,0],div )
-                self.write_indic_sql({'EA5pP'+ l :denom})
+                #denom = self.column_operation(l5p, [l,0],div )
+                denom = self.column_operation(l5p,[l,0],lambda x,y: prod(div(x,y),[100,'value'])  )
+                self.write_indic_sql({'EA5pP'+  l :denom})
         self.compute_percentages(dict_i, False)
 
     def percentage_teachers_exp(self):
