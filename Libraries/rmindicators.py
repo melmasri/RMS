@@ -126,6 +126,7 @@ def prod(x,y):
 
 def div(x,y):
     """
+    A Git test.
     Division of two tuppels x = (fig, mg_symbol), y = (fig, mg_symbol).
 
     Returns a tupple (fig, symbol), where symbol 
